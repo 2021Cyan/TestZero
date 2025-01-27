@@ -16,10 +16,6 @@ public class PlayerController : MonoBehaviour
     public float resource = 0f;
 
     // Cooldown time in seconds
-    public float meeleCooldown = 1f;
-    private float lastMeeleTime = 0f;
-
-    // Cooldown time in seconds
     public float dodgeCooldown = 0.1f;
     private float lastDodgeTime = 0f;
 
