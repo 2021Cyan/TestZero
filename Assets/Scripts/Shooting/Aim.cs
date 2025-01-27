@@ -1,0 +1,58 @@
+using UnityEngine;
+
+public class Aim : MonoBehaviour
+{
+    [SerializeField] Transform arm;  // The arm to rotate
+    [SerializeField] Transform head; // The head to rotate
+
+    Vector3 startingSize;
+
+    void Start()
+    {
+        startingSize = transform.localScale;
+    }
+
+    void LateUpdate()
+    {
+        // Get the mouse position in world space (set z to 0 for 2D)
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0f;
+
+        // Calculate the direction vector from the arm to the mouse position
+        Vector3 arm_direction = mousePos - arm.position;
+        Vector3 head_direction = mousePos - head.position;
+
+        // Calculate the angle to rotate the arm towards the mouse (in degrees)
+        float arm_angle = Mathf.Atan2(arm_direction.y, arm_direction.x) * Mathf.Rad2Deg;
+        float head_angle = Mathf.Atan2(head_direction.y, head_direction.x) * Mathf.Rad2Deg;
+
+        // Check if the character is flipped (scale.x < 0) and adjust accordingly
+        if (transform.localScale.x < 0)
+        {
+            arm_angle = arm_angle += 180f; // Invert the angle when the character is flipped
+            head_angle = head_angle += 180f;
+        }
+
+        // Apply the calculated rotation to the arm with an offset
+        arm.rotation = Quaternion.Euler(0, 0, arm_angle);
+        head.rotation = Quaternion.Euler(0, 0, head_angle);
+
+        // Flip the character based on the mouse position (left or right)
+        if (mousePos.x < transform.position.x)
+        {
+            // Mouse is on the left, character should face left
+            if (transform.localScale.x > 0) // Only flip if not already flipped
+            {
+                transform.localScale = new Vector3(-startingSize.x, startingSize.y, startingSize.z);
+            }
+        }
+        else
+        {
+            // Mouse is on the right, character should face right
+            if (transform.localScale.x < 0) // Only flip if not already flipped
+            {
+                transform.localScale = new Vector3(startingSize.x, startingSize.y, startingSize.z);
+            }
+        }
+    }
+}
