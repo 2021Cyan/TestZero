@@ -38,9 +38,19 @@ public class Aim : MonoBehaviour
             head_angle = head_angle += 180f;
         }
 
-        // Apply the calculated rotation to the head with an offset
-        head.rotation = Quaternion.Euler(0, 0, head_angle);
-
+        // Limit head rotation angle
+        if (head_angle >= 45 && head_angle <= 90) {
+            head.rotation = Quaternion.Euler(0, 0, 45);
+        }
+        else if (head_angle >= -90 && head_angle <= -45)
+        {
+            head.rotation = Quaternion.Euler(0, 0, -45);
+        }
+        else
+        {
+            head.rotation = Quaternion.Euler(0, 0, head_angle);
+        }
+      
         // Flip the character based on the mouse position (left or right)
         if (mousePos.x < transform.position.x)
         {
