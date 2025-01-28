@@ -2,12 +2,26 @@ using UnityEngine;
 
 public class ReticleController : MonoBehaviour
 {
-    // Update is called once per frame
-    void Update()
+    private SpriteRenderer spriteRenderer;
+
+    void Start()
     {
-        // Gets the current position of the player mouse 
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        // Changes the position into mousePos
-        transform.position = mousePos;
+        // Get the SpriteRenderer component to toggle visibility
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    void LateUpdate()
+    {
+        if (Input.GetMouseButton(1))
+        {
+            // Activate the reticle and update its position
+            spriteRenderer.enabled = true;
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = mousePos;
+        }
+        else
+        {
+            spriteRenderer.enabled = false;
+        }
     }
 }

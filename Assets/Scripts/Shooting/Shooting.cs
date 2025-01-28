@@ -17,7 +17,7 @@ public class Shooting : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Mouse0) && Time.time >= nextFireTime && ammo > 0)
+        if ((Input.GetKey(KeyCode.Mouse0) && Input.GetMouseButton(1)) && Time.time >= nextFireTime && ammo > 0)
         {
             Shoot();
             nextFireTime = Time.time + 1f / fireRate;
