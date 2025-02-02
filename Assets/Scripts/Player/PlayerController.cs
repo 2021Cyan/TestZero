@@ -31,7 +31,11 @@ public class PlayerController : MonoBehaviour
     private Camera maincam;
     private Vector3 mousePos;
 
+<<<<<<< HEAD
     private InputManager _Input;
+=======
+    [SerializeField] public RandomizeSprites rs;
+>>>>>>> b92449e (Test randomize gun sprites)
 
     void Start()
     {
@@ -63,6 +67,7 @@ public class PlayerController : MonoBehaviour
             Die();
             Jump();
             Move();
+            Randomize();
 
         }
     }
@@ -206,6 +211,14 @@ public class PlayerController : MonoBehaviour
                 rb.AddForce(new Vector2(-5f, 1f), ForceMode2D.Impulse);
             else
                 rb.AddForce(new Vector2(5f, 1f), ForceMode2D.Impulse);
+        }
+    }
+
+    void Randomize()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            rs.RandomizeParts();
         }
     }
 

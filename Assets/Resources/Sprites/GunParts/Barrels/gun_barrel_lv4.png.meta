@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: bbe0a01a202e17146aa4d634e2c578fd
+guid: 0e28cfe4fe088e64098ff1f8698f80c6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6505617975598818202
-    second: gun_grip_handcannon_0
+      213: 4064761288289355236
+    second: gun_barrel_lv4_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,23 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: gun_grip_handcannon_0
+      name: gun_barrel_lv4_0
       rect:
         serializedVersion: 2
-        x: 17
-        y: 39
-        width: 37
-        height: 31
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 17
+        width: 36
+        height: 25
+      alignment: 9
+      pivot: {x: 0, y: 0.6}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a93a6ff9419984a50800000000000000
-      internalID: 6505617975598818202
+      spriteID: 4e50f3d0bdee86830800000000000000
+      internalID: 4064761288289355236
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: bddddb5b15a0ea2478bd11cf7831de66
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      gun_grip_handcannon_0: 6505617975598818202
+      gun_barrel_lv4_0: 4064761288289355236
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

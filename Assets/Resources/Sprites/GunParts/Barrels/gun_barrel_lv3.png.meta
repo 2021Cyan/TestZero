@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b96c0035d5c13024e9d26e3efdcefb9a
+guid: 838fa673284bbd044b0fc9d1c69c0949
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2600253927215028718
-    second: gun_barrel_lv2_0
+      213: -1496202642172165797
+    second: gun_barrel_lv3_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,23 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: gun_barrel_lv2_0
+      name: gun_barrel_lv3_0
       rect:
         serializedVersion: 2
         x: 0
         y: 16
         width: 36
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 19
+      alignment: 9
+      pivot: {x: 0, y: 0.84}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ee957798b25f51420800000000000000
-      internalID: 2600253927215028718
+      spriteID: b51c359cf9b6c3be0800000000000000
+      internalID: -1496202642172165797
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 22426b568bbb93047b153116b12aeaed
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      gun_barrel_lv2_0: 2600253927215028718
+      gun_barrel_lv3_0: -1496202642172165797
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
