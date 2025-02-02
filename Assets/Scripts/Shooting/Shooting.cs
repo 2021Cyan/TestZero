@@ -41,7 +41,7 @@ public class Shooting : MonoBehaviour
     void Shoot()
     {
         // Calculate random spread within the current spread angle
-        float randomSpread = Random.Range(-currentSpreadAngle, currentSpreadAngle);
+        float randomSpread = Random.Range(-currentSpreadAngle/4, currentSpreadAngle);
 
         // Adjust firePoint rotation temporarily for the spread
         Quaternion originalRotation = firePoint.rotation;
