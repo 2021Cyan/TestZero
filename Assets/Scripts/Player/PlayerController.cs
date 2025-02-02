@@ -31,20 +31,18 @@ public class PlayerController : MonoBehaviour
     private Camera maincam;
     private Vector3 mousePos;
 
-    private InputManager _Input;
+    [SerializeField] public RandomizeSprites rs;
 
     void Start()
     {
         maincam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        _Input = InputManager.Instance;
     }
 
     private void Update()
     {
-        
-        mousePos = Camera.main.ScreenToWorldPoint(_Input.MouseInput);
+        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         // Check if falling, increase gravity scale when falling
         if (rb.linearVelocity.y < 0)
         {
@@ -57,12 +55,13 @@ public class PlayerController : MonoBehaviour
         Restart();
         if (alive)
         {
-            mousePos = maincam.ScreenToWorldPoint(_Input.MouseInput);
+            mousePos = maincam.ScreenToWorldPoint(Input.mousePosition);
             //Hurt();
             Dodge();
             Die();
             Jump();
             Move();
+            Randomize();
 
         }
     }
@@ -80,6 +79,7 @@ public class PlayerController : MonoBehaviour
         Vector3 moveVelocity = Vector3.zero;
         anim.SetBool("isRun", false);
         anim.SetBool("isWalkBack", false);
+
         if (Input.GetAxisRaw("Horizontal") < 0)
         {
             // Mouse is on the left, character should face left
@@ -132,7 +132,7 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if (_Input.JumpInput && !anim.GetBool("isJump"))
+        if (Input.GetKeyDown(KeyCode.Space) && !anim.GetBool("isJump"))
         {
             isJumping = true;
             anim.SetBool("isJump", true);
@@ -152,7 +152,7 @@ public class PlayerController : MonoBehaviour
 
     void Dodge()
     {
-        if (_Input.RollInput)
+        if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             if (isRolling || isSliding) return;
 
@@ -206,6 +206,14 @@ public class PlayerController : MonoBehaviour
                 rb.AddForce(new Vector2(-5f, 1f), ForceMode2D.Impulse);
             else
                 rb.AddForce(new Vector2(5f, 1f), ForceMode2D.Impulse);
+        }
+    }
+
+    void Randomize()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            rs.RandomizeParts();
         }
     }
 

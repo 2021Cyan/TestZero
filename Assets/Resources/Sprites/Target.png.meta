@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8f9b69b3a03dc7a40802057629befb8d
+guid: 55b305048cc36e94ab40e69a153c5595
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3879365043480710185
-    second: gun_frame_lv2_0
+      213: -4119334708683220384
+    second: Target_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: gun_frame_lv2_0
+      name: Target_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 0
-        width: 34
-        height: 13
+        x: 31
+        y: 39
+        width: 500
+        height: 500
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7d3b345fb0ab92ac0800000000000000
-      internalID: -3879365043480710185
+      spriteID: 06adff958ee25d6c0800000000000000
+      internalID: -4119334708683220384
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      gun_frame_lv2_0: -3879365043480710185
+      Target_0: -4119334708683220384
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

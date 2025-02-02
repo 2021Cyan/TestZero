@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 55b305048cc36e94ab40e69a153c5595
+guid: 3b34d8a14e6d77f47bf891684dbf7c3e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4119334708683220384
-    second: Target_0
+      213: 8430111688639501974
+    second: gun_barrel_lv1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -109,27 +109,40 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Target_0
+      name: gun_barrel_lv1_0
       rect:
         serializedVersion: 2
-        x: 31
-        y: 39
-        width: 500
-        height: 500
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 17
+        width: 36
+        height: 20
+      alignment: 9
+      pivot: {x: 0, y: 0.75}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 06adff958ee25d6c0800000000000000
-      internalID: -4119334708683220384
+      spriteID: 696d93a8ae5cdf470800000000000000
+      internalID: 8430111688639501974
       vertices: []
       indices: 
       edges: []
@@ -138,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5c4eeb5a918903e4eb5d7e4c0db29810
     internalID: 0
     vertices: []
     indices: 
@@ -147,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      gun_barrel_lv1_0: 8430111688639501974
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

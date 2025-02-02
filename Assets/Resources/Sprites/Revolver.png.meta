@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 0e28cfe4fe088e64098ff1f8698f80c6
+guid: 318b662a0e6fe4c44813c509a49cf05a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4064761288289355236
-    second: gun_barrel_lv4_0
+      213: 4011165979584494121
+    second: Revolver_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: gun_barrel_lv4_0
+      name: Revolver_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 17
-        width: 36
-        height: 25
+        y: 0
+        width: 3620
+        height: 2324
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4e50f3d0bdee86830800000000000000
-      internalID: 4064761288289355236
+      spriteID: 92af344d4368aa730800000000000000
+      internalID: 4011165979584494121
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      gun_barrel_lv4_0: 4064761288289355236
+      Revolver_0: 4011165979584494121
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
