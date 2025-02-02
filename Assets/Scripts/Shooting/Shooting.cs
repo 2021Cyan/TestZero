@@ -14,14 +14,17 @@ public class Shooting : MonoBehaviour
 
     private float nextFireTime = 0f;
     private float currentSpreadAngle = 0f; // Current spread angle
+    private InputManager _Input;
 
     void Start()
     {
+        _Input = InputManager.Instance;
+
     }
 
     void Update()
     {
-        if ((Input.GetKey(KeyCode.Mouse0) && Input.GetMouseButton(1)) && Time.time >= nextFireTime && ammo > 0)
+        if ((_Input.ClickInput && _Input.AimInput) && Time.time >= nextFireTime && ammo > 0)
         {
             Shoot();
             nextFireTime = Time.time + 1f / fireRate;
@@ -32,7 +35,7 @@ public class Shooting : MonoBehaviour
             currentSpreadAngle = Mathf.Max(currentSpreadAngle - spreadResetSpeed * Time.deltaTime, 0f);
         }
 
-        if (ammo <= 0 || Input.GetKeyDown(KeyCode.R))
+        if (ammo <= 0 || _Input.ReloadInput)
         {
             Reload(100);
         }

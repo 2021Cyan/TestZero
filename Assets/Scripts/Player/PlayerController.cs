@@ -31,17 +31,20 @@ public class PlayerController : MonoBehaviour
     private Camera maincam;
     private Vector3 mousePos;
 
+    private InputManager _Input;
 
     void Start()
     {
         maincam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        _Input = InputManager.Instance;
     }
 
     private void Update()
     {
-        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        
+        mousePos = Camera.main.ScreenToWorldPoint(_Input.MouseInput);
         // Check if falling, increase gravity scale when falling
         if (rb.linearVelocity.y < 0)
         {
@@ -54,7 +57,7 @@ public class PlayerController : MonoBehaviour
         Restart();
         if (alive)
         {
-            mousePos = maincam.ScreenToWorldPoint(Input.mousePosition);
+            mousePos = maincam.ScreenToWorldPoint(_Input.MouseInput);
             //Hurt();
             Dodge();
             Die();
@@ -77,7 +80,6 @@ public class PlayerController : MonoBehaviour
         Vector3 moveVelocity = Vector3.zero;
         anim.SetBool("isRun", false);
         anim.SetBool("isWalkBack", false);
-
         if (Input.GetAxisRaw("Horizontal") < 0)
         {
             // Mouse is on the left, character should face left
@@ -130,7 +132,7 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !anim.GetBool("isJump"))
+        if (_Input.JumpInput && !anim.GetBool("isJump"))
         {
             isJumping = true;
             anim.SetBool("isJump", true);
@@ -150,7 +152,7 @@ public class PlayerController : MonoBehaviour
 
     void Dodge()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (_Input.RollInput)
         {
             if (isRolling || isSliding) return;
 

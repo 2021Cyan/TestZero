@@ -7,23 +7,29 @@ public class Aim : MonoBehaviour
     [SerializeField] Transform head; // The head to rotate
 
     Vector3 startingSize;
+    private InputManager _Input;
 
     void Start()
     {
         startingSize = transform.localScale;
+        _Input = InputManager.Instance;
     }
 
     void LateUpdate()
     {
         PlayerHeadTracking();
-        if(Input.GetMouseButton(1)){
+        if(_Input.AimInput){
             PlayerAim();
         }
     }
     void PlayerHeadTracking()
     {
         // Get the mouse position in world space (set z to 0 for 2D)
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mousePos;
+        if(PauseManager.IsPaused){
+            _Input.SetMouseInput(PauseManager.beforePausePosition);
+        }
+        mousePos = Camera.main.ScreenToWorldPoint(_Input.MouseInput);
         mousePos.z = 0f;
 
         // Calculate the direction vector from the head to the mouse position
@@ -50,7 +56,7 @@ public class Aim : MonoBehaviour
         {
             head.rotation = Quaternion.Euler(0, 0, head_angle);
         }
-      
+        // Debug.Log("MousePos.x: " + mousePos.x + " transform.position.x: " + transform.position.x);
         // Flip the character based on the mouse position (left or right)
         if (mousePos.x < transform.position.x)
         {
@@ -72,7 +78,7 @@ public class Aim : MonoBehaviour
     void PlayerAim()
     {
         // Get the mouse position in world space (set z to 0 for 2D)
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(_Input.MouseInput);
         mousePos.z = 0f;
 
         // Calculate the direction vector from the arm to the mouse position
