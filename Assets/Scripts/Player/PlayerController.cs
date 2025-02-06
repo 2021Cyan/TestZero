@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // Player Stats
+    // Player stats
     public float movePower = 0f;
     public float walkPower = 0f;
     public float dodgePower = 0f;
@@ -15,17 +15,11 @@ public class PlayerController : MonoBehaviour
     public float hp = 100f;
     public float resource = 0f;
 
-    // Cooldown time in seconds
-    public float dodgeCooldown = 0.1f;
-    private float lastDodgeTime = 0f;
-
     private Rigidbody2D rb;
     private Animator anim;
     Vector3 movement;
     private int direction = 1;
     bool isJumping = false;
-    bool isSliding = false;
-    bool isRolling = false;
 
     private bool alive = true;
     private Camera maincam;
@@ -33,26 +27,50 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] public RandomizeSprites rs;
 
+
+    // Gradually increases gravity when ascending.
+    private float currentJumpTime = 0f;
+    public float maxJumpTime = 0.5f;  
+
+    // Dodge 
+    private int dodgeCharges;
+    public int maxDodgeCharges = 3;
+    public float dodgeRechargeTime = 5f;  
+    private bool isDodging = false;  
+    public float dodgeDuration = 0.4f;  
+    public float dodgeCooldown = 1f;   
+    private float lastDodgeTime = -1000f;
+
     void Start()
     {
         maincam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        dodgeCharges = maxDodgeCharges;
     }
 
     private void Update()
     {
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        // Check if falling, increase gravity scale when falling
-        if (rb.linearVelocity.y < 0)
+        if (rb.linearVelocity.y > 0)
         {
-            rb.gravityScale = 5f;
+            // While ascending, gradually increase gravity
+            currentJumpTime += Time.deltaTime;
+            rb.gravityScale = Mathf.Lerp(1f, 5f, Mathf.Clamp01(currentJumpTime / maxJumpTime));
         }
-        else if (rb.linearVelocity.y > 0)
+        else if (rb.linearVelocity.y < 0)
+        {
+            // While falling, immediately use the higher gravity
+            rb.gravityScale = 5f;
+            currentJumpTime = 0f;
+        }
+        else
         {
             rb.gravityScale = 1f;
         }
+
         Restart();
+
         if (alive)
         {
             mousePos = maincam.ScreenToWorldPoint(Input.mousePosition);
@@ -74,7 +92,8 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
-        if (isRolling || isSliding) return; 
+        if (isDodging)
+            return;
 
         Vector3 moveVelocity = Vector3.zero;
         anim.SetBool("isRun", false);
@@ -109,7 +128,6 @@ public class PlayerController : MonoBehaviour
                 transform.localScale = new Vector3(direction, 1, 1);
                 if (!anim.GetBool("isJump"))
                     anim.SetBool("isWalkBack", true);
-
             }
             else
             {
@@ -132,6 +150,9 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
+        if (isDodging)
+            return;
+
         if (Input.GetKeyDown(KeyCode.Space) && !anim.GetBool("isJump"))
         {
             isJumping = true;
@@ -142,7 +163,8 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        rb.linearVelocity = Vector2.zero; // Stop any current motion before jumping
+        // Reset current motion before jumping.
+        rb.linearVelocity = Vector2.zero;
 
         Vector2 jumpVelocity = new Vector2(0, jumpPower);
         rb.AddForce(jumpVelocity, ForceMode2D.Impulse);
@@ -152,48 +174,71 @@ public class PlayerController : MonoBehaviour
 
     void Dodge()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (isDodging || Time.time - lastDodgeTime < dodgeCooldown)
+            return;
+
+        // Check if LeftControl is pressed and if a dodge charge is available.
+        if (Input.GetKeyDown(KeyCode.LeftControl) && dodgeCharges > 0)
         {
-            if (isRolling || isSliding) return;
+            // Record the time of this dodge.
+            lastDodgeTime = Time.time;
 
-            if(Input.GetAxisRaw("Horizontal") < 0)
-            {
+            dodgeCharges--;
+            StartCoroutine(RechargeDodge());
 
-            }
-            Vector3 dodgeVelocity = Vector3.forward * direction;
+            // Remove any current momentum.
+            rb.linearVelocity = Vector2.zero;
 
-            if (anim.GetBool("isWalkBack"))
-            {
-                isRolling = true;
-                rb.linearVelocity = Vector2.zero;
-                anim.SetTrigger("roll");
-                transform.position += dodgeVelocity * dodgePower * Time.deltaTime;
-                StartCoroutine(ResetDodge(anim.GetCurrentAnimatorStateInfo(0).length, "isDodging"));
-            }
+            // Determine dodge direction based on animation state
+            Vector3 dodgeDir = Vector3.zero;
+            float totalDodgeDistance = 0f;
+
             if (anim.GetBool("isRun"))
             {
-                rb.linearVelocity = Vector2.zero;
+                dodgeDir = new Vector3(direction, 0, 0);
+                totalDodgeDistance = dodgePower;
                 anim.SetTrigger("slide");
-                transform.position += dodgeVelocity * dodgePower * Time.deltaTime;
-                StartCoroutine(ResetDodge(anim.GetCurrentAnimatorStateInfo(0).length, "isSliding"));
             }
-
+            else if (anim.GetBool("isWalkBack"))
+            {
+                dodgeDir = new Vector3(-direction, 0, 0);
+                totalDodgeDistance = dodgePower / 2f;
+                anim.SetTrigger("roll");
+            }
+            else
+            {
+                dodgeDir = new Vector3(direction, 0, 0);
+                totalDodgeDistance = dodgePower / 2f;
+            }
+            StartCoroutine(PerformDodge(dodgeDir, totalDodgeDistance, dodgeDuration));
         }
     }
 
-    IEnumerator ResetDodge(float animationDuration, string actionType)
-    {
-        // Wait for the animation to finish
-        yield return new WaitForSeconds(animationDuration);
 
-        // Reset the appropriate flag
-        if (actionType == "isDodging")
+    IEnumerator PerformDodge(Vector3 dodgeDir, float totalDistance, float duration)
+    {
+        // Gradually moves the character in the given direction over a set duration.
+        isDodging = true;
+        float elapsed = 0f;
+        Vector3 startPos = transform.position;
+
+        while (elapsed < duration)
         {
-            isRolling = false;
+            float t = elapsed / duration;
+            transform.position = Vector3.Lerp(startPos, startPos + dodgeDir * totalDistance, t);
+            elapsed += Time.deltaTime;
+            yield return null;
         }
-        else if (actionType == "isSliding")
+        transform.position = startPos + dodgeDir * totalDistance;
+        isDodging = false;
+    }
+
+    IEnumerator RechargeDodge()
+    {
+        yield return new WaitForSeconds(dodgeRechargeTime);
+        if (dodgeCharges < maxDodgeCharges)
         {
-            isSliding = false;
+            dodgeCharges++;
         }
     }
 
@@ -235,28 +280,25 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Increase EXP and handle level up
+    // Increase EXP and handle level up.
     public void OnEnemyKilled()
     {
-        // Add EXP and resources
         exp += 20f;
         resource += 160f;
-        Debug.Log("Enemy killed. current exp : " + exp);
+        Debug.Log("Enemy killed. current exp: " + exp);
         Debug.Log("Enemy killed. current resource: " + resource);
 
-        // Check if EXP reaches 100 for a level up
         if (exp >= 100f)
         {
             LevelUp();
         }
     }
 
-    // Levels up the character
+    // Levels up the character.
     void LevelUp()
     {
-        level++;         // Increase the level
-        exp = 0f;        // Reset EXP after leveling up
+        level++;
+        exp = 0f;
         Debug.Log("Level Up! New Level: " + level);
     }
-
 }
