@@ -343,6 +343,49 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &92276470 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5325209971051430033, guid: 8cc641bc1a61cd84ea49a39d2540e80a,
+    type: 3}
+  m_PrefabInstance: {fileID: 8660901994247308955}
+  m_PrefabAsset: {fileID: 0}
+--- !u!70 &92276472
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92276470}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.087248385, y: 4.9278537e-10}
+  m_Size: {x: 1.6124179, y: 0.29999873}
+  m_Direction: 1
 --- !u!1 &95751380
 GameObject:
   m_ObjectHideFlags: 0
@@ -1561,6 +1604,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce70cf0143c04c342b94be113821bc08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &246835598085258860 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5319216712606905901, guid: 8cc641bc1a61cd84ea49a39d2540e80a,
+    type: 3}
+  m_PrefabInstance: {fileID: 8660901994247308955}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd1659d8f40431048a82ff8d468a2cb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &616807205801968549
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2003,6 +2058,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5261597637866492991, guid: 8cc641bc1a61cd84ea49a39d2540e80a,
         type: 3}
+      propertyPath: playerController
+      value: 
+      objectReference: {fileID: 246835598085258860}
+    - target: {fileID: 5261597637866492991, guid: 8cc641bc1a61cd84ea49a39d2540e80a,
+        type: 3}
       propertyPath: _ShootSound
       value: 
       objectReference: {fileID: 0}
@@ -2023,6 +2083,16 @@ PrefabInstance:
       objectReference: {fileID: 1674192379}
     - target: {fileID: 5319216712606905901, guid: 8cc641bc1a61cd84ea49a39d2540e80a,
         type: 3}
+      propertyPath: maxAmmo
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5319216712606905901, guid: 8cc641bc1a61cd84ea49a39d2540e80a,
+        type: 3}
+      propertyPath: fireRate
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5319216712606905901, guid: 8cc641bc1a61cd84ea49a39d2540e80a,
+        type: 3}
       propertyPath: jumpPower
       value: 12
       objectReference: {fileID: 0}
@@ -2033,6 +2103,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5319216712606905901, guid: 8cc641bc1a61cd84ea49a39d2540e80a,
         type: 3}
+      propertyPath: currentAmmo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5319216712606905901, guid: 8cc641bc1a61cd84ea49a39d2540e80a,
+        type: 3}
       propertyPath: dodgeCooldown
       value: 1
       objectReference: {fileID: 0}
@@ -2040,6 +2115,21 @@ PrefabInstance:
         type: 3}
       propertyPath: dodgeDuration
       value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5319216712606905901, guid: 8cc641bc1a61cd84ea49a39d2540e80a,
+        type: 3}
+      propertyPath: maxSpreadAngle
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 5319216712606905901, guid: 8cc641bc1a61cd84ea49a39d2540e80a,
+        type: 3}
+      propertyPath: spreadResetSpeed
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 5319216712606905901, guid: 8cc641bc1a61cd84ea49a39d2540e80a,
+        type: 3}
+      propertyPath: spreadIncreaseRate
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6892775082175976269, guid: 8cc641bc1a61cd84ea49a39d2540e80a,
         type: 3}
@@ -2092,6 +2182,10 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 253744319}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5325209971051430033, guid: 8cc641bc1a61cd84ea49a39d2540e80a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 92276472}
     - targetCorrespondingSourceObject: {fileID: 2584178023673744701, guid: 8cc641bc1a61cd84ea49a39d2540e80a,
         type: 3}
       insertIndex: -1
