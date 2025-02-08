@@ -2041,6 +2041,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3318638478254842030, guid: 8cc641bc1a61cd84ea49a39d2540e80a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5261597637866492991, guid: 8cc641bc1a61cd84ea49a39d2540e80a,
         type: 3}
       propertyPath: fireRate
@@ -2130,6 +2135,11 @@ PrefabInstance:
         type: 3}
       propertyPath: spreadIncreaseRate
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5325209971051430033, guid: 8cc641bc1a61cd84ea49a39d2540e80a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6892775082175976269, guid: 8cc641bc1a61cd84ea49a39d2540e80a,
         type: 3}
