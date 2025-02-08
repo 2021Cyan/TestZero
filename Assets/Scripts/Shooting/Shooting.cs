@@ -5,12 +5,8 @@ public class Shooting : MonoBehaviour
 {
     [SerializeField] Transform firePoint;
     [SerializeField] GameObject bulletPrefab;
-    [SerializeField] Text ammoText;
-    [SerializeField] float fireRate = 10.0f;            // How fast gun can shoot
-    [SerializeField] int ammo = 100;                    // Maximum ammo count
-    [SerializeField] float maxSpreadAngle = 20f;        // Maximum possible spread angle (-20 deg ~ 20deg from mouse point)
-    [SerializeField] float spreadIncreaseRate = 2.5f;   // How fast the spread grows per shot
-    [SerializeField] float spreadResetSpeed = 20f;      // How quickly the spread resets when not firing
+
+    public PlayerController playerController;
 
     private float nextFireTime = 0f;
     private float currentSpreadAngle = 0f; // Current spread angle
@@ -21,20 +17,20 @@ public class Shooting : MonoBehaviour
 
     void Update()
     {
-        if ((Input.GetKey(KeyCode.Mouse0) && Input.GetMouseButton(1)) && Time.time >= nextFireTime && ammo > 0)
+        if ((Input.GetKey(KeyCode.Mouse0) && Input.GetMouseButton(1)) && Time.time >= nextFireTime && playerController.currentAmmo > 0)
         {
             Shoot();
-            nextFireTime = Time.time + 1f / fireRate;
+            nextFireTime = Time.time + 1f / playerController.fireRate;
         }
         else
         {
             // Gradually reduce the spread when not firing
-            currentSpreadAngle = Mathf.Max(currentSpreadAngle - spreadResetSpeed * Time.deltaTime, 0f);
+            currentSpreadAngle = Mathf.Max(currentSpreadAngle - playerController.spreadResetSpeed * Time.deltaTime, 0f);
         }
 
-        if (ammo <= 0 || Input.GetKeyDown(KeyCode.R))
+        if (playerController.currentAmmo <= 0 || Input.GetKeyDown(KeyCode.R))
         {
-            Reload(100);
+            Reload(playerController.maxAmmo);
         }
     }
 
@@ -54,27 +50,20 @@ public class Shooting : MonoBehaviour
         firePoint.rotation = originalRotation;
 
         // Reduce ammo
-        ammo--;
+        playerController.currentAmmo--;
 
         // Increase spread angle
-        currentSpreadAngle = Mathf.Min(currentSpreadAngle + spreadIncreaseRate, maxSpreadAngle);
+        currentSpreadAngle = Mathf.Min(currentSpreadAngle + playerController.spreadIncreaseRate, playerController.maxSpreadAngle);
     }
 
+    // Return the current spread angle
     public float GetCurrentSpread()
     {
-        return currentSpreadAngle; // Return the current spread angle
+        return currentSpreadAngle;
     }
 
     public void Reload(int amount)
     {
-        ammo += amount;
-    }
-
-    void UpdateAmmoText()
-    {
-        if (ammoText != null)
-        {
-            ammoText.text = "Ammo: " + ammo;
-        }
+        playerController.currentAmmo += amount;
     }
 }

@@ -10,23 +10,28 @@ public class PlayerController : MonoBehaviour
     public float walkPower = 0f;
     public float dodgePower = 0f;
     public float jumpPower = 0f;
-    public float level = 0f;
-    public float exp = 0f;
     public float hp = 100f;
     public float resource = 0f;
 
+    // Gun stats
+    public float fireRate = 0f;
+    public int maxAmmo = 0;
+    public int currentAmmo;
+    public float maxSpreadAngle = 0f;
+    public float spreadIncreaseRate = 0f;
+    public float spreadResetSpeed = 0f;
+
+    // Player Components
     private Rigidbody2D rb;
     private Animator anim;
     Vector3 movement;
     private int direction = 1;
     bool isJumping = false;
-
     private bool alive = true;
     private Camera maincam;
     private Vector3 mousePos;
 
     [SerializeField] public RandomizeSprites rs;
-
 
     // Gradually increases gravity when ascending.
     private float currentJumpTime = 0f;
@@ -41,8 +46,24 @@ public class PlayerController : MonoBehaviour
     public float dodgeCooldown = 1f;   
     private float lastDodgeTime = -1000f;
 
+    public static PlayerController Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     void Start()
     {
+        currentAmmo = maxAmmo;
         maincam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
@@ -205,11 +226,6 @@ public class PlayerController : MonoBehaviour
                 totalDodgeDistance = dodgePower / 2f;
                 anim.SetTrigger("roll");
             }
-            else
-            {
-                dodgeDir = new Vector3(direction, 0, 0);
-                totalDodgeDistance = dodgePower / 2f;
-            }
             StartCoroutine(PerformDodge(dodgeDir, totalDodgeDistance, dodgeDuration));
         }
     }
@@ -283,22 +299,6 @@ public class PlayerController : MonoBehaviour
     // Increase EXP and handle level up.
     public void OnEnemyKilled()
     {
-        exp += 20f;
         resource += 160f;
-        Debug.Log("Enemy killed. current exp: " + exp);
-        Debug.Log("Enemy killed. current resource: " + resource);
-
-        if (exp >= 100f)
-        {
-            LevelUp();
-        }
-    }
-
-    // Levels up the character.
-    void LevelUp()
-    {
-        level++;
-        exp = 0f;
-        Debug.Log("Level Up! New Level: " + level);
     }
 }
