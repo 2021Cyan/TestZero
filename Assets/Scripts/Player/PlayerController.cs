@@ -24,20 +24,22 @@ public class PlayerController : MonoBehaviour
     // Player Components
     private Rigidbody2D rb;
     private Animator anim;
-    Vector3 movement;
-    private int direction = 1;
-    bool isJumping = false;
-    private bool alive = true;
     private Camera maincam;
     private Vector3 mousePos;
 
+    private bool alive = true;
+
     [SerializeField] public RandomizeSprites rs;
 
-    // Gradually increases gravity when ascending.
-    private float currentJumpTime = 0f;
-    public float maxJumpTime = 0.5f;  
+    // Movement Control
+    private int direction = 1;
+    bool isJumping = false;
 
-    // Dodge 
+    // Movement Control (Jump)
+    private float currentJumpTime = 0f;
+    public float maxJumpTime = 0.5f;
+
+    // Movement Control (Dodge)
     private int dodgeCharges;
     public int maxDodgeCharges = 3;
     public float dodgeRechargeTime = 5f;  
@@ -46,6 +48,7 @@ public class PlayerController : MonoBehaviour
     public float dodgeCooldown = 1f;   
     private float lastDodgeTime = -1000f;
 
+    // Singleton Instance
     public static PlayerController Instance;
 
     private void Awake()
@@ -73,29 +76,12 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if (rb.linearVelocity.y > 0)
-        {
-            // While ascending, gradually increase gravity
-            currentJumpTime += Time.deltaTime;
-            rb.gravityScale = Mathf.Lerp(1f, 5f, Mathf.Clamp01(currentJumpTime / maxJumpTime));
-        }
-        else if (rb.linearVelocity.y < 0)
-        {
-            // While falling, immediately use the higher gravity
-            rb.gravityScale = 5f;
-            currentJumpTime = 0f;
-        }
-        else
-        {
-            rb.gravityScale = 1f;
-        }
-
+        AdjustGravity();
         Restart();
-
         if (alive)
         {
             mousePos = maincam.ScreenToWorldPoint(Input.mousePosition);
-            //Hurt();
+            Hurt();
             Dodge();
             Die();
             Jump();
@@ -105,16 +91,35 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    void AdjustGravity()
     {
+        if (isDodging)
+        {
+            return;
+        }
 
-        anim.SetBool("isJump", false);
+        if (rb.linearVelocity.y > 0)
+        {
+            currentJumpTime += Time.deltaTime;
+            rb.gravityScale = Mathf.Lerp(1f, 5f, Mathf.Clamp01(currentJumpTime / maxJumpTime));
+        }
+        else if (rb.linearVelocity.y < 0)
+        {
+            rb.gravityScale = 5f;
+            currentJumpTime = 0f;
+        }
+        else
+        {
+            rb.gravityScale = 1f;
+        }
     }
 
     void Move()
     {
         if (isDodging)
+        {
             return;
+        }
 
         Vector3 moveVelocity = Vector3.zero;
         anim.SetBool("isRun", false);
@@ -193,59 +198,104 @@ public class PlayerController : MonoBehaviour
         isJumping = false;
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        anim.SetBool("isJump", false);
+    }
+
     void Dodge()
     {
         if (isDodging || Time.time - lastDodgeTime < dodgeCooldown)
             return;
 
-        // Check if LeftControl is pressed and if a dodge charge is available.
         if (Input.GetKeyDown(KeyCode.LeftControl) && dodgeCharges > 0)
         {
-            // Record the time of this dodge.
             lastDodgeTime = Time.time;
-
             dodgeCharges--;
             StartCoroutine(RechargeDodge());
 
-            // Remove any current momentum.
             rb.linearVelocity = Vector2.zero;
 
-            // Determine dodge direction based on animation state
-            Vector3 dodgeDir = Vector3.zero;
-            float totalDodgeDistance = 0f;
+            Vector2 dodgeDir = new Vector2(direction, 0);
+            float totalDodgeDistance = dodgePower;
 
             if (anim.GetBool("isRun"))
             {
-                dodgeDir = new Vector3(direction, 0, 0);
-                totalDodgeDistance = dodgePower;
                 anim.SetTrigger("slide");
+                rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
+                Debug.Log(dodgeDir * totalDodgeDistance);
+                StartCoroutine(EndDodge());
             }
             else if (anim.GetBool("isWalkBack"))
             {
-                dodgeDir = new Vector3(-direction, 0, 0);
+                dodgeDir = new Vector2(-direction, 0);
                 totalDodgeDistance = dodgePower / 2f;
                 anim.SetTrigger("roll");
+                rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
+                Debug.Log(dodgeDir * totalDodgeDistance);
+                StartCoroutine(EndDodge());
             }
-            StartCoroutine(PerformDodge(dodgeDir, totalDodgeDistance, dodgeDuration));
+            else if (anim.GetBool("isJump"))
+            {
+                if (Input.GetAxisRaw("Horizontal") < 0)
+                {
+                    if (mousePos.x < transform.position.x)
+                    {
+                        dodgeDir = new Vector2(-direction, 0).normalized;
+                        totalDodgeDistance = dodgePower;
+                        anim.SetTrigger("airdash");
+                        rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
+                        Debug.Log(dodgeDir * totalDodgeDistance);
+                        StartCoroutine(EndDodge());
+                    }
+                    else
+                    {
+                        dodgeDir = new Vector2(-direction, 0).normalized;
+                        totalDodgeDistance = dodgePower;
+                        anim.SetTrigger("airdash_back");
+                        rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
+                        Debug.Log(dodgeDir * totalDodgeDistance);
+                        StartCoroutine(EndDodge());
+                    }
+                }
+                if (Input.GetAxisRaw("Horizontal") > 0)
+                {
+                    if (mousePos.x < transform.position.x)
+                    {
+                        dodgeDir = new Vector2(-direction, 0).normalized;
+                        totalDodgeDistance = dodgePower;
+                        anim.SetTrigger("airdash_back");
+                        rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
+                        Debug.Log(dodgeDir * totalDodgeDistance);
+                        StartCoroutine(EndDodge());
+                    }
+                    else
+                    {
+                        dodgeDir = new Vector2(-direction, 0).normalized;
+                        totalDodgeDistance = dodgePower;
+                        anim.SetTrigger("airdash");
+                        rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
+                        Debug.Log(dodgeDir * totalDodgeDistance);
+                        StartCoroutine(EndDodge());
+                    }
+                }
+                else
+                {
+                    dodgeDir = new Vector2(direction, 0).normalized;
+                    totalDodgeDistance = dodgePower;
+                    anim.SetTrigger("airdash");
+                    rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
+                    Debug.Log(dodgeDir * totalDodgeDistance);
+                    StartCoroutine(EndDodge());
+                }
+            }
         }
     }
 
-
-    IEnumerator PerformDodge(Vector3 dodgeDir, float totalDistance, float duration)
+    IEnumerator EndDodge()
     {
-        // Gradually moves the character in the given direction over a set duration.
         isDodging = true;
-        float elapsed = 0f;
-        Vector3 startPos = transform.position;
-
-        while (elapsed < duration)
-        {
-            float t = elapsed / duration;
-            transform.position = Vector3.Lerp(startPos, startPos + dodgeDir * totalDistance, t);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-        transform.position = startPos + dodgeDir * totalDistance;
+        yield return new WaitForSeconds(dodgeDuration);
         isDodging = false;
     }
 
@@ -262,11 +312,10 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            anim.SetTrigger("hurt");
-            if (direction == 1)
-                rb.AddForce(new Vector2(-5f, 1f), ForceMode2D.Impulse);
+            if (mousePos.x > transform.position.x)
+                rb.AddForce(new Vector2(-4f, 1f), ForceMode2D.Impulse);
             else
-                rb.AddForce(new Vector2(5f, 1f), ForceMode2D.Impulse);
+                rb.AddForce(new Vector2(4f, 1f), ForceMode2D.Impulse);
         }
     }
 
