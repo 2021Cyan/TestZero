@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI;
+using System.Collections;
 
 public class Shooting : MonoBehaviour
 {
@@ -9,7 +9,8 @@ public class Shooting : MonoBehaviour
     public PlayerController playerController;
 
     private float nextFireTime = 0f;
-    private float currentSpreadAngle = 0f; // Current spread angle
+    private float currentSpreadAngle = 0f; 
+    private bool isReloading = false;
 
     void Start()
     {
@@ -35,7 +36,7 @@ public class Shooting : MonoBehaviour
 
         if (playerController.currentAmmo <= 0 || Input.GetKeyDown(KeyCode.R))
         {
-            Reload(playerController.maxAmmo);
+            Reload();
         }
     }
 
@@ -67,8 +68,19 @@ public class Shooting : MonoBehaviour
         return currentSpreadAngle;
     }
 
-    public void Reload(int amount)
+    public void Reload()
     {
-        playerController.currentAmmo += amount;
+        if (!isReloading)
+        {
+            StartCoroutine(ReloadAmmo());
+        }
+    }
+
+    IEnumerator ReloadAmmo()
+    {
+        isReloading = true;
+        yield return new WaitForSeconds(playerController.reloadSpeed); 
+        playerController.currentAmmo = playerController.maxAmmo;
+        isReloading = false;
     }
 }

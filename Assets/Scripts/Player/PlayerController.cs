@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public float maxSpreadAngle = 0f;
     public float spreadIncreaseRate = 0f;
     public float spreadResetSpeed = 0f;
+    public float reloadSpeed = 2f;
 
     // Player Components
     private Rigidbody2D rb;
@@ -223,7 +224,6 @@ public class PlayerController : MonoBehaviour
             {
                 anim.SetTrigger("slide");
                 rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
-                Debug.Log(dodgeDir * totalDodgeDistance);
                 StartCoroutine(EndDodge());
             }
             else if (anim.GetBool("isWalkBack"))
@@ -232,7 +232,6 @@ public class PlayerController : MonoBehaviour
                 totalDodgeDistance = dodgePower / 2f;
                 anim.SetTrigger("roll");
                 rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
-                Debug.Log(dodgeDir * totalDodgeDistance);
                 StartCoroutine(EndDodge());
             }
             else if (anim.GetBool("isJump"))
@@ -245,7 +244,6 @@ public class PlayerController : MonoBehaviour
                         totalDodgeDistance = dodgePower * 1.5f;
                         anim.SetTrigger("airdash");
                         rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
-                        Debug.Log(dodgeDir * totalDodgeDistance);
                         StartCoroutine(EndDodge());
                     }
                     else
@@ -254,7 +252,6 @@ public class PlayerController : MonoBehaviour
                         totalDodgeDistance = dodgePower;
                         anim.SetTrigger("airdash_back");
                         rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
-                        Debug.Log(dodgeDir * totalDodgeDistance);
                         StartCoroutine(EndDodge());
                     }
                 }
@@ -266,7 +263,6 @@ public class PlayerController : MonoBehaviour
                         totalDodgeDistance = dodgePower;
                         anim.SetTrigger("airdash_back");
                         rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
-                        Debug.Log(dodgeDir * totalDodgeDistance);
                         StartCoroutine(EndDodge());
                     }
                     else
@@ -275,7 +271,6 @@ public class PlayerController : MonoBehaviour
                         totalDodgeDistance = dodgePower * 1.5f;
                         anim.SetTrigger("airdash");
                         rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
-                        Debug.Log(dodgeDir * totalDodgeDistance);
                         StartCoroutine(EndDodge());
                     }
                 }
