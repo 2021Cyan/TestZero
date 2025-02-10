@@ -26,8 +26,8 @@ public class Aim : MonoBehaviour
     {
         // Get the mouse position in world space (set z to 0 for 2D)
         Vector3 mousePos;
-        if(PauseManager.IsPaused){
-            _Input.SetMouseInput(PauseManager.beforePausePosition);
+        if(MenuManager.IsPaused){
+            _Input.SetMouseInput(MenuManager.beforePausePosition);
         }
         mousePos = Camera.main.ScreenToWorldPoint(_Input.MouseInput);
         mousePos.z = 0f;

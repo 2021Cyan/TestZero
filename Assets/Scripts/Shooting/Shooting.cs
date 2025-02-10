@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using FMODUnity;
 
 public class Shooting : MonoBehaviour
 {
@@ -15,11 +16,12 @@ public class Shooting : MonoBehaviour
     private float nextFireTime = 0f;
     private float currentSpreadAngle = 0f; // Current spread angle
     private InputManager _Input;
+    private AudioManager _audio;
 
     void Start()
     {
         _Input = InputManager.Instance;
-
+        _audio = AudioManager.Instance;
     }
 
     void Update()
@@ -27,6 +29,7 @@ public class Shooting : MonoBehaviour
         if ((_Input.ClickInput && _Input.AimInput) && Time.time >= nextFireTime && ammo > 0)
         {
             Shoot();
+            _audio.PlayOneShot(_audio.Shoot);
             nextFireTime = Time.time + 1f / fireRate;
         }
         else

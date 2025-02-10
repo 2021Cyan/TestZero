@@ -1,22 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
-public class PauseManager : MonoBehaviour
+using UnityEngine.UI;
+using FMODUnity;
+public class MenuManager : MonoBehaviour
 {
     public static bool IsPaused = false;
     public static Vector3 beforePausePosition;
     public GameObject PauseMenuUI;
     public GameObject VolumeMenuUI;
     private static InputManager _Input;
-
+    private static AudioManager _Audio;
     private void Start()
     {
-        _Input = InputManager.Instance;     
+        _Input = InputManager.Instance;
+        _Audio = AudioManager.Instance;
     }
+    
     private void Update()
     {
-        
         if (_Input.MenuInput || _Input.MenuUIInput)
         {
             PauseCheck();
@@ -37,6 +41,7 @@ public class PauseManager : MonoBehaviour
 
     public void Resume()
     {
+        _Audio.PlayOneShotMenuOpen();
         PauseMenuUI.SetActive(false);
         VolumeMenuUI.SetActive(false);
         InputManager.PlayerInput.actions.FindActionMap("UI").Disable();
@@ -51,6 +56,7 @@ public class PauseManager : MonoBehaviour
     public void Pause()
     {
     
+        _Audio.PlayOneShotMenuOpen();
         PauseMenuUI.SetActive(true);
         beforePausePosition = _Input.MouseInput;
         InputManager.PlayerInput.actions.FindActionMap("Player").Disable();
@@ -64,7 +70,8 @@ public class PauseManager : MonoBehaviour
         Time.timeScale = 1f;
         IsPaused = false;
     }
-    public void Quid()
+    
+    public void Quit()
     {
         Application.Quit();
     }
