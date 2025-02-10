@@ -5,6 +5,7 @@ public class Aim : MonoBehaviour
 {
     [SerializeField] Transform arm;  // The arm to rotate
     [SerializeField] Transform head; // The head to rotate
+    public PlayerController playerController;
 
     Vector3 startingSize;
 
@@ -15,6 +16,10 @@ public class Aim : MonoBehaviour
 
     void LateUpdate()
     {
+        if (!PlayerController.Instance.IsAlive())
+        {
+            return;
+        }
         PlayerHeadTracking();
         if(Input.GetMouseButton(1)){
             PlayerAim();

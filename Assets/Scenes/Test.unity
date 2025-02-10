@@ -1653,8 +1653,16 @@ PrefabInstance:
       value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 5319216712606905901, guid: 8cc641bc1a61cd84ea49a39d2540e80a, type: 3}
+      propertyPath: maxDodgeCharges
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5319216712606905901, guid: 8cc641bc1a61cd84ea49a39d2540e80a, type: 3}
       propertyPath: spreadResetSpeed
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 5319216712606905901, guid: 8cc641bc1a61cd84ea49a39d2540e80a, type: 3}
+      propertyPath: dodgeRechargeTime
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5319216712606905901, guid: 8cc641bc1a61cd84ea49a39d2540e80a, type: 3}
       propertyPath: spreadIncreaseRate

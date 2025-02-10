@@ -7,6 +7,7 @@ public class ReticleController : MonoBehaviour
     [SerializeField] private Shooting shootingScript;           // Reference to the Shooting script
     [SerializeField] private float baseSize = 0.25f;            // Base size of the reticle
     [SerializeField] private float sizeMultiplier = 0.125f;     // Multiplier for spread
+    public PlayerController playerController;
 
     void Start()
     {
@@ -16,6 +17,11 @@ public class ReticleController : MonoBehaviour
 
     void LateUpdate()
     {
+        if (!PlayerController.Instance.IsAlive())
+        {
+            return;
+        }
+
         if (Input.GetMouseButton(1))
         {
             // Activate the reticle and update its position
