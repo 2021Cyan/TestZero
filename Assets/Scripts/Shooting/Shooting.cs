@@ -42,6 +42,12 @@ public class Shooting : MonoBehaviour
 
     void Shoot()
     {
+        // Trigger screen shake
+        CameraScript cameraScript = Camera.main.GetComponent<CameraScript>();
+        if (cameraScript != null)
+        {
+            cameraScript.StartShake(0.1f, 0.5f);
+        }
         // Calculate random spread within the current spread angle
         float randomSpread = Random.Range(-currentSpreadAngle/4, currentSpreadAngle);
 
