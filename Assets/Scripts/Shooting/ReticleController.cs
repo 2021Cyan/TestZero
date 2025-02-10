@@ -7,21 +7,26 @@ public class ReticleController : MonoBehaviour
     [SerializeField] private Shooting shootingScript;           // Reference to the Shooting script
     [SerializeField] private float baseSize = 0.25f;            // Base size of the reticle
     [SerializeField] private float sizeMultiplier = 0.125f;     // Multiplier for spread
-    private InputManager _Input;
+    public PlayerController playerController;
+
     void Start()
     {
         // Get the SpriteRenderer component to toggle visibility
         spriteRenderer = GetComponent<SpriteRenderer>();
-        _Input = InputManager.Instance;
     }
 
     void LateUpdate()
     {
-        if (_Input.AimInput)
+        if (!PlayerController.Instance.IsAlive())
+        {
+            return;
+        }
+
+        if (Input.GetMouseButton(1))
         {
             // Activate the reticle and update its position
             spriteRenderer.enabled = true;
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(_Input.MouseInput);
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = mousePos;
 
             // Scale the reticle based on the current spread angle

@@ -17,6 +17,11 @@ public class Shooting : MonoBehaviour
 
     void Update()
     {
+        if (!PlayerController.Instance.IsAlive())
+        {
+            return;
+        }
+
         if ((Input.GetKey(KeyCode.Mouse0) && Input.GetMouseButton(1)) && Time.time >= nextFireTime && playerController.currentAmmo > 0)
         {
             Shoot();
