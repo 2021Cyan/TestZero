@@ -1521,6 +1521,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd1659d8f40431048a82ff8d468a2cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &2792692630306406482
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1362553004568484321, guid: cda5ec088ba221644a20d4cfde04487e, type: 3}
+      propertyPath: m_Name
+      value: GunCreator
+      objectReference: {fileID: 0}
+    - target: {fileID: 4287796599016019512, guid: cda5ec088ba221644a20d4cfde04487e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 4287796599016019512, guid: cda5ec088ba221644a20d4cfde04487e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 4287796599016019512, guid: cda5ec088ba221644a20d4cfde04487e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4287796599016019512, guid: cda5ec088ba221644a20d4cfde04487e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4287796599016019512, guid: cda5ec088ba221644a20d4cfde04487e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4287796599016019512, guid: cda5ec088ba221644a20d4cfde04487e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4287796599016019512, guid: cda5ec088ba221644a20d4cfde04487e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4287796599016019512, guid: cda5ec088ba221644a20d4cfde04487e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4287796599016019512, guid: cda5ec088ba221644a20d4cfde04487e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4287796599016019512, guid: cda5ec088ba221644a20d4cfde04487e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cda5ec088ba221644a20d4cfde04487e, type: 3}
 --- !u!1001 &8660901994247308955
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1628,6 +1685,10 @@ PrefabInstance:
     - target: {fileID: 5319216712606905901, guid: 8cc641bc1a61cd84ea49a39d2540e80a, type: 3}
       propertyPath: fireRate
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5319216712606905901, guid: 8cc641bc1a61cd84ea49a39d2540e80a, type: 3}
+      propertyPath: resource
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 5319216712606905901, guid: 8cc641bc1a61cd84ea49a39d2540e80a, type: 3}
       propertyPath: jumpPower
@@ -1804,3 +1865,4 @@ SceneRoots:
   - {fileID: 649213727}
   - {fileID: 8660901994247308955}
   - {fileID: 504382263}
+  - {fileID: 2792692630306406482}

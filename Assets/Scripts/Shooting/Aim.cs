@@ -43,8 +43,6 @@ public class Aim : MonoBehaviour
             head_angle = head_angle += 180f;
         }
 
-        Debug.Log(head_angle);
-
         // Limit head rotation angle
         if (head_angle >= 45 && head_angle <= 90) {
             head.rotation = Quaternion.Euler(0, 0, 45);
