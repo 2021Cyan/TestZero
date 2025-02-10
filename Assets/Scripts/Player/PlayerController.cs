@@ -208,7 +208,7 @@ public class PlayerController : MonoBehaviour
         if (isDodging || Time.time - lastDodgeTime < dodgeCooldown)
             return;
 
-        if (Input.GetKeyDown(KeyCode.LeftControl) && dodgeCharges > 0)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dodgeCharges > 0)
         {
             lastDodgeTime = Time.time;
             dodgeCharges--;
@@ -241,8 +241,8 @@ public class PlayerController : MonoBehaviour
                 {
                     if (mousePos.x < transform.position.x)
                     {
-                        dodgeDir = new Vector2(-direction, 0).normalized;
-                        totalDodgeDistance = dodgePower;
+                        dodgeDir = new Vector2(direction, 0).normalized;
+                        totalDodgeDistance = dodgePower * 1.5f;
                         anim.SetTrigger("airdash");
                         rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
                         Debug.Log(dodgeDir * totalDodgeDistance);
@@ -258,7 +258,7 @@ public class PlayerController : MonoBehaviour
                         StartCoroutine(EndDodge());
                     }
                 }
-                if (Input.GetAxisRaw("Horizontal") > 0)
+                else if (Input.GetAxisRaw("Horizontal") > 0)
                 {
                     if (mousePos.x < transform.position.x)
                     {
@@ -271,22 +271,13 @@ public class PlayerController : MonoBehaviour
                     }
                     else
                     {
-                        dodgeDir = new Vector2(-direction, 0).normalized;
-                        totalDodgeDistance = dodgePower;
+                        dodgeDir = new Vector2(direction, 0).normalized;
+                        totalDodgeDistance = dodgePower * 1.5f;
                         anim.SetTrigger("airdash");
                         rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
                         Debug.Log(dodgeDir * totalDodgeDistance);
                         StartCoroutine(EndDodge());
                     }
-                }
-                else
-                {
-                    dodgeDir = new Vector2(direction, 0).normalized;
-                    totalDodgeDistance = dodgePower;
-                    anim.SetTrigger("airdash");
-                    rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
-                    Debug.Log(dodgeDir * totalDodgeDistance);
-                    StartCoroutine(EndDodge());
                 }
             }
         }
@@ -294,10 +285,12 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator EndDodge()
     {
-        isDodging = true;
         yield return new WaitForSeconds(dodgeDuration);
+        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+
         isDodging = false;
     }
+
 
     IEnumerator RechargeDodge()
     {
@@ -313,9 +306,15 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             if (mousePos.x > transform.position.x)
+            {
                 rb.AddForce(new Vector2(-4f, 1f), ForceMode2D.Impulse);
+                hp = hp - 10;
+            }
             else
+            {
                 rb.AddForce(new Vector2(4f, 1f), ForceMode2D.Impulse);
+                hp = hp - 10;
+            }
         }
     }
 
