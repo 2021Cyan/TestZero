@@ -1,7 +1,6 @@
 using UnityEngine;
-using System.Collections.Generic;
 using FMODUnity;
-using FMOD.Studio;
+
 
 
 public class AudioManager : MonoBehaviour

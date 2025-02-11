@@ -14,7 +14,7 @@ public class InputManager : MonoBehaviour
     public bool AimInput { get; private set; }
     public bool ClickInput { get; private set; }
     public bool JumpInput { get; private set; }
-    public bool RollInput { get; private set; }
+    public bool DodgeInput { get; private set; }
     public bool ReloadInput { get; private set; }
 
     // make some set methods for the inputs
@@ -53,9 +53,9 @@ public class InputManager : MonoBehaviour
         JumpInput = jumpInput;
     }
 
-    public void SetRollInput(bool rollInput)
+    public void SetDodgeInput(bool dodgeInput)
     {
-        RollInput = rollInput;
+        DodgeInput = dodgeInput;
     }
 
     public void SetReloadInput(bool reloadInput)
@@ -70,7 +70,7 @@ public class InputManager : MonoBehaviour
     private InputAction _aimAction;
     private InputAction _clickAction;
     private InputAction _jumpAction;
-    private InputAction _rollAction;
+    private InputAction _dodgeAction;
     private InputAction _reloadAction;
     private void Awake()
     {
@@ -89,28 +89,27 @@ public class InputManager : MonoBehaviour
         _menuAction = PlayerInput.actions["Menu"];
         _menuUIAction = PlayerInput.actions["MenuUI"];
         _moveInputAction = PlayerInput.actions["Move"];
-        
+
         _mouseInputAction = PlayerInput.actions["Look"];
         _aimAction = PlayerInput.actions["Aim"];
         _clickAction = PlayerInput.actions["Shoot"];
         _jumpAction = PlayerInput.actions["Jump"];
-        _rollAction = PlayerInput.actions["Roll"];
+        _dodgeAction = PlayerInput.actions["Dodge"];
         _reloadAction = PlayerInput.actions["Reload"];
     }
 
     // Update is called once per frame
     private void Update()
     {
-        
+
         MoveInput = _moveInputAction.ReadValue<Vector2>();
         MouseInput = _mouseInputAction.ReadValue<Vector2>();
         MenuInput = _menuAction.WasPressedThisFrame();
         MenuUIInput = _menuUIAction.WasPressedThisFrame();
         AimInput = _aimAction.IsPressed();
-        // ClickInput = _clickAction.
         ClickInput = _clickAction.IsPressed();
         JumpInput = _jumpAction.WasPressedThisFrame();
-        RollInput = _rollAction.WasPressedThisFrame();
+        DodgeInput = _dodgeAction.WasPressedThisFrame();
         ReloadInput = _reloadAction.WasPressedThisFrame();
     }
 }

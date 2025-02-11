@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
 using FMODUnity;
 public class MenuManager : MonoBehaviour
 {
@@ -47,9 +42,6 @@ public class MenuManager : MonoBehaviour
         InputManager.PlayerInput.actions.FindActionMap("UI").Disable();
         InputManager.PlayerInput.actions.FindActionMap("Player").Enable();
         Time.timeScale = 1f;
-        
-        
-        // InputManager.PlayerInput.currentActionMap = InputManager.PlayerInput.actions.FindActionMap("Player");
         IsPaused = false;
     }
 
