@@ -25,6 +25,7 @@
 
 # Visual Studio cache directory
 .vs/
+.vscode/
 
 # Gradle cache directory
 .gradle/
@@ -78,5 +79,4 @@ Fmod_editor.log
 Assets/Plugins/FMOD/Cache/Editor/FMODStudioCache.asset
 Assets/Plugins/FMOD/Cache/Editor/FMODStudioCache.asset.meta
 
-.vscode/
 *.orig
