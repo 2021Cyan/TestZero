@@ -13,6 +13,13 @@ public class AudioManager : MonoBehaviour
 
     [Header("SFX")]
     public EventReference Shoot;
+    public EventReference Reload;
+    public EventReference Hit;
+    public EventReference Dodge;
+    public EventReference Jump;
+    public EventReference Death;
+    public EventReference Pickup;
+
 
     [Header("UI_SFX")]
     public EventReference UIClick;

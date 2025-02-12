@@ -51,11 +51,13 @@ public class PlayerController : MonoBehaviour
 
     // Singleton Instance
     public static PlayerController Instance;
-    public InputManager _input;
+    private InputManager _input;
+    private AudioManager _audio;
 
     private void Awake()
     {
         _input = InputManager.Instance;
+        _audio = AudioManager.Instance;
         if (Instance == null)
         {
             Instance = this;
@@ -224,6 +226,7 @@ public class PlayerController : MonoBehaviour
 
             if (anim.GetBool("isRun"))
             {
+                _audio.PlayOneShot(_audio.Dodge);
                 anim.SetTrigger("slide");
                 rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
                 StartCoroutine(EndDodge());

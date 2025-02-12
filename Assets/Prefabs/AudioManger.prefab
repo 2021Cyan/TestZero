@@ -84,24 +84,66 @@ MonoBehaviour:
       Data3: 1368701075
       Data4: -1093642349
     Path: event:/SFX/Fire
+  Reload:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  Hit:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  Dodge:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  Jump:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  Death:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  Pickup:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   UIClick:
     Guid:
-      Data1: 1213729807
-      Data2: 1097160345
-      Data3: -2022724983
-      Data4: 1081609313
+      Data1: 1400899860
+      Data2: 1162741455
+      Data3: -852104044
+      Data4: -741400324
     Path: event:/SFX/UIClick
   UIHover:
     Guid:
-      Data1: 91025149
-      Data2: 1212639492
-      Data3: 1113450139
-      Data4: 1172829617
+      Data1: 326103594
+      Data2: 1121827244
+      Data3: 1583193732
+      Data4: -862656726
     Path: event:/SFX/UIHover
   MenuOpen:
     Guid:
-      Data1: 175391933
-      Data2: 1094360874
-      Data3: -604006737
-      Data4: 793655819
+      Data1: 1287524299
+      Data2: 1247488667
+      Data3: 1719769992
+      Data4: -812577302
     Path: event:/SFX/MenuOpen
