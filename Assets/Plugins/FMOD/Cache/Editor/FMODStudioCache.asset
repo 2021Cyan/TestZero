@@ -65,7 +65,7 @@ MonoBehaviour:
   lastModified: 638748817263695605
   FileSizes: []
   Exists: 1
---- !u!114 &-7049623835818674641
+--- !u!114 &-6356449968720626048
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -75,14 +75,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/Fire
+  m_Name: event:/SFX/Character/Running
   m_EditorClassIdentifier: 
-  Path: event:/SFX/Fire
+  Path: event:/SFX/Character/Running
   Guid:
-    Data1: -333215106
-    Data2: 1120332466
-    Data3: 1368701075
-    Data4: -1093642349
+    Data1: -1040624722
+    Data2: 1159147389
+    Data3: -1157366875
+    Data4: -37949349
   Banks:
   - {fileID: -4456614331231822444}
   IsStream: 0
@@ -91,7 +91,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 0
+  Length: 200
 --- !u!114 &-5768292443453469203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,7 +134,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638749194910229252
+  lastModified: 638752247996630886
   FileSizes: []
   Exists: 1
 --- !u!114 &-4617032510574732434
@@ -170,7 +170,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638749194910820501
+  lastModified: 638752264683363482
   FileSizes: []
   Exists: 1
 --- !u!114 &-3751051278099993474
@@ -209,6 +209,33 @@ MonoBehaviour:
   lastModified: 638748817263710687
   FileSizes: []
   Exists: 1
+--- !u!114 &-2608520212487982748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Character/Fire
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Character/Fire
+  Guid:
+    Data1: -333215106
+    Data2: 1120332466
+    Data3: 1368701075
+    Data4: -1093642349
+  Banks:
+  - {fileID: -4456614331231822444}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-1804440835350382375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,10 +251,10 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638749194910246714
+  lastModified: 638752247996641698
   FileSizes:
   - Name: 
-    Value: 1236
+    Value: 1374
   Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -249,16 +276,19 @@ MonoBehaviour:
   EditorEvents:
   - {fileID: 5525458606356369092}
   - {fileID: 8503886041224330022}
-  - {fileID: -7049623835818674641}
   - {fileID: 5440908808710609118}
   - {fileID: 7768916574263446558}
-  - {fileID: 6862983509214835503}
+  - {fileID: 1699352984744486855}
+  - {fileID: -2608520212487982748}
+  - {fileID: -6356449968720626048}
+  - {fileID: 1922585774850074474}
+  - {fileID: 8629439389345926596}
   EditorParameters: []
   MasterBanks:
   - {fileID: -4718294289339572160}
   StringsBanks:
   - {fileID: -1804440835350382375}
-  cacheTime: 638749194910820501
+  cacheTime: 638752264683363482
   cacheVersion: 131622
 --- !u!114 &1210094790957254342
 MonoBehaviour:
@@ -287,6 +317,60 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &1699352984744486855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Character/Dodge
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Character/Dodge
+  Guid:
+    Data1: -390570900
+    Data2: 1310743844
+    Data3: -290216769
+    Data4: -925370065
+  Banks:
+  - {fileID: -4456614331231822444}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1718
+--- !u!114 &1922585774850074474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Character/MoonWalk
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Character/MoonWalk
+  Guid:
+    Data1: -823731980
+    Data2: 1114620349
+    Data3: 1428175805
+    Data4: -1553304574
+  Banks:
+  - {fileID: -4456614331231822444}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 183
 --- !u!114 &5440908808710609118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,33 +479,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
---- !u!114 &6862983509214835503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/Dodge
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/Dodge
-  Guid:
-    Data1: -390570900
-    Data2: 1310743844
-    Data3: -290216769
-    Data4: -925370065
-  Banks:
-  - {fileID: -4456614331231822444}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
 --- !u!114 &7768916574263446558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,3 +533,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &8629439389345926596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Character/JumpGroan
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Character/JumpGroan
+  Guid:
+    Data1: 1489319271
+    Data2: 1114501544
+    Data3: -752884067
+    Data4: 591068211
+  Banks:
+  - {fileID: -4456614331231822444}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 300

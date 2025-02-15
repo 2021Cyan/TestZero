@@ -83,7 +83,7 @@ MonoBehaviour:
       Data2: 1120332466
       Data3: 1368701075
       Data4: -1093642349
-    Path: event:/SFX/Fire
+    Path: event:/SFX/Character/Fire
   Reload:
     Guid:
       Data1: 0
@@ -120,6 +120,20 @@ MonoBehaviour:
       Data4: 0
     Path: 
   Pickup:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  Footstep:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  Moonwalk:
     Guid:
       Data1: 0
       Data2: 0

@@ -11,14 +11,16 @@ public class AudioManager : MonoBehaviour
     [Header("Ambience")]
     public EventReference Ambience;
 
-    [Header("SFX")]
+    [Header("Player_SFX")]
     public EventReference Shoot;
     public EventReference Reload;
     public EventReference Hit;
     public EventReference Dodge;
-    public EventReference Jump;
+    public EventReference JumpGroan;
     public EventReference Death;
     public EventReference Pickup;
+    public EventReference Footstep;
+    public EventReference Moonwalk;
 
 
     [Header("UI_SFX")]

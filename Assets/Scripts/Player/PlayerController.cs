@@ -43,10 +43,10 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Control (Dodge)")]
     private int dodgeCharges;
     public int maxDodgeCharges = 3;
-    public float dodgeRechargeTime = 5f;  
-    private bool isDodging = false;  
-    public float dodgeDuration = 0.4f;  
-    public float dodgeCooldown = 1f;   
+    public float dodgeRechargeTime = 5f;
+    private bool isDodging = false;
+    public float dodgeDuration = 0.4f;
+    public float dodgeCooldown = 1f;
     private float lastDodgeTime = -1000f;
 
     // Singleton Instance
@@ -130,6 +130,7 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("isRun", false);
         anim.SetBool("isWalkBack", false);
 
+
         if (Input.GetAxisRaw("Horizontal") < 0)
         {
             // Mouse is on the left, character should face left
@@ -187,6 +188,7 @@ public class PlayerController : MonoBehaviour
         if (_input.JumpInput && !anim.GetBool("isJump"))
         {
             isJumping = true;
+            _audio.PlayOneShot(_audio.JumpGroan);
             anim.SetBool("isJump", true);
         }
         if (!isJumping)
@@ -205,6 +207,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (anim.GetBool("isJump"))
+        {
+            _audio.PlayOneShot(_audio.Moonwalk);
+        }
         anim.SetBool("isJump", false);
     }
 
@@ -226,8 +232,8 @@ public class PlayerController : MonoBehaviour
 
             if (anim.GetBool("isRun"))
             {
-                _audio.PlayOneShot(_audio.Dodge);
                 anim.SetTrigger("slide");
+                _audio.PlayOneShot(_audio.Dodge);
                 rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
                 StartCoroutine(EndDodge());
             }
@@ -235,7 +241,9 @@ public class PlayerController : MonoBehaviour
             {
                 dodgeDir = new Vector2(-direction, 0);
                 totalDodgeDistance = dodgePower / 2f;
+                anim.SetBool("rollCheck", true);
                 anim.SetTrigger("roll");
+                _audio.PlayOneShot(_audio.JumpGroan);
                 rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
                 StartCoroutine(EndDodge());
             }
@@ -287,8 +295,12 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(dodgeDuration);
         rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
-
         isDodging = false;
+        if (anim.GetBool("rollCheck"))
+        {
+            anim.SetBool("rollCheck", false);
+            _audio.PlayOneShot(_audio.Moonwalk);
+        }
     }
 
 
@@ -353,6 +365,16 @@ public class PlayerController : MonoBehaviour
     public bool IsAlive()
     {
         return alive;
+    }
+
+    public void PlayOneShotRunning()
+    {
+        _audio.PlayOneShot(_audio.Footstep);
+    }
+
+    public void PlayOneShotMoonWalk()
+    {
+        _audio.PlayOneShot(_audio.Moonwalk);
     }
 
 }
