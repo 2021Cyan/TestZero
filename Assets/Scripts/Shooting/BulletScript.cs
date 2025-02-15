@@ -10,11 +10,9 @@ public class BulletScript : MonoBehaviour
     private Rigidbody2D rb;
     // Damage of the bullet
     public float damage = 10f;
-    private InputManager _Input;
 
     void Start()
     {
-        _Input = InputManager.Instance;
         // Get the Rigidbody2D component
         rb = GetComponent<Rigidbody2D>();
         // Calculate the direction based on the rotation angle
@@ -22,7 +20,7 @@ public class BulletScript : MonoBehaviour
         Vector2 direction = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
 
 
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(_Input.MouseInput);
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         // Adjust direction based on the mouse position
         if (mousePos.x < transform.position.x)
         {

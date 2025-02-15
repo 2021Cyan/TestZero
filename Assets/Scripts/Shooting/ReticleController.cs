@@ -8,13 +8,11 @@ public class ReticleController : MonoBehaviour
     [SerializeField] private float baseSize = 0.25f;            // Base size of the reticle
     [SerializeField] private float sizeMultiplier = 0.125f;     // Multiplier for spread
     public PlayerController playerController;
-    private InputManager _input;
 
     void Start()
     {
         // Get the SpriteRenderer component to toggle visibility
         spriteRenderer = GetComponent<SpriteRenderer>();
-        _input = InputManager.Instance;
     }
 
     void LateUpdate()
@@ -24,7 +22,7 @@ public class ReticleController : MonoBehaviour
             return;
         }
 
-        if (_input.AimInput)
+        if (Input.GetMouseButton(1))
         {
             // Activate the reticle and update its position
             spriteRenderer.enabled = true;

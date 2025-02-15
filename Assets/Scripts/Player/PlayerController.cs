@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     private float currentJumpTime = 0f;
     public float maxJumpTime = 0.5f;
 
-    [Header("Movement Control (Dodge)")]
+    // Movement Control (Dodge)
     private int dodgeCharges;
     public int maxDodgeCharges = 3;
     public float dodgeRechargeTime = 5f;  
@@ -51,13 +51,9 @@ public class PlayerController : MonoBehaviour
 
     // Singleton Instance
     public static PlayerController Instance;
-    private InputManager _input;
-    private AudioManager _audio;
 
     private void Awake()
     {
-        _input = InputManager.Instance;
-        _audio = AudioManager.Instance;
         if (Instance == null)
         {
             Instance = this;
@@ -80,12 +76,12 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        mousePos = Camera.main.ScreenToWorldPoint(_input.MouseInput);
+        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         AdjustGravity();
         Restart();
         if (alive)
         {
-            mousePos = maincam.ScreenToWorldPoint(_input.MouseInput);
+            mousePos = maincam.ScreenToWorldPoint(Input.mousePosition);
             Hurt();
             Dodge();
             Die();
@@ -184,7 +180,7 @@ public class PlayerController : MonoBehaviour
         if (isDodging)
             return;
 
-        if (_input.JumpInput && !anim.GetBool("isJump"))
+        if (Input.GetKeyDown(KeyCode.Space) && !anim.GetBool("isJump"))
         {
             isJumping = true;
             anim.SetBool("isJump", true);
@@ -213,7 +209,7 @@ public class PlayerController : MonoBehaviour
         if (isDodging || Time.time - lastDodgeTime < dodgeCooldown)
             return;
 
-        if (_input.DodgeInput && dodgeCharges > 0)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dodgeCharges > 0)
         {
             lastDodgeTime = Time.time;
             dodgeCharges--;
@@ -226,7 +222,6 @@ public class PlayerController : MonoBehaviour
 
             if (anim.GetBool("isRun"))
             {
-                _audio.PlayOneShot(_audio.Dodge);
                 anim.SetTrigger("slide");
                 rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
                 StartCoroutine(EndDodge());
