@@ -12,13 +12,53 @@ public class GunScript : MonoBehaviour
 
     public Rarity gunRarity;
     public int maxPartLevel;
-
     public string gripType;
     public int barrelLevel;
     public int frameLevel;
     public int magazineLevel;
 
     private readonly string[] gripTypes = { "gun_grip_handcannon", "gun_grip_pistol", "gun_grip_smg" };
+
+    public float fireRate;
+    public int maxAmmo;
+    public float maxSpreadAngle;
+    public float spreadIncreaseRate;
+    public float spreadResetSpeed;
+    public float reloadSpeed;
+
+    private Transform player;
+    private PlayerController playerController;
+    public float interactionRange = 1.0f;
+
+    void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        playerController = player.GetComponent<PlayerController>();
+    }
+
+    void Update()
+    {
+        float distance = Vector2.Distance(transform.position, player.position);
+        if (distance <= interactionRange && Input.GetKeyDown(KeyCode.E))
+        {
+            EquipGun();
+        }
+    } 
+    public void EquipGun()
+    {
+        CalculateStats();
+        playerController.gripType = gripType;
+        playerController.barrelLevel = barrelLevel;
+        playerController.frameLevel = frameLevel;
+        playerController.fireRate = fireRate;
+        playerController.maxAmmo = maxAmmo;
+        playerController.currentAmmo = maxAmmo;
+        playerController.maxSpreadAngle = maxSpreadAngle;
+        playerController.spreadIncreaseRate = spreadIncreaseRate;
+        playerController.spreadResetSpeed = spreadResetSpeed;
+        playerController.reloadSpeed =reloadSpeed;
+        Destroy(gameObject);
+    }
 
     public void AssignRarityWithPity(int totalGunsCreated)
     {
@@ -117,5 +157,53 @@ public class GunScript : MonoBehaviour
     public void AssignGripType()
     {
         gripType = gripTypes[Random.Range(0, gripTypes.Length)];
+    }
+
+    private void SetBaseStats()
+    {
+        switch (gripType)
+        {
+            case "gun_grip_handcannon":
+                fireRate = 2.0f;
+                maxAmmo = 6;
+                maxSpreadAngle = 20.0f;
+                spreadIncreaseRate = 10.0f;
+                spreadResetSpeed = 20.0f;
+                reloadSpeed = 2.0f;
+                break;
+
+            case "gun_grip_pistol":
+                fireRate = 4.0f;
+                maxAmmo = 12;
+                maxSpreadAngle = 30.0f;
+                spreadIncreaseRate = 6.0f;
+                spreadResetSpeed = 20.0f;
+                reloadSpeed = 2.0f;
+                break;
+
+            case "gun_grip_smg":
+                fireRate = 10.0f;
+                maxAmmo = 20;
+                maxSpreadAngle = 40.0f;
+                spreadIncreaseRate = 4.0f;
+                spreadResetSpeed = 30.0f;
+                reloadSpeed = 2.0f;
+                break;
+        }
+    }
+    private void ApplyPartBonuses()
+    {
+        fireRate += fireRate * (barrelLevel - 1) * 0.2f;
+        maxAmmo += Mathf.RoundToInt(maxAmmo * (magazineLevel - 1) * 0.2f);
+        maxSpreadAngle -= maxSpreadAngle * (frameLevel - 1) * 0.1f;
+        spreadIncreaseRate -= spreadIncreaseRate * (frameLevel - 1) * 0.1f;
+        spreadResetSpeed += spreadResetSpeed * (frameLevel - 1) * 0.2f;
+        reloadSpeed -= reloadSpeed * (magazineLevel - 1) * 0.1f;
+    }
+
+    public void CalculateStats()
+    {
+        SetBaseStats();
+        ApplyPartBonuses();
     }
 }

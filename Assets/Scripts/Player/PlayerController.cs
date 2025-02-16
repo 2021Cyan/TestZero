@@ -22,6 +22,11 @@ public class PlayerController : MonoBehaviour
     public float spreadResetSpeed = 0f;
     public float reloadSpeed = 2f;
 
+    // Gun Sprites
+    public string gripType;
+    public int barrelLevel;
+    public int frameLevel;
+
     // Player Components
     private Rigidbody2D rb;
     private Animator anim;

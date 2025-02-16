@@ -789,7 +789,7 @@ MonoBehaviour:
   player: {fileID: 246835598085258851}
   smoothSpeed: 10
   offset: {x: 0, y: 1, z: 0}
-  camSize: 5
+  camSize: 8
 --- !u!114 &419354696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2287,7 +2287,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5319216712606905901, guid: 8cc641bc1a61cd84ea49a39d2540e80a, type: 3}
       propertyPath: fireRate
-      value: 20
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5319216712606905901, guid: 8cc641bc1a61cd84ea49a39d2540e80a, type: 3}
       propertyPath: resource
