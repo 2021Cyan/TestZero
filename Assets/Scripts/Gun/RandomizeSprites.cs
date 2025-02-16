@@ -6,35 +6,29 @@ public class RandomizeSprites : MonoBehaviour
     [SerializeField] private SpriteRenderer barrelRenderer;
     [SerializeField] private SpriteRenderer frameRenderer;
 
-    private Sprite[] gripSprites;
-    private Sprite[] barrelSprites;
-    private Sprite[] frameSprites;
+    private GunScript gunScript;
 
     void Start()
     {
-        gripSprites = Resources.LoadAll<Sprite>("Sprites/GunParts/Grips");
-        barrelSprites = Resources.LoadAll<Sprite>("Sprites/GunParts/Barrels");
-        frameSprites = Resources.LoadAll<Sprite>("Sprites/GunParts/Frames");
+        gunScript = GetComponent<GunScript>();
+        ApplySprites();
     }
 
-    public void RandomizeParts()
+    private void ApplySprites()
     {
-        if (gripSprites != null && gripSprites.Length > 0)
-        {
-            int rng = Random.Range(0, gripSprites.Length);
-            gripRenderer.sprite = gripSprites[rng];
-        }
+        int barrelLevel = gunScript.barrelLevel;
+        int frameLevel = gunScript.frameLevel;
+        string gripType = gunScript.gripType;
 
-        if (barrelSprites != null && barrelSprites.Length > 0)
-        {
-            int rng = Random.Range(0, barrelSprites.Length);
-            barrelRenderer.sprite = barrelSprites[rng];
-        }
+        string barrelPath = $"Sprites/GunParts/Barrels/gun_barrel_lv{barrelLevel}";
+        string framePath = $"Sprites/GunParts/Frames/gun_frame_lv{frameLevel}";
+        string gripPath = $"Sprites/GunParts/Grips/{gripType}";
 
-        if (frameSprites != null && frameSprites.Length > 0)
-        {
-            int rng = Random.Range(0, frameSprites.Length);
-            frameRenderer.sprite = frameSprites[rng];
-        }
+        Sprite barrelSprite = Resources.Load<Sprite>(barrelPath);
+        barrelRenderer.sprite = barrelSprite;
+        Sprite frameSprite = Resources.Load<Sprite>(framePath);
+        frameRenderer.sprite = frameSprite;
+        Sprite gripSprite = Resources.Load<Sprite>(gripPath);
+        gripRenderer.sprite = gripSprite;
     }
 }

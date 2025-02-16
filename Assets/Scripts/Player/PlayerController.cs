@@ -30,8 +30,6 @@ public class PlayerController : MonoBehaviour
 
     private bool alive = true;
 
-    [SerializeField] public RandomizeSprites rs;
-
     // Movement Control
     private int direction = 1;
     bool isJumping = false;
@@ -91,7 +89,6 @@ public class PlayerController : MonoBehaviour
             Die();
             Jump();
             Move();
-            Randomize();
 
         }
     }
@@ -329,15 +326,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
-    void Randomize()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            rs.RandomizeParts();
-        }
-    }
-
     void Die()
     {
         if (hp <= 0)
