@@ -1707,8 +1707,16 @@ PrefabInstance:
       value: Master
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Aim.Path
+      value: event:/SFX/Character/Aim
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Dodge.Path
       value: event:/SFX/Character/Dodge
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Reload.Path
+      value: event:/SFX/Character/Reload
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Footstep.Path
@@ -1717,6 +1725,22 @@ PrefabInstance:
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Moonwalk.Path
       value: event:/SFX/Character/MoonWalk
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Aim.Guid.Data1
+      value: 1889839774
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Aim.Guid.Data2
+      value: 1256131355
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Aim.Guid.Data3
+      value: -1854764368
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Aim.Guid.Data4
+      value: -1240624215
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: JumpGroan.Path
@@ -1737,6 +1761,22 @@ PrefabInstance:
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Dodge.Guid.Data4
       value: -925370065
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Reload.Guid.Data1
+      value: 17271108
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Reload.Guid.Data2
+      value: 1135824053
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Reload.Guid.Data3
+      value: -563909452
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Reload.Guid.Data4
+      value: -1930987726
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Footstep.Guid.Data1
@@ -2096,6 +2136,10 @@ PrefabInstance:
     - target: {fileID: 5319216712606905901, guid: 8cc641bc1a61cd84ea49a39d2540e80a, type: 3}
       propertyPath: currentAmmo
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5319216712606905901, guid: 8cc641bc1a61cd84ea49a39d2540e80a, type: 3}
+      propertyPath: reloadSpeed
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 5319216712606905901, guid: 8cc641bc1a61cd84ea49a39d2540e80a, type: 3}
       propertyPath: dodgeCooldown
