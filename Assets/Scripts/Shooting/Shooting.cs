@@ -84,6 +84,7 @@ public class Shooting : MonoBehaviour
     {
         if (!isReloading)
         {
+            _audio.PlayOneShot(_audio.Reload);
             StartCoroutine(ReloadAmmo());
         }
     }

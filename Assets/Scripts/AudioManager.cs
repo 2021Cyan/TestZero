@@ -12,6 +12,7 @@ public class AudioManager : MonoBehaviour
     public EventReference Ambience;
 
     [Header("Player_SFX")]
+    public EventReference Aim;
     public EventReference Shoot;
     public EventReference Reload;
     public EventReference Hit;
