@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     public float maxSpreadAngle = 0f;
     public float spreadIncreaseRate = 0f;
     public float spreadResetSpeed = 0f;
-    public float reloadSpeed = 3.5f;
+    public float reloadSpeed = 2f;
 
     // Player Components
     private Rigidbody2D rb;
