@@ -28,7 +28,23 @@ public class GunScript : MonoBehaviour
 
     private Transform player;
     private PlayerController playerController;
-    public float interactionRange = 1.0f;
+    private bool isPlayerNearby = false;
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isPlayerNearby = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isPlayerNearby = false;
+        }
+    }
 
     void Start()
     {
@@ -38,12 +54,11 @@ public class GunScript : MonoBehaviour
 
     void Update()
     {
-        float distance = Vector2.Distance(transform.position, player.position);
-        if (distance <= interactionRange && Input.GetKeyDown(KeyCode.E))
+        if (isPlayerNearby && Input.GetKeyDown(KeyCode.E))
         {
             EquipGun();
         }
-    } 
+    }
     public void EquipGun()
     {
         CalculateStats();

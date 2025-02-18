@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5727170673440667288}
   - component: {fileID: 8792310221147557906}
   - component: {fileID: 7390443611329665266}
+  - component: {fileID: 3752350228944169574}
   m_Layer: 0
   m_Name: GunCreator
   m_TagString: Untagged
@@ -104,3 +105,25 @@ MonoBehaviour:
   spawnPoints: []
   interactionRange: 2
   gunCost: 160
+--- !u!95 &3752350228944169574
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2773452494964128004}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bdec6b055b8e5e44b94005e89540970b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
