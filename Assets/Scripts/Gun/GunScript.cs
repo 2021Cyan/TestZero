@@ -30,6 +30,12 @@ public class GunScript : MonoBehaviour
     private Transform player;
     private PlayerController playerController;
     private bool isPlayerNearby = false;
+    private GunCreate gunCreateStation;
+
+    public void SetGunCreateStation(GunCreate gunCreate)
+    {
+        gunCreateStation = gunCreate;
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -75,6 +81,10 @@ public class GunScript : MonoBehaviour
         playerController.spreadIncreaseRate = spreadIncreaseRate;
         playerController.spreadResetSpeed = spreadResetSpeed;
         playerController.reloadSpeed =reloadSpeed;
+        if (gunCreateStation != null)
+        {
+            gunCreateStation.ReleaseSlot(transform.position);
+        }
         Destroy(gameObject);
     }
 

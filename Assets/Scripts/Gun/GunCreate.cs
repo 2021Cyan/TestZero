@@ -36,7 +36,10 @@ public class GunCreate : MonoBehaviour
         }
         else
         {
-            animator.SetBool("isNearby", false);
+            if(occupiedSpawnPoints.Count == 0)
+            {
+                animator.SetBool("isNearby", false);
+            }
         }
 
         if (isPlayerNearby && Input.GetKeyDown(KeyCode.F))
@@ -66,6 +69,7 @@ public class GunCreate : MonoBehaviour
                 gunScript.AssignRarityWithPity(totalGunsCreated);
                 gunScript.DistributePartLevels();
                 gunScript.AssignGripType();
+                gunScript.SetGunCreateStation(this);
             }
         }
     }
@@ -80,5 +84,24 @@ public class GunCreate : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void ReleaseSlot(Vector3 gunPosition)
+    {
+        Transform releasedSlot = null;
+
+        foreach (Transform spawnPoint in occupiedSpawnPoints)
+        {
+            if (Vector3.Distance(spawnPoint.position, gunPosition) < 0.1f)
+            {
+                releasedSlot = spawnPoint;
+                break;
+            }
+        }
+
+        if (releasedSlot != null)
+        {
+            occupiedSpawnPoints.Remove(releasedSlot); 
+        }
     }
 }
