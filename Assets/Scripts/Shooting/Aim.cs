@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -5,25 +6,40 @@ public class Aim : MonoBehaviour
 {
     [SerializeField] Transform arm;  // The arm to rotate
     [SerializeField] Transform head; // The head to rotate
-    public PlayerController playerController;
+    private PlayerController playerController;
 
     Vector3 startingSize;
-    private InputManager _Input;
+    private InputManager _input;
+    private AudioManager _audio;
+
+    static bool isAiming = false;
 
     void Start()
     {
         startingSize = transform.localScale;
-        _Input = InputManager.Instance;
+        playerController = PlayerController.Instance;
+        _input = InputManager.Instance;
+        _audio = AudioManager.Instance;
     }
 
     void LateUpdate()
     {
-        if (!PlayerController.Instance.IsAlive())
+        if (!playerController.IsAlive())
         {
             return;
         }
         PlayerHeadTracking();
-        if(_Input.AimInput){
+
+        if(!_input.AimInput){
+            isAiming = false;
+        }
+        
+        else if(_input.AimInput){
+            
+            if(!isAiming){
+                _audio.PlayOneShot(_audio.Aim);
+                isAiming = true;
+            }            
             PlayerAim();
         }
     }
@@ -32,9 +48,9 @@ public class Aim : MonoBehaviour
         // Get the mouse position in world space (set z to 0 for 2D)
         Vector3 mousePos;
         if(MenuManager.IsPaused){
-            _Input.SetMouseInput(MenuManager.beforePausePosition);
+            _input.SetMouseInput(MenuManager.beforePausePosition);
         }
-        mousePos = Camera.main.ScreenToWorldPoint(_Input.MouseInput);
+        mousePos = Camera.main.ScreenToWorldPoint(_input.MouseInput);
         mousePos.z = 0f;
 
         // Calculate the direction vector from the head to the mouse position
@@ -88,7 +104,7 @@ public class Aim : MonoBehaviour
     void PlayerAim()
     {
         // Get the mouse position in world space (set z to 0 for 2D)
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(_Input.MouseInput);
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(_input.MouseInput);
         mousePos.z = 0f;
 
         // Calculate the direction vector from the arm to the mouse position

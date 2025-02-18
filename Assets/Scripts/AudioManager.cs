@@ -5,13 +5,14 @@ using FMODUnity;
 
 public class AudioManager : MonoBehaviour
 {
-    [Header("Music")] 
+    [Header("Music")]
     public EventReference Music;
-    
+
     [Header("Ambience")]
     public EventReference Ambience;
 
     [Header("Player_SFX")]
+    public EventReference Aim;
     public EventReference Shoot;
     public EventReference Reload;
     public EventReference Hit;
@@ -21,6 +22,7 @@ public class AudioManager : MonoBehaviour
     public EventReference Pickup;
     public EventReference Footstep;
     public EventReference Moonwalk;
+    public EventReference AirDash;
 
 
     [Header("UI_SFX")]

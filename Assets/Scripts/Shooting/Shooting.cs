@@ -28,7 +28,7 @@ public class Shooting : MonoBehaviour
             return;
         }
 
-        if ((_input.AimInput && _input.ClickInput) && Time.time >= nextFireTime && playerController.currentAmmo > 0)
+        if ((_input.AimInput && _input.ClickInput) && Time.time >= nextFireTime && playerController.currentAmmo > 0 && !isReloading)
         {
             Shoot();
             _audio.PlayOneShot(_audio.Shoot);
@@ -84,6 +84,7 @@ public class Shooting : MonoBehaviour
     {
         if (!isReloading)
         {
+            _audio.PlayOneShot(_audio.Reload);
             StartCoroutine(ReloadAmmo());
         }
     }
