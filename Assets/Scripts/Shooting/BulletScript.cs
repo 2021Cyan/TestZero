@@ -10,6 +10,8 @@ public class BulletScript : MonoBehaviour
     private Rigidbody2D rb;
     // Damage of the bullet
     public float damage = 0f;
+    public int bulletType = 0;
+    public float searchRange = 5f;
     private InputManager _Input;
     private Transform player;
     private PlayerController playerController;
@@ -24,6 +26,7 @@ public class BulletScript : MonoBehaviour
             if (playerController != null)
             {
                 damage = playerController.damage;
+                bulletType = playerController.bulletType;
             }
         }
 
@@ -61,8 +64,14 @@ public class BulletScript : MonoBehaviour
         // Contact with the terrain (Wall, ground, obstacles...etc)
         if (other.gameObject.CompareTag("Terrain"))
         {
-            // Disable the bullet object
-            gameObject.SetActive(false);
+            if (bulletType == 1)
+            {
+                Ricochet(other); 
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
 
         // Contact with the Enemy 
@@ -94,4 +103,46 @@ public class BulletScript : MonoBehaviour
             }
         }
     }
+
+    private void Ricochet(Collider2D other)
+    {
+        GameObject nearestEnemy = FindNearestEnemy();
+
+        if (nearestEnemy != null)
+        {
+            Vector3 targetDirection = (nearestEnemy.transform.position - transform.position).normalized;
+            float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+
+            rb.linearVelocity = targetDirection * speed;
+        }
+        else
+        {
+            Vector2 collisionNormal = (transform.position - other.transform.position).normalized; 
+            Vector2 reflectedDirection = Vector2.Reflect(rb.linearVelocity, collisionNormal); 
+
+            float angle = Mathf.Atan2(reflectedDirection.y, reflectedDirection.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+            rb.linearVelocity = reflectedDirection * speed;
+        }
+    }
+
+    private GameObject FindNearestEnemy()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject nearestEnemy = null;
+        float shortestDistance = searchRange;
+
+        foreach (GameObject enemy in enemies)
+        {
+            float distance = Vector3.Distance(transform.position, enemy.transform.position);
+            if (distance < shortestDistance)
+            {
+                shortestDistance = distance;
+                nearestEnemy = enemy;
+            }
+        }
+        return nearestEnemy;
+    }
+
 }

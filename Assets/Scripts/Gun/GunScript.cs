@@ -26,6 +26,7 @@ public class GunScript : MonoBehaviour
     public float spreadIncreaseRate;
     public float spreadResetSpeed;
     public float reloadSpeed;
+    public int bulletType;
 
     private Transform player;
     private PlayerController playerController;
@@ -81,6 +82,7 @@ public class GunScript : MonoBehaviour
         playerController.spreadIncreaseRate = spreadIncreaseRate;
         playerController.spreadResetSpeed = spreadResetSpeed;
         playerController.reloadSpeed =reloadSpeed;
+        playerController.bulletType = bulletType;
         if (gunCreateStation != null)
         {
             gunCreateStation.ReleaseSlot(transform.position);
@@ -192,7 +194,7 @@ public class GunScript : MonoBehaviour
         switch (gripType)
         {
             case "gun_grip_handcannon":
-                damage = 15.0f;
+                damage = 50.0f;
                 fireRate = 2.0f;
                 maxAmmo = 6;
                 maxSpreadAngle = 20.0f;
@@ -202,7 +204,7 @@ public class GunScript : MonoBehaviour
                 break;
 
             case "gun_grip_pistol":
-                damage = 6.0f; 
+                damage = 20.0f; 
                 fireRate = 4.0f;
                 maxAmmo = 12;
                 maxSpreadAngle = 30.0f;
@@ -212,7 +214,7 @@ public class GunScript : MonoBehaviour
                 break;
 
             case "gun_grip_smg":
-                damage = 3.0f;
+                damage = 10.0f;
                 fireRate = 10.0f;
                 maxAmmo = 20;
                 maxSpreadAngle = 40.0f;
@@ -220,6 +222,15 @@ public class GunScript : MonoBehaviour
                 spreadResetSpeed = 30.0f;
                 reloadSpeed = 2.0f;
                 break;
+        }
+
+        if (gunRarity == Rarity.Uncommon || gunRarity == Rarity.Rare)
+        {
+            bulletType = Random.Range(1, 3);
+        }
+        else if (gunRarity == Rarity.Common)
+        {
+            bulletType = 0;
         }
     }
     private void ApplyPartBonuses()

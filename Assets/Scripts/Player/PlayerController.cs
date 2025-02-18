@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     public float spreadIncreaseRate = 6.0f;
     public float spreadResetSpeed = 20.0f;
     public float reloadSpeed = 2f;
+    // Bullet modifier -> 0 : normal, 1: Ricochet, 2: Penetration
+    public int bulletType = 0;
 
     // Gun Sprites
     public string gripType = "gun_grip_pistol";

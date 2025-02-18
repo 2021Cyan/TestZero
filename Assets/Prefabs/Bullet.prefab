@@ -106,6 +106,8 @@ MonoBehaviour:
   speed: 50
   lifetime: 10
   damage: 50
+  bulletType: 0
+  searchRange: 5
   damageTextPrefab: {fileID: 2392417955568809763, guid: 0e0617012df934e47bec0d477b81457c, type: 3}
 --- !u!50 &2714533207860489144
 Rigidbody2D:
