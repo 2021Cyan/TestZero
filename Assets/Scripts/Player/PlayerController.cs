@@ -14,18 +14,20 @@ public class PlayerController : MonoBehaviour
     public float resource = 0f;
 
     // Gun stats
-    public float fireRate = 0f;
-    public int maxAmmo = 0;
+    public float damage = 6.0f;
+    public float fireRate = 4.0f;
+    public int maxAmmo = 12;
     public int currentAmmo;
-    public float maxSpreadAngle = 0f;
-    public float spreadIncreaseRate = 0f;
-    public float spreadResetSpeed = 0f;
+    public float maxSpreadAngle = 30.0f;
+    public float spreadIncreaseRate = 6.0f;
+    public float spreadResetSpeed = 20.0f;
     public float reloadSpeed = 2f;
 
     // Gun Sprites
-    public string gripType;
-    public int barrelLevel;
-    public int frameLevel;
+    public string gripType = "gun_grip_pistol";
+    public int barrelLevel = 1;
+    public int frameLevel = 1;
+    public int magazineLevel = 1;
 
     // Player Components
     private Rigidbody2D rb;

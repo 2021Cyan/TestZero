@@ -9,11 +9,30 @@ public class BulletScript : MonoBehaviour
     // Rigidbody of the bullet
     private Rigidbody2D rb;
     // Damage of the bullet
-    public float damage = 10f;
+    public float damage = 0f;
     private InputManager _Input;
+    private Transform player;
+    private PlayerController playerController;
+    public GameObject damageTextPrefab;
 
+    void Awake()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        if (player != null)
+        {
+            playerController = player.GetComponent<PlayerController>();
+            if (playerController != null)
+            {
+                damage = playerController.damage;
+            }
+        }
+
+    }
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        playerController = player.GetComponent<PlayerController>();
+        damage = playerController.damage;
         _Input = InputManager.Instance;
         // Get the Rigidbody2D component
         rb = GetComponent<Rigidbody2D>();
@@ -55,10 +74,23 @@ public class BulletScript : MonoBehaviour
             // Enemy is not null
             if (enemy != null)
             {
-                // Inflict the damage to the enemy 
                 enemy.TakeDamage((int)damage);
-                // Disable the bullet object
+                Vector3 hitPosition = other.ClosestPoint(transform.position);
+                ShowDamageText((int)damage, hitPosition);
                 gameObject.SetActive(false);
+            }
+        }
+    }
+
+    private void ShowDamageText(int damageAmount, Vector3 position)
+    {
+        if (damageTextPrefab != null)
+        {
+            GameObject damageText = Instantiate(damageTextPrefab, position, Quaternion.identity);
+            DamageText textComponent = damageText.GetComponent<DamageText>();
+            if (textComponent != null)
+            {
+                textComponent.SetDamageText(damageAmount);
             }
         }
     }

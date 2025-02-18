@@ -19,6 +19,7 @@ public class GunScript : MonoBehaviour
 
     private readonly string[] gripTypes = { "gun_grip_handcannon", "gun_grip_pistol", "gun_grip_smg" };
 
+    public float damage;
     public float fireRate;
     public int maxAmmo;
     public float maxSpreadAngle;
@@ -28,7 +29,29 @@ public class GunScript : MonoBehaviour
 
     private Transform player;
     private PlayerController playerController;
-    public float interactionRange = 1.0f;
+    private bool isPlayerNearby = false;
+    private GunCreate gunCreateStation;
+
+    public void SetGunCreateStation(GunCreate gunCreate)
+    {
+        gunCreateStation = gunCreate;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isPlayerNearby = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isPlayerNearby = false;
+        }
+    }
 
     void Start()
     {
@@ -38,18 +61,19 @@ public class GunScript : MonoBehaviour
 
     void Update()
     {
-        float distance = Vector2.Distance(transform.position, player.position);
-        if (distance <= interactionRange && Input.GetKeyDown(KeyCode.E))
+        if (isPlayerNearby && Input.GetKeyDown(KeyCode.E))
         {
             EquipGun();
         }
-    } 
+    }
     public void EquipGun()
     {
         CalculateStats();
         playerController.gripType = gripType;
         playerController.barrelLevel = barrelLevel;
         playerController.frameLevel = frameLevel;
+        playerController.magazineLevel = magazineLevel;
+        playerController.damage = damage;
         playerController.fireRate = fireRate;
         playerController.maxAmmo = maxAmmo;
         playerController.currentAmmo = maxAmmo;
@@ -57,6 +81,10 @@ public class GunScript : MonoBehaviour
         playerController.spreadIncreaseRate = spreadIncreaseRate;
         playerController.spreadResetSpeed = spreadResetSpeed;
         playerController.reloadSpeed =reloadSpeed;
+        if (gunCreateStation != null)
+        {
+            gunCreateStation.ReleaseSlot(transform.position);
+        }
         Destroy(gameObject);
     }
 
@@ -164,6 +192,7 @@ public class GunScript : MonoBehaviour
         switch (gripType)
         {
             case "gun_grip_handcannon":
+                damage = 15.0f;
                 fireRate = 2.0f;
                 maxAmmo = 6;
                 maxSpreadAngle = 20.0f;
@@ -173,6 +202,7 @@ public class GunScript : MonoBehaviour
                 break;
 
             case "gun_grip_pistol":
+                damage = 6.0f; 
                 fireRate = 4.0f;
                 maxAmmo = 12;
                 maxSpreadAngle = 30.0f;
@@ -182,6 +212,7 @@ public class GunScript : MonoBehaviour
                 break;
 
             case "gun_grip_smg":
+                damage = 3.0f;
                 fireRate = 10.0f;
                 maxAmmo = 20;
                 maxSpreadAngle = 40.0f;
@@ -193,6 +224,7 @@ public class GunScript : MonoBehaviour
     }
     private void ApplyPartBonuses()
     {
+        damage += damage * (barrelLevel - 1) * 0.2f;
         fireRate += fireRate * (barrelLevel - 1) * 0.2f;
         maxAmmo += Mathf.RoundToInt(maxAmmo * (magazineLevel - 1) * 0.2f);
         maxSpreadAngle -= maxSpreadAngle * (frameLevel - 1) * 0.1f;
