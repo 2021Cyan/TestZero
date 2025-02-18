@@ -13,6 +13,7 @@ public class BulletScript : MonoBehaviour
     private InputManager _Input;
     private Transform player;
     private PlayerController playerController;
+    public GameObject damageTextPrefab;
 
     void Start()
     {
@@ -60,10 +61,23 @@ public class BulletScript : MonoBehaviour
             // Enemy is not null
             if (enemy != null)
             {
-                // Inflict the damage to the enemy 
                 enemy.TakeDamage((int)damage);
-                // Disable the bullet object
+                Vector3 hitPosition = other.ClosestPoint(transform.position);
+                ShowDamageText((int)damage, hitPosition);
                 gameObject.SetActive(false);
+            }
+        }
+    }
+
+    private void ShowDamageText(int damageAmount, Vector3 position)
+    {
+        if (damageTextPrefab != null)
+        {
+            GameObject damageText = Instantiate(damageTextPrefab, position, Quaternion.identity);
+            DamageText textComponent = damageText.GetComponent<DamageText>();
+            if (textComponent != null)
+            {
+                textComponent.SetDamageText(damageAmount);
             }
         }
     }
