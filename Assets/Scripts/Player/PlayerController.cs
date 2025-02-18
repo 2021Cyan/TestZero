@@ -79,6 +79,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         dodgeCharges = maxDodgeCharges;
+        _audio.PlayOneShot(_audio.Music);
     }
 
     private void Update()
@@ -258,6 +259,7 @@ public class PlayerController : MonoBehaviour
                         dodgeDir = new Vector2(direction, 0).normalized;
                         totalDodgeDistance = dodgePower * 1.5f;
                         anim.SetTrigger("airdash");
+                        _audio.PlayOneShot(_audio.AirDash);
                         rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
                         StartCoroutine(EndDodge());
                     }
@@ -266,6 +268,7 @@ public class PlayerController : MonoBehaviour
                         dodgeDir = new Vector2(-direction, 0).normalized;
                         totalDodgeDistance = dodgePower;
                         anim.SetTrigger("airdash_back");
+                        _audio.PlayOneShot(_audio.AirDash);
                         rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
                         StartCoroutine(EndDodge());
                     }
@@ -277,6 +280,7 @@ public class PlayerController : MonoBehaviour
                         dodgeDir = new Vector2(-direction, 0).normalized;
                         totalDodgeDistance = dodgePower;
                         anim.SetTrigger("airdash_back");
+                        _audio.PlayOneShot(_audio.AirDash);
                         rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
                         StartCoroutine(EndDodge());
                     }
@@ -285,6 +289,7 @@ public class PlayerController : MonoBehaviour
                         dodgeDir = new Vector2(direction, 0).normalized;
                         totalDodgeDistance = dodgePower * 1.5f;
                         anim.SetTrigger("airdash");
+                        _audio.PlayOneShot(_audio.AirDash);
                         rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
                         StartCoroutine(EndDodge());
                     }
