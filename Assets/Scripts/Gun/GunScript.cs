@@ -66,6 +66,7 @@ public class GunScript : MonoBehaviour
         playerController.gripType = gripType;
         playerController.barrelLevel = barrelLevel;
         playerController.frameLevel = frameLevel;
+        playerController.magazineLevel = magazineLevel;
         playerController.damage = damage;
         playerController.fireRate = fireRate;
         playerController.maxAmmo = maxAmmo;
