@@ -15,6 +15,19 @@ public class BulletScript : MonoBehaviour
     private PlayerController playerController;
     public GameObject damageTextPrefab;
 
+    void Awake()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        if (player != null)
+        {
+            playerController = player.GetComponent<PlayerController>();
+            if (playerController != null)
+            {
+                damage = playerController.damage;
+            }
+        }
+
+    }
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;

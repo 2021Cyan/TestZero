@@ -3,17 +3,20 @@ using TMPro;
 
 public class DamageText : MonoBehaviour
 {
-    public float floatSpeed = 3.0f;  
-    public float lifetime = 0.2f;      
+    public float floatSpeed = 5.0f;
+    public float lifetime = 0.2f;  
     private TextMeshPro textMesh;
     private Vector3 randomDirection;
 
+    void Awake()
+    {
+        textMesh = GetComponent<TextMeshPro>();
+    }
 
     void Start()
     {
-        textMesh = GetComponent<TextMeshPro>();
         randomDirection = new Vector3(Random.Range(-0.5f, 0.5f), 1.2f, 0).normalized;
-        Destroy(gameObject, lifetime);  
+        Destroy(gameObject, lifetime);
     }
 
     void Update()
@@ -23,9 +26,6 @@ public class DamageText : MonoBehaviour
 
     public void SetDamageText(int damage)
     {
-        if (textMesh != null)
-        {
-            textMesh.text = damage.ToString();
-        }
+        textMesh.text = damage.ToString();
     }
 }
