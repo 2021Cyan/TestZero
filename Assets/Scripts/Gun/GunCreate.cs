@@ -28,14 +28,13 @@ public class GunCreate : MonoBehaviour
     void Update()
     {
         float distance = Vector2.Distance(transform.position, player.position);
-        bool wasPlayerNearby = isPlayerNearby;
         isPlayerNearby = distance <= interactionRange;
 
-        if (isPlayerNearby && !wasPlayerNearby)
+        if (isPlayerNearby)
         {
             animator.SetBool("isNearby", true);
         }
-        else if (!isPlayerNearby && wasPlayerNearby)
+        else
         {
             animator.SetBool("isNearby", false);
         }
