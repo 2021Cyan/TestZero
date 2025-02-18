@@ -9,11 +9,16 @@ public class BulletScript : MonoBehaviour
     // Rigidbody of the bullet
     private Rigidbody2D rb;
     // Damage of the bullet
-    public float damage = 10f;
+    public float damage = 0f;
     private InputManager _Input;
+    private Transform player;
+    private PlayerController playerController;
 
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        playerController = player.GetComponent<PlayerController>();
+        damage = playerController.damage;
         _Input = InputManager.Instance;
         // Get the Rigidbody2D component
         rb = GetComponent<Rigidbody2D>();

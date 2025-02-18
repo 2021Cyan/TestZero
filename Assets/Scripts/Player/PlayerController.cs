@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public float resource = 0f;
 
     // Gun stats
+    public float damage = 0f;
     public float fireRate = 0f;
     public int maxAmmo = 0;
     public int currentAmmo;
