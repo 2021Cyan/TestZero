@@ -235,13 +235,13 @@ public class GunScript : MonoBehaviour
     }
     private void ApplyPartBonuses()
     {
-        damage += damage * (barrelLevel - 1) * 0.2f;
-        fireRate += fireRate * (barrelLevel - 1) * 0.2f;
-        maxAmmo += Mathf.RoundToInt(maxAmmo * (magazineLevel - 1) * 0.2f);
-        maxSpreadAngle -= maxSpreadAngle * (frameLevel - 1) * 0.1f;
-        spreadIncreaseRate -= spreadIncreaseRate * (frameLevel - 1) * 0.1f;
-        spreadResetSpeed += spreadResetSpeed * (frameLevel - 1) * 0.2f;
-        reloadSpeed -= reloadSpeed * (magazineLevel - 1) * 0.1f;
+        damage += damage * (barrelLevel) * 0.2f;
+        fireRate += fireRate * (barrelLevel) * 0.2f;
+        maxAmmo += Mathf.RoundToInt(maxAmmo * (magazineLevel) * 0.2f);
+        maxSpreadAngle -= maxSpreadAngle * (frameLevel) * 0.1f;
+        spreadIncreaseRate -= spreadIncreaseRate * (frameLevel) * 0.1f;
+        spreadResetSpeed += spreadResetSpeed * (frameLevel) * 0.2f;
+        reloadSpeed -= reloadSpeed * (magazineLevel) * 0.1f;
     }
 
     public void CalculateStats()
