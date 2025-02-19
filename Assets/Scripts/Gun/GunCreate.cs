@@ -70,6 +70,16 @@ public class GunCreate : MonoBehaviour
                 gunScript.DistributePartLevels();
                 gunScript.AssignGripType();
                 gunScript.SetGunCreateStation(this);
+                GunInfoScript infoScript = GetComponentInChildren<GunInfoScript>(true);
+                if (infoScript != null)
+                {
+                    gunScript.SetInfoPanel(infoScript);
+                }
+                GunInfoRender infoRender = GetComponentInChildren<GunInfoRender>(true);
+                if (infoRender != null)
+                {
+                    gunScript.SetInfoRenderer(infoRender);
+                }
             }
         }
     }

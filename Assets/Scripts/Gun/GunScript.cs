@@ -32,7 +32,18 @@ public class GunScript : MonoBehaviour
     private PlayerController playerController;
     private bool isPlayerNearby = false;
     private GunCreate gunCreateStation;
+    private GunInfoScript info;
+    private GunInfoRender infoRender;
 
+    public void SetInfoPanel(GunInfoScript infoPanel)
+    {
+        info = infoPanel;
+    }
+
+    public void SetInfoRenderer(GunInfoRender infoRenderer)
+    {
+        infoRender = infoRenderer;
+    }
     public void SetGunCreateStation(GunCreate gunCreate)
     {
         gunCreateStation = gunCreate;
@@ -43,6 +54,8 @@ public class GunScript : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = true;
+            info.ShowGunStats(this);
+            infoRender.UpdateGunSprites(this);
         }
     }
 
@@ -51,6 +64,8 @@ public class GunScript : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = false;
+            info.HideGunStats();
+            infoRender.HideGunSprites();
         }
     }
 
@@ -182,6 +197,15 @@ public class GunScript : MonoBehaviour
                     break;
             }
         }
+
+        if (gunRarity == Rarity.Uncommon || gunRarity == Rarity.Rare)
+        {
+            bulletType = Random.Range(1, 3);
+        }
+        else if (gunRarity == Rarity.Common)
+        {
+            bulletType = 0;
+        }
     }
 
     public void AssignGripType()
@@ -222,15 +246,6 @@ public class GunScript : MonoBehaviour
                 spreadResetSpeed = 30.0f;
                 reloadSpeed = 2.0f;
                 break;
-        }
-
-        if (gunRarity == Rarity.Uncommon || gunRarity == Rarity.Rare)
-        {
-            bulletType = Random.Range(1, 3);
-        }
-        else if (gunRarity == Rarity.Common)
-        {
-            bulletType = 0;
         }
     }
     private void ApplyPartBonuses()

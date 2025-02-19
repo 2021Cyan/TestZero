@@ -79,6 +79,8 @@ public class BulletScript : MonoBehaviour
                 if (bulletType == 2)
                 {
                     max_target--;
+                    damage *= 0.5f;
+                    if (damage < 1) damage = 1;
                 }
                 if (max_target <= 0)
                 {
