@@ -104,10 +104,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 50
-  lifetime: 10
+  lifetime: 5
   damage: 50
   bulletType: 0
   searchRange: 5
+  max_target: 0
   damageTextPrefab: {fileID: 2392417955568809763, guid: 0e0617012df934e47bec0d477b81457c, type: 3}
 --- !u!50 &2714533207860489144
 Rigidbody2D:

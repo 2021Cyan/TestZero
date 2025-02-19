@@ -239,6 +239,7 @@ public class PlayerController : MonoBehaviour
 
             if (anim.GetBool("isRun"))
             {
+                StartCoroutine(TriggerSlowMotion(1.5f, 0.3f));
                 anim.SetTrigger("slide");
                 _audio.PlayOneShot(_audio.Dodge);
                 rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
@@ -246,6 +247,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (anim.GetBool("isWalkBack"))
             {
+                StartCoroutine(TriggerSlowMotion(1.5f, 0.3f));
                 dodgeDir = new Vector2(-direction, 0);
                 totalDodgeDistance = dodgePower / 2f;
                 anim.SetBool("rollCheck", true);
@@ -358,7 +360,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Increase EXP and handle level up.
+    // Increase Resource when enenmy is killed
     public void OnEnemyKilled()
     {
         resource += 160f;
@@ -367,6 +369,15 @@ public class PlayerController : MonoBehaviour
     public bool IsAlive()
     {
         return alive;
+    }
+
+    IEnumerator TriggerSlowMotion(float slowMotionDuration, float slowMotionScale)
+    {
+        Time.timeScale = slowMotionScale;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;  
+        yield return new WaitForSecondsRealtime(slowMotionDuration); 
+        Time.timeScale = 1.0f;
+        Time.fixedDeltaTime = 0.02f;
     }
 
     public void PlayOneShotRunning()

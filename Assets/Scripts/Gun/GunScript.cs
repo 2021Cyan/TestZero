@@ -196,7 +196,7 @@ public class GunScript : MonoBehaviour
             case "gun_grip_handcannon":
                 damage = 50.0f;
                 fireRate = 2.0f;
-                maxAmmo = 6;
+                maxAmmo = 5;
                 maxSpreadAngle = 20.0f;
                 spreadIncreaseRate = 10.0f;
                 spreadResetSpeed = 20.0f;
@@ -206,7 +206,7 @@ public class GunScript : MonoBehaviour
             case "gun_grip_pistol":
                 damage = 20.0f; 
                 fireRate = 4.0f;
-                maxAmmo = 12;
+                maxAmmo = 10;
                 maxSpreadAngle = 30.0f;
                 spreadIncreaseRate = 6.0f;
                 spreadResetSpeed = 20.0f;
