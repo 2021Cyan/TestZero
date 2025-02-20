@@ -55,21 +55,27 @@ public class GunInfoScript : MonoBehaviour
             _ => "Unknown Gun"
         };
 
-        string rarity = "";
+        string rarityColor = "";
+        string rarityText = "";
 
-        if (gun.gunRarity == GunScript.Rarity.Common)
+        switch (gun.gunRarity)
         {
-            rarity = "Standard";
-        }else if (gun.gunRarity == GunScript.Rarity.Uncommon)
-        {
-            rarity = "Augumented";
-        }else if (gun.gunRarity == GunScript.Rarity.Rare)
-        {
-            rarity = "Overclocked";
-        }
-        else if (gun.gunRarity == GunScript.Rarity.Legendary)
-        {
-            rarity = "Prototype";
+            case GunScript.Rarity.Common:
+                rarityColor = "#3498DB"; 
+                rarityText = "Standard";
+                break;
+            case GunScript.Rarity.Uncommon:
+                rarityColor = "#8E44AD";  
+                rarityText = "Augmented";
+                break;
+            case GunScript.Rarity.Rare:
+                rarityColor = "#F1C40F";  
+                rarityText = "Overclocked";
+                break;
+            case GunScript.Rarity.Legendary:
+                rarityColor = "#E74C3C";  
+                rarityText = "Prototype";
+                break;
         }
 
         string bulletType = "";
@@ -90,11 +96,12 @@ public class GunInfoScript : MonoBehaviour
                 break;
         }
 
-        return $" \n{rarity} {name}\n\n" +
-               $" Barrel:       {("[ " + GetStatBar(gun.barrelLevel) + " ]")}\n\n" +
-               $" Frame:      {("[ " + GetStatBar(gun.frameLevel) + " ]")}\n\n" +
-               $" Magazine: {("[ " + GetStatBar(gun.magazineLevel) + " ]")}\n\n" +
-               $" Bullet Type: {bulletType}\n";
+        return $" \n<color={rarityColor}>{rarityText}</color> {name}\n\n" +
+               $" Barrel:        {("  [ " + GetStatBar(gun.barrelLevel) + " ]")}\n\n" +
+               $" Frame:         {(" [ " + GetStatBar(gun.frameLevel) + " ]")}\n\n" +
+               $" Magazine:      {("[ " + GetStatBar(gun.magazineLevel) + " ]")}\n\n" +
+               $" Bullet Type: {bulletType}\n\n" +
+               $" Press E to Equip";
     }
 
     private string GetStatBar(int level)
