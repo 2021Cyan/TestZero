@@ -49,7 +49,11 @@ public class GunCreate : MonoBehaviour
 
         if (isPlayerNearby && Input.GetKeyDown(KeyCode.F))
         {
-            StartCoroutine(GenerateMultipleGuns());
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            if (stateInfo.IsName("opened"))
+            {
+                StartCoroutine(GenerateMultipleGuns());
+            }
         }
 
         if (isPlayerNearby && Input.GetKey(KeyCode.X))
