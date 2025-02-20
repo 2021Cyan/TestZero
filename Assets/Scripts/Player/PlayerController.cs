@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public float jumpPower = 0f;
     public float hp = 100f;
     public float resource = 0f;
+    [SerializeField] private GameObject ResourceText;
 
     // Gun stats
     public float damage = 6.0f;
@@ -361,9 +362,23 @@ public class PlayerController : MonoBehaviour
     }
 
     // Increase Resource when enenmy is killed
-    public void OnEnemyKilled()
+    public void OnEnemyKilled(int amount)
     {
-        resource += 160f;
+        AddResource(amount);
+    }
+
+    public void AddResource(int amount)
+    {
+        resource += amount;
+        if (ResourceText != null)
+        {
+            GameObject resourceText = Instantiate(ResourceText, transform.position + Vector3.up * 1.5f, Quaternion.identity);
+            ResourceText textComponent = resourceText.GetComponent<ResourceText>();
+            if (textComponent != null)
+            {
+                textComponent.SetResourceText(amount);
+            }
+        }
     }
 
     public bool IsAlive()

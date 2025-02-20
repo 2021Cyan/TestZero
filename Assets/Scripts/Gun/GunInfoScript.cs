@@ -1,17 +1,23 @@
 ﻿using TMPro;
 using System.Collections;
 using UnityEngine;
+using static GunScript;
 
 public class GunInfoScript : MonoBehaviour
 {
     private TextMeshPro statText;
     private Coroutine typingCoroutine;
     private bool isTyping = false;
+    private string DefaultText = $"\nPress F to Generate 1  Gun\n" +
+                                 $"(160)\n" +
+                                 $"\n\nHold  F to Generate 10 Guns\n" +
+                                 $"(1600)\n" +
+                                 $"\n\nHold  X to Recycle all Guns\n";
 
     void Start()
     {
         statText = GetComponent<TextMeshPro>();
-        statText.text = "";
+        statText.text = DefaultText;
     }
 
     public void ShowGunStats(GunScript gun)
@@ -109,6 +115,6 @@ public class GunInfoScript : MonoBehaviour
             StopCoroutine(typingCoroutine);
             isTyping = false;
         }
-        statText.text = "";
+        statText.text = DefaultText;
     }
 }

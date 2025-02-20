@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class GunCreate : MonoBehaviour
 {
@@ -16,6 +17,10 @@ public class GunCreate : MonoBehaviour
 
     private Animator animator; 
     private bool isPlayerNearby = false;
+    private bool isGeneratingGuns = false;
+    private float holdTime = 0f;
+    private bool isRecycling = false;
+    private float recycleHoldTime = 0f;
 
 
     void Start()
@@ -44,9 +49,102 @@ public class GunCreate : MonoBehaviour
 
         if (isPlayerNearby && Input.GetKeyDown(KeyCode.F))
         {
-            TryGenerateGun();
+            StartCoroutine(GenerateMultipleGuns());
         }
 
+        if (isPlayerNearby && Input.GetKey(KeyCode.X))
+        {
+            recycleHoldTime += Time.deltaTime;
+            if (!isRecycling && recycleHoldTime >= 1.0f)
+            {
+                StartCoroutine(Recycle());
+            }
+        }
+
+        if (Input.GetKeyUp(KeyCode.X))
+        {
+            recycleHoldTime = 0f;
+            isRecycling = false;
+        }
+    }
+
+    IEnumerator Recycle()
+    {
+        if (isRecycling) yield break;
+        isRecycling = true;
+
+        List<Transform> toRemove = new List<Transform>();
+
+        foreach (Transform spawnPoint in occupiedSpawnPoints)
+        {
+            Collider2D[] gunColliders = Physics2D.OverlapCircleAll(spawnPoint.position, 0.1f);
+            foreach (Collider2D gunCollider in gunColliders)
+            {
+                GunScript gunScript = gunCollider.GetComponent<GunScript>();
+                if (gunScript != null)
+                {
+                    int refundAmount = 0;
+                    switch (gunScript.gunRarity)
+                    {
+                        case GunScript.Rarity.Common:
+                            refundAmount = 40;
+                            break;
+                        case GunScript.Rarity.Uncommon:
+                            refundAmount = 160;
+                            break;
+                        case GunScript.Rarity.Rare:
+                            refundAmount = 320;
+                            break;
+                        case GunScript.Rarity.Legendary:
+                            refundAmount = 640;
+                            break;
+                    }
+                    playerController.AddResource(refundAmount);
+                    Destroy(gunCollider.gameObject);
+                    toRemove.Add(spawnPoint);
+                    yield return new WaitForSeconds(0.1f);
+                }
+            }
+        }
+
+        foreach (Transform remove in toRemove)
+        {
+            occupiedSpawnPoints.Remove(remove);
+        }
+
+        isRecycling = false;
+        recycleHoldTime = 0f;
+    }
+
+
+    IEnumerator GenerateMultipleGuns()
+    {
+        if (isGeneratingGuns) yield break; 
+        isGeneratingGuns = true;
+        holdTime = 0f;
+
+        while (Input.GetKey(KeyCode.F))
+        {
+            holdTime += Time.deltaTime;
+            yield return null;
+
+            if (holdTime >= 1.0f)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    TryGenerateGun();
+                    yield return new WaitForSeconds(0.1f);
+                }
+                isGeneratingGuns = false;
+                yield break;
+            }
+        }
+
+        if (holdTime < 1.0f)
+        {
+            TryGenerateGun();
+        }
+        isGeneratingGuns = false;
     }
 
     void TryGenerateGun()
