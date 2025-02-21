@@ -8,11 +8,11 @@ public class GunInfoScript : MonoBehaviour
     private TextMeshPro statText;
     private Coroutine typingCoroutine;
     private bool isTyping = false;
-    private string DefaultText = $"\nPress F to Generate 1  Gun\n" +
+    private string DefaultText = $"\nPress F to Generate a Gun\n" +
                                  $"(160)\n" +
-                                 $"\n\nHold  F to Generate 10 Guns\n" +
+                                 $"\n\nHold F to Generate 10 Guns\n" +
                                  $"(1600)\n" +
-                                 $"\n\nHold  X to Recycle all Guns\n";
+                                 $"\n\nHold  X to Recycle ALL\n";
 
     void Start()
     {
@@ -97,9 +97,9 @@ public class GunInfoScript : MonoBehaviour
         }
 
         return $" \n<color={rarityColor}>{rarityText}</color> {name}\n\n" +
-               $" Barrel:        {("  [ " + GetStatBar(gun.barrelLevel) + " ]")}\n\n" +
-               $" Frame:         {(" [ " + GetStatBar(gun.frameLevel) + " ]")}\n\n" +
-               $" Magazine:      {("[ " + GetStatBar(gun.magazineLevel) + " ]")}\n\n" +
+               $" Barrel:      {(" [ " + GetStatBar(gun.barrelLevel) + " ]")}\n\n" +
+               $" Frame:       {(" [ " + GetStatBar(gun.frameLevel) + " ]")}\n\n" +
+               $" Magazine:    {("[ " + GetStatBar(gun.magazineLevel) + " ]")}\n\n" +
                $" Bullet Type: {bulletType}\n\n" +
                $" Press E to Equip";
     }
