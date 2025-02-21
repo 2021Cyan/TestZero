@@ -17,11 +17,15 @@ public class PlayerUI : MonoBehaviour
     [Header("Energy UI")]
     [SerializeField] private Image energyBarFill;
 
+    [Header("Screen Filter(BulletTime)")]
+    [SerializeField] private Image bulletTimeFilter;
+
     private PlayerController player;
 
     void Start()
     {
         player = PlayerController.Instance;
+        bulletTimeFilter.gameObject.SetActive(false);
     }
 
     void Update()
@@ -34,6 +38,7 @@ public class PlayerUI : MonoBehaviour
         UpdateAmmoText();
         UpdateResourceText();
         UpdateEnergy();
+        UpdateBulletTimeFilter();
     }
 
     void UpdateAmmoText()
@@ -65,5 +70,28 @@ public class PlayerUI : MonoBehaviour
     {
         float energyPercent = player.bulletTimeGauge / player.bulletTimeMaxGauge;
         energyBarFill.fillAmount = Mathf.Lerp(energyBarFill.fillAmount, energyPercent, Time.deltaTime * 10);
+    }
+
+    void UpdateBulletTimeFilter()
+    {
+        if (player.isBulletTimeActive)
+        {
+            if (!bulletTimeFilter.gameObject.activeSelf)
+                bulletTimeFilter.gameObject.SetActive(true);
+
+            Color c = bulletTimeFilter.color;
+            c.a = Mathf.Lerp(c.a, 0.3f, Time.deltaTime * 10);
+            bulletTimeFilter.color = c;
+        }
+        else
+        {
+            Color c = bulletTimeFilter.color;
+            c.a = Mathf.Lerp(c.a, 0f, Time.deltaTime * 10);
+            bulletTimeFilter.color = c;
+            if (c.a < 0.01f && bulletTimeFilter.gameObject.activeSelf)
+            {
+                bulletTimeFilter.gameObject.SetActive(false);
+            }
+        }
     }
 }

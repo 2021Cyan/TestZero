@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
     public float bulletTimeMaxGauge = 100f;
     public float bulletTimeFillRate = 20f; 
     public float bulletTimeDuration = 5f; 
-    private bool isBulletTimeActive = false;
+    public bool isBulletTimeActive = false;
     [SerializeField] private float enemyTimeScale = 0.5f;      
     [SerializeField] private float playerTimeMultiplier = 0.75f; 
 
