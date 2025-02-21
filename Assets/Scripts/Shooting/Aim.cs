@@ -7,7 +7,7 @@ public class Aim : MonoBehaviour
     [SerializeField] Transform arm;  // The arm to rotate
     [SerializeField] Transform head; // The head to rotate
     private PlayerController playerController;
-
+    private Animator animator;
     Vector3 startingSize;
     private InputManager _input;
     private AudioManager _audio;
@@ -18,6 +18,7 @@ public class Aim : MonoBehaviour
     {
         startingSize = transform.localScale;
         playerController = PlayerController.Instance;
+        animator = GetComponent<Animator>();
         _input = InputManager.Instance;
         _audio = AudioManager.Instance;
     }
@@ -45,6 +46,12 @@ public class Aim : MonoBehaviour
     }
     void PlayerHeadTracking()
     {
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.IsName("RollBack"))
+        {
+            return;
+        }
+
         // Get the mouse position in world space (set z to 0 for 2D)
         Vector3 mousePos;
         if(MenuManager.IsPaused){
