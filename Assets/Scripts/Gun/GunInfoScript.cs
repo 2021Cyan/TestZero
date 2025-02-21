@@ -8,9 +8,9 @@ public class GunInfoScript : MonoBehaviour
     private TextMeshPro statText;
     private Coroutine typingCoroutine;
     private bool isTyping = false;
-    private string DefaultText = $"\nPress F to Generate a Gun\n" +
+    private string DefaultText = $"\nPress F to Generate 1\n" +
                                  $"(160)\n" +
-                                 $"\n\nHold F to Generate 10 Guns\n" +
+                                 $"\n\nHold F to Generate 10\n" +
                                  $"(1600)\n" +
                                  $"\n\nHold  X to Recycle ALL\n";
 
