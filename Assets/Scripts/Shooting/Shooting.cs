@@ -5,6 +5,8 @@ public class Shooting : MonoBehaviour
 {
     [SerializeField] Transform firePoint;
     [SerializeField] GameObject bulletPrefab;
+    [SerializeField] ParticleSystem muzzleFlash_single;
+    [SerializeField] ParticleSystem muzzleFlash_smg;
 
     private PlayerController playerController;
     private InputManager _input;
@@ -28,7 +30,21 @@ public class Shooting : MonoBehaviour
             return;
         }
 
-        if ((_input.AimInput && _input.ClickInput) && Time.time >= nextFireTime && playerController.currentAmmo > 0 && !isReloading)
+        if((_input.AimInput && _input.ClickInput) && playerController.gripType == "gun_grip_smg" && playerController.currentAmmo > 0)
+        {
+            if (!muzzleFlash_smg.isPlaying)
+            {
+                muzzleFlash_smg.Play();
+            }
+        }
+        else
+        {
+            muzzleFlash_smg.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
+
+
+        bool isFiring = (_input.AimInput && _input.ClickInput) && Time.time >= nextFireTime && playerController.currentAmmo > 0 && !isReloading;
+        if (isFiring)
         {
             Shoot();
             _audio.PlayOneShot(_audio.Shoot);
@@ -52,7 +68,27 @@ public class Shooting : MonoBehaviour
         CameraScript cameraScript = Camera.main.GetComponent<CameraScript>();
         if (cameraScript != null)
         {
-            cameraScript.StartShake(0.1f, 0.5f);
+            float multiplier = 1f;
+
+            if(playerController.gripType == "gun_grip_smg")
+            {
+                multiplier = 1.5f;
+            }
+            else if(playerController.gripType == "gun_grip_pistol")
+            {
+                multiplier = 2.5f;
+            }
+            else if (playerController.gripType == "gun_grip_handcannon")
+            {
+                multiplier = 3.5f;
+            }
+            cameraScript.StartShake(0.1f * multiplier, 0.5f);
+        }
+
+        if(playerController.gripType != "gun_grip_smg")
+        {
+            muzzleFlash_single.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            muzzleFlash_single.Play();
         }
         // Calculate random spread within the current spread angle
         float randomSpread = Random.Range(-currentSpreadAngle / 4, currentSpreadAngle);

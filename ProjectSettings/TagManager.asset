@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Terrain
   - Enemy
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -51,6 +52,9 @@ TagManager:
     locked: 0
   - name: Enemy
     uniqueID: 2653832895
+    locked: 0
+  - name: Effects
+    uniqueID: 3033248503
     locked: 0
   - name: DamageText
     uniqueID: 1772308503
