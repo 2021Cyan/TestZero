@@ -50,13 +50,20 @@ public class PlayerController : MonoBehaviour
     public float maxJumpTime = 0.5f;
 
     [Header("Movement Control (Dodge)")]
-    private int dodgeCharges;
-    public int maxDodgeCharges = 3;
-    public float dodgeRechargeTime = 5f;
     private bool isDodging = false;
     public float dodgeDuration = 0.4f;
     public float dodgeCooldown = 1f;
     private float lastDodgeTime = -1000f;
+    private bool isInvincible = false;
+
+    // Bullettime variables
+    public float bulletTimeGauge = 0f;
+    public float bulletTimeMaxGauge = 100f;
+    public float bulletTimeFillRate = 20f; 
+    public float bulletTimeDuration = 5f; 
+    private bool isBulletTimeActive = false;
+    [SerializeField] private float enemyTimeScale = 0.5f;      
+    [SerializeField] private float playerTimeMultiplier = 0.75f; 
 
     // Singleton Instance
     public static PlayerController Instance;
@@ -85,7 +92,6 @@ public class PlayerController : MonoBehaviour
         maincam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        dodgeCharges = maxDodgeCharges;
         _audio.PlayOneShot(_audio.Music);
     }
 
@@ -93,7 +99,6 @@ public class PlayerController : MonoBehaviour
     {
         mousePos = Camera.main.ScreenToWorldPoint(_input.MouseInput);
         AdjustGravity();
-        Restart();
         if (alive)
         {
             mousePos = maincam.ScreenToWorldPoint(_input.MouseInput);
@@ -102,7 +107,7 @@ public class PlayerController : MonoBehaviour
             Die();
             Jump();
             Move();
-
+            BulletTime();
         }
     }
 
@@ -126,24 +131,24 @@ public class PlayerController : MonoBehaviour
         else
         {
             rb.gravityScale = 1f;
+            currentJumpTime = 0f; 
         }
     }
 
     void Move()
     {
         if (isDodging)
-        {
             return;
-        }
 
         Vector3 moveVelocity = Vector3.zero;
         anim.SetBool("isRun", false);
         anim.SetBool("isWalkBack", false);
 
+        // Adjust speed while bullettime
+        float delta = isBulletTimeActive ? Time.unscaledDeltaTime * playerTimeMultiplier : Time.deltaTime;
 
         if (Input.GetAxisRaw("Horizontal") < 0)
         {
-            // Mouse is on the left, character should face left
             if (mousePos.x < transform.position.x)
             {
                 direction = -1;
@@ -182,11 +187,11 @@ public class PlayerController : MonoBehaviour
         }
         if (anim.GetBool("isWalkBack"))
         {
-            transform.position += moveVelocity * walkPower * Time.deltaTime;
+            transform.position += moveVelocity * walkPower * delta;
         }
         else
         {
-            transform.position += moveVelocity * movePower * Time.deltaTime;
+            transform.position += moveVelocity * movePower * delta;
         }
     }
 
@@ -207,13 +212,21 @@ public class PlayerController : MonoBehaviour
         }
 
         // Reset current motion before jumping.
-        rb.linearVelocity = Vector2.zero;
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
 
-        Vector2 jumpVelocity = new Vector2(0, jumpPower);
+        // Adjust jump power while bullettime
+        float effectiveJumpPower = jumpPower;
+        if (isBulletTimeActive)
+        {
+            effectiveJumpPower *= playerTimeMultiplier;
+        }
+
+        Vector2 jumpVelocity = new Vector2(0, effectiveJumpPower);
         rb.AddForce(jumpVelocity, ForceMode2D.Impulse);
 
         isJumping = false;
     }
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -229,35 +242,34 @@ public class PlayerController : MonoBehaviour
         if (isDodging || Time.time - lastDodgeTime < dodgeCooldown)
             return;
 
-        if (_input.DodgeInput && dodgeCharges > 0)
+        if (_input.DodgeInput)
         {
             lastDodgeTime = Time.time;
-            dodgeCharges--;
-            StartCoroutine(RechargeDodge());
+            isDodging = true;
+            StartCoroutine(ActivateDodgeInvincibility());
 
             rb.linearVelocity = Vector2.zero;
-
             Vector2 dodgeDir = new Vector2(direction, 0);
             float totalDodgeDistance = dodgePower;
 
             if (anim.GetBool("isRun"))
             {
-                StartCoroutine(TriggerSlowMotion(1.5f, 0.3f));
                 anim.SetTrigger("slide");
                 _audio.PlayOneShot(_audio.Dodge);
+                if (isBulletTimeActive)
+                    totalDodgeDistance *= playerTimeMultiplier;
                 rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
-                StartCoroutine(EndDodge());
             }
             else if (anim.GetBool("isWalkBack"))
             {
-                StartCoroutine(TriggerSlowMotion(1.5f, 0.3f));
                 dodgeDir = new Vector2(-direction, 0);
                 totalDodgeDistance = dodgePower / 2f;
                 anim.SetBool("rollCheck", true);
                 anim.SetTrigger("roll");
                 _audio.PlayOneShot(_audio.JumpGroan);
+                if (isBulletTimeActive)
+                    totalDodgeDistance *= playerTimeMultiplier;
                 rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
-                StartCoroutine(EndDodge());
             }
             else if (anim.GetBool("isJump"))
             {
@@ -266,11 +278,12 @@ public class PlayerController : MonoBehaviour
                     if (mousePos.x < transform.position.x)
                     {
                         dodgeDir = new Vector2(direction, 0).normalized;
-                        totalDodgeDistance = dodgePower * 1.5f;
+                        totalDodgeDistance = dodgePower * 1.2f;
                         anim.SetTrigger("airdash");
                         _audio.PlayOneShot(_audio.AirDash);
+                        if (isBulletTimeActive)
+                            totalDodgeDistance *= playerTimeMultiplier;
                         rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
-                        StartCoroutine(EndDodge());
                     }
                     else
                     {
@@ -278,8 +291,9 @@ public class PlayerController : MonoBehaviour
                         totalDodgeDistance = dodgePower;
                         anim.SetTrigger("airdash_back");
                         _audio.PlayOneShot(_audio.AirDash);
+                        if (isBulletTimeActive)
+                            totalDodgeDistance *= playerTimeMultiplier;
                         rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
-                        StartCoroutine(EndDodge());
                     }
                 }
                 else if (Input.GetAxisRaw("Horizontal") > 0)
@@ -290,23 +304,25 @@ public class PlayerController : MonoBehaviour
                         totalDodgeDistance = dodgePower;
                         anim.SetTrigger("airdash_back");
                         _audio.PlayOneShot(_audio.AirDash);
+                        if (isBulletTimeActive)
+                            totalDodgeDistance *= playerTimeMultiplier;
                         rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
-                        StartCoroutine(EndDodge());
                     }
                     else
                     {
                         dodgeDir = new Vector2(direction, 0).normalized;
-                        totalDodgeDistance = dodgePower * 1.5f;
+                        totalDodgeDistance = dodgePower * 1.2f;
                         anim.SetTrigger("airdash");
                         _audio.PlayOneShot(_audio.AirDash);
+                        if (isBulletTimeActive)
+                            totalDodgeDistance *= playerTimeMultiplier;
                         rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
-                        StartCoroutine(EndDodge());
                     }
                 }
             }
+            StartCoroutine(EndDodge());
         }
     }
-
     IEnumerator EndDodge()
     {
         yield return new WaitForSeconds(dodgeDuration);
@@ -319,19 +335,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-    IEnumerator RechargeDodge()
+    IEnumerator ActivateDodgeInvincibility()
     {
-        yield return new WaitForSeconds(dodgeRechargeTime);
-        if (dodgeCharges < maxDodgeCharges)
-        {
-            dodgeCharges++;
-        }
+        isInvincible = true;
+        yield return new WaitForSeconds(dodgeDuration); 
+        isInvincible = false;
     }
 
     void Hurt()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.Alpha2) && !isInvincible)
         {
             if (mousePos.x > transform.position.x)
             {
@@ -351,15 +364,6 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetTrigger("die");
             alive = false;
-        }
-    }
-
-    void Restart()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            anim.SetTrigger("idle");
-            alive = true;
         }
     }
 
@@ -388,13 +392,43 @@ public class PlayerController : MonoBehaviour
         return alive;
     }
 
-    IEnumerator TriggerSlowMotion(float slowMotionDuration, float slowMotionScale)
+    private void BulletTime()
     {
-        Time.timeScale = slowMotionScale;
-        Time.fixedDeltaTime = 0.02f * Time.timeScale;  
-        yield return new WaitForSecondsRealtime(slowMotionDuration); 
-        Time.timeScale = 1.0f;
+        // Recharge Energy when bullet time is not activated
+        if (!isBulletTimeActive)
+        {
+            bulletTimeGauge += Time.deltaTime * bulletTimeFillRate;
+            bulletTimeGauge = Mathf.Min(bulletTimeGauge, bulletTimeMaxGauge);
+        }
+
+        // Press Q to activate bullet time
+        if (Input.GetKeyDown(KeyCode.Q) && bulletTimeGauge >= bulletTimeMaxGauge && !isBulletTimeActive)
+        {
+            StartCoroutine(ActivateBulletTime());
+        }
+    }
+
+    IEnumerator ActivateBulletTime()
+    {
+        isBulletTimeActive = true;
+
+        // Global slow-motion (Enemy, Bullet...etc)
+        Time.timeScale = enemyTimeScale;
+        Time.fixedDeltaTime = 0.02f * enemyTimeScale;
+
+        // Adjust player animation speed
+        anim.speed = playerTimeMultiplier;
+
+        yield return new WaitForSecondsRealtime(bulletTimeDuration);
+
+        // Restore speed setting
+        Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02f;
+        bulletTimeGauge = 0f;
+        isBulletTimeActive = false;
+
+        // Restore player animation speed
+        anim.speed = 1f;
     }
 
     public void PlayOneShotRunning()

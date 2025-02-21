@@ -14,6 +14,9 @@ public class PlayerUI : MonoBehaviour
     [Header("Health UI")]
     [SerializeField] private Image healthBarFill;
 
+    [Header("Energy UI")]
+    [SerializeField] private Image energyBarFill;
+
     private PlayerController player;
 
     void Start()
@@ -30,6 +33,7 @@ public class PlayerUI : MonoBehaviour
         UpdateHP();
         UpdateAmmoText();
         UpdateResourceText();
+        UpdateEnergy();
     }
 
     void UpdateAmmoText()
@@ -55,5 +59,11 @@ public class PlayerUI : MonoBehaviour
     {
         float healthPercent = player.hp / player.max_hp;
         healthBarFill.fillAmount = Mathf.Lerp(healthBarFill.fillAmount, healthPercent, Time.deltaTime * 10);
+    }
+
+    void UpdateEnergy()
+    {
+        float energyPercent = player.bulletTimeGauge / player.bulletTimeMaxGauge;
+        energyBarFill.fillAmount = Mathf.Lerp(energyBarFill.fillAmount, energyPercent, Time.deltaTime * 10);
     }
 }
