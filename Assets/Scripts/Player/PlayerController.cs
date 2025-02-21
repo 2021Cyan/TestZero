@@ -213,15 +213,7 @@ public class PlayerController : MonoBehaviour
 
         // Reset current motion before jumping.
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
-
-        // Adjust jump power while bullettime
-        float effectiveJumpPower = jumpPower;
-        if (isBulletTimeActive)
-        {
-            effectiveJumpPower *= playerTimeMultiplier;
-        }
-
-        Vector2 jumpVelocity = new Vector2(0, effectiveJumpPower);
+        Vector2 jumpVelocity = new Vector2(0, jumpPower);
         rb.AddForce(jumpVelocity, ForceMode2D.Impulse);
 
         isJumping = false;
@@ -256,8 +248,6 @@ public class PlayerController : MonoBehaviour
             {
                 anim.SetTrigger("slide");
                 _audio.PlayOneShot(_audio.Dodge);
-                if (isBulletTimeActive)
-                    totalDodgeDistance *= playerTimeMultiplier;
                 rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
             }
             else if (anim.GetBool("isWalkBack"))
@@ -267,8 +257,6 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("rollCheck", true);
                 anim.SetTrigger("roll");
                 _audio.PlayOneShot(_audio.JumpGroan);
-                if (isBulletTimeActive)
-                    totalDodgeDistance *= playerTimeMultiplier;
                 rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
             }
             else if (anim.GetBool("isJump"))
@@ -281,8 +269,6 @@ public class PlayerController : MonoBehaviour
                         totalDodgeDistance = dodgePower * 1.2f;
                         anim.SetTrigger("airdash");
                         _audio.PlayOneShot(_audio.AirDash);
-                        if (isBulletTimeActive)
-                            totalDodgeDistance *= playerTimeMultiplier;
                         rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
                     }
                     else
@@ -291,8 +277,6 @@ public class PlayerController : MonoBehaviour
                         totalDodgeDistance = dodgePower;
                         anim.SetTrigger("airdash_back");
                         _audio.PlayOneShot(_audio.AirDash);
-                        if (isBulletTimeActive)
-                            totalDodgeDistance *= playerTimeMultiplier;
                         rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
                     }
                 }
@@ -304,8 +288,6 @@ public class PlayerController : MonoBehaviour
                         totalDodgeDistance = dodgePower;
                         anim.SetTrigger("airdash_back");
                         _audio.PlayOneShot(_audio.AirDash);
-                        if (isBulletTimeActive)
-                            totalDodgeDistance *= playerTimeMultiplier;
                         rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
                     }
                     else
@@ -314,8 +296,6 @@ public class PlayerController : MonoBehaviour
                         totalDodgeDistance = dodgePower * 1.2f;
                         anim.SetTrigger("airdash");
                         _audio.PlayOneShot(_audio.AirDash);
-                        if (isBulletTimeActive)
-                            totalDodgeDistance *= playerTimeMultiplier;
                         rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
                     }
                 }
