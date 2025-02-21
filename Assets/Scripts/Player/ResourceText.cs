@@ -24,6 +24,6 @@ public class ResourceText : MonoBehaviour
 
     public void SetResourceText(int amount)
     {
-        textMesh.text = amount.ToString();
+        textMesh.text = "+" + amount.ToString();
     }
 }

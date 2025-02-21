@@ -10,7 +10,8 @@ public class PlayerController : MonoBehaviour
     public float walkPower = 0f;
     public float dodgePower = 0f;
     public float jumpPower = 0f;
-    public float hp = 100f;
+    public float max_hp = 100f;
+    public float hp;
     public float resource = 0f;
     [SerializeField] private GameObject ResourceText;
 
@@ -79,6 +80,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        hp = max_hp;
         currentAmmo = maxAmmo;
         maincam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         rb = GetComponent<Rigidbody2D>();
