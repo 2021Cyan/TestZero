@@ -3,10 +3,20 @@ using UnityEngine;
 [System.Serializable]
 public class LegendaryGunData
 {
+    // Name of the Gun
     public string gunName;
+    // Sprite path
     public Sprite gunSprite_barrel;
     public Sprite gunSprite_frame;
     public Sprite GetSprite_grip;
+
+    // Level of parts and grip Type
+    public int frameLevel;
+    public int barrelLevel;
+    public int magazineLevel;
+    public string gripType;
+
+    // Gun stat
     public float damage;
     public float fireRate;
     public int maxAmmo;
@@ -56,28 +66,21 @@ public class GunScript : MonoBehaviour
     {
         // Add more later...
         new LegendaryGunData() {
-            gunName = "Legendary Pistol",
-            damage = 100f,
-            fireRate = 3.0f,
-            maxAmmo = 12,
-            maxSpreadAngle = 15.0f,
-            spreadIncreaseRate = 5.0f,
-            spreadResetSpeed = 25.0f,
-            reloadSpeed = 1.5f,
-            bulletType = 2,
-        },
-        new LegendaryGunData() {
-            gunName = "Legendary Rifle",
-            damage = 120f,
-            fireRate = 2.5f,
-            maxAmmo = 15,
-            maxSpreadAngle = 10.0f,
-            spreadIncreaseRate = 4.0f,
+            gunName = "Smart Pistol",
+            gripType = "gun_grip_pistol",
+            barrelLevel = 5,
+            frameLevel = 5,
+            magazineLevel = 2,
+            
+            damage = 50f,
+            fireRate = 6.0f,
+            maxAmmo = 14,
+            maxSpreadAngle = 30.0f,
+            spreadIncreaseRate = 6.0f,
             spreadResetSpeed = 20.0f,
-            reloadSpeed = 1.2f,
+            reloadSpeed = 2.0f,
             bulletType = 3,
         }
-        
     };
 
     public void SetInfoPanel(GunInfoScript infoPanel)
@@ -163,8 +166,9 @@ public class GunScript : MonoBehaviour
         {
             int index = Random.Range(0, legendaryGuns.Length);
             LegendaryGunData data = legendaryGuns[index];
-
-            // Legendary 총 데이터를 적용
+            barrelLevel = data.barrelLevel;
+            frameLevel = data.frameLevel;
+            magazineLevel = data.magazineLevel;
             damage = data.damage;
             fireRate = data.fireRate;
             maxAmmo = data.maxAmmo;
@@ -201,6 +205,8 @@ public class GunScript : MonoBehaviour
 
     public void AssignRarity()
     {
+        gunRarity = Rarity.Legendary;
+        return;
         float rng = Random.value * 100;
 
         if (rng <= 85f)
