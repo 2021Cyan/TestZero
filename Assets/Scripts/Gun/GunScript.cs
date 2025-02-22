@@ -5,10 +5,6 @@ public class LegendaryGunData
 {
     // Name of the Gun
     public string gunName;
-    // Sprite path
-    public Sprite gunSprite_barrel;
-    public Sprite gunSprite_frame;
-    public Sprite GetSprite_grip;
 
     // Level of parts and grip Type
     public int frameLevel;
@@ -79,8 +75,8 @@ public class GunScript : MonoBehaviour
             spreadIncreaseRate = 6.0f,
             spreadResetSpeed = 20.0f,
             reloadSpeed = 2.0f,
-            bulletType = 3,
-        }
+            bulletType = 10,
+        },
     };
 
     public void SetInfoPanel(GunInfoScript infoPanel)
@@ -132,11 +128,7 @@ public class GunScript : MonoBehaviour
     }
     public void EquipGun()
     {
-        if (gunRarity == Rarity.Legendary)
-        {
-            SetLegendaryStats();
-        }
-        else
+        if (gunRarity != Rarity.Legendary)
         {
             CalculateStats();
         }
@@ -169,6 +161,7 @@ public class GunScript : MonoBehaviour
             barrelLevel = data.barrelLevel;
             frameLevel = data.frameLevel;
             magazineLevel = data.magazineLevel;
+            gripType = data.gripType;
             damage = data.damage;
             fireRate = data.fireRate;
             maxAmmo = data.maxAmmo;
@@ -235,6 +228,7 @@ public class GunScript : MonoBehaviour
     {
         if (gunRarity == Rarity.Legendary)
         {
+            SetLegendaryStats();
             return;
         }
 
@@ -287,6 +281,10 @@ public class GunScript : MonoBehaviour
 
     public void AssignGripType()
     {
+        if(gunRarity == Rarity.Legendary)
+        {
+            return;
+        }
         gripType = gripTypes[Random.Range(0, gripTypes.Length)];
     }
 

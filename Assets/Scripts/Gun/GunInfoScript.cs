@@ -91,9 +91,17 @@ public class GunInfoScript : MonoBehaviour
             case 2:
                 bulletType = "Piercing";
                 break;
+            case 10:
+                bulletType = "Tracking";
+                break;
             default:
                 bulletType = "Standard";
                 break;
+        }
+
+        if(bulletType == "Tracking")
+        {
+            name = "Smart Pistol";
         }
 
         return $" \n<color={rarityColor}>{rarityText}</color> {name}\n\n" +

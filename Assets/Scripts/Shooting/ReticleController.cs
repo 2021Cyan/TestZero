@@ -7,7 +7,6 @@ public class ReticleController : MonoBehaviour
     [SerializeField] private Shooting shootingScript;           // Reference to the Shooting script
     [SerializeField] private float baseSize = 0.25f;            // Base size of the reticle
     [SerializeField] private float sizeMultiplier = 0.125f;     // Multiplier for spread
-    public PlayerController playerController;
     private InputManager _input;
 
     void Start()
@@ -23,6 +22,12 @@ public class ReticleController : MonoBehaviour
         {
             return;
         }
+
+        if (PlayerController.Instance.bulletType == 10)
+        {
+
+        }
+
 
         if (_input.AimInput)
         {

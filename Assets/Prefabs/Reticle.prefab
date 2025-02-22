@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3073770723327033289
+--- !u!1 &3443795858293584679
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4273716462041481324}
-  - component: {fileID: 5560520394508503245}
-  - component: {fileID: 4729657236475354570}
+  - component: {fileID: 5015752871478275438}
+  - component: {fileID: 15932102449452226}
+  - component: {fileID: 3621280903383577648}
   m_Layer: 0
   m_Name: Reticle
   m_TagString: Untagged
@@ -18,13 +18,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4273716462041481324
+--- !u!4 &5015752871478275438
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3073770723327033289}
+  m_GameObject: {fileID: 3443795858293584679}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.0321883, y: 6.0472274, z: -9.922004}
@@ -33,25 +33,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5560520394508503245
+--- !u!114 &15932102449452226
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3073770723327033289}
+  m_GameObject: {fileID: 3443795858293584679}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0e5c14734e11ab4a96f2752afbf697c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!212 &4729657236475354570
+  shootingScript: {fileID: 0}
+  baseSize: 0.1
+  sizeMultiplier: 0.03
+--- !u!212 &3621280903383577648
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3073770723327033289}
+  m_GameObject: {fileID: 3443795858293584679}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -89,7 +92,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -4119334708683220384, guid: 55b305048cc36e94ab40e69a153c5595, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9ee137293631b9e46b1a401b72b130a4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

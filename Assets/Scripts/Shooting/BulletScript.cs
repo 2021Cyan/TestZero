@@ -95,7 +95,7 @@ public class BulletScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (bulletType == 3)
+        if (bulletType == 10)
         {
             Track();
         }
