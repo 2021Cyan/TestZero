@@ -198,8 +198,6 @@ public class GunScript : MonoBehaviour
 
     public void AssignRarity()
     {
-        gunRarity = Rarity.Legendary;
-        return;
         float rng = Random.value * 100;
 
         if (rng <= 85f)

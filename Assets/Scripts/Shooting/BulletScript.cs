@@ -2,6 +2,9 @@
 
 public class BulletScript : MonoBehaviour
 {
+    // Hitmarker references
+    public GameObject hitmarkerPrefab;
+
     // Speed of the bullet
     public float speed = 50f;
     // Lifetime of the bullet
@@ -17,7 +20,6 @@ public class BulletScript : MonoBehaviour
     private Transform player;
     private PlayerController playerController;
     public GameObject damageTextPrefab;
-
     // For Tracker bullet
     public float homingTurnSpeed = 5f;
     private Vector2 currentHomingDirection;
@@ -48,6 +50,10 @@ public class BulletScript : MonoBehaviour
         _Input = InputManager.Instance;
         // Get the Rigidbody2D component
         rb = GetComponent<Rigidbody2D>();
+        if(bulletType == 10)
+        {
+            speed = 40f;
+        }
         // Calculate the direction based on the rotation angle
         float angle = transform.eulerAngles.z;
         Vector2 direction = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
@@ -65,6 +71,17 @@ public class BulletScript : MonoBehaviour
         Destroy(gameObject, lifetime);
     }
 
+    private void ShowHitmarker()
+    {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(_Input.MouseInput);
+        mousePos.z = 0;
+        if (hitmarkerPrefab != null)
+        {
+            GameObject hitmarker = Instantiate(hitmarkerPrefab, mousePos, Quaternion.identity);
+            Destroy(hitmarker, 0.05f); 
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Contact with the Enemy 
@@ -79,6 +96,7 @@ public class BulletScript : MonoBehaviour
                 enemy.TakeDamage((int)damage);
                 Vector3 hitPosition = other.ClosestPoint(transform.position);
                 ShowDamageText((int)damage, hitPosition);
+                ShowHitmarker();
                 if (bulletType == 2)
                 {
                     max_target--;
@@ -144,21 +162,32 @@ public class BulletScript : MonoBehaviour
     // Helper function for Tracker bullet
     private GameObject FindEnemyClosestToMouse()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        GameObject closestEnemy = null;
-        float minDistance = Mathf.Infinity;
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(_Input.MouseInput);
         mousePos.z = 0f;
 
+        float searchWidth = 5f;
+        float searchHeight = 5f;
+
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject closestEnemy = null;
+        float minDistance = Mathf.Infinity;
+
         foreach (GameObject enemy in enemies)
         {
-            float distance = Vector3.Distance(enemy.transform.position, mousePos);
-            if (distance < minDistance)
+            Vector3 enemyPos = enemy.transform.position;
+            if (enemyPos.x >= mousePos.x - searchWidth / 2 && enemyPos.x <= mousePos.x + searchWidth / 2 &&
+                enemyPos.y >= mousePos.y - searchHeight / 2 && enemyPos.y <= mousePos.y + searchHeight / 2)
             {
-                minDistance = distance;
-                closestEnemy = enemy;
+                float distance = Vector3.Distance(enemyPos, mousePos);
+
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    closestEnemy = enemy;
+                }
             }
         }
+
         return closestEnemy;
     }
 
