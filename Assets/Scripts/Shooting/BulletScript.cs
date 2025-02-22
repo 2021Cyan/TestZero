@@ -18,6 +18,10 @@ public class BulletScript : MonoBehaviour
     private PlayerController playerController;
     public GameObject damageTextPrefab;
 
+    // For Tracker bullet
+    public float homingTurnSpeed = 5f;
+    private Vector2 currentHomingDirection;
+
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -48,7 +52,6 @@ public class BulletScript : MonoBehaviour
         float angle = transform.eulerAngles.z;
         Vector2 direction = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
 
-
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(_Input.MouseInput);
         // Adjust direction based on the mouse position
         if (mousePos.x < transform.position.x)
@@ -56,9 +59,9 @@ public class BulletScript : MonoBehaviour
             direction = -direction;
         }
 
-        // Set the velocity of the bullet in the calculated direction
+        // Set initial velocity and initialize homing direction
         rb.linearVelocity = direction * speed;
-        // Destroys the bullet after the lifetime
+        currentHomingDirection = direction;
         Destroy(gameObject, lifetime);
     }
 
@@ -92,6 +95,10 @@ public class BulletScript : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (bulletType == 3)
+        {
+            Track();
+        }
         Vector2 moveDirection = rb.linearVelocity.normalized;
         float moveDistance = speed * Time.fixedDeltaTime;
 
@@ -111,19 +118,51 @@ public class BulletScript : MonoBehaviour
         }
     }
 
-    private void ShowDamageText(int damageAmount, Vector3 position)
+    // Tracking bullet
+    private void Track()
     {
-        if (damageTextPrefab != null)
+        GameObject target = FindEnemyClosestToMouse();
+        if (target != null)
         {
-            GameObject damageText = Instantiate(damageTextPrefab, position, Quaternion.identity);
-            DamageText textComponent = damageText.GetComponent<DamageText>();
-            if (textComponent != null)
-            {
-                textComponent.SetDamageText(damageAmount);
-            }
+            Vector2 desiredDirection = (target.transform.position - transform.position).normalized;
+            currentHomingDirection = Slerp(currentHomingDirection, desiredDirection, homingTurnSpeed * Time.fixedDeltaTime);
+            rb.linearVelocity = currentHomingDirection * speed;
+            float newAngle = Mathf.Atan2(currentHomingDirection.y, currentHomingDirection.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, newAngle);
         }
     }
 
+    // Helper function for Tracker bullet
+    private Vector2 Slerp(Vector2 a, Vector2 b, float t)
+    {
+        float dot = Mathf.Clamp(Vector2.Dot(a, b), -1f, 1f);
+        float theta = Mathf.Acos(dot) * t;
+        Vector2 relativeVec = (b - a * dot).normalized;
+        return a * Mathf.Cos(theta) + relativeVec * Mathf.Sin(theta);
+    }
+
+    // Helper function for Tracker bullet
+    private GameObject FindEnemyClosestToMouse()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject closestEnemy = null;
+        float minDistance = Mathf.Infinity;
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(_Input.MouseInput);
+        mousePos.z = 0f;
+
+        foreach (GameObject enemy in enemies)
+        {
+            float distance = Vector3.Distance(enemy.transform.position, mousePos);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closestEnemy = enemy;
+            }
+        }
+        return closestEnemy;
+    }
+
+    // Bouncing bullet
     private void Ricochet()
     {
         GameObject nearestEnemy = FindNearestEnemy();
@@ -166,6 +205,7 @@ public class BulletScript : MonoBehaviour
         }
     }
 
+    // Helper function for Bouncing bullet
     private GameObject FindNearestEnemy()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -183,4 +223,19 @@ public class BulletScript : MonoBehaviour
         }
         return nearestEnemy;
     }
+
+    // Shows damage text prefab when hitting enemy
+    private void ShowDamageText(int damageAmount, Vector3 position)
+    {
+        if (damageTextPrefab != null)
+        {
+            GameObject damageText = Instantiate(damageTextPrefab, position, Quaternion.identity);
+            DamageText textComponent = damageText.GetComponent<DamageText>();
+            if (textComponent != null)
+            {
+                textComponent.SetDamageText(damageAmount);
+            }
+        }
+    }
+
 }

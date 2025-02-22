@@ -20,6 +20,10 @@ public class PlayerUI : MonoBehaviour
     [Header("Screen Filter(BulletTime)")]
     [SerializeField] private Image bulletTimeFilter;
 
+    [SerializeField] private Image gripImage;
+    [SerializeField] private Image barrelImage;
+    [SerializeField] private Image frameImage;
+
     private PlayerController player;
 
     void Start()
@@ -35,6 +39,7 @@ public class PlayerUI : MonoBehaviour
             return;
         }
         UpdateHP();
+        UpdateImage();
         UpdateAmmoText();
         UpdateResourceText();
         UpdateEnergy();
@@ -53,6 +58,27 @@ public class PlayerUI : MonoBehaviour
         {
             ammoText.text = $"{player.currentAmmo} / {player.maxAmmo}";
         }
+    }
+
+    void UpdateImage()
+    {
+        int barrelLevel = player.barrelLevel;
+        int frameLevel = player.frameLevel;
+        string gripType = player.gripType;
+
+        string barrelPath = $"Sprites/GunParts/Barrels/gun_barrel_lv{barrelLevel}";
+        string framePath = $"Sprites/GunParts/Frames/gun_frame_lv{frameLevel}";
+        string gripPath = $"Sprites/GunParts/Grips/{gripType}";
+
+        Sprite barrelSprite = Resources.Load<Sprite>(barrelPath);
+        barrelImage.sprite = barrelSprite;
+        Sprite frameSprite = Resources.Load<Sprite>(framePath);
+        frameImage.sprite = frameSprite;
+        Sprite gripSprite = Resources.Load<Sprite>(gripPath);
+        gripImage.sprite = gripSprite;
+        barrelImage.SetNativeSize();
+        frameImage.SetNativeSize();
+        gripImage.SetNativeSize();
     }
 
     void UpdateResourceText()

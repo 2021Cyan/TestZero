@@ -129,10 +129,10 @@ TextureImporter:
       name: gun_grip_handcannon_0
       rect:
         serializedVersion: 2
-        x: 17
-        y: 39
-        width: 37
-        height: 31
+        x: 0
+        y: 0
+        width: 54
+        height: 70
       alignment: 3
       pivot: {x: 1, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}

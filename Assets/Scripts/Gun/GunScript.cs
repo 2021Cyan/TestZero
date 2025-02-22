@@ -1,5 +1,22 @@
 using UnityEngine;
 
+[System.Serializable]
+public class LegendaryGunData
+{
+    public string gunName;
+    public Sprite gunSprite_barrel;
+    public Sprite gunSprite_frame;
+    public Sprite GetSprite_grip;
+    public float damage;
+    public float fireRate;
+    public int maxAmmo;
+    public float maxSpreadAngle;
+    public float spreadIncreaseRate;
+    public float spreadResetSpeed;
+    public float reloadSpeed;
+    public int bulletType;
+}
+
 public class GunScript : MonoBehaviour
 {
     public enum Rarity
@@ -34,6 +51,34 @@ public class GunScript : MonoBehaviour
     private GunCreate gunCreateStation;
     private GunInfoScript info;
     private GunInfoRender infoRender;
+
+    private LegendaryGunData[] legendaryGuns = new LegendaryGunData[]
+    {
+        // Add more later...
+        new LegendaryGunData() {
+            gunName = "Legendary Pistol",
+            damage = 100f,
+            fireRate = 3.0f,
+            maxAmmo = 12,
+            maxSpreadAngle = 15.0f,
+            spreadIncreaseRate = 5.0f,
+            spreadResetSpeed = 25.0f,
+            reloadSpeed = 1.5f,
+            bulletType = 2,
+        },
+        new LegendaryGunData() {
+            gunName = "Legendary Rifle",
+            damage = 120f,
+            fireRate = 2.5f,
+            maxAmmo = 15,
+            maxSpreadAngle = 10.0f,
+            spreadIncreaseRate = 4.0f,
+            spreadResetSpeed = 20.0f,
+            reloadSpeed = 1.2f,
+            bulletType = 3,
+        }
+        
+    };
 
     public void SetInfoPanel(GunInfoScript infoPanel)
     {
@@ -84,7 +129,14 @@ public class GunScript : MonoBehaviour
     }
     public void EquipGun()
     {
-        CalculateStats();
+        if (gunRarity == Rarity.Legendary)
+        {
+            SetLegendaryStats();
+        }
+        else
+        {
+            CalculateStats();
+        }
         playerController.gripType = gripType;
         playerController.barrelLevel = barrelLevel;
         playerController.frameLevel = frameLevel;
@@ -103,6 +155,25 @@ public class GunScript : MonoBehaviour
             gunCreateStation.ReleaseSlot(transform.position);
         }
         Destroy(gameObject);
+    }
+
+    public void SetLegendaryStats()
+    {
+        if (legendaryGuns != null && legendaryGuns.Length > 0)
+        {
+            int index = Random.Range(0, legendaryGuns.Length);
+            LegendaryGunData data = legendaryGuns[index];
+
+            // Legendary 총 데이터를 적용
+            damage = data.damage;
+            fireRate = data.fireRate;
+            maxAmmo = data.maxAmmo;
+            maxSpreadAngle = data.maxSpreadAngle;
+            spreadIncreaseRate = data.spreadIncreaseRate;
+            spreadResetSpeed = data.spreadResetSpeed;
+            reloadSpeed = data.reloadSpeed;
+            bulletType = data.bulletType;
+        }
     }
 
     public void AssignRarityWithPity(int totalGunsCreated)
