@@ -3182,6 +3182,10 @@ PrefabInstance:
       value: event:/SFX/Weapons/Aim
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Shot.Path
+      value: event:/SFX/Weapons/Shot
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Dodge.Path
       value: event:/SFX/Character/Dodge
       objectReference: {fileID: 0}
@@ -3235,7 +3239,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: PistolShot.Path
-      value: event:/SFX/Weapons/PistolShot
+      value: event:/SFX/Weapons/Shot
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Shot.Guid.Data1
+      value: -130069547
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Shot.Guid.Data2
+      value: 1074638838
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Shot.Guid.Data3
+      value: -2102660213
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Shot.Guid.Data4
+      value: 1622467977
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Dodge.Guid.Data1
@@ -3319,7 +3339,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: AutoRifleShot.Path
-      value: event:/SFX/Weapons/AutoRifleShot
+      value: event:/SFX/Weapons/Shot
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Footstep.Guid.Data1
@@ -3387,19 +3407,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: PistolShot.Guid.Data1
-      value: -1301708960
+      value: -130069547
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: PistolShot.Guid.Data2
-      value: 1239867554
+      value: 1074638838
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: PistolShot.Guid.Data3
-      value: -594387043
+      value: -2102660213
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: PistolShot.Guid.Data4
-      value: -1784533969
+      value: 1622467977
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: AutoRifleShot.Guid.Data1

@@ -1,5 +1,6 @@
 using UnityEngine;
 using FMODUnity;
+using FMOD.Studio;
 
 
 
@@ -14,9 +15,7 @@ public class AudioManager : MonoBehaviour
     [Header("Player_SFX")]
     public EventReference Aim;
     public EventReference Ricochet;
-    public EventReference PistolShot;
-    public EventReference AutoRifleShot;
-    public EventReference MachineGunShot;
+    public EventReference Shot;
     public EventReference Reload;
     public EventReference Hit;
     public EventReference Dodge;
@@ -57,6 +56,11 @@ public class AudioManager : MonoBehaviour
         RuntimeManager.PlayOneShot(sound);
     }
 
+    public void SetParameterByName(string paraName, float value)
+    {
+        RuntimeManager.StudioSystem.setParameterByName(paraName, value);
+    }
+
     public void PlayOneShotUIClick()
     {
         RuntimeManager.PlayOneShot(UIClick);
@@ -68,5 +72,12 @@ public class AudioManager : MonoBehaviour
     public void PlayOneShotMenuOpen()
     {
         RuntimeManager.PlayOneShot(MenuOpen);
+    }
+
+    public void SetPitch(float pitch)
+    {
+        Bus masterBus = RuntimeManager.GetBus("bus:/");
+        masterBus.getChannelGroup(out FMOD.ChannelGroup masterChannelGroup);
+        masterChannelGroup.setPitch(pitch);
     }
 }

@@ -96,7 +96,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638758727982280668
+  lastModified: 638759220921294095
   FileSizes: []
   Exists: 1
 --- !u!114 &-4617032510574732434
@@ -114,7 +114,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638758726176346331
+  lastModified: 638759208117700984
   FileSizes: []
   Exists: 1
 --- !u!114 &-4456614331231822444
@@ -132,7 +132,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638758729523267258
+  lastModified: 638759220921621866
   FileSizes: []
   Exists: 1
 --- !u!114 &-2626927533857358114
@@ -162,6 +162,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 183
+--- !u!114 &-2297546203488566513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/WeaponType
+  m_EditorClassIdentifier: 
+  Name: WeaponType
+  StudioPath: parameter:/WeaponType
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 3135361411
+    data2: 1887069714
+  Type: 1
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
 --- !u!114 &-1804440835350382375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,10 +201,10 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638758727982301559
+  lastModified: 638759220921309468
   FileSizes:
   - Name: 
-    Value: 1618
+    Value: 1610
   Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -209,17 +233,17 @@ MonoBehaviour:
   - {fileID: -2626927533857358114}
   - {fileID: 6581634140667812584}
   - {fileID: 42156734766617274}
-  - {fileID: 8021257195972718126}
   - {fileID: -8690949402073855577}
   - {fileID: 3098056677752747548}
-  - {fileID: 4036209230103504323}
   - {fileID: -6982416621650043536}
-  EditorParameters: []
+  - {fileID: 155654527446962462}
+  EditorParameters:
+  - {fileID: -2297546203488566513}
   MasterBanks:
   - {fileID: -4718294289339572160}
   StringsBanks:
   - {fileID: -1804440835350382375}
-  cacheTime: 638758729523267258
+  cacheTime: 638759220921621866
   cacheVersion: 131622
 --- !u!114 &42156734766617274
 MonoBehaviour:
@@ -248,6 +272,58 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 312
+--- !u!114 &155654527446962462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Weapons/Shot
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Weapons/Shot
+  Guid:
+    Data1: -130069547
+    Data2: 1074638838
+    Data3: -2102660213
+    Data4: 1622467977
+  Banks:
+  - {fileID: -4456614331231822444}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 2478988387174092293}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &2478988387174092293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Shot/WeaponType
+  m_EditorClassIdentifier: 
+  Name: WeaponType
+  StudioPath: 
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 3135361411
+    data2: 1887069714
+  Type: 1
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
 --- !u!114 &3098056677752747548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,33 +378,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 200
---- !u!114 &4036209230103504323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/Weapons/AutoRifleShot
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/Weapons/AutoRifleShot
-  Guid:
-    Data1: -130069547
-    Data2: 1074638838
-    Data3: -2102660213
-    Data4: 1622467977
-  Banks:
-  - {fileID: -4456614331231822444}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 870
 --- !u!114 &5065583888109355948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,33 +486,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
---- !u!114 &8021257195972718126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/Weapons/PistolShot
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/Weapons/PistolShot
-  Guid:
-    Data1: -1301708960
-    Data2: 1239867554
-    Data3: -594387043
-    Data4: -1784533969
-  Banks:
-  - {fileID: -4456614331231822444}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 1379
 --- !u!114 &8503886041224330022
 MonoBehaviour:
   m_ObjectHideFlags: 0
