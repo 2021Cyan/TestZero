@@ -16,13 +16,16 @@ public class BulletScript : MonoBehaviour
     public int bulletType = 0;
     public float searchRange = 10f;
     public int max_target = 0;
-    private InputManager _Input;
+    private InputManager _input;
+    private AudioManager _audio;
     private Transform player;
     private PlayerController playerController;
     public GameObject damageTextPrefab;
     // For Tracker bullet
     public float homingTurnSpeed = 5f;
     private Vector2 currentHomingDirection;
+
+    private int ricochetCount = 0;
 
     void Awake()
     {
@@ -47,7 +50,8 @@ public class BulletScript : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         playerController = player.GetComponent<PlayerController>();
         damage = playerController.damage;
-        _Input = InputManager.Instance;
+        _input = InputManager.Instance;
+        _audio = AudioManager.Instance;
         // Get the Rigidbody2D component
         rb = GetComponent<Rigidbody2D>();
         if(bulletType == 10)
@@ -58,7 +62,7 @@ public class BulletScript : MonoBehaviour
         float angle = transform.eulerAngles.z;
         Vector2 direction = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
 
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(_Input.MouseInput);
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(_input.MouseInput);
         // Adjust direction based on the mouse position
         if (mousePos.x < transform.position.x)
         {
@@ -73,7 +77,7 @@ public class BulletScript : MonoBehaviour
 
     private void ShowHitmarker()
     {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(_Input.MouseInput);
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(_input.MouseInput);
         mousePos.z = 0;
         if (hitmarkerPrefab != null)
         {
@@ -128,6 +132,12 @@ public class BulletScript : MonoBehaviour
             if (bulletType == 1)
             {
                 Ricochet();
+                if (ricochetCount < 2)
+                {
+                    _audio.PlayOneShot(_audio.Ricochet);
+                    ricochetCount++;
+                }
+                
             }
             else
             {
@@ -162,7 +172,7 @@ public class BulletScript : MonoBehaviour
     // Helper function for Tracker bullet
     private GameObject FindEnemyClosestToMouse()
     {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(_Input.MouseInput);
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(_input.MouseInput);
         mousePos.z = 0f;
 
         float searchWidth = 5f;

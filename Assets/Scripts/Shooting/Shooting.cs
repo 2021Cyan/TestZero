@@ -47,7 +47,7 @@ public class Shooting : MonoBehaviour
         if (isFiring)
         {
             Shoot();
-            _audio.PlayOneShot(_audio.Shoot);
+            _audio.PlayOneShot(_audio.PistolShot);
             nextFireTime = Time.time + 1f / playerController.fireRate;
         }
         else

@@ -13,7 +13,10 @@ public class AudioManager : MonoBehaviour
 
     [Header("Player_SFX")]
     public EventReference Aim;
-    public EventReference Shoot;
+    public EventReference Ricochet;
+    public EventReference PistolShot;
+    public EventReference AutoRifleShot;
+    public EventReference MachineGunShot;
     public EventReference Reload;
     public EventReference Hit;
     public EventReference Dodge;
