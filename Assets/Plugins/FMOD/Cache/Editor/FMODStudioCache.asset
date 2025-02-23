@@ -96,7 +96,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638758705303514189
+  lastModified: 638758727982280668
   FileSizes: []
   Exists: 1
 --- !u!114 &-4617032510574732434
@@ -114,7 +114,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638758671315932816
+  lastModified: 638758726176346331
   FileSizes: []
   Exists: 1
 --- !u!114 &-4456614331231822444
@@ -132,7 +132,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638758706820638661
+  lastModified: 638758729523267258
   FileSizes: []
   Exists: 1
 --- !u!114 &-2626927533857358114
@@ -177,7 +177,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638758705303530532
+  lastModified: 638758727982301559
   FileSizes:
   - Name: 
     Value: 1618
@@ -219,7 +219,7 @@ MonoBehaviour:
   - {fileID: -4718294289339572160}
   StringsBanks:
   - {fileID: -1804440835350382375}
-  cacheTime: 638758706820638661
+  cacheTime: 638758729523267258
   cacheVersion: 131622
 --- !u!114 &42156734766617274
 MonoBehaviour:
@@ -451,10 +451,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: event:/SFX/Weapons/PistolShot
   Guid:
-    Data1: -464904902
-    Data2: 1308304504
-    Data3: -1495215979
-    Data4: -2020899486
+    Data1: -1301708960
+    Data2: 1239867554
+    Data3: -594387043
+    Data4: -1784533969
   Banks:
   - {fileID: -4456614331231822444}
   IsStream: 0
@@ -463,7 +463,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 0
+  Length: 1379
 --- !u!114 &8503886041224330022
 MonoBehaviour:
   m_ObjectHideFlags: 0

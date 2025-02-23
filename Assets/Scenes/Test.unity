@@ -3235,7 +3235,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: PistolShot.Path
-      value: event:/SFX/Weapons/AutoRifleShot
+      value: event:/SFX/Weapons/PistolShot
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Dodge.Guid.Data1
@@ -3387,19 +3387,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: PistolShot.Guid.Data1
-      value: -130069547
+      value: -1301708960
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: PistolShot.Guid.Data2
-      value: 1074638838
+      value: 1239867554
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: PistolShot.Guid.Data3
-      value: -2102660213
+      value: -594387043
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: PistolShot.Guid.Data4
-      value: 1622467977
+      value: -1784533969
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: AutoRifleShot.Guid.Data1
