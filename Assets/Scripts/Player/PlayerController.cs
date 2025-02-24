@@ -382,7 +382,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Press Q to activate bullet time
-        if (Input.GetKeyDown(KeyCode.Q) && bulletTimeGauge >= bulletTimeMaxGauge && !isBulletTimeActive)
+        if (_input.BulletTimeInput && bulletTimeGauge >= bulletTimeMaxGauge && !isBulletTimeActive)
         {
             StartCoroutine(ActivateBulletTime());
         }
@@ -390,6 +390,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator ActivateBulletTime()
     {
+        _audio.SetPitch(0.5f);
         isBulletTimeActive = true;
 
         // Global slow-motion (Enemy, Bullet...etc)
@@ -401,6 +402,7 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(bulletTimeDuration);
 
+        _audio.SetPitch(1.0f);
         // Restore speed setting
         Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02f;

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class Shooting : MonoBehaviour
 {
@@ -16,14 +17,14 @@ public class Shooting : MonoBehaviour
     private float currentSpreadAngle = 0f;
     private bool isReloading = false;
 
-    void Start()
+    private void Start()
     {
         playerController = PlayerController.Instance;
         _input = InputManager.Instance;
         _audio = AudioManager.Instance;
     }
 
-    void Update()
+    private void Update()
     {
         if (!playerController.IsAlive())
         {
@@ -47,7 +48,8 @@ public class Shooting : MonoBehaviour
         if (isFiring)
         {
             Shoot();
-            _audio.PlayOneShot(_audio.PistolShot);
+            _audio.SetParameterByName("WeaponType", 0);
+            _audio.PlayOneShot(_audio.Shot);
             nextFireTime = Time.time + 1f / playerController.fireRate;
         }
         else
@@ -62,7 +64,7 @@ public class Shooting : MonoBehaviour
         }
     }
 
-    void Shoot()
+    private void Shoot()
     {
         // Trigger screen shake
         CameraScript cameraScript = Camera.main.GetComponent<CameraScript>();
@@ -114,6 +116,24 @@ public class Shooting : MonoBehaviour
     public float GetCurrentSpread()
     {
         return currentSpreadAngle;
+    }
+
+    //TODO: Deciding the weapon type......
+    private int GetWeaponType()
+    {
+        if(playerController.gripType == "gun_grip_smg")
+        {
+            return 0;
+        }
+        else if(playerController.gripType == "gun_grip_pistol")
+        {
+            return 1;
+        }
+        else if(playerController.gripType == "gun_grip_handcannon")
+        {
+            return 2;
+        }
+        return 0;
     }
 
     public void Reload()
