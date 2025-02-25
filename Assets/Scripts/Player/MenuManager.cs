@@ -36,6 +36,7 @@ public class MenuManager : MonoBehaviour
 
     public void Resume()
     {
+        Cursor.visible = false;
         _Audio.PlayOneShotMenuOpen();
         PauseMenuUI.SetActive(false);
         VolumeMenuUI.SetActive(false);
@@ -47,7 +48,7 @@ public class MenuManager : MonoBehaviour
 
     public void Pause()
     {
-    
+        Cursor.visible = true;
         _Audio.PlayOneShotMenuOpen();
         PauseMenuUI.SetActive(true);
         beforePausePosition = _Input.MouseInput;
