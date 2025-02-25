@@ -7,6 +7,7 @@ public class InputManager : MonoBehaviour
     public static InputManager Instance;
 
     public static PlayerInput PlayerInput;
+    
     public Vector3 MoveInput { get; private set; }
     public Vector3 MouseInput { get; private set; }
     public bool MenuInput { get; private set; }
