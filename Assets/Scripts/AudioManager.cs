@@ -7,25 +7,25 @@ using FMOD.Studio;
 public class AudioManager : MonoBehaviour
 {
     [Header("Music")]
-    public EventReference Music;
+    public EventReference Lobby;
+    public EventReference Battle;
 
     [Header("Ambience")]
     public EventReference Ambience;
 
     [Header("Player_SFX")]
+    public EventReference Pickup;
     public EventReference Aim;
     public EventReference Ricochet;
     public EventReference Shot;
     public EventReference Reload;
-    public EventReference Hit;
     public EventReference Dodge;
     public EventReference JumpGroan;
-    public EventReference Death;
-    public EventReference Pickup;
     public EventReference Footstep;
     public EventReference Moonwalk;
     public EventReference AirDash;
-
+    public EventReference Death;
+    public EventReference Hurt;
 
     [Header("UI_SFX")]
     public EventReference UIClick;

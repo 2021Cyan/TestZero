@@ -72,8 +72,6 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        _input = InputManager.Instance;
-        _audio = AudioManager.Instance;
         if (Instance == null)
         {
             Instance = this;
@@ -87,12 +85,15 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = false;
+        _input = InputManager.Instance;
+        _audio = AudioManager.Instance;
         hp = max_hp;
         currentAmmo = maxAmmo;
         maincam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        _audio.PlayOneShot(_audio.Music);
+        _audio.PlayOneShot(_audio.Lobby);
     }
 
     private void Update()
@@ -326,6 +327,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha2) && !isInvincible)
         {
+            _audio.PlayOneShot(_audio.Hurt);
             if (mousePos.x > transform.position.x)
             {
                 rb.AddForce(new Vector2(-4f, 1f), ForceMode2D.Impulse);
@@ -342,6 +344,7 @@ public class PlayerController : MonoBehaviour
     {
         if (hp <= 0)
         {
+            _audio.PlayOneShot(_audio.Death);
             anim.SetTrigger("die");
             alive = false;
         }
