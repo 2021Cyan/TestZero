@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 2743174557529977741}
   - component: {fileID: 1024954245156647884}
-  - component: {fileID: 3898141153750801708}
+  - component: {fileID: 6735589963835108638}
   - component: {fileID: 2714533207860489144}
   - component: {fileID: 1938965502373502052}
   - component: {fileID: 6948428697045885138}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: Bullet_Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 10
   m_Sprite: {fileID: 4960460756787452980, guid: 82284fbfa756c354591a667c0d278b36, type: 3}
-  m_Color: {r: 1, g: 0.7327649, b: 0, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -91,7 +91,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3898141153750801708
+--- !u!114 &6735589963835108638
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -100,18 +100,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5725336151103119662}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bb861bfed8a0224d81f3e3876ad492d, type: 3}
+  m_Script: {fileID: 11500000, guid: be1298126bd689e4ca89a7493bf162fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitmarkerPrefab: {fileID: 8288332386246024384, guid: 9d0cd5c19edd87d49bd702fb36707451, type: 3}
-  speed: 50
+  speed: 20
+  damage: 10
   lifetime: 5
-  damage: 50
-  bulletType: 0
-  searchRange: 5
-  max_target: 0
-  damageTextPrefab: {fileID: 2392417955568809763, guid: 0e0617012df934e47bec0d477b81457c, type: 3}
-  homingTurnSpeed: 20
 --- !u!50 &2714533207860489144
 Rigidbody2D:
   serializedVersion: 5
@@ -261,8 +255,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0.43646842, b: 0, a: 1}
-      key1: {r: 1, g: 0.44547823, b: 0, a: 1}
+      key0: {r: 1, g: 0, b: 0.08972883, a: 1}
+      key1: {r: 1, g: 0, b: 0.08972883, a: 1}
       key2: {r: 1, g: 0.9356718, b: 0, a: 1}
       key3: {r: 1, g: 0.9470248, b: 0, a: 1}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -270,7 +264,7 @@ TrailRenderer:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 2506
+      ctime1: 65535
       ctime2: 19468
       ctime3: 45104
       ctime4: 0
@@ -287,7 +281,7 @@ TrailRenderer:
       atime7: 0
       m_Mode: 0
       m_ColorSpace: 0
-      m_NumColorKeys: 4
+      m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
     numCapVertices: 0

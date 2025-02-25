@@ -27,6 +27,9 @@ public class BulletScript : MonoBehaviour
 
     private int ricochetCount = 0;
 
+    private SpriteRenderer spriteRenderer;
+    private TrailRenderer trailRenderer;
+
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -54,6 +57,10 @@ public class BulletScript : MonoBehaviour
         _audio = AudioManager.Instance;
         // Get the Rigidbody2D component
         rb = GetComponent<Rigidbody2D>();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        trailRenderer = GetComponent<TrailRenderer>();
+
         if(bulletType == 10)
         {
             speed = 40f;
@@ -75,6 +82,41 @@ public class BulletScript : MonoBehaviour
         Destroy(gameObject, lifetime);
     }
 
+    private void SetBulletColor()
+    {
+        Color bulletColor = new Color(255, 187,0, 255);
+
+        switch (bulletType)
+        {
+            case 1:
+                bulletColor = Color.blue;
+                break;
+            case 2:
+                bulletColor = Color.yellow;
+                break;
+            case 10:
+                bulletColor = new Color(0.5f, 1f, 0.5f);
+                break;
+        }
+
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = bulletColor;
+        }
+
+        if (trailRenderer != null)
+        {
+            Gradient gradient = new Gradient();
+            gradient.SetKeys(
+                new GradientColorKey[] { new GradientColorKey(bulletColor, 0.0f), new GradientColorKey(Color.clear, 1.0f) }, // 색상 변화
+                new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f) } // 투명도 변화
+            );
+
+            trailRenderer.colorGradient = gradient;
+        }
+
+    }
+
     private void ShowHitmarker()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(_input.MouseInput);
@@ -92,7 +134,7 @@ public class BulletScript : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy"))
         {
             // Get enemy component
-            Enemy enemy = other.GetComponent<Enemy>();
+            EnemyBase enemy = other.GetComponent<EnemyBase>();
 
             // Enemy is not null
             if (enemy != null)

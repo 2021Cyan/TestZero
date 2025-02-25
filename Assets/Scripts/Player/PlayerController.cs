@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -69,6 +69,7 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance;
     private InputManager _input;
     private AudioManager _audio;
+    [SerializeField] Transform center;
 
     private void Awake()
     {
@@ -102,7 +103,6 @@ public class PlayerController : MonoBehaviour
         if (alive)
         {
             mousePos = maincam.ScreenToWorldPoint(_input.MouseInput);
-            Hurt();
             Dodge();
             Die();
             Jump();
@@ -322,19 +322,19 @@ public class PlayerController : MonoBehaviour
         isInvincible = false;
     }
 
-    void Hurt()
+    public void Hurt(float amount)
     {
-        if (Input.GetKeyDown(KeyCode.Alpha2) && !isInvincible)
+        if (!isInvincible)
         {
             if (mousePos.x > transform.position.x)
             {
                 rb.AddForce(new Vector2(-4f, 1f), ForceMode2D.Impulse);
-                hp = hp - 50;
+                hp = hp - amount;
             }
             else
             {
                 rb.AddForce(new Vector2(4f, 1f), ForceMode2D.Impulse);
-                hp = hp - 50;
+                hp = hp - amount;
             }
         }
     }
@@ -411,6 +411,11 @@ public class PlayerController : MonoBehaviour
 
         // Restore player animation speed
         anim.speed = 1f;
+    }
+
+    public Transform GetAimPos()
+    {
+        return center.transform;
     }
 
     public void PlayOneShotRunning()

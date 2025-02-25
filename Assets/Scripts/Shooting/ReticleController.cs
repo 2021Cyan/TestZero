@@ -23,6 +23,11 @@ public class ReticleController : MonoBehaviour
 
     void LateUpdate()
     {
+        if (!PlayerController.Instance)
+        {
+            return;
+        }
+
         if (!PlayerController.Instance.IsAlive())
         {
             return;

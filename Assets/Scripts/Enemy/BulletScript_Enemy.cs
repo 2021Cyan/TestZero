@@ -1,0 +1,36 @@
+using UnityEngine;
+
+public class BulletScript_Enemy : MonoBehaviour
+{
+    public float speed = 50f; 
+    public float damage = 10f; 
+    public float lifetime = 5f; 
+    private Rigidbody2D rb;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        rb.linearVelocity = transform.right * speed;
+        Destroy(gameObject, lifetime);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            PlayerController player = other.GetComponent<PlayerController>();
+
+            if (player != null)
+            {
+                player.Hurt(damage);
+            }
+
+            Destroy(gameObject);
+        }
+        if (other.CompareTag("Terrain"))
+        {
+            Destroy(gameObject);
+        }
+    }
+}
+
