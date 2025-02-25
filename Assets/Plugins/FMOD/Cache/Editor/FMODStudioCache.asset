@@ -96,7 +96,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638759220921294095
+  lastModified: 638760144143428687
   FileSizes: []
   Exists: 1
 --- !u!114 &-4617032510574732434
@@ -132,7 +132,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638759220921621866
+  lastModified: 638760144144909027
   FileSizes: []
   Exists: 1
 --- !u!114 &-2626927533857358114
@@ -162,30 +162,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 183
---- !u!114 &-2297546203488566513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/WeaponType
-  m_EditorClassIdentifier: 
-  Name: WeaponType
-  StudioPath: parameter:/WeaponType
-  Min: 0
-  Max: 2
-  Default: 0
-  ID:
-    data1: 3135361411
-    data2: 1887069714
-  Type: 1
-  IsGlobal: 1
-  Labels: []
-  Exists: 1
 --- !u!114 &-1804440835350382375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,7 +177,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638759220921309468
+  lastModified: 638760144143443858
   FileSizes:
   - Name: 
     Value: 1610
@@ -237,13 +213,12 @@ MonoBehaviour:
   - {fileID: 3098056677752747548}
   - {fileID: -6982416621650043536}
   - {fileID: 155654527446962462}
-  EditorParameters:
-  - {fileID: -2297546203488566513}
+  EditorParameters: []
   MasterBanks:
   - {fileID: -4718294289339572160}
   StringsBanks:
   - {fileID: -1804440835350382375}
-  cacheTime: 638759220921621866
+  cacheTime: 638760144144909027
   cacheVersion: 131622
 --- !u!114 &42156734766617274
 MonoBehaviour:
@@ -310,9 +285,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Shot/WeaponType
+  m_Name: parameter:/Shot/Weapon Type
   m_EditorClassIdentifier: 
-  Name: WeaponType
+  Name: Weapon Type
   StudioPath: 
   Min: 0
   Max: 2
@@ -321,7 +296,7 @@ MonoBehaviour:
     data1: 3135361411
     data2: 1887069714
   Type: 1
-  IsGlobal: 1
+  IsGlobal: 0
   Labels: []
   Exists: 1
 --- !u!114 &3098056677752747548
