@@ -1157,7 +1157,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1389070673}
-  - component: {fileID: 1389070672}
+  - component: {fileID: 1389070674}
   m_Layer: 0
   m_Name: LevelGenerator
   m_TagString: Untagged
@@ -1165,23 +1165,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1389070672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1389070671}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2e25e350e12870469892588bff8f877, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  segmentPrefabs:
-  - {fileID: 8911128543407557057, guid: 678100c987d04f54aba4f0de3ce4eac9, type: 3}
-  - {fileID: 2322570914769582032, guid: 1e5e9147d402ba349b4dc431e4b3200c, type: 3}
-  startPoint: {fileID: 425647270}
-  numberOfSegments: 2
 --- !u!4 &1389070673
 Transform:
   m_ObjectHideFlags: 0
@@ -1197,6 +1180,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1389070674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389070671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2e25e350e12870469892588bff8f877, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  segmentPrefabs:
+  - {fileID: 8911128543407557057, guid: 678100c987d04f54aba4f0de3ce4eac9, type: 3}
+  - {fileID: 3032546248418473337, guid: fd1b67b57d97b72448031707edb9592b, type: 3}
+  startPoint: {fileID: 425647270}
+  numberOfSegments: 5
 --- !u!1 &1421307329 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2584178023673744701, guid: 8cc641bc1a61cd84ea49a39d2540e80a, type: 3}
