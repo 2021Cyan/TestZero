@@ -8,6 +8,11 @@ public class LevelGenerator : MonoBehaviour
     public int numberOfSegments = 5;
     private List<int> segmentIndexes = new List<int>();
 
+    // <><><> Special Demo Addition <><><>   
+    public GameObject testRoom;
+    public GameObject shopRoom;
+    public int shopFrequency;
+
     void Start()
     {
         // Add more segments to array to reflect likelihood
@@ -22,7 +27,7 @@ public class LevelGenerator : MonoBehaviour
         }
 
         // Spawn segments recursively
-        SpawnSegment(startPoint.position, numberOfSegments);        
+        SpawnSegment(startPoint.position, numberOfSegments); 
     }
 
     void SpawnSegment(Vector3 nextSpawnPosition, int remainingSegments, int prevSegment=-1)
@@ -30,6 +35,25 @@ public class LevelGenerator : MonoBehaviour
         // Check if max segments have been reached
         if (remainingSegments == 0)
         {
+            // <><><> Special Demo Addition <><><>
+            // Spawn Test room last
+            GameObject testSegmentObj = Instantiate(testRoom, nextSpawnPosition, Quaternion.identity);
+            MapSegment testSegment = testSegmentObj.GetComponent<MapSegment>();
+            Vector3 entryOffset = testSegmentObj.transform.position - testSegment.entryPoint.position;
+            testSegmentObj.transform.position += entryOffset;
+            return;
+        }
+
+        // <><><> Special Demo Addition <><><>
+        if (remainingSegments % shopFrequency == 0)
+        {
+            // Spawn shop
+            GameObject shopSegmentObj = Instantiate(shopRoom, nextSpawnPosition, Quaternion.identity);
+            MapSegment shopSegment = shopSegmentObj.GetComponent<MapSegment>();
+            remainingSegments -= 1;
+            Vector3 entryOffset = shopSegmentObj.transform.position - shopSegment.entryPoint.position;
+            shopSegmentObj.transform.position += entryOffset;
+            SpawnSegment(shopSegment.exitPoints[0].position, remainingSegments);
             return;
         }
 
@@ -55,6 +79,7 @@ public class LevelGenerator : MonoBehaviour
             // Recursively create new segments for each exit point
             foreach (Transform exitPoint in segment.exitPoints)
             {
+                Debug.Log(segment.name);
                 SpawnSegment(exitPoint.position, remainingSegments / segment.exitPoints.Count, prevSegment=segmentIndex);
             }
         }

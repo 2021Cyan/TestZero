@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 242895814545283300}
   - component: {fileID: 4224816584811366144}
   - component: {fileID: 2475095663009521168}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ceiling (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 4495450538776934232}
   - component: {fileID: 4555434468752289857}
   - component: {fileID: 7841434933309415751}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: floor (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -324,7 +324,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   segmentName: 
   canBeStart: 0
-  number_of_exits: 0
+  canFlipX: 0
+  canFlipY: 0
+  likelihood: 0
   entryPoint: {fileID: 0}
   exitPoints: []
 --- !u!1 &3960302893830491645
@@ -338,7 +340,7 @@ GameObject:
   - component: {fileID: 7179306218163715012}
   - component: {fileID: 6600289124625357142}
   - component: {fileID: 4943739116700861208}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: floor (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -472,7 +474,7 @@ GameObject:
   - component: {fileID: 3492422460006767897}
   - component: {fileID: 522626990907292799}
   - component: {fileID: 8312716247221466566}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ceiling
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -606,7 +608,7 @@ GameObject:
   - component: {fileID: 2983911232020522662}
   - component: {fileID: 7756946112995503937}
   - component: {fileID: 8208606605501316676}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -740,7 +742,7 @@ GameObject:
   - component: {fileID: 5739058531373929502}
   - component: {fileID: 6705131028197785062}
   - component: {fileID: 1608647338675780139}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -874,7 +876,7 @@ GameObject:
   - component: {fileID: 3007375832596808254}
   - component: {fileID: 143635072684807200}
   - component: {fileID: 4068425118241048646}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ceiling (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
