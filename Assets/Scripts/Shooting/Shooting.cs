@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
+using System.Collections.Generic;
 
 public class Shooting : MonoBehaviour
 {
@@ -11,6 +12,14 @@ public class Shooting : MonoBehaviour
     [SerializeField] GameObject bulletPrefab_Tracking;
     [SerializeField] ParticleSystem muzzleFlash_single;
     [SerializeField] ParticleSystem muzzleFlash_smg;
+
+    private Dictionary<string, int> WeaponType = new Dictionary<string, int>()
+    {
+        { "gun_grip_pistol", 0 },
+        { "gun_grip_smg", 1 },
+        { "gun_grip_handcannon", 2 }
+    };
+
 
     private PlayerController playerController;
     private InputManager _input;
@@ -34,7 +43,7 @@ public class Shooting : MonoBehaviour
             return;
         }
 
-        if((_input.AimInput && _input.ClickInput) && playerController.gripType == "gun_grip_smg" && playerController.currentAmmo > 0)
+        if ((_input.AimInput && _input.ClickInput) && playerController.gripType == "gun_grip_smg" && playerController.currentAmmo > 0)
         {
             if (!muzzleFlash_smg.isPlaying)
             {
@@ -51,7 +60,7 @@ public class Shooting : MonoBehaviour
         if (isFiring)
         {
             Shoot();
-            _audio.SetParameterByName("WeaponType", 0);
+            _audio.SetParameterByName("WeaponType", GetWeaponType());
             _audio.PlayOneShot(_audio.Shot);
             nextFireTime = Time.time + 1f / playerController.fireRate;
         }
@@ -69,17 +78,19 @@ public class Shooting : MonoBehaviour
 
     private void Shoot()
     {
+        //TODO: optimize this later
+
         // Trigger screen shake
         CameraScript cameraScript = Camera.main.GetComponent<CameraScript>();
         if (cameraScript != null)
         {
             float multiplier = 1f;
 
-            if(playerController.gripType == "gun_grip_smg")
+            if (playerController.gripType == "gun_grip_smg")
             {
                 multiplier = 1.5f;
             }
-            else if(playerController.gripType == "gun_grip_pistol")
+            else if (playerController.gripType == "gun_grip_pistol")
             {
                 multiplier = 2.5f;
             }
@@ -90,7 +101,7 @@ public class Shooting : MonoBehaviour
             cameraScript.StartShake(0.1f * multiplier, 0.5f);
         }
 
-        if(playerController.gripType != "gun_grip_smg")
+        if (playerController.gripType != "gun_grip_smg")
         {
             muzzleFlash_single.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             muzzleFlash_single.Play();
@@ -139,23 +150,9 @@ public class Shooting : MonoBehaviour
     {
         return currentSpreadAngle;
     }
-
-    //TODO: Deciding the weapon type......
     private int GetWeaponType()
     {
-        if(playerController.gripType == "gun_grip_smg")
-        {
-            return 0;
-        }
-        else if(playerController.gripType == "gun_grip_pistol")
-        {
-            return 1;
-        }
-        else if(playerController.gripType == "gun_grip_handcannon")
-        {
-            return 2;
-        }
-        return 0;
+        return WeaponType[playerController.gripType];
     }
 
     public void Reload()

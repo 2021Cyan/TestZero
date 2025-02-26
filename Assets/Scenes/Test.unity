@@ -2009,6 +2009,10 @@ PrefabInstance:
       value: event:/SFX/Character/Dodge
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Laser.Path
+      value: event:/SFX/Weapons/Laser
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Lobby.Path
       value: event:/Music/Lobby
       objectReference: {fileID: 0}
@@ -2023,6 +2027,10 @@ PrefabInstance:
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Battle.Path
       value: event:/Music/Battle
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Pickup.Path
+      value: event:/SFX/Character/Pickup
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Reload.Path
@@ -2059,6 +2067,14 @@ PrefabInstance:
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Aim.Guid.Data4
       value: -1240624215
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: EnemyShot.Path
+      value: event:/SFX/Weapons/Laser
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Explosion.Path
+      value: event:/SFX/Explosion
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: JumpGroan.Path
@@ -2133,6 +2149,26 @@ PrefabInstance:
       value: -925370065
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: EnemyFlying.Path
+      value: event:/SFX/DroneFlying
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Laser.Guid.Data1
+      value: -1600066894
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Laser.Guid.Data2
+      value: 1188115199
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Laser.Guid.Data3
+      value: 1136346788
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Laser.Guid.Data4
+      value: -313973955
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Lobby.Guid.Data1
       value: 1540001489
       objectReference: {fileID: 0}
@@ -2195,6 +2231,22 @@ PrefabInstance:
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Battle.Guid.Data4
       value: -1580661986
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Pickup.Guid.Data1
+      value: -599363066
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Pickup.Guid.Data2
+      value: 1284752245
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Pickup.Guid.Data3
+      value: 1589032624
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Pickup.Guid.Data4
+      value: 336401005
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Reload.Guid.Data1
@@ -2281,6 +2333,38 @@ PrefabInstance:
       value: -1902568380
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: EnemyShot.Guid.Data1
+      value: -1600066894
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: EnemyShot.Guid.Data2
+      value: 1188115199
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: EnemyShot.Guid.Data3
+      value: 1136346788
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: EnemyShot.Guid.Data4
+      value: -313973955
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Explosion.Guid.Data1
+      value: -590632944
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Explosion.Guid.Data2
+      value: 1093584420
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Explosion.Guid.Data3
+      value: -1757320830
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Explosion.Guid.Data4
+      value: -122563099
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: JumpGroan.Guid.Data1
       value: 1489319271
       objectReference: {fileID: 0}
@@ -2311,6 +2395,22 @@ PrefabInstance:
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: PistolShot.Guid.Data4
       value: 1622467977
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: EnemyFlying.Guid.Data1
+      value: -1754085737
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: EnemyFlying.Guid.Data2
+      value: 1151171897
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: EnemyFlying.Guid.Data3
+      value: 961014203
+      objectReference: {fileID: 0}
+    - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: EnemyFlying.Guid.Data4
+      value: 185352016
       objectReference: {fileID: 0}
     - target: {fileID: 1602790312095415340, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: AutoRifleShot.Guid.Data1

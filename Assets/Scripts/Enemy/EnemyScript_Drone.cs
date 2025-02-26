@@ -8,7 +8,7 @@ public class Enemy_Drone : EnemyBase
     public float moveSpeed = 3f;
     public float changeDirectionTime = 2f;
     public float floatStrength = 0.01f;
-    
+
     // Enemy shooting
     [SerializeField] Transform turret;
     [SerializeField] Transform turret_firePoint;
@@ -23,12 +23,14 @@ public class Enemy_Drone : EnemyBase
     private Rigidbody2D rb;
     private bool isFalling = false;
     private SpriteRenderer spriteRenderer;
+    private AudioManager _audio;
 
     [SerializeField] ParticleSystem muzzleFlash_fire;
     [SerializeField] GameObject explosion;
 
     void Start()
     {
+        _audio = AudioManager.Instance;
         isalive = true;
         resourceAmount = 800;
         maxHealth = 200;
@@ -71,6 +73,7 @@ public class Enemy_Drone : EnemyBase
         if (timer >= changeDirectionTime)
         {
             ChangeDirection();
+            _audio.PlayOneShot(_audio.EnemyFlying, transform.position);
             timer = 0;
         }
         float floatingY = Mathf.Sin(Time.time * 2f) * floatStrength;
@@ -79,6 +82,7 @@ public class Enemy_Drone : EnemyBase
         if (wallCheck.collider != null)
         {
             ChangeDirection();
+            _audio.PlayOneShot(_audio.EnemyFlying, transform.position);
         }
         rb.linearVelocity = (moveDirection + new Vector3(0, floatingY, 0)) * moveSpeed;
     }
@@ -89,6 +93,7 @@ public class Enemy_Drone : EnemyBase
         {
             Vector3 explosionPos = transform.position + new Vector3(0, -1f, 0);
             GameObject explosionInstance = Instantiate(explosion, explosionPos, Quaternion.identity);
+            _audio.PlayOneShot(_audio.Explosion, transform.position);
             Destroy(explosionInstance.gameObject, 5f);
             base.Die(resourceAmount);
         }
@@ -130,6 +135,7 @@ public class Enemy_Drone : EnemyBase
             }
             if (turret_bullet != null && turret_firePoint != null)
             {
+                _audio.PlayOneShot(_audio.Laser, transform.position);
                 Instantiate(turret_bullet, turret_firePoint.position, turret_firePoint.rotation);
             }
         }
@@ -144,9 +150,9 @@ public class Enemy_Drone : EnemyBase
 
     private IEnumerator DamageFlash()
     {
-        spriteRenderer.color = Color.red; 
-        yield return new WaitForSeconds(0.1f); 
-        spriteRenderer.color = Color.white; 
+        spriteRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        spriteRenderer.color = Color.white;
     }
 
     // Function that handles the enemy death

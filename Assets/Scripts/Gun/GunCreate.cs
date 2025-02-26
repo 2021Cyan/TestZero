@@ -11,6 +11,8 @@ public class GunCreate : MonoBehaviour
 
     private Transform player;
     private PlayerController playerController;
+    private AudioManager _audio;
+    private InputManager _input;
     private HashSet<Transform> occupiedSpawnPoints = new HashSet<Transform>();
 
     private static int totalGunsCreated = 0;
@@ -25,6 +27,8 @@ public class GunCreate : MonoBehaviour
 
     void Start()
     {
+        _input = InputManager.Instance;
+        _audio = AudioManager.Instance;
         player = GameObject.FindGameObjectWithTag("Player").transform;
         playerController = player.GetComponent<PlayerController>();
         animator = GetComponent<Animator>();
@@ -64,7 +68,7 @@ public class GunCreate : MonoBehaviour
                 StartCoroutine(Recycle());
             }
         }
-
+        //_input.XInput
         if (Input.GetKeyUp(KeyCode.X))
         {
             recycleHoldTime = 0f;

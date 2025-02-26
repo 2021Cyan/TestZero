@@ -3,9 +3,7 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-
     public static InputManager Instance;
-
     public static PlayerInput PlayerInput;
     
     public Vector3 MoveInput { get; private set; }
@@ -18,6 +16,9 @@ public class InputManager : MonoBehaviour
     public bool DodgeInput { get; private set; }
     public bool ReloadInput { get; private set; }
     public bool BulletTimeInput { get; private set; }
+    public bool InteractInput { get; private set; }
+    public bool FInput { get; private set; }
+    public bool XInput { get; private set; }
 
     // make some set methods for the inputs
     public void SetMoveInput(Vector3 moveInput)
@@ -69,7 +70,19 @@ public class InputManager : MonoBehaviour
     {
         BulletTimeInput = bulletTimeInput;
     }
+    public void SetInteractInput(bool interactInput)
+    {
+        InteractInput = interactInput;
+    }
 
+    public void SetFInput(bool fInput)
+    {
+        FInput = fInput;
+    }
+    public void SetXInput(bool xInput)
+    {
+        XInput = xInput;
+    }
     private InputAction _moveInputAction;
     private InputAction _mouseInputAction;
     private InputAction _menuAction;
@@ -80,6 +93,9 @@ public class InputManager : MonoBehaviour
     private InputAction _dodgeAction;
     private InputAction _reloadAction;
     private InputAction _bulletTimeAction;
+    private InputAction _interactAction;
+    private InputAction _fAction;
+    private InputAction _xAction;
     private void Awake()
     {
         if (Instance == null)
@@ -105,6 +121,9 @@ public class InputManager : MonoBehaviour
         _dodgeAction = PlayerInput.actions["Dodge"];
         _reloadAction = PlayerInput.actions["Reload"];
         _bulletTimeAction = PlayerInput.actions["BulletTime"];
+        _interactAction = PlayerInput.actions["Interact"];
+        _fAction = PlayerInput.actions["F"];
+        _xAction = PlayerInput.actions["X"];
     }
 
     // Update is called once per frame
@@ -121,5 +140,10 @@ public class InputManager : MonoBehaviour
         DodgeInput = _dodgeAction.WasPressedThisFrame();
         ReloadInput = _reloadAction.WasPressedThisFrame();
         BulletTimeInput = _bulletTimeAction.WasPressedThisFrame();
+        InteractInput = _interactAction.WasPressedThisFrame();
+
+        // We need better names for these
+        // FInput = _fAction.WasPressedThisFrame();
+        // XInput = _xAction.IsPressed();
     }
 }

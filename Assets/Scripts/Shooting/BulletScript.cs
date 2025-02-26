@@ -176,7 +176,7 @@ public class BulletScript : MonoBehaviour
                 Ricochet();
                 if (ricochetCount < 2)
                 {
-                    _audio.PlayOneShot(_audio.Ricochet);
+                    _audio.PlayOneShot(_audio.Ricochet, transform.position);
                     ricochetCount++;
                 }
                 

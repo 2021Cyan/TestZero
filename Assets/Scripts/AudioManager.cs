@@ -27,6 +27,17 @@ public class AudioManager : MonoBehaviour
     public EventReference Death;
     public EventReference Hurt;
 
+    [Header("Enemy_SFX")]
+    public EventReference EnemyDeath;
+    public EventReference Explosion;
+    public EventReference EnemyHurt;
+    public EventReference Laser;
+    public EventReference EnemyFlying;
+
+    [Header("SFX")]
+    public EventReference Shop;
+    public EventReference ButtonPress;
+
     [Header("UI_SFX")]
     public EventReference UIClick;
     public EventReference UIHover;
@@ -49,7 +60,11 @@ public class AudioManager : MonoBehaviour
 
     public void PlayOneShot(EventReference sound, Vector3 p)
     {
-        RuntimeManager.PlayOneShot(sound, p);
+        EventInstance instance = RuntimeManager.CreateInstance(sound);
+        instance.set3DAttributes(RuntimeUtils.To3DAttributes(p));
+        instance.start();
+        instance.release();
+        // RuntimeManager.PlayOneShot(sound, p);
     }
     public void PlayOneShot(EventReference sound)
     {

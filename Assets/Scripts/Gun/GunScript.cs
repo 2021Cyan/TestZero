@@ -53,6 +53,8 @@ public class GunScript : MonoBehaviour
 
     private Transform player;
     private PlayerController playerController;
+    private InputManager _input;
+    private AudioManager _audio;
     private bool isPlayerNearby = false;
     private GunCreate gunCreateStation;
     private GunInfoScript info;
@@ -115,14 +117,17 @@ public class GunScript : MonoBehaviour
 
     void Start()
     {
+        _audio = AudioManager.Instance;
+        _input = InputManager.Instance;
         player = GameObject.FindGameObjectWithTag("Player").transform;
         playerController = player.GetComponent<PlayerController>();
     }
 
     void Update()
     {
-        if (isPlayerNearby && Input.GetKeyDown(KeyCode.E))
+        if (isPlayerNearby && _input.InteractInput)
         {
+            _audio.PlayOneShot(_audio.Pickup);
             EquipGun();
         }
     }
