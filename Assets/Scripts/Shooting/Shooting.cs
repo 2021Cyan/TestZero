@@ -7,9 +7,6 @@ public class Shooting : MonoBehaviour
 {
     [SerializeField] Transform firePoint;
     [SerializeField] GameObject bulletPrefab;
-    [SerializeField] GameObject bulletPrefab_Ricochet;
-    [SerializeField] GameObject bulletPrefab_Piercing;
-    [SerializeField] GameObject bulletPrefab_Tracking;
     [SerializeField] ParticleSystem muzzleFlash_single;
     [SerializeField] ParticleSystem muzzleFlash_smg;
 
@@ -107,23 +104,6 @@ public class Shooting : MonoBehaviour
             muzzleFlash_single.Play();
         }
 
-        GameObject selectedBulletPrefab = bulletPrefab;
-
-        switch (playerController.bulletType)
-        {
-            case 1:
-                selectedBulletPrefab = bulletPrefab_Ricochet;
-                break;
-            case 2:
-                selectedBulletPrefab = bulletPrefab_Piercing;
-                break;
-            case 10:
-                selectedBulletPrefab = bulletPrefab_Tracking;
-                break;
-            default:
-                selectedBulletPrefab = bulletPrefab;
-                break;
-        }
 
         // Calculate random spread within the current spread angle
         float randomSpread = Random.Range(-currentSpreadAngle / 4, currentSpreadAngle);
@@ -133,7 +113,7 @@ public class Shooting : MonoBehaviour
         firePoint.Rotate(0, 0, randomSpread);
 
         // Instantiate the bullet with the adjusted rotation
-        Instantiate(selectedBulletPrefab, firePoint.position, firePoint.rotation);
+        Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
 
         // Restore firePoint to its original rotation
         firePoint.rotation = originalRotation;

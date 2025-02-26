@@ -60,6 +60,7 @@ public class BulletScript : MonoBehaviour
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         trailRenderer = GetComponent<TrailRenderer>();
+        SetBulletColor();
 
         if(bulletType == 10)
         {
@@ -92,7 +93,7 @@ public class BulletScript : MonoBehaviour
                 bulletColor = Color.blue;
                 break;
             case 2:
-                bulletColor = Color.yellow;
+                bulletColor = Color.red;
                 break;
             case 10:
                 bulletColor = new Color(0.5f, 1f, 0.5f);
@@ -103,18 +104,6 @@ public class BulletScript : MonoBehaviour
         {
             spriteRenderer.color = bulletColor;
         }
-
-        if (trailRenderer != null)
-        {
-            Gradient gradient = new Gradient();
-            gradient.SetKeys(
-                new GradientColorKey[] { new GradientColorKey(bulletColor, 0.0f), new GradientColorKey(Color.clear, 1.0f) }, // 색상 변화
-                new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f) } // 투명도 변화
-            );
-
-            trailRenderer.colorGradient = gradient;
-        }
-
     }
 
     private void ShowHitmarker()
