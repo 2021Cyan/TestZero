@@ -7,6 +7,7 @@ public class InputManager : MonoBehaviour
     public static InputManager Instance;
 
     public static PlayerInput PlayerInput;
+    
     public Vector3 MoveInput { get; private set; }
     public Vector3 MouseInput { get; private set; }
     public bool MenuInput { get; private set; }
@@ -16,6 +17,7 @@ public class InputManager : MonoBehaviour
     public bool JumpInput { get; private set; }
     public bool DodgeInput { get; private set; }
     public bool ReloadInput { get; private set; }
+    public bool BulletTimeInput { get; private set; }
 
     // make some set methods for the inputs
     public void SetMoveInput(Vector3 moveInput)
@@ -63,6 +65,11 @@ public class InputManager : MonoBehaviour
         ReloadInput = reloadInput;
     }
 
+    public void SetBulletTimeInput(bool bulletTimeInput)
+    {
+        BulletTimeInput = bulletTimeInput;
+    }
+
     private InputAction _moveInputAction;
     private InputAction _mouseInputAction;
     private InputAction _menuAction;
@@ -72,6 +79,7 @@ public class InputManager : MonoBehaviour
     private InputAction _jumpAction;
     private InputAction _dodgeAction;
     private InputAction _reloadAction;
+    private InputAction _bulletTimeAction;
     private void Awake()
     {
         if (Instance == null)
@@ -96,6 +104,7 @@ public class InputManager : MonoBehaviour
         _jumpAction = PlayerInput.actions["Jump"];
         _dodgeAction = PlayerInput.actions["Dodge"];
         _reloadAction = PlayerInput.actions["Reload"];
+        _bulletTimeAction = PlayerInput.actions["BulletTime"];
     }
 
     // Update is called once per frame
@@ -111,5 +120,6 @@ public class InputManager : MonoBehaviour
         JumpInput = _jumpAction.WasPressedThisFrame();
         DodgeInput = _dodgeAction.WasPressedThisFrame();
         ReloadInput = _reloadAction.WasPressedThisFrame();
+        BulletTimeInput = _bulletTimeAction.WasPressedThisFrame();
     }
 }

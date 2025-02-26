@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -69,11 +69,10 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance;
     private InputManager _input;
     private AudioManager _audio;
+    [SerializeField] Transform center;
 
     private void Awake()
     {
-        _input = InputManager.Instance;
-        _audio = AudioManager.Instance;
         if (Instance == null)
         {
             Instance = this;
@@ -87,12 +86,15 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = false;
+        _input = InputManager.Instance;
+        _audio = AudioManager.Instance;
         hp = max_hp;
         currentAmmo = maxAmmo;
         maincam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        _audio.PlayOneShot(_audio.Music);
+        _audio.PlayOneShot(_audio.Lobby);
     }
 
     private void Update()
@@ -102,7 +104,6 @@ public class PlayerController : MonoBehaviour
         if (alive)
         {
             mousePos = maincam.ScreenToWorldPoint(_input.MouseInput);
-            Hurt();
             Dodge();
             Die();
             Jump();
@@ -322,19 +323,20 @@ public class PlayerController : MonoBehaviour
         isInvincible = false;
     }
 
-    void Hurt()
+    public void Hurt(float amount)
     {
-        if (Input.GetKeyDown(KeyCode.Alpha2) && !isInvincible)
+        if (!isInvincible)
         {
+            _audio.PlayOneShot(_audio.Hurt);
             if (mousePos.x > transform.position.x)
             {
                 rb.AddForce(new Vector2(-4f, 1f), ForceMode2D.Impulse);
-                hp = hp - 50;
+                hp = hp - amount;
             }
             else
             {
                 rb.AddForce(new Vector2(4f, 1f), ForceMode2D.Impulse);
-                hp = hp - 50;
+                hp = hp - amount;
             }
         }
     }
@@ -342,6 +344,7 @@ public class PlayerController : MonoBehaviour
     {
         if (hp <= 0)
         {
+            _audio.PlayOneShot(_audio.Death);
             anim.SetTrigger("die");
             alive = false;
         }
@@ -382,7 +385,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Press Q to activate bullet time
-        if (Input.GetKeyDown(KeyCode.Q) && bulletTimeGauge >= bulletTimeMaxGauge && !isBulletTimeActive)
+        if (_input.BulletTimeInput && bulletTimeGauge >= bulletTimeMaxGauge && !isBulletTimeActive)
         {
             StartCoroutine(ActivateBulletTime());
         }
@@ -390,6 +393,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator ActivateBulletTime()
     {
+        _audio.SetPitch(0.5f);
         isBulletTimeActive = true;
 
         // Global slow-motion (Enemy, Bullet...etc)
@@ -401,6 +405,7 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(bulletTimeDuration);
 
+        _audio.SetPitch(1.0f);
         // Restore speed setting
         Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02f;
@@ -409,6 +414,11 @@ public class PlayerController : MonoBehaviour
 
         // Restore player animation speed
         anim.speed = 1f;
+    }
+
+    public Transform GetAimPos()
+    {
+        return center.transform;
     }
 
     public void PlayOneShotRunning()

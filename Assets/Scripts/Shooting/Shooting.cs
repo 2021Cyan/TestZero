@@ -1,10 +1,14 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class Shooting : MonoBehaviour
 {
     [SerializeField] Transform firePoint;
     [SerializeField] GameObject bulletPrefab;
+    [SerializeField] GameObject bulletPrefab_Ricochet;
+    [SerializeField] GameObject bulletPrefab_Piercing;
+    [SerializeField] GameObject bulletPrefab_Tracking;
     [SerializeField] ParticleSystem muzzleFlash_single;
     [SerializeField] ParticleSystem muzzleFlash_smg;
 
@@ -16,14 +20,14 @@ public class Shooting : MonoBehaviour
     private float currentSpreadAngle = 0f;
     private bool isReloading = false;
 
-    void Start()
+    private void Start()
     {
         playerController = PlayerController.Instance;
         _input = InputManager.Instance;
         _audio = AudioManager.Instance;
     }
 
-    void Update()
+    private void Update()
     {
         if (!playerController.IsAlive())
         {
@@ -47,7 +51,8 @@ public class Shooting : MonoBehaviour
         if (isFiring)
         {
             Shoot();
-            _audio.PlayOneShot(_audio.Shoot);
+            _audio.SetParameterByName("WeaponType", 0);
+            _audio.PlayOneShot(_audio.Shot);
             nextFireTime = Time.time + 1f / playerController.fireRate;
         }
         else
@@ -62,7 +67,7 @@ public class Shooting : MonoBehaviour
         }
     }
 
-    void Shoot()
+    private void Shoot()
     {
         // Trigger screen shake
         CameraScript cameraScript = Camera.main.GetComponent<CameraScript>();
@@ -90,6 +95,25 @@ public class Shooting : MonoBehaviour
             muzzleFlash_single.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             muzzleFlash_single.Play();
         }
+
+        GameObject selectedBulletPrefab = bulletPrefab;
+
+        switch (playerController.bulletType)
+        {
+            case 1:
+                selectedBulletPrefab = bulletPrefab_Ricochet;
+                break;
+            case 2:
+                selectedBulletPrefab = bulletPrefab_Piercing;
+                break;
+            case 10:
+                selectedBulletPrefab = bulletPrefab_Tracking;
+                break;
+            default:
+                selectedBulletPrefab = bulletPrefab;
+                break;
+        }
+
         // Calculate random spread within the current spread angle
         float randomSpread = Random.Range(-currentSpreadAngle / 4, currentSpreadAngle);
 
@@ -98,7 +122,7 @@ public class Shooting : MonoBehaviour
         firePoint.Rotate(0, 0, randomSpread);
 
         // Instantiate the bullet with the adjusted rotation
-        Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        Instantiate(selectedBulletPrefab, firePoint.position, firePoint.rotation);
 
         // Restore firePoint to its original rotation
         firePoint.rotation = originalRotation;
@@ -114,6 +138,24 @@ public class Shooting : MonoBehaviour
     public float GetCurrentSpread()
     {
         return currentSpreadAngle;
+    }
+
+    //TODO: Deciding the weapon type......
+    private int GetWeaponType()
+    {
+        if(playerController.gripType == "gun_grip_smg")
+        {
+            return 0;
+        }
+        else if(playerController.gripType == "gun_grip_pistol")
+        {
+            return 1;
+        }
+        else if(playerController.gripType == "gun_grip_handcannon")
+        {
+            return 2;
+        }
+        return 0;
     }
 
     public void Reload()

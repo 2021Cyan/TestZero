@@ -2,6 +2,9 @@
 
 public class BulletScript : MonoBehaviour
 {
+    // Hitmarker references
+    public GameObject hitmarkerPrefab;
+
     // Speed of the bullet
     public float speed = 50f;
     // Lifetime of the bullet
@@ -13,14 +16,19 @@ public class BulletScript : MonoBehaviour
     public int bulletType = 0;
     public float searchRange = 10f;
     public int max_target = 0;
-    private InputManager _Input;
+    private InputManager _input;
+    private AudioManager _audio;
     private Transform player;
     private PlayerController playerController;
     public GameObject damageTextPrefab;
-
     // For Tracker bullet
     public float homingTurnSpeed = 5f;
     private Vector2 currentHomingDirection;
+
+    private int ricochetCount = 0;
+
+    private SpriteRenderer spriteRenderer;
+    private TrailRenderer trailRenderer;
 
     void Awake()
     {
@@ -45,14 +53,23 @@ public class BulletScript : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         playerController = player.GetComponent<PlayerController>();
         damage = playerController.damage;
-        _Input = InputManager.Instance;
+        _input = InputManager.Instance;
+        _audio = AudioManager.Instance;
         // Get the Rigidbody2D component
         rb = GetComponent<Rigidbody2D>();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        trailRenderer = GetComponent<TrailRenderer>();
+
+        if(bulletType == 10)
+        {
+            speed = 40f;
+        }
         // Calculate the direction based on the rotation angle
         float angle = transform.eulerAngles.z;
         Vector2 direction = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
 
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(_Input.MouseInput);
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(_input.MouseInput);
         // Adjust direction based on the mouse position
         if (mousePos.x < transform.position.x)
         {
@@ -65,13 +82,59 @@ public class BulletScript : MonoBehaviour
         Destroy(gameObject, lifetime);
     }
 
+    private void SetBulletColor()
+    {
+        Color bulletColor = new Color(255, 187,0, 255);
+
+        switch (bulletType)
+        {
+            case 1:
+                bulletColor = Color.blue;
+                break;
+            case 2:
+                bulletColor = Color.yellow;
+                break;
+            case 10:
+                bulletColor = new Color(0.5f, 1f, 0.5f);
+                break;
+        }
+
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = bulletColor;
+        }
+
+        if (trailRenderer != null)
+        {
+            Gradient gradient = new Gradient();
+            gradient.SetKeys(
+                new GradientColorKey[] { new GradientColorKey(bulletColor, 0.0f), new GradientColorKey(Color.clear, 1.0f) }, // 색상 변화
+                new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f) } // 투명도 변화
+            );
+
+            trailRenderer.colorGradient = gradient;
+        }
+
+    }
+
+    private void ShowHitmarker()
+    {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(_input.MouseInput);
+        mousePos.z = 0;
+        if (hitmarkerPrefab != null)
+        {
+            GameObject hitmarker = Instantiate(hitmarkerPrefab, mousePos, Quaternion.identity);
+            Destroy(hitmarker, 0.05f); 
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Contact with the Enemy 
         if (other.gameObject.CompareTag("Enemy"))
         {
             // Get enemy component
-            Enemy enemy = other.GetComponent<Enemy>();
+            EnemyBase enemy = other.GetComponent<EnemyBase>();
 
             // Enemy is not null
             if (enemy != null)
@@ -79,6 +142,7 @@ public class BulletScript : MonoBehaviour
                 enemy.TakeDamage((int)damage);
                 Vector3 hitPosition = other.ClosestPoint(transform.position);
                 ShowDamageText((int)damage, hitPosition);
+                ShowHitmarker();
                 if (bulletType == 2)
                 {
                     max_target--;
@@ -110,6 +174,12 @@ public class BulletScript : MonoBehaviour
             if (bulletType == 1)
             {
                 Ricochet();
+                if (ricochetCount < 2)
+                {
+                    _audio.PlayOneShot(_audio.Ricochet);
+                    ricochetCount++;
+                }
+                
             }
             else
             {
@@ -144,21 +214,32 @@ public class BulletScript : MonoBehaviour
     // Helper function for Tracker bullet
     private GameObject FindEnemyClosestToMouse()
     {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(_input.MouseInput);
+        mousePos.z = 0f;
+
+        float searchWidth = 5f;
+        float searchHeight = 5f;
+
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         GameObject closestEnemy = null;
         float minDistance = Mathf.Infinity;
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(_Input.MouseInput);
-        mousePos.z = 0f;
 
         foreach (GameObject enemy in enemies)
         {
-            float distance = Vector3.Distance(enemy.transform.position, mousePos);
-            if (distance < minDistance)
+            Vector3 enemyPos = enemy.transform.position;
+            if (enemyPos.x >= mousePos.x - searchWidth / 2 && enemyPos.x <= mousePos.x + searchWidth / 2 &&
+                enemyPos.y >= mousePos.y - searchHeight / 2 && enemyPos.y <= mousePos.y + searchHeight / 2)
             {
-                minDistance = distance;
-                closestEnemy = enemy;
+                float distance = Vector3.Distance(enemyPos, mousePos);
+
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    closestEnemy = enemy;
+                }
             }
         }
+
         return closestEnemy;
     }
 

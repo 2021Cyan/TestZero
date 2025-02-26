@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1938965502373502052}
   - component: {fileID: 6948428697045885138}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: Bullet_Ricochet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 10
   m_Sprite: {fileID: 4960460756787452980, guid: 82284fbfa756c354591a667c0d278b36, type: 3}
-  m_Color: {r: 1, g: 0.7327649, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.15047407, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -261,10 +261,10 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0.43646842, b: 0, a: 1}
-      key1: {r: 1, g: 0.44547823, b: 0, a: 1}
-      key2: {r: 1, g: 0.9356718, b: 0, a: 1}
-      key3: {r: 1, g: 0.9470248, b: 0, a: 1}
+      key0: {r: 0, g: 0.14901961, b: 1, a: 1}
+      key1: {r: 0, g: 0.14901961, b: 1, a: 1}
+      key2: {r: 0, g: 0.42142296, b: 1, a: 1}
+      key3: {r: 0, g: 0.74219465, b: 1, a: 1}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
