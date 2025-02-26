@@ -318,7 +318,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   segmentName: 
   canBeStart: 0
-  number_of_exits: 0
+  canFlipX: 0
+  canFlipY: 0
+  likelihood: 4
   entryPoint: {fileID: 0}
   exitPoints: []
 --- !u!1001 &3276294006066755790

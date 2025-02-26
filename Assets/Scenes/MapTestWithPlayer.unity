@@ -1194,9 +1194,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   segmentPrefabs:
   - {fileID: 8911128543407557057, guid: 678100c987d04f54aba4f0de3ce4eac9, type: 3}
-  - {fileID: 3032546248418473337, guid: fd1b67b57d97b72448031707edb9592b, type: 3}
+  - {fileID: 2322570914769582032, guid: 1e5e9147d402ba349b4dc431e4b3200c, type: 3}
+  - {fileID: 7326364849361451869, guid: 20035d2585e995e4e933dd3d8b67db50, type: 3}
+  - {fileID: 393479479986750669, guid: dda4a527091fc874a9ab77430f323fda, type: 3}
   startPoint: {fileID: 425647270}
-  numberOfSegments: 5
+  numberOfSegments: 10
 --- !u!1 &1421307329 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2584178023673744701, guid: 8cc641bc1a61cd84ea49a39d2540e80a, type: 3}

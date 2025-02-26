@@ -5,6 +5,9 @@ public class MapSegment : MonoBehaviour
 {
     public string segmentName;
     public bool canBeStart;
+    public bool canFlipX;
+    public bool canFlipY;
+    public int likelihood; // value between 1 and 10 representing how often segment should occur
     public Transform entryPoint;
     public List<Transform> exitPoints;
 
