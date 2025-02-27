@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8824503228596546378
+--- !u!1 &1690604036013216889
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 332415656922803283}
-  - component: {fileID: 1253681533824516971}
-  - component: {fileID: 1602790312095415340}
+  - component: {fileID: 6441533872060072971}
+  - component: {fileID: 7838885707744038890}
+  - component: {fileID: 7359788693089475494}
   m_Layer: 0
   m_Name: AudioManger
   m_TagString: Untagged
@@ -18,28 +18,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &332415656922803283
+--- !u!4 &6441533872060072971
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8824503228596546378}
+  m_GameObject: {fileID: 1690604036013216889}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.1254883, y: 7.0029907, z: -0.020397007}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1253681533824516971
+--- !u!114 &7838885707744038890
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8824503228596546378}
+  m_GameObject: {fileID: 1690604036013216889}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9468c5f457ace64f8d4df6d642b107f, type: 3}
@@ -48,71 +48,36 @@ MonoBehaviour:
   LoadEvent: 1
   UnloadEvent: 2
   Banks:
-  - Music
+  - Master
   CollisionTag: 
   PreloadSamples: 0
---- !u!114 &1602790312095415340
+--- !u!114 &7359788693089475494
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8824503228596546378}
+  m_GameObject: {fileID: 1690604036013216889}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b3d80f6e99f8d24093618b352c2b830, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Music:
+  Lobby:
     Guid:
-      Data1: 1606594323
-      Data2: 1235694824
-      Data3: -1893346132
-      Data4: -670496144
-    Path: event:/Music/test_f
+      Data1: 1540001489
+      Data2: 1274261774
+      Data3: -888704345
+      Data4: 1205330514
+    Path: event:/Music/Lobby
+  Battle:
+    Guid:
+      Data1: -1876336767
+      Data2: 1282026658
+      Data3: 137282469
+      Data4: -1580661986
+    Path: event:/Music/Battle
   Ambience:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  Shoot:
-    Guid:
-      Data1: -333215106
-      Data2: 1120332466
-      Data3: 1368701075
-      Data4: -1093642349
-    Path: event:/SFX/Character/Fire
-  Reload:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  Hit:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  Dodge:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  Jump:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  Death:
     Guid:
       Data1: 0
       Data2: 0
@@ -121,19 +86,131 @@ MonoBehaviour:
     Path: 
   Pickup:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -599363066
+      Data2: 1284752245
+      Data3: 1589032624
+      Data4: 336401005
+    Path: event:/SFX/Character/Pickup
+  Aim:
+    Guid:
+      Data1: 1889839774
+      Data2: 1256131355
+      Data3: -1854764368
+      Data4: -1240624215
+    Path: event:/SFX/Weapons/Aim
+  Ricochet:
+    Guid:
+      Data1: 1617972552
+      Data2: 1133533511
+      Data3: -846650718
+      Data4: -1902568380
+    Path: event:/SFX/Weapons/Ricochet
+  Shot:
+    Guid:
+      Data1: -130069547
+      Data2: 1074638838
+      Data3: -2102660213
+      Data4: 1622467977
+    Path: event:/SFX/Weapons/Shot
+  Reload:
+    Guid:
+      Data1: 17271108
+      Data2: 1135824053
+      Data3: -563909452
+      Data4: -1930987726
+    Path: event:/SFX/Weapons/Reload
+  Dodge:
+    Guid:
+      Data1: -390570900
+      Data2: 1310743844
+      Data3: -290216769
+      Data4: -925370065
+    Path: event:/SFX/Character/Dodge
+  JumpGroan:
+    Guid:
+      Data1: 1489319271
+      Data2: 1114501544
+      Data3: -752884067
+      Data4: 591068211
+    Path: event:/SFX/Character/JumpGroan
   Footstep:
+    Guid:
+      Data1: -1040624722
+      Data2: 1159147389
+      Data3: -1157366875
+      Data4: -37949349
+    Path: event:/SFX/Character/Running
+  Moonwalk:
+    Guid:
+      Data1: -823731980
+      Data2: 1114620349
+      Data3: 1428175805
+      Data4: -1553304574
+    Path: event:/SFX/Character/MoonWalk
+  AirDash:
+    Guid:
+      Data1: 54975204
+      Data2: 1091873556
+      Data3: 1283125633
+      Data4: -591335207
+    Path: event:/SFX/Character/Airdash
+  Death:
+    Guid:
+      Data1: -788818125
+      Data2: 1269455886
+      Data3: 2025305246
+      Data4: -511640464
+    Path: event:/SFX/Character/Death
+  Hurt:
+    Guid:
+      Data1: 1711087087
+      Data2: 1209704946
+      Data3: 270879405
+      Data4: 225342027
+    Path: event:/SFX/Character/Hurt
+  EnemyDeath:
     Guid:
       Data1: 0
       Data2: 0
       Data3: 0
       Data4: 0
     Path: 
-  Moonwalk:
+  Explosion:
+    Guid:
+      Data1: -590632944
+      Data2: 1093584420
+      Data3: -1757320830
+      Data4: -122563099
+    Path: event:/SFX/Explosion
+  EnemyHurt:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  Laser:
+    Guid:
+      Data1: -1600066894
+      Data2: 1188115199
+      Data3: 1136346788
+      Data4: -313973955
+    Path: event:/SFX/Weapons/Laser
+  EnemyFlying:
+    Guid:
+      Data1: -1754085737
+      Data2: 1151171897
+      Data3: 961014203
+      Data4: 185352016
+    Path: event:/SFX/DroneFlying
+  Shop:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  ButtonPress:
     Guid:
       Data1: 0
       Data2: 0
