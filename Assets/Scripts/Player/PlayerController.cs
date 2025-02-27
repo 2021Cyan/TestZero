@@ -361,6 +361,7 @@ public class PlayerController : MonoBehaviour
 
         Destroy(Instance.gameObject);
         Instance = null;
+        RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -370,8 +371,8 @@ public class PlayerController : MonoBehaviour
         if(_input.ResetInput)
         {
             Destroy(Instance.gameObject);
-            RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
             Instance = null;
+            RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
