@@ -328,6 +328,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isInvincible)
         {
+            PlayerUI.Instance.ShowHurtEffect();
             _audio.PlayOneShot(_audio.Hurt);
             if (mousePos.x > transform.position.x)
             {
