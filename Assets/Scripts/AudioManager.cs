@@ -68,7 +68,10 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayOneShot(EventReference sound)
     {
-        RuntimeManager.PlayOneShot(sound);
+        EventInstance instance = RuntimeManager.CreateInstance(sound);
+        instance.start();
+        instance.release();
+        // RuntimeManager.PlayOneShot(sound);
     }
 
     public void SetParameterByName(string paraName, float value)
