@@ -1,9 +1,12 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class PlayerUI : MonoBehaviour
 {
+
+    public static PlayerUI Instance;
 
     [Header("Ammo UI")]
     [SerializeField] private TextMeshProUGUI ammoText;
@@ -20,16 +23,33 @@ public class PlayerUI : MonoBehaviour
     [Header("Screen Filter(BulletTime)")]
     [SerializeField] private Image bulletTimeFilter;
 
+    [Header("Screen Filter(Hurt)")]
+    [SerializeField] private Image hurtFilter;
+
     [SerializeField] private Image gripImage;
     [SerializeField] private Image barrelImage;
     [SerializeField] private Image frameImage;
 
     private PlayerController player;
+    private Coroutine hurtCoroutine;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
         player = PlayerController.Instance;
         bulletTimeFilter.gameObject.SetActive(false);
+        hurtFilter.gameObject.SetActive(false);
     }
 
     void Update()
@@ -119,5 +139,32 @@ public class PlayerUI : MonoBehaviour
                 bulletTimeFilter.gameObject.SetActive(false);
             }
         }
+    }
+
+    public void ShowHurtEffect()
+    {
+        if (hurtCoroutine != null)
+        {
+            StopCoroutine(hurtCoroutine);
+        }
+        hurtCoroutine = StartCoroutine(HurtFlash());
+    }
+
+    private IEnumerator HurtFlash()
+    {
+        hurtFilter.gameObject.SetActive(true);
+        Color c = hurtFilter.color;
+        float duration = 0.3f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            c.a = Mathf.Lerp(0.5f, 0f, elapsedTime / duration);
+            hurtFilter.color = c;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        hurtFilter.gameObject.SetActive(false);
     }
 }

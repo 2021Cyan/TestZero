@@ -63,6 +63,17 @@ public class Enemy_Drone : EnemyBase
     {
         float randomX = Random.Range(-1f, 1f);
         moveDirection = new Vector3(randomX, 0, 0).normalized;
+
+        if (moveDirection.x > 0)
+        {
+            transform.localScale = new Vector3(1, 1, 0);
+            turret.localScale = new Vector3(1, 1, 0);
+        }
+        else if (moveDirection.x < 0)
+        {
+           transform.localScale = new Vector3(-1, 1, 0);
+           turret.localScale = new Vector3(-1, 1, 0);
+        }
     }
 
 
@@ -119,7 +130,7 @@ public class Enemy_Drone : EnemyBase
             Vector3 direction = (player.position - turret.position).normalized;
             Debug.DrawLine(turret.position, turret.position + direction * 3f, Color.red, 0.1f);
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            turret.rotation = Quaternion.Euler(0, 0, angle);
+            turret.rotation = Quaternion.Euler(0, 0, angle + 45);
         }
     }
 
