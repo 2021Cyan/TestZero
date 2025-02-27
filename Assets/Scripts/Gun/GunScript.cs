@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 [System.Serializable]
 public class LegendaryGunData
@@ -59,6 +60,7 @@ public class GunScript : MonoBehaviour
     private GunCreate gunCreateStation;
     private GunInfoScript info;
     private GunInfoRender infoRender;
+    [SerializeField] Light2D light;
 
     private LegendaryGunData[] legendaryGuns = new LegendaryGunData[]
     {
@@ -113,6 +115,26 @@ public class GunScript : MonoBehaviour
             info.HideGunStats();
             infoRender.HideGunSprites();
         }
+    }
+
+    private void SetLightColor()
+    {
+        switch (gunRarity)
+        {
+            case Rarity.Legendary:
+                light.color = new Color(231f / 255f, 76f / 255f, 60f / 255f);
+                break;
+            case Rarity.Rare:
+                light.color = new Color(241f / 255f, 196f / 255f, 15f / 255f);
+                break;
+            case Rarity.Uncommon:
+                light.color = new Color(142f / 255f, 68f / 255f, 173f / 255f);
+                break;
+            case Rarity.Common:
+                light.color = new Color(52f / 255f, 152f / 255f, 219f / 255f);
+                break;
+        }
+
     }
 
     void Start()
@@ -286,9 +308,11 @@ public class GunScript : MonoBehaviour
     {
         if(gunRarity == Rarity.Legendary)
         {
+            SetLightColor();
             return;
         }
         gripType = gripTypes[Random.Range(0, gripTypes.Length)];
+        SetLightColor();
     }
 
     private void SetBaseStats()
