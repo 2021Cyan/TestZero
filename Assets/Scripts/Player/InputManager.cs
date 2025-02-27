@@ -19,6 +19,7 @@ public class InputManager : MonoBehaviour
     public bool InteractInput { get; private set; }
     public bool FInput { get; private set; }
     public bool XInput { get; private set; }
+    public bool ResetInput { get; private set; }
 
     // make some set methods for the inputs
     public void SetMoveInput(Vector3 moveInput)
@@ -74,7 +75,10 @@ public class InputManager : MonoBehaviour
     {
         InteractInput = interactInput;
     }
-
+    public void SetResetInput(bool resetInput)
+    {
+        ResetInput = resetInput;
+    }
     public void SetFInput(bool fInput)
     {
         FInput = fInput;
@@ -96,6 +100,7 @@ public class InputManager : MonoBehaviour
     private InputAction _interactAction;
     private InputAction _fAction;
     private InputAction _xAction;
+    private InputAction _resetAction;
     private void Awake()
     {
         if (Instance == null)
@@ -109,7 +114,6 @@ public class InputManager : MonoBehaviour
             return;
         }
         PlayerInput = GetComponent<PlayerInput>();
-
         _menuAction = PlayerInput.actions["Menu"];
         _menuUIAction = PlayerInput.actions["MenuUI"];
         _moveInputAction = PlayerInput.actions["Move"];
@@ -124,6 +128,7 @@ public class InputManager : MonoBehaviour
         _interactAction = PlayerInput.actions["Interact"];
         _fAction = PlayerInput.actions["F"];
         _xAction = PlayerInput.actions["X"];
+        _resetAction = PlayerInput.actions["Reset"];
     }
 
     // Update is called once per frame
@@ -141,6 +146,7 @@ public class InputManager : MonoBehaviour
         ReloadInput = _reloadAction.WasPressedThisFrame();
         BulletTimeInput = _bulletTimeAction.WasPressedThisFrame();
         InteractInput = _interactAction.WasPressedThisFrame();
+        ResetInput = _resetAction.WasPressedThisFrame();
 
         // We need better names for these
         // FInput = _fAction.WasPressedThisFrame();

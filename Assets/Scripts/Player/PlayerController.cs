@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using FMOD.Studio;
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -356,9 +358,10 @@ public class PlayerController : MonoBehaviour
 
     void Restart()
     {
-        if(Input.GetKey(KeyCode.Alpha0))
+        if(_input.ResetInput)
         {
             Destroy(Instance.gameObject);
+            RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
             Instance = null;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
