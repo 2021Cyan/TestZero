@@ -84,7 +84,7 @@ public class Enemy_Drone : EnemyBase
         if (timer >= changeDirectionTime)
         {
             ChangeDirection();
-            _audio.PlayOneShot(_audio.EnemyFlying, transform.position);
+            // _audio.PlayOneShot(_audio.EnemyFlying, transform.position);
             timer = 0;
         }
         float floatingY = Mathf.Sin(Time.time * 2f) * floatStrength;
@@ -93,7 +93,7 @@ public class Enemy_Drone : EnemyBase
         if (wallCheck.collider != null)
         {
             ChangeDirection();
-            _audio.PlayOneShot(_audio.EnemyFlying, transform.position);
+            // _audio.PlayOneShot(_audio.EnemyFlying, transform.position);
         }
         rb.linearVelocity = (moveDirection + new Vector3(0, floatingY, 0)) * moveSpeed;
     }
