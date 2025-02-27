@@ -349,11 +349,19 @@ public class PlayerController : MonoBehaviour
             _audio.PlayOneShot(_audio.Death);
             anim.SetTrigger("die");
             alive = false;
-            Destroy(Instance.gameObject);
-            Instance = null;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            StartCoroutine(RestartAfterDelay(1.5f));
         }
     }
+
+    IEnumerator RestartAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        Destroy(Instance.gameObject);
+        Instance = null;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
 
     void Restart()
     {
