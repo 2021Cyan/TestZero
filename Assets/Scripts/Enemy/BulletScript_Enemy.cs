@@ -3,7 +3,7 @@ using UnityEngine;
 public class BulletScript_Enemy : MonoBehaviour
 {
     public float speed = 50f; 
-    public float damage = 10f; 
+    public float damage = 5f; 
     public float lifetime = 5f; 
     private Rigidbody2D rb;
 

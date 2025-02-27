@@ -330,12 +330,12 @@ public class PlayerController : MonoBehaviour
             _audio.PlayOneShot(_audio.Hurt);
             if (mousePos.x > transform.position.x)
             {
-                rb.AddForce(new Vector2(-4f, 1f), ForceMode2D.Impulse);
+                //rb.AddForce(new Vector2(-4f, 1f), ForceMode2D.Impulse);
                 hp = hp - amount;
             }
             else
             {
-                rb.AddForce(new Vector2(4f, 1f), ForceMode2D.Impulse);
+                //rb.AddForce(new Vector2(4f, 1f), ForceMode2D.Impulse);
                 hp = hp - amount;
             }
         }

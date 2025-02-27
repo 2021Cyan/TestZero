@@ -12,6 +12,7 @@ public class ReticleController : MonoBehaviour
     // Tracker references
     public GameObject trackerPrefab;
     private GameObject trackerInstance;
+    string reticlePath_original = $"Sprites/Reticles/Crosshair_08";
     string reticlePath = $"Sprites/Reticles/Crosshair_17";
 
     void Start()
@@ -62,6 +63,10 @@ public class ReticleController : MonoBehaviour
                         trackerInstance = null;
                     }
                 }
+            }
+            else
+            {
+                spriteRenderer.sprite = Resources.Load<Sprite>(reticlePath_original);
             }
 
             // Activate the reticle and update its position
