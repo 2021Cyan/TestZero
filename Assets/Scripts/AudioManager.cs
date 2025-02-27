@@ -56,6 +56,7 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        RuntimeManager.WaitForAllSampleLoading();
     }
 
     public void PlayOneShot(EventReference sound, Vector3 p)
