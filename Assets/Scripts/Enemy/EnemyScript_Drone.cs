@@ -32,7 +32,7 @@ public class Enemy_Drone : EnemyBase
     {
         _audio = AudioManager.Instance;
         isalive = true;
-        resourceAmount = 200;
+        resourceAmount = 320;
         maxHealth = 150;
         currentHealth = maxHealth;
         fireRate = 1.5f;
