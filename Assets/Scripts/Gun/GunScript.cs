@@ -180,13 +180,13 @@ public class GunScript : MonoBehaviour
 
     public void AssignRarityWithPity(int totalGunsCreated)
     {
-        if (totalGunsCreated % 50 == 0)
+        if (totalGunsCreated % 30 == 0)
         {
             gunRarity = Rarity.Legendary;
             maxPartLevel = 0;
             return;
         }
-        else if (totalGunsCreated % 25 == 0)
+        else if (totalGunsCreated % 20 == 0)
         {
             gunRarity = Rarity.Rare;
             maxPartLevel = 10;
