@@ -100,7 +100,7 @@ MonoBehaviour:
   dodgeCooldown: 1
   bulletTimeGauge: 0
   bulletTimeMaxGauge: 100
-  bulletTimeFillRate: 5
+  bulletTimeFillRate: 10
   bulletTimeDuration: 5
   isBulletTimeActive: 0
   enemyTimeScale: 0.5
