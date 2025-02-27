@@ -77,10 +77,10 @@ MonoBehaviour:
   movePower: 8
   walkPower: 2.5
   dodgePower: 15
-  jumpPower: 12
+  jumpPower: 13
   max_hp: 100
   hp: 100
-  resource: 10000
+  resource: 1600
   ResourceText: {fileID: 2392417955568809763, guid: e1c331f98e06af44db2d4583c0412cff, type: 3}
   damage: 20
   fireRate: 4
@@ -100,7 +100,7 @@ MonoBehaviour:
   dodgeCooldown: 1
   bulletTimeGauge: 0
   bulletTimeMaxGauge: 100
-  bulletTimeFillRate: 50
+  bulletTimeFillRate: 5
   bulletTimeDuration: 5
   isBulletTimeActive: 0
   enemyTimeScale: 0.5
@@ -134,9 +134,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firePoint: {fileID: 2358445662687999258}
   bulletPrefab: {fileID: 5725336151103119662, guid: 53f66a93da7d33348990aa22cd439aa5, type: 3}
-  bulletPrefab_Ricochet: {fileID: 5725336151103119662, guid: 58c0baade81ba364ca62311e18600db9, type: 3}
-  bulletPrefab_Piercing: {fileID: 5725336151103119662, guid: db127d96389bed941bc2af8861b4b4e4, type: 3}
-  bulletPrefab_Tracking: {fileID: 5725336151103119662, guid: c8124c8adc6c3234c86fd692d634ee82, type: 3}
   muzzleFlash_single: {fileID: 3230190725463975599}
   muzzleFlash_smg: {fileID: 2534861853541638291}
 --- !u!61 &9203051741480366121

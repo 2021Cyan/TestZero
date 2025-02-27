@@ -32,8 +32,8 @@ public class Enemy_Drone : EnemyBase
     {
         _audio = AudioManager.Instance;
         isalive = true;
-        resourceAmount = 800;
-        maxHealth = 200;
+        resourceAmount = 200;
+        maxHealth = 150;
         currentHealth = maxHealth;
         fireRate = 1.5f;
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
