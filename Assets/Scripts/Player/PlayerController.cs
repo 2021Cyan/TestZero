@@ -101,6 +101,7 @@ public class PlayerController : MonoBehaviour
     {
         mousePos = Camera.main.ScreenToWorldPoint(_input.MouseInput);
         AdjustGravity();
+        Restart();
         if (alive)
         {
             mousePos = maincam.ScreenToWorldPoint(_input.MouseInput);
@@ -347,6 +348,19 @@ public class PlayerController : MonoBehaviour
             _audio.PlayOneShot(_audio.Death);
             anim.SetTrigger("die");
             alive = false;
+            Destroy(Instance.gameObject);
+            Instance = null;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+    }
+
+    void Restart()
+    {
+        if(Input.GetKey(KeyCode.Alpha0))
+        {
+            Destroy(Instance.gameObject);
+            Instance = null;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 
