@@ -94,6 +94,9 @@ public class GunInfoScript : MonoBehaviour
             case 10:
                 bulletType = "Tracking";
                 break;
+            case 11:
+                bulletType = "PIERCING";
+                break;
             default:
                 bulletType = "Standard";
                 break;

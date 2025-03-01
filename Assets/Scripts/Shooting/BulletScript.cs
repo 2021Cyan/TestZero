@@ -28,7 +28,6 @@ public class BulletScript : MonoBehaviour
     private int ricochetCount = 0;
 
     private SpriteRenderer spriteRenderer;
-    private TrailRenderer trailRenderer;
 
     void Awake()
     {
@@ -43,6 +42,10 @@ public class BulletScript : MonoBehaviour
                 if (bulletType == 2)
                 {
                     max_target = 3;
+                }
+                if (bulletType == 12)
+                {
+                    max_target = 100;
                 }
             }
         }
@@ -59,7 +62,6 @@ public class BulletScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         spriteRenderer = GetComponent<SpriteRenderer>();
-        trailRenderer = GetComponent<TrailRenderer>();
         SetBulletColor();
 
         if(bulletType == 10)

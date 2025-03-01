@@ -25,7 +25,6 @@ public class Enemy_Drone : EnemyBase
     private SpriteRenderer spriteRenderer;
     private AudioManager _audio;
 
-    [SerializeField] ParticleSystem muzzleFlash_fire;
     [SerializeField] GameObject explosion;
 
     void Start()
@@ -139,11 +138,6 @@ public class Enemy_Drone : EnemyBase
         if (isPlayerNearby && Time.time > lastFireTime + fireRate)
         {
             lastFireTime = Time.time;
-
-            if (muzzleFlash_fire != null)
-            {
-                muzzleFlash_fire.Play();
-            }
             if (turret_bullet != null && turret_firePoint != null)
             {
                 _audio.PlayOneShot(_audio.Laser, transform.position);
