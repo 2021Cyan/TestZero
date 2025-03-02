@@ -448,6 +448,11 @@ public class PlayerController : MonoBehaviour
         return center.transform;
     }
 
+    public bool GetPlayerInvincible()
+    {
+        return isInvincible;
+    }
+
     public void PlayOneShotRunning()
     {
         _audio.PlayOneShot(_audio.Footstep);

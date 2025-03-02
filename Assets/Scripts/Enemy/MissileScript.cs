@@ -68,7 +68,8 @@ public class MissileScript : EnemyBase
         if (isExploded)
             return;
 
-        if (other.CompareTag("Player") || other.CompareTag("Terrain"))
+
+        if ((other.CompareTag("Player") && !playerController.GetPlayerInvincible())|| other.CompareTag("Terrain"))
         {
             Explode();
         }

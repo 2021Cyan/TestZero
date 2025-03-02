@@ -20,12 +20,11 @@ public class BulletScript_Enemy : MonoBehaviour
         {
             PlayerController player = other.GetComponent<PlayerController>();
 
-            if (player != null)
+            if (player != null && !player.GetPlayerInvincible())
             {
                 player.Hurt(damage);
+                Destroy(gameObject);
             }
-
-            Destroy(gameObject);
         }
         if (other.CompareTag("Terrain"))
         {
