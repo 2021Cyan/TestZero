@@ -9,6 +9,7 @@ public class MissileScript : EnemyBase
     public float explosionRadius = 5f;    
     public float damage = 10f;            
     public GameObject explosionEffect;    
+    public GameObject playerlock;
 
     private Transform player;
     private Rigidbody2D rb;
@@ -33,6 +34,7 @@ public class MissileScript : EnemyBase
         {
             return;
         }
+        UpdatePlayerLock();
         Move();
     }
 
@@ -44,6 +46,22 @@ public class MissileScript : EnemyBase
         transform.rotation = Quaternion.Euler(0, 0, currentAngle);
         rb.linearVelocity = transform.right * moveSpeed;
     }
+
+    private void UpdatePlayerLock()
+    {
+        if (playerlock != null && playerController != null)
+        {
+            Vector3 playerPos = player.transform.position; 
+            Vector3 missilePos = transform.position;
+            playerlock.transform.position = playerPos;
+
+            playerlock.transform.Rotate(Vector3.forward * 100f * Time.deltaTime); 
+            float distance = Vector3.Distance(missilePos, playerPos);
+            float scaleFactor = Mathf.Clamp(distance * 0.1f, 0.3f, 5f); 
+            playerlock.transform.localScale = new Vector3(scaleFactor, scaleFactor, 1f);
+        }
+    }
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -58,6 +76,10 @@ public class MissileScript : EnemyBase
 
     private void Explode()
     {
+        if (isExploded){
+            return;
+        }
+
         isExploded = true;
         rb.linearVelocity = Vector2.zero;
         rb.angularVelocity = 0f;
@@ -66,6 +88,12 @@ public class MissileScript : EnemyBase
         {
             Instantiate(explosionEffect, transform.position, Quaternion.identity);
         }
+
+        if (playerlock != null)
+        {
+            Destroy(playerlock); 
+        }
+
         Collider2D[] hitObjects = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
         foreach (Collider2D hit in hitObjects)
         {
@@ -76,6 +104,7 @@ public class MissileScript : EnemyBase
                 {
                     playerController.Hurt(damage);
                 }
+                break;
             }
         }
         isalive = false;
@@ -99,9 +128,10 @@ public class MissileScript : EnemyBase
     // Function that handles the enemy death
     protected override void Die(int amount)
     {
-        if (!isalive && !isExploded)
+        if (!isExploded) 
         {
-            base.Die(resourceAmount);
+            Explode();  
         }
+        base.Die(resourceAmount);
     }
 }

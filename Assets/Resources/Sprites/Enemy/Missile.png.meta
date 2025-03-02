@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 22c88ba68c8884443972f4f5c37fbc07
+guid: b8b7fa3b128089b40a8863a458c7fed9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1195016844574470445
-    second: missle_0
+      213: 7090155094444324726
+    second: missle 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -126,7 +126,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: missle_0
+      name: missle 1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3dec786e2827a6fe0800000000000000
-      internalID: -1195016844574470445
+      spriteID: 677b7ce3e7a456260800000000000000
+      internalID: 7090155094444324726
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      missle_0: -1195016844574470445
+      missle 1_0: 7090155094444324726
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
