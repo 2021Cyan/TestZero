@@ -5,17 +5,19 @@ using static GunScript;
 
 public class GunInfoScript : MonoBehaviour
 {
+    private PlayerController playerController;
     private TextMeshPro statText;
     private Coroutine typingCoroutine;
     private bool isTyping = false;
-    private string DefaultText = $"\nPress F to Generate 1\n" +
-                                 $"(160)\n" +
-                                 $"\n\nHold F to Generate 10\n" +
-                                 $"(1600)\n" +
-                                 $"\n\nHold  X to Recycle ALL\n";
+    private string DefaultText = $"Press F to Generate 1   (160)\n" +
+                                 $"\n" +
+                                 $"\nHold F to Generate 10  (1600)\n" +
+                                 $"\n" +
+                                 $"\nHold  X to Recycle ALL\n";
 
     void Start()
     {
+        playerController = PlayerController.Instance;
         statText = GetComponent<TextMeshPro>();
         statText.text = DefaultText;
     }
@@ -39,7 +41,7 @@ public class GunInfoScript : MonoBehaviour
         foreach (char letter in text.ToCharArray())
         {
             statText.text += letter;
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.00001f);
         }
 
         isTyping = false;
@@ -83,48 +85,57 @@ public class GunInfoScript : MonoBehaviour
         switch (gun.bulletType)
         {
             case 0:
-                bulletType = "Standard";
+                bulletType = "";
                 break;
             case 1:
-                bulletType = "Ricochet";
+                bulletType = $"<color={rarityColor}>RICOCHET</color>";
                 break;
             case 2:
-                bulletType = "Piercing";
+                bulletType = $"<color={rarityColor}>PIERCING</color>";
                 break;
             case 10:
-                bulletType = "Tracking";
+                bulletType = $"<color={rarityColor}>TRACKING</color>";
                 break;
             case 11:
-                bulletType = "PIERCING";
+                bulletType = $"<color={rarityColor}>INFINITE PIERCING</color>";
+                break;
+            case 12:
+                bulletType = $"<color={rarityColor}>INFINITE PIERCING</color>";
                 break;
             default:
-                bulletType = "Standard";
+                bulletType = "";
                 break;
         }
 
-        if(bulletType == "Tracking")
+        if(gun.bulletType == 10)
         {
             name = "Smart Pistol";
         }
 
-        return $" \n<color={rarityColor}>{rarityText}</color> {name}\n\n" +
-               $" Barrel:      {(" [ " + GetStatBar(gun.barrelLevel) + " ]")}\n\n" +
-               $" Frame:       {(" [ " + GetStatBar(gun.frameLevel) + " ]")}\n\n" +
-               $" Magazine:    {("[ " + GetStatBar(gun.magazineLevel) + " ]")}\n\n" +
-               $" Bullet Type: {bulletType}\n\n" +
-               $" Press E to Equip";
+        int playerBarrel = 0;
+        int playerFrame = 0;
+        int playerMagazine = 0;
+
+        if (playerController != null)
+        {
+            playerBarrel = playerController.barrelLevel;
+            playerFrame = playerController.frameLevel;
+            playerMagazine = playerController.magazineLevel;
+        }
+        string barrelDiff = CompareStat(gun.barrelLevel, playerBarrel);
+        string frameDiff = CompareStat(gun.frameLevel, playerFrame);
+        string magazineDiff = CompareStat(gun.magazineLevel, playerMagazine);
+
+
+        return $" <color={rarityColor}>{rarityText}</color> {name}\n" +
+               $" <mspace=1.5>Firepower    :  LV{gun.barrelLevel}{barrelDiff}</mspace>\n" +
+               $" <mspace=1.5>Accuracy     :  LV{gun.frameLevel}{frameDiff}</mspace>\n" +
+               $" <mspace=1.5>Ammo Count   :  LV{gun.magazineLevel}{magazineDiff}</mspace>\n" +
+               $" <mspace=1.5>{bulletType}</mspace>\n" +
+               $" <mspace=1.5>Press E to Equip";
+
     }
 
-    private string GetStatBar(int level)
-    {
-        int maxLevel = 5;
-        int filledBlocks = level;
-        int emptyBlocks = maxLevel - filledBlocks;
-        string bar = string.Join(" ", new string('█', filledBlocks).ToCharArray()) +
-                     " " +
-                     string.Join(" ", new string('▒', emptyBlocks).ToCharArray());
-        return bar.Trim();
-    }
 
     public void HideGunStats()
     {
@@ -134,5 +145,13 @@ public class GunInfoScript : MonoBehaviour
             isTyping = false;
         }
         statText.text = DefaultText;
+    }
+
+    private string CompareStat(int newStat, int currentStat)
+    {
+        int diff = newStat - currentStat;
+        if (diff > 0) return $" <color=#00FF00>(+{diff})</color>";
+        if (diff < 0) return $" <color=#FF0000>({diff})</color>";
+        return "";
     }
 }
