@@ -9,11 +9,12 @@ public class GunInfoScript : MonoBehaviour
     private TextMeshPro statText;
     private Coroutine typingCoroutine;
     private bool isTyping = false;
-    private string DefaultText = $"Press F to Generate 1   (160)\n" +
+    private string DefaultText = $"<mspace=1.5>Press F to Generate 1   (160)</mspace>" +
                                  $"\n" +
-                                 $"\nHold F to Generate 10  (1600)\n" +
+                                 $"\n<mspace=1.5>Hold  F to Generate 10  (1600)</mspace>" +
                                  $"\n" +
-                                 $"\nHold  X to Recycle ALL\n";
+                                 $"\n<mspace=1.5>Hold  G to Recycle ALL</mspace>";
+
 
     void Start()
     {
@@ -97,7 +98,7 @@ public class GunInfoScript : MonoBehaviour
                 bulletType = $"<color={rarityColor}>TRACKING</color>";
                 break;
             case 11:
-                bulletType = $"<color={rarityColor}>INFINITE PIERCING</color>";
+                bulletType = $"<color={rarityColor}>CHAIN</color>";
                 break;
             case 12:
                 bulletType = $"<color={rarityColor}>INFINITE PIERCING</color>";

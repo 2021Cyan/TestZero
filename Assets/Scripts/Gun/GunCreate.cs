@@ -60,7 +60,7 @@ public class GunCreate : MonoBehaviour
             }
         }
 
-        if (isPlayerNearby && Input.GetKey(KeyCode.X))
+        if (isPlayerNearby && Input.GetKey(KeyCode.G))
         {
             recycleHoldTime += Time.deltaTime;
             if (!isRecycling && recycleHoldTime >= 1.0f)
@@ -69,7 +69,7 @@ public class GunCreate : MonoBehaviour
             }
         }
         //_input.XInput
-        if (Input.GetKeyUp(KeyCode.X))
+        if (Input.GetKeyUp(KeyCode.G))
         {
             recycleHoldTime = 0f;
             isRecycling = false;
