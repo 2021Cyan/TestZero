@@ -130,8 +130,9 @@ public class PodScript : MonoBehaviour
 
         if (weaponlevel >= 0 && Time.time > lastMissileTime + missileCooldown && trackedEnemy != null)
         {
-            lastMissileTime = Time.time; 
-            Instantiate(turret_missle, turret_firePoint.position, turret_firePoint.rotation);
+            //TODO: uncomment this when shoot() works better
+            // lastMissileTime = Time.time; 
+            // Instantiate(turret_missle, turret_firePoint.position, turret_firePoint.rotation);
         }
     }
 

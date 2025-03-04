@@ -82,7 +82,9 @@ public class GunCreate : MonoBehaviour
         isRecycling = true;
 
         List<Transform> toRemove = new List<Transform>();
-
+        //TODO: Change this I am testing this for now
+        _audio.SetParameterByName("Shop", 3);
+        
         foreach (Transform spawnPoint in occupiedSpawnPoints)
         {
             Collider2D[] gunColliders = Physics2D.OverlapCircleAll(spawnPoint.position, 0.1f);
@@ -91,6 +93,7 @@ public class GunCreate : MonoBehaviour
                 GunScript gunScript = gunCollider.GetComponent<GunScript>();
                 if (gunScript != null)
                 {
+                    _audio.PlayOneShot(_audio.Shop);
                     int refundAmount = 0;
                     switch (gunScript.gunRarity)
                     {
@@ -138,7 +141,6 @@ public class GunCreate : MonoBehaviour
 
             if (holdTime >= 1.0f)
             {
-                _audio.SetParameterByName("Shop", 2);
                 for (int i = 0; i < 10; i++)
                 {
                     TryGenerateGun();
@@ -161,6 +163,7 @@ public class GunCreate : MonoBehaviour
     {
         if (playerController != null && playerController.resource >= gunCost)
         {
+            _audio.SetParameterByName("Shop", 2);
             Transform availableSpawn = GetAvailableSpawnPoint();
             if (availableSpawn != null)
             {
