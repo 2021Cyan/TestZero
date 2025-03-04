@@ -5,16 +5,31 @@ using static ItemScript;
 
 public class ItemInfoScript : MonoBehaviour
 {
+    public GameObject itemPrefab1;
+    public GameObject itemPrefab2;
+    public GameObject itemPrefab3;
+    public GameObject itemPrefab4;
+    public GameObject itemPrefab5;
+    private bool isSoldOut = false;
+
     private TextMeshPro statText;
     private Coroutine typingCoroutine;
     private bool isTyping = false;
     private string DefaultText = $"<mspace=1.5>Exchange Data for Upgrades</mspace>";
 
+    private string SoldOutText = $"<mspace=1.5>All Upgrades Sold Out</mspace>";
 
     void Start()
     {
         statText = GetComponent<TextMeshPro>();
         statText.text = DefaultText;
+    }
+    private void Update()
+    {
+        if (!isSoldOut)
+        {
+            CheckSoldOut();
+        }
     }
 
     public void ShowItemStats(ItemScript item)
@@ -39,6 +54,20 @@ public class ItemInfoScript : MonoBehaviour
             yield return new WaitForSeconds(0.00001f);
         }
         isTyping = false;
+    }
+
+    private void CheckSoldOut()
+    {
+        if ((itemPrefab1 == null) &&
+            (itemPrefab2 == null) &&
+            (itemPrefab3 == null) &&
+            (itemPrefab4 == null) &&
+            (itemPrefab5 == null))
+        {
+            DefaultText = SoldOutText;
+            statText.text = SoldOutText;
+            isSoldOut = true;
+        }
     }
 
     private string GenerateItemStats(ItemScript item)

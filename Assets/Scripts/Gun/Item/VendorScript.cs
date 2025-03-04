@@ -74,9 +74,22 @@ public class VendorScript : MonoBehaviour
     {
         if (!soldout)
         {
-
+            CheckSoldOut();
         }
         
     }
 
+    private void CheckSoldOut()
+    {
+        if ((itemScript1 == null) &&
+            (itemScript2 == null) &&
+            (itemScript3 == null) &&
+            (itemScript4 == null) &&
+            (itemScript5 == null))
+        {
+            soldout = true;
+            animator.SetTrigger("close");
+        }
+    }
 }
+
