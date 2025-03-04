@@ -30,19 +30,7 @@ public class Aim : MonoBehaviour
             return;
         }
         PlayerHeadTracking();
-
-        if(!_input.AimInput){
-            isAiming = false;
-        }
-        
-        else if(_input.AimInput){
-            
-            if(!isAiming){
-                _audio.PlayOneShot(_audio.Aim);
-                isAiming = true;
-            }            
-            PlayerAim();
-        }
+        PlayerAim();
     }
     void PlayerHeadTracking()
     {

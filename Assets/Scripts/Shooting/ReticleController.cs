@@ -24,71 +24,49 @@ public class ReticleController : MonoBehaviour
 
     void LateUpdate()
     {
-        if (!PlayerController.Instance)
+        if (!PlayerController.Instance || !PlayerController.Instance.IsAlive())
         {
+            DestroyTracker();
+            spriteRenderer.enabled = false;
             return;
         }
 
-        if (!PlayerController.Instance.IsAlive())
-        {
-            return;
-        }
+        spriteRenderer.enabled = true;
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = mousePos;
 
-        if (_input.AimInput)
+        if (PlayerController.Instance.bulletType == 10)
         {
-            if (PlayerController.Instance.bulletType == 10)
+            spriteRenderer.sprite = Resources.Load<Sprite>(reticlePath);
+            transform.localScale = new Vector3(1f, 1f, 1f);
+            GameObject target = FindEnemyClosestToMouse();
+
+            if (target != null)
             {
-                spriteRenderer.sprite = Resources.Load<Sprite>(reticlePath);
-                transform.localScale = new Vector3(1f, 1f, 1f);
-
-                GameObject target = FindEnemyClosestToMouse();
-
-                if (target != null) {
-                    if (trackerInstance == null)
-                    {
-                        trackerInstance = Instantiate(trackerPrefab, target.transform.position, Quaternion.identity);
-                    }
-                    else
-                    {
-                        // Update tracker position if it already exists
-                        trackerInstance.transform.position = target.transform.position;
-                    }
+                if (trackerInstance == null)
+                {
+                    trackerInstance = Instantiate(trackerPrefab, target.transform.position, Quaternion.identity);
                 }
                 else
                 {
-                    // Remove tracker if there are no enemies nearby
-                    if (trackerInstance != null)
-                    {
-                        Destroy(trackerInstance);
-                        trackerInstance = null;
-                    }
+                    trackerInstance.transform.position = target.transform.position;
                 }
             }
             else
             {
-                spriteRenderer.sprite = Resources.Load<Sprite>(reticlePath_original);
-            }
-
-            // Activate the reticle and update its position
-            spriteRenderer.enabled = true;
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = mousePos;
-
-            // Scale the reticle based on the current spread angle
-            if (PlayerController.Instance.bulletType != 10)
-            {
-                float spreadSize = baseSize + (shootingScript.GetCurrentSpread() * sizeMultiplier);
-                transform.localScale = new Vector3(spreadSize, spreadSize, 1f);
+                DestroyTracker();
             }
         }
         else
         {
-            if (trackerInstance != null)
-            {
-                Destroy(trackerInstance);
-                trackerInstance = null;
-            }
-            spriteRenderer.enabled = false;
+            spriteRenderer.sprite = Resources.Load<Sprite>(reticlePath_original);
+            DestroyTracker();
+        }
+
+        if (PlayerController.Instance.bulletType != 10)
+        {
+            float spreadSize = baseSize + (shootingScript.GetCurrentSpread() * sizeMultiplier);
+            transform.localScale = new Vector3(spreadSize, spreadSize, 1f);
         }
     }
 
@@ -121,5 +99,14 @@ public class ReticleController : MonoBehaviour
         }
 
         return closestEnemy;
+    }
+
+    private void DestroyTracker()
+    {
+        if (trackerInstance != null)
+        {
+            Destroy(trackerInstance);
+            trackerInstance = null;
+        }
     }
 }
