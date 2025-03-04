@@ -12,18 +12,48 @@ public class PodScript : MonoBehaviour
     public float swaySpeed = 3f;
 
     // Pod behaviour
-    public int weapontype;
-
-
+    public int weaponlevel;
+    public int heallevel;
+    private float detectionrange = 10f;
     private Vector3 velocity = Vector3.zero;
+    public static PodScript Instance;
+
+    // Pod turret
+    [SerializeField] Transform turret;
+    [SerializeField] Transform turret_firePoint;
+    [SerializeField] GameObject turret_bullet;
+    [SerializeField] GameObject turret_missle;
+    [SerializeField] GameObject cursor;
+    private GameObject trackedEnemy;
+    private float rotationSpeed = 180f;
+    public float fireRate = 1f;
+    private float lastFireTime = 0;
+    private float missileCooldown = 1f;
+    private float lastMissileTime = 0f;
+    private AudioManager _audio;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
+        _audio = AudioManager.Instance;
         if (player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player");
             playerController = player.GetComponent<PlayerController>();
-            weapontype = 0;
+            weaponlevel = 0;
+            heallevel = 0;
         }
     }
 
@@ -33,7 +63,14 @@ public class PodScript : MonoBehaviour
         {
             return;
         }
+        fireRate = 1 * weaponlevel;
         FollowPlayer();
+        Scout();
+        Aim();
+        Shoot();
+        ShootMissile();
+        Heal();
+        Shield();
     }
 
     private void FollowPlayer()
@@ -44,24 +81,93 @@ public class PodScript : MonoBehaviour
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, 1f / followSpeed);
     }
 
+    private void Scout()
+    {
+        trackedEnemy = FindClosestEnemy();
+        if (trackedEnemy != null)
+        {
+            cursor.SetActive(true);
+            Vector3 directionToEnemy = (trackedEnemy.transform.position - transform.position).normalized;
+            float targetAngle = Mathf.Atan2(directionToEnemy.y, directionToEnemy.x) * Mathf.Rad2Deg;
+            float smoothAngle = Mathf.LerpAngle(cursor.transform.eulerAngles.z, targetAngle, rotationSpeed * Time.deltaTime);
+            cursor.transform.rotation = Quaternion.Euler(0, 0, smoothAngle);
+            float cursorDistance = 1f; 
+            Vector3 cursorOffset = new Vector3(Mathf.Cos(Mathf.Deg2Rad * smoothAngle), Mathf.Sin(Mathf.Deg2Rad * smoothAngle), 0f) * cursorDistance;
+            cursor.transform.position = transform.position + cursorOffset;
+        }
+        else
+        {
+            cursor.SetActive(false);
+        }
+    }
+    private void Aim()
+    {
+        if (weaponlevel >= 0 && trackedEnemy != null)
+        {
+            Vector3 direction = (trackedEnemy.transform.position - turret.position).normalized;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            turret.rotation = Quaternion.Euler(0, 0, angle + 45);
+        }
+    }
+
     private void Shoot()
     {
-
+        if (weaponlevel >= 1 && trackedEnemy != null)
+        {
+            float distanceToEnemy = Vector3.Distance(transform.position, trackedEnemy.transform.position);
+            if (distanceToEnemy <= detectionrange && Time.time > lastFireTime + (1f / fireRate))
+            {
+                lastFireTime = Time.time;
+                Quaternion fireRotation = Quaternion.Euler(0, 0, turret.rotation.eulerAngles.z - 45);
+                Instantiate(turret_bullet, turret_firePoint.position, fireRotation);
+                _audio.PlayOneShot(_audio.Laser, transform.position);
+            }
+        }
     }
 
     private void ShootMissile()
     {
 
+        if (weaponlevel >= 0 && Time.time > lastMissileTime + missileCooldown && trackedEnemy != null)
+        {
+            lastMissileTime = Time.time; 
+            Instantiate(turret_missle, turret_firePoint.position, turret_firePoint.rotation);
+        }
     }
 
     private void Heal()
     {
+        if (heallevel >= 1)
+        {
 
+        }
     }
 
     private void Shield()
     {
+        if (heallevel >= 3)
+        {
 
+        }
+    }
+
+    private GameObject FindClosestEnemy()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject closestEnemy = null;
+        float minDistance = Mathf.Infinity;
+
+        foreach (GameObject enemy in enemies)
+        {
+            float distance = Vector3.Distance(transform.position, enemy.transform.position);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closestEnemy = enemy;
+            }
+        }
+
+        return closestEnemy;
     }
 }
 

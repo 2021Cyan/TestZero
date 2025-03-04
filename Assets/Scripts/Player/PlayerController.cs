@@ -367,6 +367,11 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
+        if (PodScript.Instance != null)
+        {
+            Destroy(PodScript.Instance.gameObject);
+            PodScript.Instance = null;
+        }
         Destroy(Instance.gameObject);
         Instance = null;
         RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
@@ -378,6 +383,11 @@ public class PlayerController : MonoBehaviour
     {
         if(_input.ResetInput)
         {
+            if (PodScript.Instance != null)
+            {
+                Destroy(PodScript.Instance.gameObject);
+                PodScript.Instance = null;
+            }
             Destroy(Instance.gameObject);
             Instance = null;
             RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);

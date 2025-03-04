@@ -19406,7 +19406,7 @@ GameObject:
   - component: {fileID: 19900008}
   - component: {fileID: 11400000}
   m_Layer: 0
-  m_Name: WFX_ExplosiveSmoke Big
+  m_Name: MissileExplosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

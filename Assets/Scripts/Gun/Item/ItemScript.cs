@@ -86,8 +86,16 @@ public class ItemScript : MonoBehaviour
                 playerController.bulletTimeDuration += 1;
                 break;
             case 3:
+                if (PodScript.Instance != null)
+                {
+                    PodScript.Instance.weaponlevel += 1;
+                }
                 break;
             case 4:
+                if (PodScript.Instance != null)
+                {
+                    PodScript.Instance.heallevel += 1;
+                }
                 break;
         }
 
