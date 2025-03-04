@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movePower: 8
-  walkPower: 2.5
+  walkPower: 5
   dodgePower: 15
   jumpPower: 13
   max_hp: 100
