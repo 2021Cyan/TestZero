@@ -68,7 +68,7 @@ public class GunCreate : MonoBehaviour
                 StartCoroutine(Recycle());
             }
         }
-        //_input.XInput
+        //TODO: change with InputManager
         if (Input.GetKeyUp(KeyCode.G))
         {
             recycleHoldTime = 0f;
@@ -138,10 +138,11 @@ public class GunCreate : MonoBehaviour
 
             if (holdTime >= 1.0f)
             {
+                _audio.SetParameterByName("Shop", 2);
                 for (int i = 0; i < 10; i++)
                 {
                     TryGenerateGun();
-                    yield return new WaitForSeconds(0.1f);
+                    yield return new WaitForSeconds(0.2f);
                 }
                 isGeneratingGuns = false;
                 yield break;
@@ -155,6 +156,7 @@ public class GunCreate : MonoBehaviour
         isGeneratingGuns = false;
     }
 
+    //TODO: Change _audio.PlayOneShot("Shop") as I update Inputmanager
     void TryGenerateGun()
     {
         if (playerController != null && playerController.resource >= gunCost)
@@ -165,6 +167,7 @@ public class GunCreate : MonoBehaviour
                 playerController.resource -= gunCost;
                 GameObject spawnedGun = Instantiate(gunPrefab, availableSpawn.position, Quaternion.Euler(0,0,90));
                 occupiedSpawnPoints.Add(availableSpawn);
+                _audio.PlayOneShot(_audio.Shop);
 
                 GunScript gunScript = spawnedGun.GetComponent<GunScript>();
                 if (gunScript == null)
