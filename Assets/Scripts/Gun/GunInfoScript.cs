@@ -9,11 +9,11 @@ public class GunInfoScript : MonoBehaviour
     private TextMeshPro statText;
     private Coroutine typingCoroutine;
     private bool isTyping = false;
-    private string DefaultText = $"<mspace=1.5>Press F to Generate 1   (160)</mspace>" +
+    private string DefaultText = $"<mspace=1.5>Press <color=#00FF00>F</color> to Generate 1 (160)</mspace>" +
                                  $"\n" +
-                                 $"\n<mspace=1.5>Hold  F to Generate 10  (1600)</mspace>" +
+                                 $"\n<mspace=1.5>Hold  <color=#00FF00>F</color> to Generate 10 (1600)</mspace>" +
                                  $"\n" +
-                                 $"\n<mspace=1.5>Hold  G to Recycle ALL</mspace>";
+                                 $"\n<mspace=1.5>Hold  <color=#00FF00>G</color> to Recycle ALL Guns</mspace>";
 
 
     void Start()
@@ -133,7 +133,7 @@ public class GunInfoScript : MonoBehaviour
                $" <mspace=1.5>Accuracy     :  LV{gun.frameLevel}{frameDiff}</mspace>\n" +
                $" <mspace=1.5>Ammo Count   :  LV{gun.magazineLevel}{magazineDiff}</mspace>\n" +
                $" <mspace=1.5>{bulletType}</mspace>\n" +
-               $" <mspace=1.5>Press E to Equip";
+               $" <mspace=1.5>Press <color=#00FF00>E</color> to Equip";
 
     }
 

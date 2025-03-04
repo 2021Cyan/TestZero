@@ -26,12 +26,16 @@ public class PlayerUI : MonoBehaviour
     [Header("Screen Filter(Hurt)")]
     [SerializeField] private Image hurtFilter;
 
+    [Header("Screen Filter(Restore)")]
+    [SerializeField] private Image restoreFilter;
+
     [SerializeField] private Image gripImage;
     [SerializeField] private Image barrelImage;
     [SerializeField] private Image frameImage;
 
     private PlayerController player;
     private Coroutine hurtCoroutine;
+    private Coroutine restoreCoroutine;
 
     private void Awake()
     {
@@ -50,6 +54,7 @@ public class PlayerUI : MonoBehaviour
         player = PlayerController.Instance;
         bulletTimeFilter.gameObject.SetActive(false);
         hurtFilter.gameObject.SetActive(false);
+        restoreFilter.gameObject.SetActive(false);
     }
 
     void Update()
@@ -166,5 +171,32 @@ public class PlayerUI : MonoBehaviour
         }
 
         hurtFilter.gameObject.SetActive(false);
+    }
+
+    public void ShowRestoreEffect()
+    {
+        if (restoreCoroutine != null)
+        {
+            StopCoroutine(restoreCoroutine);
+        }
+        restoreCoroutine = StartCoroutine(RestoreFlash());
+    }
+
+    private IEnumerator RestoreFlash()
+    {
+        restoreFilter.gameObject.SetActive(true);
+        Color c = restoreFilter.color;
+        float duration = 0.3f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            c.a = Mathf.Lerp(0.5f, 0f, elapsedTime / duration);
+            restoreFilter.color = c;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        restoreFilter.gameObject.SetActive(false);
     }
 }
