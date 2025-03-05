@@ -30,6 +30,11 @@ public class LevelGenerator : MonoBehaviour
         SpawnSegment(startPoint.position, numberOfSegments); 
     }
 
+    private bool SegmentsOverlap(List<Vector2> segment1Hull, List<Vector2> segment2Hull)
+    {
+        return false;
+    }
+
     void SpawnSegment(Vector3 nextSpawnPosition, int remainingSegments, int prevSegment=-1)
     {
         // Check if max segments have been reached
@@ -88,6 +93,4 @@ public class LevelGenerator : MonoBehaviour
             Debug.LogWarning(segment.name + " is missing MapSegment data or has no valid exit points.");
         }
     }
-
-
 }
