@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
+using Unity.VisualScripting;
 
 public class MapSegment : MonoBehaviour
 {
@@ -12,14 +14,16 @@ public class MapSegment : MonoBehaviour
     public List<Transform> exitPoints;
     public List<GameObject> terrainComponents;
     public List<Vector2> allPoints;
+    public List<Vector2> hull;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
         // Initialize lists
-        exitPoints = new List<Transform>;
-        terrainComponents = = new List<GameObject>;
-        allPoints = new List<Vector2>;
+        exitPoints = new List<Transform>();
+        terrainComponents = new List<GameObject>();
+        allPoints = new List<Vector2>();
+        hull = new List<Vector2>();
 
         // Get name of prefab
         segmentName = gameObject.name.Replace("(Clone)", "").Trim();
@@ -46,18 +50,24 @@ public class MapSegment : MonoBehaviour
         }
 
         // Create hull of segment
-        CreateConvexHull();
+        FindHull();
     }
 
-    void CreateConvexHull()
+    void FindHull()
     {
         // Get points from all terrain objects
         foreach (GameObject terrainComp in terrainComponents)
         {
-            BoxCollider2D collider = child.GetComponent<BoxCollider2D>();
+            BoxCollider2D collider = terrainComp.GetComponent<BoxCollider2D>();
             Debug.Assert(collider != null);
             allPoints.AddRange(GetBoxCorners(collider));
         }
+
+        // Sort points by x-coordinate
+        allPoints.Sort((a, b) => a.x.CompareTo(b.x));
+
+        // Calculate convex hull
+        convex_hull();
     }
 
     // Convex hull helper functions
@@ -80,14 +90,40 @@ public class MapSegment : MonoBehaviour
     // Adapted algorithm from PyRival (https://github.com/cheran-senthil/PyRival/blob/master/pyrival/geometry/convex_hull.py)
     bool remove_middle(Vector2 a, Vector2 b, Vector2 c)
     {
-        double cross = (a.X - b.X) * (c.Y - b.Y) - (a.Y - b.Y) * (c.X - b.X);
-        double dot = (a.X - b.X) * (c.X - b.X) + (a.Y - b.Y) * (c.Y - b.Y);
-        return (cross < 0d || (cross == 0d && dot <= 0d));
+        double cross = (a.x - b.x) * (c.y - b.y) - (a.y - b.y) * (c.x - b.x);
+        double dot = (a.x - b.x) * (c.x - b.x) + (a.y - b.y) * (c.y - b.y);
+        return cross < 0d || (cross == 0d && dot <= 0d);
     }
 
-    Vector2[]
+    void convex_hull()
+    {
+        // Create new list for calculations
+        List<Vector2> points = new List<Vector2>();
 
-   
+        // Add all sorted points
+        for (int i = 0; i < allPoints.Count; ++i) {points.Add(allPoints[i]);}
+
+        // Add all reverse points
+        for (int i = allPoints.Count - 1; i >= 0; --i) {points.Add(allPoints[i]);}
+
+        // Perform algorithm
+        foreach (Vector2 point in points)
+        {
+            while (hull.Count >= 2 && remove_middle(hull[hull.Count - 2], hull[hull.Count - 1], point))
+            {
+                hull.RemoveAt(hull.Count - 1);
+            }
+            hull.Add(point);
+        }
+        hull.RemoveAt(hull.Count - 1);
+    }
+
+    // Determine if hulls overlap
+    public bool Overlaps(List<Vector2> otherHull)
+    {
+        
+        return false;
+    }
 
     // Update is called once per frame
     void Update()
