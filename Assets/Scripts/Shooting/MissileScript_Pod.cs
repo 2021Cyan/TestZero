@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class MissileScript_Pod : MonoBehaviour
 {
-    public float moveSpeed = 10f;
+    public float moveSpeed = 15f;
     public float rotationSpeed = 200f;
     public float explosionRadius = 5f;
-    public float damage = 50f;
+    public float damage = 100f;
     public GameObject explosionEffect;
     public GameObject enemylock;
 
@@ -38,24 +38,25 @@ public class MissileScript_Pod : MonoBehaviour
         {
             Vector2 direction = (target.position - transform.position).normalized;
             float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            float currentAngle = Mathf.LerpAngle(transform.rotation.eulerAngles.z, targetAngle, rotationSpeed * Time.deltaTime);
-            transform.rotation = Quaternion.Euler(0, 0, currentAngle);
+            float currentAngle = transform.rotation.eulerAngles.z;
+            float newAngle = Mathf.LerpAngle(currentAngle, targetAngle, rotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Euler(0, 0, newAngle);
+            rb.linearVelocity = transform.right * moveSpeed;
         }
-        rb.linearVelocity = transform.right * moveSpeed;
     }
 
     private void UpdateTarget()
     {
         if (target == null || !target.gameObject.activeInHierarchy)
         {
-            FindClosestEnemy();
+            target = FindClosestEnemy();
         }
     }
 
-    private GameObject FindClosestEnemy()
+    private Transform FindClosestEnemy()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        GameObject closestEnemy = null;
+        Transform closestEnemy = null;
         float minDistance = Mathf.Infinity;
 
         foreach (GameObject enemy in enemies)
@@ -64,7 +65,7 @@ public class MissileScript_Pod : MonoBehaviour
             if (distance < minDistance)
             {
                 minDistance = distance;
-                closestEnemy = enemy;
+                closestEnemy = enemy.transform;
             }
         }
         return closestEnemy;
@@ -93,9 +94,8 @@ public class MissileScript_Pod : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (isExploded)
-            return;
-        if ((other.CompareTag("Enemy") || other.CompareTag("Terrain")))
+        if (isExploded) return;
+        if (other.CompareTag("Enemy") || other.CompareTag("Terrain"))
         {
             Explode();
         }

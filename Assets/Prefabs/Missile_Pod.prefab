@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7612053551495303370}
   m_Layer: 0
   m_Name: Missile_Pod
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -177,10 +177,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 300cba9de8ca6c24686ab1c8beae8e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
+  moveSpeed: 15
   rotationSpeed: 200
   explosionRadius: 5
-  damage: 50
+  damage: 100
   explosionEffect: {fileID: 100008, guid: 1dbc518224e49f34095aab42fe05751a, type: 3}
   enemylock: {fileID: 7052736737107935216}
   hitmarkerPrefab: {fileID: 8288332386246024384, guid: 9d0cd5c19edd87d49bd702fb36707451, type: 3}
