@@ -104,24 +104,25 @@ public class Shooting : MonoBehaviour
             muzzleFlash_single.Play();
         }
 
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(_input.MouseInput);
+        mousePos.z = 0f;
+        bool shouldFlipBullet = (mousePos.x < firePoint.position.x && transform.localScale.x > 0) ||
+                                (mousePos.x > firePoint.position.x && transform.localScale.x < 0);
 
-        // Calculate random spread within the current spread angle
-        float randomSpread = Random.Range(-currentSpreadAngle / 4, currentSpreadAngle);
-
-        // Adjust firePoint rotation temporarily for the spread
+        
         Quaternion originalRotation = firePoint.rotation;
+        float randomSpread = Random.Range(-currentSpreadAngle / 4, currentSpreadAngle);
         firePoint.Rotate(0, 0, randomSpread);
 
-        // Instantiate the bullet with the adjusted rotation
-        Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        Quaternion bulletRotation = firePoint.rotation;
+        if (shouldFlipBullet)
+        {
+            bulletRotation = Quaternion.Euler(0, 0, bulletRotation.eulerAngles.z + 180f);
+        }
+        Instantiate(bulletPrefab, firePoint.position, bulletRotation);
 
-        // Restore firePoint to its original rotation
         firePoint.rotation = originalRotation;
-
-        // Reduce ammo
         playerController.currentAmmo--;
-
-        // Increase spread angle
         currentSpreadAngle = Mathf.Min(currentSpreadAngle + playerController.spreadIncreaseRate, playerController.maxSpreadAngle);
     }
 
