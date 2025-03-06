@@ -20,9 +20,10 @@ public class GunCreate : MonoBehaviour
     private Animator animator; 
     private bool isPlayerNearby = false;
     private bool isGeneratingGuns = false;
-    private float holdTime = 0f;
+    private double holdTime = 0f;
     private bool isRecycling = false;
-    private float recycleHoldTime = 0f;
+    private double recycleHoldTime = 0f;
+    private double threshold = 0.6f;
 
 
     void Start()
@@ -36,22 +37,24 @@ public class GunCreate : MonoBehaviour
 
     void Update()
     {
-        float distance = Vector2.Distance(transform.position, player.position);
-        isPlayerNearby = distance <= interactionRange;
+        // float distance = Vector2.Distance(transform.position, player.position);
+        // isPlayerNearby = distance <= interactionRange;
 
-        if (isPlayerNearby)
-        {
-            animator.SetBool("isNearby", true);
-        }
-        else
-        {
-            if(occupiedSpawnPoints.Count == 0)
-            {
-                animator.SetBool("isNearby", false);
-            }
-        }
+        //TODO: use collider to check if player is nearby
+        // if (isPlayerNearby)
+        // {
+        //     animator.SetBool("isNearby", true);
+        // }
+        // else
+        // {
+        //     if(occupiedSpawnPoints.Count == 0)
+        //     {
+        //         animator.SetBool("isNearby", false);
+        //     }
+        // }
 
-        if (isPlayerNearby && Input.GetKeyDown(KeyCode.F))
+        // if (isPlayerNearby && Input.GetKeyDown(KeyCode.F))
+        if (isPlayerNearby && _input.FInput)
         {
             AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
             if (stateInfo.IsName("opened"))
@@ -60,20 +63,20 @@ public class GunCreate : MonoBehaviour
             }
         }
 
-        if (isPlayerNearby && Input.GetKey(KeyCode.G))
+        if (isPlayerNearby && _input.GInput)
         {
-            recycleHoldTime += Time.deltaTime;
-            if (!isRecycling && recycleHoldTime >= 1.0f)
+            recycleHoldTime = Time.fixedUnscaledTime - _input.GetGPressTime();
+            if (!isRecycling && recycleHoldTime >= threshold)
             {
                 StartCoroutine(Recycle());
             }
         }
-        //TODO: change with InputManager
-        if (Input.GetKeyUp(KeyCode.G))
-        {
-            recycleHoldTime = 0f;
-            isRecycling = false;
-        }
+        // //TODO: change with InputManager
+        // if (Input.GetKeyUp(KeyCode.G))
+        // {
+        //     recycleHoldTime = 0f;
+        //     isRecycling = false;
+        // }
     }
 
     IEnumerator Recycle()
@@ -127,19 +130,15 @@ public class GunCreate : MonoBehaviour
         recycleHoldTime = 0f;
     }
 
-
     IEnumerator GenerateMultipleGuns()
     {
         if (isGeneratingGuns) yield break; 
         isGeneratingGuns = true;
-        holdTime = 0f;
-
-        while (Input.GetKey(KeyCode.F))
+        holdTime = _input.GetFPressTime();
+        while (_input.GetFPressTime() != 0)
         {
-            holdTime += Time.deltaTime;
             yield return null;
-
-            if (holdTime >= 1.0f)
+            if (Time.fixedUnscaledTime - holdTime >= threshold)
             {
                 for (int i = 0; i < 10; i++)
                 {
@@ -150,8 +149,7 @@ public class GunCreate : MonoBehaviour
                 yield break;
             }
         }
-
-        if (holdTime < 1.0f)
+        if (Time.fixedUnscaledTime - holdTime < threshold)
         {
             TryGenerateGun();
         }
@@ -224,6 +222,34 @@ public class GunCreate : MonoBehaviour
         if (releasedSlot != null)
         {
             occupiedSpawnPoints.Remove(releasedSlot); 
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            //TODO: There should be a cooldown for this
+            // if(animator.GetBool("isNearby") == false)
+            // {
+            //     _audio.SetParameterByName("Shop", 1);
+            //     _audio.PlayOneShot(_audio.Shop);
+            // }
+            isPlayerNearby = true;
+            animator.SetBool("isNearby", true);
+        }
+    }
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            isPlayerNearby = false;
+            if(occupiedSpawnPoints.Count == 0)
+            {
+                // _audio.SetParameterByName("Shop", 2);
+                // _audio.PlayOneShot(_audio.Shop);
+                animator.SetBool("isNearby", false);
+            }
         }
     }
 }

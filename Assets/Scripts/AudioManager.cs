@@ -59,6 +59,12 @@ public class AudioManager : MonoBehaviour
         // RuntimeManager.WaitForAllSampleLoading();
     }
 
+    private void Start()
+    {
+        // Bank::loadSampleData, EventDescription::loadSampleData
+        RuntimeManager.WaitForAllSampleLoading();
+    }
+
     public void PlayOneShot(EventReference sound, Vector3 p)
     {
         EventInstance instance = RuntimeManager.CreateInstance(sound);

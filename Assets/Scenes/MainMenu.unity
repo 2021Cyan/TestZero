@@ -2433,6 +2433,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1243244787}
     - target: {fileID: 6688199930714069700, guid: 2ed0ceb4133a8ea4c9963d34940e9293, type: 3}
+      propertyPath: m_Actions
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+    - target: {fileID: 6688199930714069700, guid: 2ed0ceb4133a8ea4c9963d34940e9293, type: 3}
       propertyPath: m_UIInputModule
       value: 
       objectReference: {fileID: 0}
