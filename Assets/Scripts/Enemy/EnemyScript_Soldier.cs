@@ -20,8 +20,8 @@ public class Enemy_Soldier : EnemyBase
     public float detectionRange = 15f;
     private bool isShooting = false; 
     private int shotsFired = 0; 
-    private int maxShots = 5; 
-    private float reloadTime = 1.5f; 
+    private int maxShots = 3; 
+    private float reloadTime = 2f; 
 
 
     private bool isPlayerNearby;
@@ -34,7 +34,7 @@ public class Enemy_Soldier : EnemyBase
         _audio = AudioManager.Instance;
         isalive = true;
         resourceAmount = 320;
-        maxHealth = 200;
+        maxHealth = 300;
         currentHealth = maxHealth;
         fireRate = 0.175f;
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
@@ -90,7 +90,16 @@ public class Enemy_Soldier : EnemyBase
         else if (currentState == EnemyState.Attack)
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+
+            if (player != null)
+            {
+                float directionX = player.position.x - transform.position.x;
+                bool facingLeft = directionX < 0;
+                UpdateSpriteDirection(facingLeft);
+            }
+
             Aim();
+
             if (!isShooting)
             {
                 StartCoroutine(ShootSequence());
@@ -122,6 +131,7 @@ public class Enemy_Soldier : EnemyBase
         Vector2 direction = (player.position - transform.position).normalized;
 
         float moveDirectionX = 1f;
+
         if (direction.x < 0)
         {
             moveDirectionX = -1f;
@@ -158,6 +168,18 @@ public class Enemy_Soldier : EnemyBase
         }
     }
 
+    private void UpdateSpriteDirection(bool facingLeft)
+    {
+        if (facingLeft)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+    }
+
     private IEnumerator IdleBeforeTurn()
     {
         isIdle = true;
@@ -167,7 +189,6 @@ public class Enemy_Soldier : EnemyBase
         directionTimer = 0f;
         isIdle = false;
     }
-
 
     private bool CheckNearbyPlayers()
     {
@@ -183,9 +204,13 @@ public class Enemy_Soldier : EnemyBase
         if (isPlayerNearby && player != null)
         {
             Vector3 direction = (player.position - turret.position).normalized;
-            Debug.DrawLine(turret.position, turret.position + direction * 3f, Color.red, 0.1f);
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            turret.rotation = Quaternion.Euler(0, 0, angle + 45);
+
+            if (transform.localScale.x < 0)
+            {
+                angle += 180f;
+            }
+            turret.rotation = Quaternion.Euler(0, 0, angle);
         }
     }
 
@@ -194,7 +219,12 @@ public class Enemy_Soldier : EnemyBase
         if (turret_bullet != null && turret_firePoint != null)
         {
             _audio.PlayOneShot(_audio.Laser, transform.position);
-            Instantiate(turret_bullet, turret_firePoint.position, turret_firePoint.rotation);
+            Quaternion bulletRotation = turret_firePoint.rotation;
+            if (transform.localScale.x < 0)
+            {
+                bulletRotation = Quaternion.Euler(0, 0, bulletRotation.eulerAngles.z + 180f);
+            }
+            Instantiate(turret_bullet, turret_firePoint.position, bulletRotation);
         }
     }
 
@@ -226,19 +256,5 @@ public class Enemy_Soldier : EnemyBase
     protected override void Die(int amount)
     {
         base.Die(resourceAmount);
-    }
-
-    private void UpdateSpriteDirection(bool facingLeft)
-    {
-        if (facingLeft)
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-            turret.localScale = new Vector3(-1, 1, 1);
-        }
-        else
-        {
-            transform.localScale = new Vector3(1, 1, 1);
-            turret.localScale = new Vector3(1, 1, 1);
-        }
     }
 }
