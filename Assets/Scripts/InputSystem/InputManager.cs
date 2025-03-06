@@ -68,8 +68,6 @@ public class InputManager : MonoBehaviour
         
         _Input.Player.G.started += SetGInput;
         _Input.Player.G.canceled += SetGInput;
-
-
     }
 
     private void OnDisable()
@@ -116,8 +114,8 @@ public class InputManager : MonoBehaviour
         _Input.Player.G.started -= SetGInput;
         _Input.Player.G.canceled -= SetGInput;
 
-        _Input.UI.Disable();
-        _Input.Player.Disable();
+        //TODO: I am not sure if I remove this but it works okay
+        // _Input.Disable();
     }
 
     // make some set methods for the inputs
@@ -230,6 +228,7 @@ public class InputManager : MonoBehaviour
         }
         _Input = new InputMap();
     }
+
     // Update is called once per frame
     private void Update()
     {
