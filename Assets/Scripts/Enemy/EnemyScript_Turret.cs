@@ -120,6 +120,11 @@ public class EnemyScript_Turret : EnemyBase
     // Function to deal damage to the enemy
     public override void TakeDamage(float damage)
     {
+        if (!isalive)
+        {
+            return;
+        }
+
         base.TakeDamage(damage);
         StartCoroutine(DamageFlash());
     }

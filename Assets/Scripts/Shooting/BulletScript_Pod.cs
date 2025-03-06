@@ -51,7 +51,7 @@ public class BulletScript_Pod : MonoBehaviour
             // Get enemy component
             EnemyBase enemy = other.GetComponent<EnemyBase>();
             // Enemy is not null
-            if (enemy != null)
+            if (enemy != null && enemy.isalive)
             {
                 enemy.TakeDamage((int)damage);
                 Vector3 hitPosition = other.ClosestPoint(transform.position);

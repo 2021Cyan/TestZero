@@ -128,7 +128,7 @@ public class BulletScript : MonoBehaviour
             EnemyBase enemy = other.GetComponent<EnemyBase>();
 
             // Enemy is not null
-            if (enemy != null)
+            if (enemy != null && enemy.isalive)
             {
                 enemy.TakeDamage((int)damage);
                 Vector3 hitPosition = other.ClosestPoint(transform.position);
@@ -217,6 +217,13 @@ public class BulletScript : MonoBehaviour
 
         foreach (GameObject enemy in enemies)
         {
+            EnemyBase eb = enemy.GetComponent<EnemyBase>();
+
+            if(eb == null || !eb.isalive)
+            {
+                continue;
+            }
+
             Vector3 enemyPos = enemy.transform.position;
             if (enemyPos.x >= mousePos.x - searchWidth / 2 && enemyPos.x <= mousePos.x + searchWidth / 2 &&
                 enemyPos.y >= mousePos.y - searchHeight / 2 && enemyPos.y <= mousePos.y + searchHeight / 2)
@@ -286,6 +293,13 @@ public class BulletScript : MonoBehaviour
 
         foreach (GameObject enemy in enemies)
         {
+            EnemyBase eb = enemy.GetComponent<EnemyBase>();
+
+            if (eb == null || !eb.isalive)
+            {
+                continue;
+            }
+
             float distance = Vector3.Distance(transform.position, enemy.transform.position);
             if (!Physics2D.Linecast(transform.position, enemy.transform.position, LayerMask.GetMask("Terrain")) && distance < shortestDistance)
             {

@@ -76,7 +76,7 @@ public class Enemy_Soldier : EnemyBase
         {
             float distance = Vector3.Distance(transform.position, player.position);
 
-            if (distance > 10f)
+            if (distance > 8f)
             {
                 if (currentState == EnemyState.Attack)
                 {
@@ -132,7 +132,7 @@ public class Enemy_Soldier : EnemyBase
 
         if (currentState == EnemyState.Patrol)
         {
-            moveSpeed = 2f;
+            moveSpeed = 3f;
             Patrol();
         }
         else if (currentState == EnemyState.Moving)
@@ -285,6 +285,10 @@ public class Enemy_Soldier : EnemyBase
     // Function to deal damage to the enemy
     public override void TakeDamage(float damage)
     {
+        if (!isalive)
+        {
+            return;
+        }
         base.TakeDamage(damage);
         StartCoroutine(DamageFlash());
     }
@@ -311,7 +315,6 @@ public class Enemy_Soldier : EnemyBase
     {
         isalive = false;
         animator.SetTrigger("isDead");
-
         if (playerController != null)
         {
             playerController.OnEnemyKilled(resourceAmount);
@@ -319,9 +322,10 @@ public class Enemy_Soldier : EnemyBase
 
         StartCoroutine(WaitForDeathAnimation());
     }
+
     private IEnumerator WaitForDeathAnimation()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(15f);
         base.Die(0);
     }
 }

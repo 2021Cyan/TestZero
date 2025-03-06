@@ -84,6 +84,13 @@ public class ReticleController : MonoBehaviour
 
         foreach (GameObject enemy in enemies)
         {
+            EnemyBase eb = enemy.GetComponent<EnemyBase>();
+
+            if (eb == null || !eb.isalive)
+            {
+                continue;
+            }
+
             Vector3 enemyPos = enemy.transform.position;
             if (enemyPos.x >= mousePos.x - searchWidth / 2 && enemyPos.x <= mousePos.x + searchWidth / 2 &&
                 enemyPos.y >= mousePos.y - searchHeight / 2 && enemyPos.y <= mousePos.y + searchHeight / 2)
