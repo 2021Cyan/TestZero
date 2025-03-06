@@ -3,94 +3,97 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
-    public GameObject[] segmentPrefabs; // List of all segments that can spawn (NO DUPLICATES)
-    public Transform startPoint;
-    public int numberOfSegments = 5;
-    private List<int> segmentIndexes = new List<int>();
+    public Transform StartPoint;
+    public int NumberOfSegments;
+    public int ShopFrequency;
 
-    // <><><> Special Demo Addition <><><>   
-    public GameObject testRoom;
-    public GameObject shopRoom;
-    public int shopFrequency;
+    // Map segment prefabs
+    public GameObject StartRoomPrefab;
+    public GameObject ShopRoomPrefab;
+    public GameObject[] SegmentPrefabs; // List of all generic segments that can spawn (NO DUPLICATES)
+
+    // Private prefab representations
+    private MapSegment _startRoom;
+    private MapSegment _shopRoom;
+    private List<MapSegment> _mapSegments;
+    
 
     void Start()
     {
-        // Add more segments to array to reflect likelihood
-        GameObject segment;
-        for (int i = 0; i < segmentPrefabs.Length; ++i) 
+        // Create MapSegment for shop room
+        _shopRoom = ScriptableObject.CreateInstance<MapSegment>();
+        _shopRoom.Init(-2, ShopRoomPrefab);
+
+        // Create MapSegment list
+        _mapSegments = new List<MapSegment>();
+        for (int i = 0; i < SegmentPrefabs.Length; ++i) 
         {
-            segment = segmentPrefabs[i];
-            for (int j = 0; j < segment.GetComponent<MapSegment>().likelihood; ++j)
-            {
-                segmentIndexes.Add(i);
-            }
+            MapSegment tempSegment = ScriptableObject.CreateInstance<MapSegment>();
+            tempSegment.Init(i, SegmentPrefabs[i]);
+            _mapSegments.Add(tempSegment);
         }
 
         // Spawn segments recursively
-        SpawnSegment(startPoint.position, numberOfSegments); 
+        SpawnSegment(StartPoint.position, NumberOfSegments); 
     }
 
-    private bool SegmentsOverlap(List<Vector2> segment1Hull, List<Vector2> segment2Hull)
-    {
-        return false;
-    }
-
-    void SpawnSegment(Vector3 nextSpawnPosition, int remainingSegments, int prevSegment=-1)
+    void SpawnSegment(Vector3 nextSpawnPosition, int remainingSegments, MapSegmentPrefabAttributes prevSegment=null)
     {
         // Check if max segments have been reached
         if (remainingSegments == 0)
         {
             // <><><> Special Demo Addition <><><>
             // Spawn Test room last
-            GameObject testSegmentObj = Instantiate(testRoom, nextSpawnPosition, Quaternion.identity);
-            MapSegment testSegment = testSegmentObj.GetComponent<MapSegment>();
-            Vector3 entryOffset = testSegmentObj.transform.position - testSegment.entryPoint.position;
-            testSegmentObj.transform.position += entryOffset;
+            // GameObject testSegmentObj = Instantiate(testRoom, nextSpawnPosition, Quaternion.identity);
+            // MapSegment testSegment = testSegmentObj.GetComponent<MapSegment>();
+            // Vector3 entryOffset = testSegmentObj.transform.position - testSegment.entryPoint.position;
+            // testSegmentObj.transform.position += entryOffset;
+            // return;
             return;
         }
 
         // <><><> Special Demo Addition <><><>
-        if (remainingSegments % shopFrequency == 0)
+        if (ShopFrequency != 0 && remainingSegments % ShopFrequency == 0)
         {
             // Spawn shop
-            GameObject shopSegmentObj = Instantiate(shopRoom, nextSpawnPosition, Quaternion.identity);
-            MapSegment shopSegment = shopSegmentObj.GetComponent<MapSegment>();
+            _shopRoom.Spawn(nextSpawnPosition);
             remainingSegments -= 1;
-            Vector3 entryOffset = shopSegmentObj.transform.position - shopSegment.entryPoint.position;
-            shopSegmentObj.transform.position += entryOffset;
-            SpawnSegment(shopSegment.exitPoints[0].position, remainingSegments);
             return;
         }
 
         // Select next segment
-        int segmentIndex;
+        MapSegment currentSegment;
         while (true)
         {
-            segmentIndex = segmentIndexes[Random.Range(0, segmentIndexes.Count)];
-            if (segmentIndex != prevSegment) {break;}
+            currentSegment = _mapSegments[Random.Range(0, _mapSegments.Count)];
+
+            // 
+            break;
+            // if (prevSegment == null) {break;}
+
+            // // Check for repeated segements
+            // // if (currentSegment.ID == prevSegment.GetID()) {continue;}
+
+            // // Check for overlap
+            // Vector3 offset = nextSpawnPosition - currentSegment.EntryPoint.position;
+            // if (currentSegment.Overlaps(prevSegment.GetHull(), offset)) {continue;}
+
+            // // Break to create segment if all checks pass
+            // break;
         }
 
-        // Create next segment
-        GameObject segmentObj = Instantiate(segmentPrefabs[segmentIndex], nextSpawnPosition, Quaternion.identity);
-        MapSegment segment = segmentObj.GetComponent<MapSegment>();
+        // Create segment
+        MapSegmentPrefabAttributes currentPrefabAttributes = currentSegment.Spawn(nextSpawnPosition);
         remainingSegments -= 1;
 
-        if (segment != null && segment.entryPoint != null && segment.exitPoints.Count > 0)
+        // Recursively create new segments for each exit point
+        foreach (Transform exitPoint in currentPrefabAttributes.ExitPoints)
         {
-            // Align current segment so EntryPoint matches previous ExitPoint
-            Vector3 entryOffset = segmentObj.transform.position - segment.entryPoint.position;
-            segmentObj.transform.position += entryOffset;
-
-            // Recursively create new segments for each exit point
-            foreach (Transform exitPoint in segment.exitPoints)
-            {
-                Debug.Log(segment.name);
-                SpawnSegment(exitPoint.position, remainingSegments / segment.exitPoints.Count, prevSegment=segmentIndex);
-            }
-        }
-        else
-        {
-            Debug.LogWarning(segment.name + " is missing MapSegment data or has no valid exit points.");
+            SpawnSegment(
+                exitPoint.position,
+                remainingSegments / currentPrefabAttributes.ExitPoints.Count,
+                currentPrefabAttributes
+            );
         }
     }
 }
