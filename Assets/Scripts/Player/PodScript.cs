@@ -28,9 +28,14 @@ public class PodScript : MonoBehaviour
     private float rotationSpeed = 180f;
     public float fireRate = 1f;
     private float lastFireTime = 0;
-    private float missileCooldown = 1f;
+    public float missileCooldown = 5f;
     private float lastMissileTime = 0f;
     private AudioManager _audio;
+
+    // Pod heal
+    public float healCooldown = 10f;
+    private float healAmount = 10f; 
+    private float lastHealTime = 0f;
 
     private void Awake()
     {
@@ -63,7 +68,23 @@ public class PodScript : MonoBehaviour
         {
             return;
         }
-        fireRate = 1 * weaponlevel;
+
+        if(weaponlevel >= 1)
+        {
+            fireRate = (0.5f * weaponlevel) + 1;
+        }
+
+        if (heallevel >= 1)
+        {
+            healAmount = 10 + (heallevel * 3);
+            healCooldown = 10f - (0.5f * heallevel);
+        }
+
+        if (weaponlevel >= 3)
+        {
+            missileCooldown =  5f - (0.25f * (weaponlevel - 3));
+        }
+
         FollowPlayer();
         Scout();
         Aim();
@@ -127,12 +148,17 @@ public class PodScript : MonoBehaviour
 
     private void ShootMissile()
     {
-
-        if (weaponlevel >= 0 && Time.time > lastMissileTime + missileCooldown && trackedEnemy != null)
+        if (weaponlevel >= 3 && trackedEnemy != null)
         {
-            //TODO: uncomment this when shoot() works better
-            // lastMissileTime = Time.time; 
-            // Instantiate(turret_missle, turret_firePoint.position, turret_firePoint.rotation);
+            if(Time.time > lastMissileTime + missileCooldown)
+            {
+                float distanceToEnemy = Vector3.Distance(transform.position, trackedEnemy.transform.position);
+                if (distanceToEnemy <= detectionrange)
+                {
+                    lastMissileTime = Time.time;
+                    Instantiate(turret_missle, turret_firePoint.position, turret_firePoint.rotation);
+                }
+            }
         }
     }
 
@@ -141,6 +167,11 @@ public class PodScript : MonoBehaviour
         if (heallevel >= 1)
         {
 
+            if (Time.time > lastHealTime + healCooldown && playerController.IsAlive())
+            {
+                lastHealTime = Time.time;
+                playerController.Restore(healAmount);
+            }
         }
     }
 

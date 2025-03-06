@@ -19,7 +19,7 @@ public class BulletScript_Pod : MonoBehaviour
     {
         if (PodScript.Instance != null) 
         {
-            damage = damage += (PodScript.Instance.weaponlevel - 1) * 5; 
+            damage = damage += (PodScript.Instance.weaponlevel - 1) * 1; 
         }
 
         _input = InputManager.Instance;
