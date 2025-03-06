@@ -30,7 +30,9 @@ public abstract class EnemyBase : MonoBehaviour
         // Notify player about the enemy kill for EXP
         if (playerController != null)
         {
-            playerController.OnEnemyKilled(amount); // Grant EXP to the player
+            if (amount > 0) { 
+                playerController.OnEnemyKilled(amount); 
+            }
         }
         Destroy(gameObject);  // Destroy the enemy
     }

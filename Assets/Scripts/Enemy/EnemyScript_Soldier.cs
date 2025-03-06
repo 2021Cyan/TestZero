@@ -21,12 +21,14 @@ public class Enemy_Soldier : EnemyBase
     private bool isShooting = false; 
     private int shotsFired = 0; 
     private int maxShots = 3; 
-    private float reloadTime = 2f; 
-
+    private float reloadTime = 2f;
+    private float attackExitTime = 0f; 
+    private float attackToMoveDelay = 0.5f;
 
     private bool isPlayerNearby;
     private Transform player;
     private Rigidbody2D rb;
+    private Animator animator;
     private AudioManager _audio;
 
     void Start()
@@ -34,7 +36,7 @@ public class Enemy_Soldier : EnemyBase
         _audio = AudioManager.Instance;
         isalive = true;
         resourceAmount = 320;
-        maxHealth = 300;
+        maxHealth = 200;
         currentHealth = maxHealth;
         fireRate = 0.175f;
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
@@ -42,12 +44,27 @@ public class Enemy_Soldier : EnemyBase
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 1f;
         moveSpeed = 4f;
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        UpdateState();
-        MoveSoldier();
+        if (isalive)
+        {
+            UpdateState();
+            MoveSoldier();
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (isalive)
+        {
+            if (currentState == EnemyState.Attack)
+            {
+                Aim();
+            }
+        }
     }
 
     // Update states
@@ -61,25 +78,61 @@ public class Enemy_Soldier : EnemyBase
 
             if (distance > 10f)
             {
-                currentState = EnemyState.Moving;
+                if (currentState == EnemyState.Attack)
+                {
+                    if (Time.time > attackExitTime + attackToMoveDelay)
+                    {
+                        currentState = EnemyState.Moving;
+                    }
+                }
+                else
+                {
+                    currentState = EnemyState.Moving;
+                }
             }
             else
             {
                 currentState = EnemyState.Attack;
+                attackExitTime = Time.time; 
             }
         }
         else
         {
             currentState = EnemyState.Patrol;
         }
+
+        UpdateAnimation();
+    }
+
+    private void UpdateAnimation()
+    {
+        if (currentState == EnemyState.Patrol)
+        {
+            animator.SetBool("isWalking", !isIdle); 
+            animator.SetBool("isIdle", isIdle);     
+            animator.SetBool("isRunning", false);
+        }
+        else if (currentState == EnemyState.Moving)
+        {
+            animator.SetBool("isWalking", false);
+            animator.SetBool("isIdle", false);
+            animator.SetBool("isRunning", true);  
+        }
+        else if (currentState == EnemyState.Attack)
+        {
+            animator.SetBool("isWalking", false);
+            animator.SetBool("isRunning", false);
+            animator.SetBool("isIdle", true);  
+        }
     }
 
     // Move Solider
     private void MoveSoldier()
     {
+
         if (currentState == EnemyState.Patrol)
         {
-            moveSpeed = 4f;
+            moveSpeed = 2f;
             Patrol();
         }
         else if (currentState == EnemyState.Moving)
@@ -98,14 +151,13 @@ public class Enemy_Soldier : EnemyBase
                 UpdateSpriteDirection(facingLeft);
             }
 
-            Aim();
-
             if (!isShooting)
             {
                 StartCoroutine(ShootSequence());
             }
         }
     }
+
 
     private IEnumerator ShootSequence()
     {
@@ -183,11 +235,13 @@ public class Enemy_Soldier : EnemyBase
     private IEnumerator IdleBeforeTurn()
     {
         isIdle = true;
+        UpdateAnimation(); 
         rb.linearVelocity = Vector2.zero;
         yield return new WaitForSeconds(1f);
         movingLeft = !movingLeft;
         directionTimer = 0f;
         isIdle = false;
+        UpdateAnimation(); 
     }
 
     private bool CheckNearbyPlayers()
@@ -255,6 +309,14 @@ public class Enemy_Soldier : EnemyBase
     // Function that handles the enemy death
     protected override void Die(int amount)
     {
-        base.Die(resourceAmount);
+        isalive = false;
+        animator.SetTrigger("isDead");
+        playerController.OnEnemyKilled(resourceAmount);
+        StartCoroutine(WaitForDeathAnimation());
+    }
+    private IEnumerator WaitForDeathAnimation()
+    {
+        yield return new WaitForSeconds(2f);
+        base.Die(0);
     }
 }

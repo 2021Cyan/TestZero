@@ -1489,6 +1489,28 @@ MonoBehaviour:
   turret_bullet: {fileID: 5725336151103119662, guid: 31cf2e8ba6cfe2645917643026e0e2fc, type: 3}
   fireRate: 0
   detectionRange: 15
+--- !u!95 &1324982543
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324982535}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c2974f2d3934ed84d831c3a05697b990, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &1335317441 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
@@ -1627,6 +1649,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 819626674611740328, guid: 0399f3a91f891814299af5345986ca65, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1324982539}
+    - targetCorrespondingSourceObject: {fileID: 819626674611740328, guid: 0399f3a91f891814299af5345986ca65, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1324982543}
   m_SourcePrefab: {fileID: 100100000, guid: 0399f3a91f891814299af5345986ca65, type: 3}
 --- !u!1001 &2078168760
 PrefabInstance:
