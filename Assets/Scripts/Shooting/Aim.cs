@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 
 public class Aim : MonoBehaviour
@@ -45,6 +46,7 @@ public class Aim : MonoBehaviour
         if(MenuManager.IsPaused){
             _input.SetMouseInput(MenuManager.beforePausePosition);
         }
+        
         mousePos = Camera.main.ScreenToWorldPoint(_input.MouseInput);
         mousePos.z = 0f;
 

@@ -3,7 +3,7 @@ using FMODUnity;
 public class MenuManager : MonoBehaviour
 {
     public static bool IsPaused = false;
-    public static Vector3 beforePausePosition;
+    public static Vector2 beforePausePosition;
     public GameObject PauseMenuUI;
     public GameObject VolumeMenuUI;
     private static InputManager _Input;
@@ -40,8 +40,8 @@ public class MenuManager : MonoBehaviour
         _Audio.PlayOneShotMenuOpen();
         PauseMenuUI.SetActive(false);
         VolumeMenuUI.SetActive(false);
-        InputManager.PlayerInput.actions.FindActionMap("UI").Disable();
-        InputManager.PlayerInput.actions.FindActionMap("Player").Enable();
+        InputManager._Input.UI.Disable();
+        InputManager._Input.Player.Enable();
         Time.timeScale = 1f;
         IsPaused = false;
     }
@@ -52,8 +52,8 @@ public class MenuManager : MonoBehaviour
         _Audio.PlayOneShotMenuOpen();
         PauseMenuUI.SetActive(true);
         beforePausePosition = _Input.MouseInput;
-        InputManager.PlayerInput.actions.FindActionMap("Player").Disable();
-        InputManager.PlayerInput.actions.FindActionMap("UI").Enable();
+        InputManager._Input.UI.Enable();
+        InputManager._Input.Player.Disable();
         Time.timeScale = 0f;
         IsPaused = true;
     }
