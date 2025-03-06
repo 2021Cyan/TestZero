@@ -311,7 +311,12 @@ public class Enemy_Soldier : EnemyBase
     {
         isalive = false;
         animator.SetTrigger("isDead");
-        playerController.OnEnemyKilled(resourceAmount);
+
+        if (playerController != null)
+        {
+            playerController.OnEnemyKilled(resourceAmount);
+        }
+
         StartCoroutine(WaitForDeathAnimation());
     }
     private IEnumerator WaitForDeathAnimation()
