@@ -185,7 +185,18 @@ public class BulletScript : MonoBehaviour
         GameObject target = FindEnemyClosestToMouse();
         if (target != null)
         {
-            Vector2 desiredDirection = (target.transform.position - transform.position).normalized;
+            Enemy_Soldier es = target.GetComponent<Enemy_Soldier>();
+            Vector2 desiredDirection;
+
+            if (es != null) 
+            {
+                desiredDirection = (es.getAimPos().position - transform.position).normalized;
+            }
+            else
+            {
+                desiredDirection = (target.transform.position - transform.position).normalized;
+            }
+
             currentHomingDirection = Slerp(currentHomingDirection, desiredDirection, homingTurnSpeed * Time.fixedDeltaTime);
             rb.linearVelocity = currentHomingDirection * speed;
             float newAngle = Mathf.Atan2(currentHomingDirection.y, currentHomingDirection.x) * Mathf.Rad2Deg;
@@ -248,7 +259,17 @@ public class BulletScript : MonoBehaviour
 
         if (nearestEnemy != null)
         {
-            Vector3 targetDirection = (nearestEnemy.transform.position - transform.position).normalized;
+            Enemy_Soldier es = nearestEnemy.GetComponent<Enemy_Soldier>();
+            Vector3 targetDirection;
+
+            if (es != null) 
+            {
+                targetDirection = (es.getAimPos().position - transform.position).normalized;
+            }
+            else
+            {
+                targetDirection = (nearestEnemy.transform.position - transform.position).normalized;
+            }
 
             RaycastHit2D hit = Physics2D.Raycast(transform.position, targetDirection, Vector2.Distance(transform.position, nearestEnemy.transform.position), LayerMask.GetMask("Terrain"));
 

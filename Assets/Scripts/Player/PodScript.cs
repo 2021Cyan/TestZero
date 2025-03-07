@@ -108,7 +108,17 @@ public class PodScript : MonoBehaviour
         if (trackedEnemy != null)
         {
             cursor.SetActive(true);
-            Vector3 directionToEnemy = (trackedEnemy.transform.position - transform.position).normalized;
+            Enemy_Soldier es = trackedEnemy.GetComponent<Enemy_Soldier>();
+            Vector3 directionToEnemy;
+            if (es != null)
+            {
+                directionToEnemy = (es.getAimPos().position - transform.position).normalized;
+            }
+            else
+            {
+                directionToEnemy = (trackedEnemy.transform.position - transform.position).normalized;
+            }
+
             float targetAngle = Mathf.Atan2(directionToEnemy.y, directionToEnemy.x) * Mathf.Rad2Deg;
             float smoothAngle = Mathf.LerpAngle(cursor.transform.eulerAngles.z, targetAngle, rotationSpeed * Time.deltaTime);
             cursor.transform.rotation = Quaternion.Euler(0, 0, smoothAngle);
@@ -125,7 +135,16 @@ public class PodScript : MonoBehaviour
     {
         if (weaponlevel >= 0 && trackedEnemy != null)
         {
-            Vector3 direction = (trackedEnemy.transform.position - turret.position).normalized;
+            Enemy_Soldier es = trackedEnemy.GetComponent<Enemy_Soldier>();
+            Vector3 direction;
+            if (es != null)
+            {
+                direction = (es.getAimPos().position - turret.position).normalized;
+            }
+            else
+            {
+                direction = (trackedEnemy.transform.position - turret.position).normalized;
+            }
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             turret.rotation = Quaternion.Euler(0, 0, angle + 45);
         }

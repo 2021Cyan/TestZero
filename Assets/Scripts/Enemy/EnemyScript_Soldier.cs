@@ -30,6 +30,7 @@ public class Enemy_Soldier : EnemyBase
     private Rigidbody2D rb;
     private Animator animator;
     private AudioManager _audio;
+    public Transform center;
 
     void Start()
     {
@@ -327,5 +328,10 @@ public class Enemy_Soldier : EnemyBase
     {
         yield return new WaitForSeconds(15f);
         base.Die(0);
+    }
+
+    public Transform getAimPos()
+    {
+        return center.transform;
     }
 }
