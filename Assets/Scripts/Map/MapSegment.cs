@@ -27,8 +27,11 @@ public class MapSegment : ScriptableObject
         _allPoints = new List<Vector3>();
         Hull = new List<Vector3>();
 
+        // Temporarily instantiate prefab
+        GameObject tempInstance = Instantiate(prefab);
+
         // Find all terrain pieces (walls, ceilings, floors, etc.)
-        foreach (Transform child in prefab.transform)
+        foreach (Transform child in tempInstance.transform)
         {
             if (child.CompareTag("Terrain"))
             {
@@ -36,8 +39,25 @@ public class MapSegment : ScriptableObject
             }
         }
 
-        // Create hull of segment
-        FindHull();
+        // Get points from all terrain objects
+        foreach (GameObject terrainComp in _terrainComponents)
+        {
+            BoxCollider2D collider = terrainComp.GetComponent<BoxCollider2D>();
+            Debug.Assert(collider != null);
+            foreach (Vector3 point in GetBoxCorners(collider))
+            {
+                _allPoints.Add(tempInstance.transform.TransformPoint(point));
+            }
+        }
+
+        // Destroy temporary instance
+        Destroy(tempInstance);
+
+        // Sort points by x-coordinate
+        _allPoints.Sort((a, b) => a.x.CompareTo(b.x));
+
+        // Calculate convex hull
+        convex_hull();
     }
 
     public MapSegmentPrefabAttributes Spawn(Vector3 spawnPosition)
@@ -53,27 +73,10 @@ public class MapSegment : ScriptableObject
         // Set id and hull of created prefab
         segmentObjAttributes.SetID(ID);
         segmentObjAttributes.SetHull(CreateOffsetOfHull(entryOffset));
+        // segmentObjAttributes.SetHull(_allPoints);
 
         // Return new prefab
         return segmentObjAttributes;
-    }
-
-    // Convex hull functions
-    private void FindHull()
-    {
-        // Get points from all terrain objects
-        foreach (GameObject terrainComp in _terrainComponents)
-        {
-            BoxCollider2D collider = terrainComp.GetComponent<BoxCollider2D>();
-            Debug.Assert(collider != null);
-            _allPoints.AddRange(GetBoxCorners(collider));
-        }
-
-        // Sort points by x-coordinate
-        _allPoints.Sort((a, b) => a.x.CompareTo(b.x));
-
-        // Calculate convex hull
-        convex_hull();
     }
 
     // Convex hull helper functions
@@ -84,11 +87,22 @@ public class MapSegment : ScriptableObject
         Vector3 center = collider.bounds.center;
         Vector3 extents = collider.bounds.extents;
 
+        Debug.Log("Center and extends");
+        Debug.Log(center);
+        Debug.Log(extents);
+
         // Calculate 4 corners
         corners[0] = new Vector3(center.x - extents.x, center.y - extents.y); // Bottom Left
         corners[1] = new Vector3(center.x + extents.x, center.y - extents.y); // Bottom Right
         corners[2] = new Vector3(center.x - extents.x, center.y + extents.y); // Top Left
         corners[3] = new Vector3(center.x + extents.x, center.y + extents.y); // Top Right
+
+        Debug.Log("Corners:");
+        foreach (Vector3 v in corners)
+        {
+            Debug.Log(v);
+        }
+        
 
         return corners;
     }
@@ -104,10 +118,11 @@ public class MapSegment : ScriptableObject
     private void convex_hull()
     {
         // Create new list for calculations
-        List<Vector3> points = new List<Vector3>();
+        List<Vector3> points = new List<Vector3>(_allPoints);
 
-        // Add all sorted points
-        for (int i = 0; i < _allPoints.Count; ++i) {points.Add(_allPoints[i]);}
+        // TO DELETE
+        Hull.AddRange(points);
+        return;
 
         // Add all reverse points
         for (int i = _allPoints.Count - 1; i >= 0; --i) {points.Add(_allPoints[i]);}

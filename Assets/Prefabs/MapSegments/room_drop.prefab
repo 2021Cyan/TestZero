@@ -679,6 +679,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8140589346196544414}
+  - component: {fileID: 8187660441289045688}
   m_Layer: 0
   m_Name: room_drop
   m_TagString: Untagged
@@ -711,6 +712,24 @@ Transform:
   - {fileID: 3315636012534619868}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8187660441289045688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5255025218453110946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfe5357baa40a74d975936346e4f8b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CanBeStart: 0
+  CanFlipX: 0
+  CanFlipY: 0
+  Likelihood: 1
+  EntryPoint: {fileID: 0}
+  ExitPoints: []
 --- !u!1 &5545997655932274758
 GameObject:
   m_ObjectHideFlags: 0

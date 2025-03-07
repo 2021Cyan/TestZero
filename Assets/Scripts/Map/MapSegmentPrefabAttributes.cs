@@ -34,7 +34,12 @@ public class MapSegmentPrefabAttributes : MonoBehaviour
 
     public void SetHull(List<Vector3> hull)
     {
-        _hull = hull;        
+        _hull = new List<Vector3>();
+
+        foreach (Vector3 point in hull)
+        {
+            _hull.Add(transform.TransformPoint(point)); // Convert local to world space
+        }
     }
 
     // Methods
@@ -58,13 +63,17 @@ public class MapSegmentPrefabAttributes : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        for (int i = 0; i < _hull.Count; ++i)
+        if (_hull != null)
         {
-            Gizmos.DrawLine(
-                    _hull[i], 
-                    _hull[(i + 1) % _hull.Count]
-            );
+            Gizmos.color = Color.red;
+            for (int i = 0; i < _hull.Count; ++i)
+            {
+                // Gizmos.DrawLine(
+                //         _hull[i], 
+                //         _hull[(i + 1) % _hull.Count]
+                // );
+                Gizmos.DrawSphere(_hull[i], 0.5f);
+            }
         }
     }
 

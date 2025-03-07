@@ -13,7 +13,6 @@ public class LevelGenerator : MonoBehaviour
     public GameObject[] SegmentPrefabs; // List of all generic segments that can spawn (NO DUPLICATES)
 
     // Private prefab representations
-    private MapSegment _startRoom;
     private MapSegment _shopRoom;
     private List<MapSegment> _mapSegments;
     
@@ -22,12 +21,14 @@ public class LevelGenerator : MonoBehaviour
     {
         // Create MapSegment for shop room
         _shopRoom = ScriptableObject.CreateInstance<MapSegment>();
-        _shopRoom.Init(-2, ShopRoomPrefab);
+        _shopRoom.Init(-1, ShopRoomPrefab);
 
         // Create MapSegment list
         _mapSegments = new List<MapSegment>();
         for (int i = 0; i < SegmentPrefabs.Length; ++i) 
         {
+            Debug.Log(SegmentPrefabs[i].name);
+            Debug.Log(i);
             MapSegment tempSegment = ScriptableObject.CreateInstance<MapSegment>();
             tempSegment.Init(i, SegmentPrefabs[i]);
             _mapSegments.Add(tempSegment);
@@ -67,11 +68,10 @@ public class LevelGenerator : MonoBehaviour
         {
             currentSegment = _mapSegments[Random.Range(0, _mapSegments.Count)];
 
-            // 
             break;
             // if (prevSegment == null) {break;}
 
-            // // Check for repeated segements
+            // // Check for repeated segments
             // // if (currentSegment.ID == prevSegment.GetID()) {continue;}
 
             // // Check for overlap

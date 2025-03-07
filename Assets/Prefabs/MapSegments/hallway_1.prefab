@@ -277,7 +277,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7365058364150868745}
-  - component: {fileID: 2918807569547613751}
+  - component: {fileID: 7132520554843121403}
   m_Layer: 0
   m_Name: hallway_1
   m_TagString: Untagged
@@ -305,7 +305,7 @@ Transform:
   - {fileID: 2677244919267255262}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2918807569547613751
+--- !u!114 &7132520554843121403
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -321,6 +321,8 @@ MonoBehaviour:
   CanFlipX: 0
   CanFlipY: 0
   Likelihood: 4
+  EntryPoint: {fileID: 0}
+  ExitPoints: []
 --- !u!1001 &3276294006066755790
 PrefabInstance:
   m_ObjectHideFlags: 0

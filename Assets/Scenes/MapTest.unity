@@ -232,7 +232,13 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7421210008980611562, guid: 41223f40dd283984586908bce5792cc3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: 4178029514808230587, guid: 41223f40dd283984586908bce5792cc3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 5562594912058773617, guid: 41223f40dd283984586908bce5792cc3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: 6045650532519297021, guid: 41223f40dd283984586908bce5792cc3, type: 3}
@@ -253,15 +259,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3585494553209058378, guid: 41223f40dd283984586908bce5792cc3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 5562594912058773617, guid: 41223f40dd283984586908bce5792cc3, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 41223f40dd283984586908bce5792cc3, type: 3}
---- !u!4 &719726816 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2858558549383411797, guid: 41223f40dd283984586908bce5792cc3, type: 3}
-  m_PrefabInstance: {fileID: 719726815}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &992688795
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,13 +426,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2e25e350e12870469892588bff8f877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  segmentPrefabs:
-  - {fileID: 8911128543407557057, guid: 678100c987d04f54aba4f0de3ce4eac9, type: 3}
-  startPoint: {fileID: 719726816}
-  numberOfSegments: 1
-  testRoom: {fileID: 100806855481935522, guid: 048ce54ba32085040a94afdf239f0fa6, type: 3}
-  shopRoom: {fileID: 7346705287260323825, guid: 77e80cbd8b41ed140b2ba9988a809b11, type: 3}
-  shopFrequency: 0
+  StartPoint: {fileID: 0}
+  NumberOfSegments: 5
+  ShopFrequency: 0
+  StartRoomPrefab: {fileID: 0}
+  ShopRoomPrefab: {fileID: 0}
+  SegmentPrefabs: []
 --- !u!4 &1389070673
 Transform:
   m_ObjectHideFlags: 0
