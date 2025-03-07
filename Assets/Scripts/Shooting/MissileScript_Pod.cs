@@ -4,7 +4,7 @@ public class MissileScript_Pod : MonoBehaviour
 {
     public float moveSpeed = 15f;
     public float rotationSpeed = 200f;
-    public float explosionRadius = 5f;
+    public float explosionRadius = 3f;
     public float damage = 100f;
     public GameObject explosionEffect;
     public GameObject enemylock;

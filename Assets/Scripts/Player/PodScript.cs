@@ -155,7 +155,8 @@ public class PodScript : MonoBehaviour
         if (weaponlevel >= 1 && trackedEnemy != null)
         {
             float distanceToEnemy = Vector3.Distance(transform.position, trackedEnemy.transform.position);
-            if (distanceToEnemy <= detectionrange && Time.time > lastFireTime + (1f / fireRate))
+            bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, trackedEnemy.transform.position, LayerMask.GetMask("Terrain"));
+            if (distanceToEnemy <= detectionrange && Time.time > lastFireTime + (1f / fireRate) && isPathClear)
             {
                 lastFireTime = Time.time;
                 Quaternion fireRotation = Quaternion.Euler(0, 0, turret.rotation.eulerAngles.z - 45);
@@ -205,27 +206,42 @@ public class PodScript : MonoBehaviour
     private GameObject FindClosestEnemy()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject closestVisibleEnemy = null;
         GameObject closestEnemy = null;
+        float minVisibleDistance = Mathf.Infinity;
         float minDistance = Mathf.Infinity;
 
         foreach (GameObject enemy in enemies)
         {
             EnemyBase eb = enemy.GetComponent<EnemyBase>();
 
-            if(eb == null || !eb.isalive)
+            if (eb == null || !eb.isalive)
             {
                 continue;
             }
 
             float distance = Vector3.Distance(transform.position, enemy.transform.position);
+            if (!Physics2D.Linecast(transform.position, enemy.transform.position, LayerMask.GetMask("Terrain")))
+            {
+                if (distance < minVisibleDistance)
+                {
+                    minVisibleDistance = distance;
+                    closestVisibleEnemy = enemy;
+                }
+            }
+
             if (distance < minDistance)
             {
                 minDistance = distance;
                 closestEnemy = enemy;
             }
         }
-
+        if (closestVisibleEnemy != null)
+        {
+            return closestVisibleEnemy;
+        }
         return closestEnemy;
     }
+
 }
 
