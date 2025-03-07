@@ -43,13 +43,29 @@ public class ReticleController : MonoBehaviour
 
             if (target != null)
             {
-                if (trackerInstance == null)
+                Enemy_Soldier es = target.GetComponent<Enemy_Soldier>();
+
+                if(es != null)
                 {
-                    trackerInstance = Instantiate(trackerPrefab, target.transform.position, Quaternion.identity);
+                    if (trackerInstance == null)
+                    {
+                        trackerInstance = Instantiate(trackerPrefab, es.getAimPos().position, Quaternion.identity);
+                    }
+                    else
+                    {
+                        trackerInstance.transform.position = es.getAimPos().position;
+                    }
                 }
                 else
                 {
-                    trackerInstance.transform.position = target.transform.position;
+                    if (trackerInstance == null)
+                    {
+                        trackerInstance = Instantiate(trackerPrefab, target.transform.position, Quaternion.identity);
+                    }
+                    else
+                    {
+                        trackerInstance.transform.position = target.transform.position;
+                    }
                 }
             }
             else

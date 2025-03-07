@@ -4,7 +4,7 @@ public class MissileScript_Pod : MonoBehaviour
 {
     public float moveSpeed = 15f;
     public float rotationSpeed = 200f;
-    public float explosionRadius = 5f;
+    public float explosionRadius = 3f;
     public float damage = 100f;
     public GameObject explosionEffect;
     public GameObject enemylock;
@@ -36,7 +36,16 @@ public class MissileScript_Pod : MonoBehaviour
     {
         if (target != null)
         {
-            Vector2 direction = (target.position - transform.position).normalized;
+            Enemy_Soldier es = target.GetComponent<Enemy_Soldier>();
+            Vector2 direction;
+            if (es != null) 
+            {
+                direction = (es.getAimPos().position - transform.position).normalized;
+            }
+            else
+            {
+                direction = (target.position - transform.position).normalized;
+            }
             float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             float currentAngle = transform.rotation.eulerAngles.z;
             float newAngle = Mathf.LerpAngle(currentAngle, targetAngle, rotationSpeed * Time.deltaTime);
@@ -78,9 +87,18 @@ public class MissileScript_Pod : MonoBehaviour
             if (target != null)
             {
                 enemylock.SetActive(true);
-                enemylock.transform.position = target.position;
-                enemylock.transform.Rotate(Vector3.forward * 100f * Time.deltaTime);
+                Enemy_Soldier es = target.GetComponent<Enemy_Soldier>();
 
+                if (es != null)
+                {
+                    enemylock.transform.position = es.getAimPos().position;
+                }
+                else
+                {
+                    enemylock.transform.position = target.position;
+                }
+
+                enemylock.transform.Rotate(Vector3.forward * 100f * Time.deltaTime);
                 float distance = Vector3.Distance(transform.position, target.position);
                 float scaleFactor = Mathf.Clamp(distance * 0.1f, 0.3f, 5f);
                 enemylock.transform.localScale = new Vector3(scaleFactor, scaleFactor, 1f);

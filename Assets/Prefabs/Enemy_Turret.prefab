@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4240377371676802375}
   - component: {fileID: 2784067864141769051}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,8 +74,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1641134401
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 6219008580301899996, guid: 4d4eb7563b6e93a46b8093539526fa6a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -97,7 +97,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7444140704146365675}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 2716745796199026968}
   - component: {fileID: -623209835492781431}
   - component: {fileID: 7734058592569253772}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Enemy_Turret
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -196,8 +196,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1641134401
+  m_SortingLayer: 3
   m_SortingOrder: 5
   m_Sprite: {fileID: 2323917800338813707, guid: 4d4eb7563b6e93a46b8093539526fa6a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

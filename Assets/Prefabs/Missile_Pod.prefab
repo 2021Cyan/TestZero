@@ -179,7 +179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 15
   rotationSpeed: 200
-  explosionRadius: 5
+  explosionRadius: 3
   damage: 100
   explosionEffect: {fileID: 100008, guid: 1dbc518224e49f34095aab42fe05751a, type: 3}
   enemylock: {fileID: 7052736737107935216}
