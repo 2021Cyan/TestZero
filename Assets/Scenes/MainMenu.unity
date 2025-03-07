@@ -1062,7 +1062,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Shop.Path
-      value: event:/SFX/Shop
+      value: event:/SFX/Shop/Shop
       objectReference: {fileID: 0}
     - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Shop.Guid.Data1
