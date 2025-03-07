@@ -1,15 +1,25 @@
 using UnityEngine;
 using FMODUnity;
+using UnityEngine.InputSystem;
 public class MenuManager : MonoBehaviour
 {
     public static bool IsPaused = false;
     public static Vector2 BeforePausePosition;
+    public static MenuManager Instance;
     public GameObject PauseMenuUI;
     public GameObject VolumeMenuUI;
     private InputManager _input;
     private AudioManager _audio;
     private void Start()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
         _input = InputManager.Instance;
         _audio = AudioManager.Instance;
     }
@@ -26,13 +36,27 @@ public class MenuManager : MonoBehaviour
     {
         if (IsPaused)
         {
+            IsPaused = false;
+            InputManager.Input.Enable();
             Resume();
         }
         else
         {
-            
+            IsPaused = true;
+            BeforePausePosition = _input.MouseInput;
+            InputManager.Input.Disable();
+            InputManager.Input.UI.Enable();
             Pause();
         }
+    }
+
+    public void Pause()
+    {
+        Cursor.visible = true;
+        _audio.PlayOneShotMenuOpen();
+        PauseMenuUI.SetActive(true);
+        Time.timeScale = 0f;
+        
     }
 
     public void Resume()
@@ -41,22 +65,8 @@ public class MenuManager : MonoBehaviour
         _audio.PlayOneShotMenuOpen();
         PauseMenuUI.SetActive(false);
         VolumeMenuUI.SetActive(false);
-        InputManager.Input.UI.Disable();
-        InputManager.Input.Player.Enable();
         Time.timeScale = 1f;
-        IsPaused = false;
-    }
-
-    public void Pause()
-    {
-        Cursor.visible = true;
-        _audio.PlayOneShotMenuOpen();
-        PauseMenuUI.SetActive(true);
-        BeforePausePosition = _input.MouseInput;
-        InputManager.Input.Player.Disable();
-        InputManager.Input.UI.Enable();
-        Time.timeScale = 0f;
-        IsPaused = true;
+        
     }
 
     public void LoadMenu()

@@ -1,4 +1,5 @@
 
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,9 +24,9 @@ public class InputManager : MonoBehaviour
 
     double _fPressTime = 0f;
     double _gPressTime = 0f;
+
     private void OnEnable()
     {
-
         Input.Enable();
         Input.Player.Move.performed += SetMoveInput;
         Input.Player.Move.canceled += SetMoveInput;
@@ -36,11 +37,11 @@ public class InputManager : MonoBehaviour
         Input.Player.Shoot.started += SetClickInput;
         Input.Player.Shoot.canceled += SetClickInput;
 
-        Input.Player.Menu.started += SetMenuInput;
-        Input.Player.Menu.canceled += SetMenuInput;
+        // Input.Player.Menu.started += SetMenuInput;
+        // Input.Player.Menu.canceled += SetMenuInput;
 
-        Input.UI.MenuUI.started += SetMenuUIInput;
-        Input.UI.MenuUI.canceled += SetMenuUIInput;
+        // Input.UI.MenuUI.started += SetMenuUIInput;
+        // Input.UI.MenuUI.canceled += SetMenuUIInput;
 
         Input.Player.Aim.started += SetAimInput;
         Input.Player.Aim.canceled += SetAimInput;
@@ -81,11 +82,11 @@ public class InputManager : MonoBehaviour
         Input.Player.Look.performed -= SetMouseInput;
         Input.Player.Look.canceled -= SetMouseInput;
 
-        Input.Player.Menu.started -= SetMenuInput;
-        Input.Player.Menu.canceled -= SetMenuInput;
+        // Input.Player.Menu.started -= SetMenuInput;
+        // Input.Player.Menu.canceled -= SetMenuInput;
 
-        Input.UI.MenuUI.started -= SetMenuUIInput;
-        Input.UI.MenuUI.canceled -= SetMenuUIInput;
+        // Input.UI.MenuUI.started -= SetMenuUIInput;
+        // Input.UI.MenuUI.canceled -= SetMenuUIInput;
 
         Input.Player.Aim.started -= SetAimInput;
         Input.Player.Aim.canceled -= SetAimInput;
@@ -113,9 +114,6 @@ public class InputManager : MonoBehaviour
 
         Input.Player.G.started -= SetGInput;
         Input.Player.G.canceled -= SetGInput;
-
-        //TODO: I am not sure if I remove this but it works okay
-        // _Input.Disable();
     }
 
     // make some set methods for the inputs
@@ -139,15 +137,15 @@ public class InputManager : MonoBehaviour
         MouseInput = v;
     }
 
-    public void SetMenuInput(InputAction.CallbackContext ctx)
-    {
-        MenuInput = ctx.started;
-    }
+    // public void SetMenuInput(InputAction.CallbackContext ctx)
+    // {
+    //     MenuInput = ctx.started;
+    // }
 
-    public void SetMenuUIInput(InputAction.CallbackContext ctx)
-    {
-        MenuUIInput = ctx.started;
-    }
+    // public void SetMenuUIInput(InputAction.CallbackContext ctx)
+    // {
+    //     MenuUIInput = ctx.started;
+    // }
 
     public void SetAimInput(InputAction.CallbackContext ctx)
     {
@@ -232,21 +230,21 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        MoveInput = Input.Player.Move.ReadValue<Vector2>();
-        MouseInput = Input.Player.Look.ReadValue<Vector2>();
-        MenuUIInput = Input.UI.MenuUI.WasPressedThisFrame();
+        // MoveInput = Input.Player.Move.ReadValue<Vector2>();
+        // MouseInput = Input.Player.Look.ReadValue<Vector2>();
         MenuInput = Input.Player.Menu.WasPressedThisFrame();
-        AimInput = Input.Player.Aim.IsPressed();
-        ClickInput = Input.Player.Shoot.IsPressed();
-        JumpInput = Input.Player.Jump.WasPressedThisFrame();
-        DodgeInput = Input.Player.Dodge.WasPressedThisFrame();
-        ReloadInput = Input.Player.Reload.WasPressedThisFrame();
-        BulletTimeInput = Input.Player.BulletTime.WasPressedThisFrame();
-        InteractInput = Input.Player.Interact.WasPressedThisFrame();
-        ResetInput = Input.Player.Reset.WasPressedThisFrame();
+        MenuUIInput = Input.UI.MenuUI.WasPressedThisFrame();
+        // AimInput = Input.Player.Aim.IsPressed();
+        // ClickInput = Input.Player.Shoot.IsPressed();
+        // JumpInput = Input.Player.Jump.WasPressedThisFrame();
+        // DodgeInput = Input.Player.Dodge.WasPressedThisFrame();
+        // ReloadInput = Input.Player.Reload.WasPressedThisFrame();
+        // BulletTimeInput = Input.Player.BulletTime.WasPressedThisFrame();
+        // InteractInput = Input.Player.Interact.WasPressedThisFrame();
+        // ResetInput = Input.Player.Reset.WasPressedThisFrame();
 
         // We need better names for these
-        FInput = Input.Player.F.IsPressed();
+        // FInput = Input.Player.F.IsPressed();
         // if (_Input.Player.F.WasPressedThisFrame())
         // {
         //     Debug.Log("F was pressed this frame");
@@ -260,6 +258,6 @@ public class InputManager : MonoBehaviour
         //         Debug.Log("F has been held for 3 second");
         //     }
         // }
-        GInput = Input.Player.G.IsPressed();
+        // GInput = Input.Player.G.IsPressed();
     }
 }

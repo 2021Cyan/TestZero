@@ -600,7 +600,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""MenuUI"",
                     ""type"": ""Button"",
-                    ""id"": ""167e7d78-50e0-4fd0-a0ea-99af1614d04e"",
+                    ""id"": ""b193b227-17b6-4109-bcc2-1da2f3a3e28e"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -1028,11 +1028,11 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""202d49ab-23b6-4dc3-a7de-02968d95677b"",
+                    ""id"": ""49117acb-dde0-44ac-8871-5fdbaff9c392"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
+                    ""groups"": """",
                     ""action"": ""MenuUI"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
