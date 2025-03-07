@@ -2410,7 +2410,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Shop.Path
-      value: event:/SFX/Shop
+      value: event:/SFX/Shop/Shop
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Rarity.Path
+      value: event:/SFX/Shop/Rarity
       objectReference: {fileID: 0}
     - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Shop.Guid.Data1
@@ -2427,6 +2431,38 @@ PrefabInstance:
     - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Shop.Guid.Data4
       value: -769887815
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Rarity.Guid.Data1
+      value: -254919572
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Rarity.Guid.Data2
+      value: 1128456945
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Rarity.Guid.Data3
+      value: -1102947158
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Rarity.Guid.Data4
+      value: 547946318
+      objectReference: {fileID: 0}
+    - target: {fileID: 7838885707744038890, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: LoadEvent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7838885707744038890, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Banks.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7838885707744038890, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: 'Banks.Array.data[1]'
+      value: SFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 7838885707744038890, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: 'Banks.Array.data[2]'
+      value: Music
       objectReference: {fileID: 0}
     - target: {fileID: 8824503228596546378, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: m_Name

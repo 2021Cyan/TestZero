@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour
 {
     public static InputManager Instance;
-    public static InputMap _Input;
+    public static InputMap Input;
     public Vector2 MoveInput { get; private set; } = Vector2.zero;
     public Vector2 MouseInput { get; private set; } = Vector2.zero;
     public bool MenuInput { get; private set; } = false;
@@ -26,93 +26,93 @@ public class InputManager : MonoBehaviour
     private void OnEnable()
     {
 
-        _Input.Enable();
-        _Input.Player.Move.performed += SetMoveInput;
-        _Input.Player.Move.canceled += SetMoveInput;
+        Input.Enable();
+        Input.Player.Move.performed += SetMoveInput;
+        Input.Player.Move.canceled += SetMoveInput;
 
-        _Input.Player.Look.performed += SetMouseInput;
-        _Input.Player.Look.canceled += SetMouseInput;
+        Input.Player.Look.performed += SetMouseInput;
+        Input.Player.Look.canceled += SetMouseInput;
 
-        _Input.Player.Shoot.started += SetClickInput;
-        _Input.Player.Shoot.canceled += SetClickInput;
-        
-        _Input.Player.Menu.started += SetMenuInput;
-        _Input.Player.Menu.canceled += SetMenuInput;
+        Input.Player.Shoot.started += SetClickInput;
+        Input.Player.Shoot.canceled += SetClickInput;
 
-        _Input.UI.MenuUI.started += SetMenuUIInput;
-        _Input.UI.MenuUI.canceled += SetMenuUIInput;
+        Input.Player.Menu.started += SetMenuInput;
+        Input.Player.Menu.canceled += SetMenuInput;
 
-        _Input.Player.Aim.started += SetAimInput;
-        _Input.Player.Aim.canceled += SetAimInput;
+        Input.UI.MenuUI.started += SetMenuUIInput;
+        Input.UI.MenuUI.canceled += SetMenuUIInput;
 
-        _Input.Player.Jump.started += SetJumpInput;
-        _Input.Player.Jump.canceled += SetJumpInput;
+        Input.Player.Aim.started += SetAimInput;
+        Input.Player.Aim.canceled += SetAimInput;
 
-        _Input.Player.Dodge.started += SetDodgeInput;
-        _Input.Player.Dodge.canceled += SetDodgeInput;
+        Input.Player.Jump.started += SetJumpInput;
+        Input.Player.Jump.canceled += SetJumpInput;
 
-        _Input.Player.Reload.started += SetReloadInput;
-        _Input.Player.Reload.canceled += SetReloadInput;
+        Input.Player.Dodge.started += SetDodgeInput;
+        Input.Player.Dodge.canceled += SetDodgeInput;
 
-        _Input.Player.BulletTime.started += SetBulletTimeInput;
-        _Input.Player.BulletTime.canceled += SetBulletTimeInput;
+        Input.Player.Reload.started += SetReloadInput;
+        Input.Player.Reload.canceled += SetReloadInput;
 
-        _Input.Player.Interact.started += SetInteractInput;
-        _Input.Player.Interact.canceled += SetInteractInput;
+        Input.Player.BulletTime.started += SetBulletTimeInput;
+        Input.Player.BulletTime.canceled += SetBulletTimeInput;
 
-        _Input.Player.Reset.started += SetResetInput;
-        _Input.Player.Reset.canceled += SetResetInput;
+        Input.Player.Interact.started += SetInteractInput;
+        Input.Player.Interact.canceled += SetInteractInput;
 
-        _Input.Player.F.started += SetFInput;
-        _Input.Player.F.canceled += SetFInput;
-        
-        _Input.Player.G.started += SetGInput;
-        _Input.Player.G.canceled += SetGInput;
+        Input.Player.Reset.started += SetResetInput;
+        Input.Player.Reset.canceled += SetResetInput;
+
+        Input.Player.F.started += SetFInput;
+        Input.Player.F.canceled += SetFInput;
+
+        Input.Player.G.started += SetGInput;
+        Input.Player.G.canceled += SetGInput;
     }
 
     private void OnDisable()
     {
-        _Input.Player.Move.performed -= SetMoveInput;
-        _Input.Player.Move.canceled -= SetMoveInput;
+        Input.Player.Move.performed -= SetMoveInput;
+        Input.Player.Move.canceled -= SetMoveInput;
 
-        _Input.Player.Shoot.started -= SetClickInput;
-        _Input.Player.Shoot.canceled -= SetClickInput;
+        Input.Player.Shoot.started -= SetClickInput;
+        Input.Player.Shoot.canceled -= SetClickInput;
 
-        _Input.Player.Look.performed -= SetMouseInput;
-        _Input.Player.Look.canceled -= SetMouseInput;
+        Input.Player.Look.performed -= SetMouseInput;
+        Input.Player.Look.canceled -= SetMouseInput;
 
-        _Input.Player.Menu.started -= SetMenuInput;
-        _Input.Player.Menu.canceled -= SetMenuInput;
+        Input.Player.Menu.started -= SetMenuInput;
+        Input.Player.Menu.canceled -= SetMenuInput;
 
-        _Input.UI.MenuUI.started -= SetMenuUIInput;
-        _Input.UI.MenuUI.canceled -= SetMenuUIInput;
+        Input.UI.MenuUI.started -= SetMenuUIInput;
+        Input.UI.MenuUI.canceled -= SetMenuUIInput;
 
-        _Input.Player.Aim.started -= SetAimInput;
-        _Input.Player.Aim.canceled -= SetAimInput;
+        Input.Player.Aim.started -= SetAimInput;
+        Input.Player.Aim.canceled -= SetAimInput;
 
-        _Input.Player.Jump.started -= SetJumpInput;
-        _Input.Player.Jump.canceled -= SetJumpInput;
+        Input.Player.Jump.started -= SetJumpInput;
+        Input.Player.Jump.canceled -= SetJumpInput;
 
-        _Input.Player.Dodge.started -= SetDodgeInput;
-        _Input.Player.Dodge.canceled -= SetDodgeInput;
+        Input.Player.Dodge.started -= SetDodgeInput;
+        Input.Player.Dodge.canceled -= SetDodgeInput;
 
-        _Input.Player.Reload.started -= SetReloadInput;
-        _Input.Player.Reload.canceled -= SetReloadInput;
+        Input.Player.Reload.started -= SetReloadInput;
+        Input.Player.Reload.canceled -= SetReloadInput;
 
-        _Input.Player.BulletTime.started -= SetBulletTimeInput;
-        _Input.Player.BulletTime.canceled -= SetBulletTimeInput;
+        Input.Player.BulletTime.started -= SetBulletTimeInput;
+        Input.Player.BulletTime.canceled -= SetBulletTimeInput;
 
-        _Input.Player.Interact.started -= SetInteractInput;
-        _Input.Player.Interact.canceled -= SetInteractInput;
+        Input.Player.Interact.started -= SetInteractInput;
+        Input.Player.Interact.canceled -= SetInteractInput;
 
-        _Input.Player.Reset.started -= SetResetInput;
-        _Input.Player.Reset.canceled -= SetResetInput;
+        Input.Player.Reset.started -= SetResetInput;
+        Input.Player.Reset.canceled -= SetResetInput;
 
-        _Input.Player.F.started -= SetFInput;
-        _Input.Player.F.canceled -= SetFInput;
+        Input.Player.F.started -= SetFInput;
+        Input.Player.F.canceled -= SetFInput;
 
-        _Input.Player.G.started -= SetGInput;
-        _Input.Player.G.canceled -= SetGInput;
+        Input.Player.G.started -= SetGInput;
+        Input.Player.G.canceled -= SetGInput;
 
         //TODO: I am not sure if I remove this but it works okay
         // _Input.Disable();
@@ -197,7 +197,7 @@ public class InputManager : MonoBehaviour
             _fPressTime = ctx.startTime;
         }
     }
-    
+
     public double GetGPressTime()
     {
         return _gPressTime;
@@ -226,27 +226,27 @@ public class InputManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        _Input = new InputMap();
+        Input = new InputMap();
     }
 
     // Update is called once per frame
     private void Update()
     {
-        MoveInput = _Input.Player.Move.ReadValue<Vector2>();
-        MouseInput = _Input.Player.Look.ReadValue<Vector2>();
-        MenuInput = _Input.Player.Menu.WasPressedThisFrame();
-        MenuUIInput = _Input.UI.MenuUI.WasPressedThisFrame();
-        AimInput = _Input.Player.Aim.IsPressed();
-        ClickInput = _Input.Player.Shoot.IsPressed();
-        JumpInput = _Input.Player.Jump.WasPressedThisFrame();
-        DodgeInput = _Input.Player.Dodge.WasPressedThisFrame();
-        ReloadInput = _Input.Player.Reload.WasPressedThisFrame();
-        BulletTimeInput = _Input.Player.BulletTime.WasPressedThisFrame();
-        InteractInput = _Input.Player.Interact.WasPressedThisFrame();
-        ResetInput = _Input.Player.Reset.WasPressedThisFrame();
+        MoveInput = Input.Player.Move.ReadValue<Vector2>();
+        MouseInput = Input.Player.Look.ReadValue<Vector2>();
+        MenuUIInput = Input.UI.MenuUI.WasPressedThisFrame();
+        MenuInput = Input.Player.Menu.WasPressedThisFrame();
+        AimInput = Input.Player.Aim.IsPressed();
+        ClickInput = Input.Player.Shoot.IsPressed();
+        JumpInput = Input.Player.Jump.WasPressedThisFrame();
+        DodgeInput = Input.Player.Dodge.WasPressedThisFrame();
+        ReloadInput = Input.Player.Reload.WasPressedThisFrame();
+        BulletTimeInput = Input.Player.BulletTime.WasPressedThisFrame();
+        InteractInput = Input.Player.Interact.WasPressedThisFrame();
+        ResetInput = Input.Player.Reset.WasPressedThisFrame();
 
         // We need better names for these
-        FInput = _Input.Player.F.IsPressed();
+        FInput = Input.Player.F.IsPressed();
         // if (_Input.Player.F.WasPressedThisFrame())
         // {
         //     Debug.Log("F was pressed this frame");
@@ -260,6 +260,6 @@ public class InputManager : MonoBehaviour
         //         Debug.Log("F has been held for 3 second");
         //     }
         // }
-        GInput = _Input.Player.G.IsPressed();  
+        GInput = Input.Player.G.IsPressed();
     }
 }

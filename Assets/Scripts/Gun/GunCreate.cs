@@ -143,7 +143,7 @@ public class GunCreate : MonoBehaviour
                 for (int i = 0; i < 10; i++)
                 {
                     TryGenerateGun();
-                    yield return new WaitForSeconds(0.2f);
+                    yield return new WaitForSeconds(0.3f);
                 }
                 isGeneratingGuns = false;
                 yield break;

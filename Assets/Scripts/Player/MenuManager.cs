@@ -3,20 +3,20 @@ using FMODUnity;
 public class MenuManager : MonoBehaviour
 {
     public static bool IsPaused = false;
-    public static Vector2 beforePausePosition;
+    public static Vector2 BeforePausePosition;
     public GameObject PauseMenuUI;
     public GameObject VolumeMenuUI;
-    private static InputManager _Input;
-    private static AudioManager _Audio;
+    private InputManager _input;
+    private AudioManager _audio;
     private void Start()
     {
-        _Input = InputManager.Instance;
-        _Audio = AudioManager.Instance;
+        _input = InputManager.Instance;
+        _audio = AudioManager.Instance;
     }
-    
+
     private void Update()
     {
-        if (_Input.MenuInput || _Input.MenuUIInput)
+        if (_input.MenuInput || _input.MenuUIInput)
         {
             PauseCheck();
         }
@@ -30,6 +30,7 @@ public class MenuManager : MonoBehaviour
         }
         else
         {
+            
             Pause();
         }
     }
@@ -37,11 +38,11 @@ public class MenuManager : MonoBehaviour
     public void Resume()
     {
         Cursor.visible = false;
-        _Audio.PlayOneShotMenuOpen();
+        _audio.PlayOneShotMenuOpen();
         PauseMenuUI.SetActive(false);
         VolumeMenuUI.SetActive(false);
-        InputManager._Input.UI.Disable();
-        InputManager._Input.Player.Enable();
+        InputManager.Input.UI.Disable();
+        InputManager.Input.Player.Enable();
         Time.timeScale = 1f;
         IsPaused = false;
     }
@@ -49,11 +50,11 @@ public class MenuManager : MonoBehaviour
     public void Pause()
     {
         Cursor.visible = true;
-        _Audio.PlayOneShotMenuOpen();
+        _audio.PlayOneShotMenuOpen();
         PauseMenuUI.SetActive(true);
-        beforePausePosition = _Input.MouseInput;
-        InputManager._Input.UI.Enable();
-        InputManager._Input.Player.Disable();
+        BeforePausePosition = _input.MouseInput;
+        InputManager.Input.Player.Disable();
+        InputManager.Input.UI.Enable();
         Time.timeScale = 0f;
         IsPaused = true;
     }
@@ -63,7 +64,7 @@ public class MenuManager : MonoBehaviour
         Time.timeScale = 1f;
         IsPaused = false;
     }
-    
+
     public void Quit()
     {
         Application.Quit();

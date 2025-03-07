@@ -43,10 +43,11 @@ public class Aim : MonoBehaviour
 
         // Get the mouse position in world space (set z to 0 for 2D)
         Vector3 mousePos;
-        if(MenuManager.IsPaused){
-            _input.SetMouseInput(MenuManager.beforePausePosition);
+        if (MenuManager.IsPaused)
+        {
+            _input.SetMouseInput(MenuManager.BeforePausePosition);
         }
-        
+
         mousePos = Camera.main.ScreenToWorldPoint(_input.MouseInput);
         mousePos.z = 0f;
 
@@ -64,7 +65,8 @@ public class Aim : MonoBehaviour
 
 
         // Limit head rotation angle
-        if (head_angle >= 45 && head_angle <= 90) {
+        if (head_angle >= 45 && head_angle <= 90)
+        {
             head.rotation = Quaternion.Euler(0, 0, 45);
         }
         else if (head_angle >= -90 && head_angle <= -45)

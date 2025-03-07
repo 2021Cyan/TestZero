@@ -151,12 +151,18 @@ public class GunScript : MonoBehaviour
         {
             case Rarity.Legendary:
                 light.color = new Color(231f / 255f, 76f / 255f, 60f / 255f);
+                _audio.SetParameterByName("Rarity", 2);
+                _audio.PlayOneShot(_audio.Rarity);
                 break;
             case Rarity.Rare:
                 light.color = new Color(241f / 255f, 196f / 255f, 15f / 255f);
+                _audio.SetParameterByName("Rarity", 1);
+                _audio.PlayOneShot(_audio.Rarity);
                 break;
             case Rarity.Uncommon:
                 light.color = new Color(142f / 255f, 68f / 255f, 173f / 255f);
+                _audio.SetParameterByName("Rarity", 0);
+                _audio.PlayOneShot(_audio.Rarity);
                 break;
             case Rarity.Common:
                 light.color = new Color(52f / 255f, 152f / 255f, 219f / 255f);
@@ -167,10 +173,16 @@ public class GunScript : MonoBehaviour
 
     void Start()
     {
-        _audio = AudioManager.Instance;
-        _input = InputManager.Instance;
+        // _audio = AudioManager.Instance;
+        // _input = InputManager.Instance;
         player = GameObject.FindGameObjectWithTag("Player").transform;
         playerController = player.GetComponent<PlayerController>();
+    }
+
+    void Awake()
+    {
+        _audio = AudioManager.Instance;
+        _input = InputManager.Instance;
     }
 
     void Update()

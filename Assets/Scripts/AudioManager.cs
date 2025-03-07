@@ -36,6 +36,7 @@ public class AudioManager : MonoBehaviour
 
     [Header("SFX")]
     public EventReference Shop;
+    public EventReference Rarity;
     public EventReference ButtonPress;
 
     [Header("UI_SFX")]
@@ -56,12 +57,6 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        // RuntimeManager.WaitForAllSampleLoading();
-    }
-
-    private void Start()
-    {
-        // Bank::loadSampleData, EventDescription::loadSampleData
         RuntimeManager.WaitForAllSampleLoading();
     }
 
