@@ -213,7 +213,7 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if (isDodging)
+        if (isDodging || rb.linearVelocity.y != 0)
             return;
 
         if (_input.JumpInput && !anim.GetBool("isJump"))
