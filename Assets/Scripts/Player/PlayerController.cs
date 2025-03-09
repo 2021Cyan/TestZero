@@ -149,7 +149,19 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("isWalkBack", false);
 
         // Adjust speed while bullettime
-        float delta = isBulletTimeActive ? Time.unscaledDeltaTime * playerTimeMultiplier : Time.deltaTime;
+        float speedMultiplier;
+
+        if (isBulletTimeActive)
+        {
+            speedMultiplier = 2f;
+        }
+        else
+        {
+            speedMultiplier = 1f;
+        }
+
+        float delta = Time.deltaTime * speedMultiplier;
+
 
         if (Input.GetAxisRaw("Horizontal") < 0)
         {
@@ -359,7 +371,7 @@ public class PlayerController : MonoBehaviour
             _audio.PlayOneShot(_audio.Death);
             anim.SetTrigger("die");
             alive = false;
-            StartCoroutine(RestartAfterDelay(1.5f));
+            StartCoroutine(RestartAfterDelay(5f));
         }
     }
 
@@ -446,9 +458,20 @@ public class PlayerController : MonoBehaviour
         Time.fixedDeltaTime = 0.02f * enemyTimeScale;
 
         // Adjust player animation speed
-        anim.speed = playerTimeMultiplier;
+        anim.speed = 0.9f;
+        float originalFireRate = fireRate;
+        float originalReloadSpeed = reloadSpeed;
+        fireRate *= 2f;
+        reloadSpeed /= 2f;
 
-        yield return new WaitForSecondsRealtime(bulletTimeDuration);
+
+        float depletionRate = bulletTimeMaxGauge / bulletTimeDuration;
+        while (bulletTimeGauge > 0)
+        {
+            bulletTimeGauge -= depletionRate * Time.unscaledDeltaTime;
+            bulletTimeGauge = Mathf.Max(0, bulletTimeGauge);
+            yield return null;
+        }
 
         _audio.SetPitch(1.0f);
         // Restore speed setting
@@ -459,6 +482,8 @@ public class PlayerController : MonoBehaviour
 
         // Restore player animation speed
         anim.speed = 1f;
+        fireRate = originalFireRate;
+        reloadSpeed = originalReloadSpeed;
     }
 
     public Transform GetAimPos()
