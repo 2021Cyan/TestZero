@@ -175,8 +175,12 @@ public class PodScript : MonoBehaviour
                 float distanceToEnemy = Vector3.Distance(transform.position, trackedEnemy.transform.position);
                 if (distanceToEnemy <= detectionrange)
                 {
-                    lastMissileTime = Time.time;
-                    Instantiate(turret_missle, turret_firePoint.position, turret_firePoint.rotation);
+                    bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, trackedEnemy.transform.position, LayerMask.GetMask("Terrain"));
+                    if (isPathClear)
+                    {
+                        lastMissileTime = Time.time;
+                        Instantiate(turret_missle, turret_firePoint.position, turret_firePoint.rotation);
+                    }
                 }
             }
         }

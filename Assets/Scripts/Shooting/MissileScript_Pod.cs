@@ -20,6 +20,7 @@ public class MissileScript_Pod : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         FindClosestEnemy();
+        enemylock.SetActive(false);
     }
     void Update()
     {
@@ -34,10 +35,10 @@ public class MissileScript_Pod : MonoBehaviour
 
     private void Move()
     {
+        Vector2 direction;
         if (target != null)
         {
             Enemy_Soldier es = target.GetComponent<Enemy_Soldier>();
-            Vector2 direction;
             if (es != null) 
             {
                 direction = (es.getAimPos().position - transform.position).normalized;
@@ -46,12 +47,16 @@ public class MissileScript_Pod : MonoBehaviour
             {
                 direction = (target.position - transform.position).normalized;
             }
-            float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            float currentAngle = transform.rotation.eulerAngles.z;
-            float newAngle = Mathf.LerpAngle(currentAngle, targetAngle, rotationSpeed * Time.deltaTime);
-            transform.rotation = Quaternion.Euler(0, 0, newAngle);
-            rb.linearVelocity = transform.right * moveSpeed;
         }
+        else
+        {
+            direction = transform.right;
+        }
+        float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        float currentAngle = transform.rotation.eulerAngles.z;
+        float newAngle = Mathf.LerpAngle(currentAngle, targetAngle, rotationSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Euler(0, 0, newAngle);
+        rb.linearVelocity = transform.right * moveSpeed;
     }
 
     private void UpdateTarget()
@@ -59,6 +64,14 @@ public class MissileScript_Pod : MonoBehaviour
         if (target == null || !target.gameObject.activeInHierarchy)
         {
             target = FindClosestEnemy();
+        }
+        else
+        {
+            EnemyBase enemy = target.GetComponent<EnemyBase>();
+            if (enemy != null && !enemy.isalive)
+            {
+                target = FindClosestEnemy();
+            }
         }
     }
 
@@ -70,6 +83,13 @@ public class MissileScript_Pod : MonoBehaviour
 
         foreach (GameObject enemy in enemies)
         {
+            EnemyBase eb = enemy.GetComponent<EnemyBase>();
+            bool isPathClear = !Physics2D.Linecast(transform.position, enemy.transform.position, LayerMask.GetMask("Terrain"));
+            if (eb == null || !eb.isalive || !isPathClear)
+            {
+                continue;
+            }
+
             float distance = Vector3.Distance(transform.position, enemy.transform.position);
             if (distance < minDistance)
             {
@@ -113,7 +133,16 @@ public class MissileScript_Pod : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (isExploded) return;
-        if (other.CompareTag("Enemy") || other.CompareTag("Terrain"))
+        if (other.CompareTag("Enemy"))
+        {
+            EnemyBase enemy = other.GetComponent<EnemyBase>();
+            if (enemy != null && !enemy.isalive)
+            {
+                return;
+            }
+            Explode();
+        }
+        else if (other.CompareTag("Terrain"))
         {
             Explode();
         }
@@ -146,17 +175,13 @@ public class MissileScript_Pod : MonoBehaviour
             if (hit.CompareTag("Enemy"))
             {
                 EnemyBase enemy = hit.GetComponent<EnemyBase>();
-                if (enemy != null)
+                if (enemy != null && enemy.isalive)
                 {
                     enemy.TakeDamage((int)damage); 
                     Vector3 hitPosition = hit.ClosestPoint(transform.position);
                     ShowDamageText((int)damage, hitPosition); 
                 }
             }
-        }
-        if (enemylock != null)
-        {
-            Destroy(enemylock);
         }
         Destroy(gameObject);
     }
