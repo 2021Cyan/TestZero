@@ -1096,7 +1096,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5612659288486996643, guid: a959359ecb01bc9418231e021f2f2365, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.25863683
+      value: -0.509
       objectReference: {fileID: 0}
     - target: {fileID: 5612659288486996643, guid: a959359ecb01bc9418231e021f2f2365, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2133,6 +2133,10 @@ PrefabInstance:
     - target: {fileID: 7306279477192934636, guid: e74de27f14fc6894abbf9e89bef43f4e, type: 3}
       propertyPath: bulletTimeGauge
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7306279477192934636, guid: e74de27f14fc6894abbf9e89bef43f4e, type: 3}
+      propertyPath: playerTimeMultiplier
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 7633862891547850115, guid: e74de27f14fc6894abbf9e89bef43f4e, type: 3}
       propertyPath: m_SortingLayer
