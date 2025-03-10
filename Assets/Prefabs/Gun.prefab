@@ -463,7 +463,7 @@ MonoBehaviour:
   spreadResetSpeed: 0
   reloadSpeed: 0
   bulletType: 0
-  light: {fileID: 9003023439719989447}
+  gunLight: {fileID: 9003023439719989447}
 --- !u!61 &484406997542409192
 BoxCollider2D:
   m_ObjectHideFlags: 0
