@@ -41,7 +41,7 @@ public class BulletScript : MonoBehaviour
                 bulletType = playerController.bulletType;
                 if (bulletType == 2)
                 {
-                    max_target = 3;
+                    max_target = 2;
                 }
                 if (bulletType == 12)
                 {
