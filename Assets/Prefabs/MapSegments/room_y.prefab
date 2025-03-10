@@ -413,7 +413,7 @@ GameObject:
   - component: {fileID: 8661662341058383444}
   - component: {fileID: 9195741017513353676}
   m_Layer: 0
-  m_Name: y_room_1
+  m_Name: room_y
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -455,15 +455,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3032546248418473337}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cfe5357baa40a74d975936346e4f8b6, type: 3}
+  m_Script: {fileID: 11500000, guid: 19b77c922b19e6940a911b31a02f63cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CanBeStart: 0
   CanFlipX: 0
   CanFlipY: 0
-  Likelihood: 10
-  EntryPoint: {fileID: 0}
-  ExitPoints: []
+  Likelihood: 0
 --- !u!1 &3314783565915836156
 GameObject:
   m_ObjectHideFlags: 0
@@ -1152,7 +1150,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4594961840942228213, guid: c6eda2458111cd04596873f6627c3d8d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 19
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4594961840942228213, guid: c6eda2458111cd04596873f6627c3d8d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1218,7 +1216,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4594961840942228213, guid: c6eda2458111cd04596873f6627c3d8d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 16
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 4594961840942228213, guid: c6eda2458111cd04596873f6627c3d8d, type: 3}
       propertyPath: m_LocalPosition.y

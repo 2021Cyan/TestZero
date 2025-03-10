@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
@@ -12,33 +13,44 @@ public class LevelGenerator : MonoBehaviour
     public GameObject ShopRoomPrefab;
     public GameObject[] SegmentPrefabs; // List of all generic segments that can spawn (NO DUPLICATES)
 
-    // Private prefab representations
-    private MapSegment _shopRoom;
-    private List<MapSegment> _mapSegments;
-    
-
     void Start()
     {
-        // Create MapSegment for shop room
-        _shopRoom = ScriptableObject.CreateInstance<MapSegment>();
-        _shopRoom.Init(-1, ShopRoomPrefab);
-
-        // Create MapSegment list
-        _mapSegments = new List<MapSegment>();
-        for (int i = 0; i < SegmentPrefabs.Length; ++i) 
-        {
-            Debug.Log(SegmentPrefabs[i].name);
-            Debug.Log(i);
-            MapSegment tempSegment = ScriptableObject.CreateInstance<MapSegment>();
-            tempSegment.Init(i, SegmentPrefabs[i]);
-            _mapSegments.Add(tempSegment);
-        }
-
         // Spawn segments recursively
         SpawnSegment(StartPoint.position, NumberOfSegments); 
     }
 
-    void SpawnSegment(Vector3 nextSpawnPosition, int remainingSegments, MapSegmentPrefabAttributes prevSegment=null)
+    MapSegment GetMapSegmentFromPrefab(GameObject prefab)
+    {
+        return prefab.GetComponent<MapSegment>();
+    }
+
+    MapSegment Spawn(GameObject prefab, Vector3 spawnPosition)
+    {
+        // Instantiate new prefab
+        GameObject segmentPrefab = Instantiate(prefab, spawnPosition, Quaternion.identity);
+        MapSegment segment = GetMapSegmentFromPrefab(segmentPrefab);
+
+        // Align current segment so EntryPoint matches previous ExitPoint
+        Vector3 entryOffset = segmentPrefab.transform.position - segment.GetEntryPoint();
+        segmentPrefab.transform.position += entryOffset;
+
+        // Trigger convex hull calculation
+        segment.CalculateHull(entryOffset);
+
+        // Return MapSegment object of spawned segment
+        return segment;
+    }
+
+    // void ShuffleSegments()
+    // {
+    //     List<GameObject> shuffledList = new List<GameObject>(SegmentPrefabs);
+    //     for (int i = SegmentPrefabs.Count; i <= 0; --i)
+    //     {
+
+    //     }
+    // }
+
+    void SpawnSegment(Vector3 nextSpawnPosition, int remainingSegments, MapSegment prevSegment=null)
     {
         // Check if max segments have been reached
         if (remainingSegments == 0)
@@ -57,42 +69,54 @@ public class LevelGenerator : MonoBehaviour
         if (ShopFrequency != 0 && remainingSegments % ShopFrequency == 0)
         {
             // Spawn shop
-            _shopRoom.Spawn(nextSpawnPosition);
+            Spawn(ShopRoomPrefab, nextSpawnPosition);
             remainingSegments -= 1;
             return;
         }
 
         // Select next segment
+        GameObject currentSegmentPrefab;
         MapSegment currentSegment;
+        int attempts = 0;
         while (true)
         {
-            currentSegment = _mapSegments[Random.Range(0, _mapSegments.Count)];
+            attempts += 1;
+            if (attempts > 1000) {
+                Debug.Log("Map creation failed to find suitable segment");
+                return;
+            }
 
+            currentSegmentPrefab = SegmentPrefabs[Random.Range(0, SegmentPrefabs.Length)];
+            currentSegment = GetMapSegmentFromPrefab(currentSegmentPrefab);
+
+            // Check for repeated segments
+            if (prevSegment != null && currentSegment.GetName() == prevSegment.GetName()) {continue;}
+
+            // Spawn segment
+            currentSegment = Spawn(currentSegmentPrefab, nextSpawnPosition);
+
+            // Check for overlap
+            if (prevSegment != null && currentSegment.Overlaps(prevSegment.GetHull())) 
+            {
+                // Destroy segment and select again
+                Destroy(currentSegmentPrefab);
+                continue;
+            }
+
+            if (prevSegment != null) {Debug.Log(prevSegment.GetName() + " followed by " + currentSegment.GetName());}
+            
+            // If all checks pass, update segment count and break
+            remainingSegments -= 1;
             break;
-            // if (prevSegment == null) {break;}
-
-            // // Check for repeated segments
-            // // if (currentSegment.ID == prevSegment.GetID()) {continue;}
-
-            // // Check for overlap
-            // Vector3 offset = nextSpawnPosition - currentSegment.EntryPoint.position;
-            // if (currentSegment.Overlaps(prevSegment.GetHull(), offset)) {continue;}
-
-            // // Break to create segment if all checks pass
-            // break;
         }
 
-        // Create segment
-        MapSegmentPrefabAttributes currentPrefabAttributes = currentSegment.Spawn(nextSpawnPosition);
-        remainingSegments -= 1;
-
         // Recursively create new segments for each exit point
-        foreach (Transform exitPoint in currentPrefabAttributes.ExitPoints)
+        foreach (Transform exitPoint in currentSegment.GetExitPoints())
         {
             SpawnSegment(
                 exitPoint.position,
-                remainingSegments / currentPrefabAttributes.ExitPoints.Count,
-                currentPrefabAttributes
+                remainingSegments / currentSegment.GetNumberOfExits(),
+                currentSegment
             );
         }
     }

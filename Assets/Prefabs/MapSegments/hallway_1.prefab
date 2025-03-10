@@ -314,15 +314,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8911128543407557057}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cfe5357baa40a74d975936346e4f8b6, type: 3}
+  m_Script: {fileID: 11500000, guid: 19b77c922b19e6940a911b31a02f63cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CanBeStart: 0
   CanFlipX: 0
   CanFlipY: 0
   Likelihood: 4
-  EntryPoint: {fileID: 0}
-  ExitPoints: []
 --- !u!1001 &3276294006066755790
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -461,7 +459,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4594961840942228213, guid: c6eda2458111cd04596873f6627c3d8d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.5
+      value: 10.5
       objectReference: {fileID: 0}
     - target: {fileID: 4594961840942228213, guid: c6eda2458111cd04596873f6627c3d8d, type: 3}
       propertyPath: m_LocalPosition.y
