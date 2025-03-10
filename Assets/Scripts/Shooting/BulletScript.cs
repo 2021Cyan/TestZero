@@ -279,7 +279,10 @@ public class BulletScript : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0, 0, angle);
                 rb.linearVelocity = targetDirection * speed;
                 damage *= 0.5f;
-                if (damage < 1) damage = 1;
+                if (damage < 1)
+                {
+                    damage = 1;
+                }
                 return;
             }
         }
@@ -297,7 +300,10 @@ public class BulletScript : MonoBehaviour
 
             rb.linearVelocity = reflectedDirection * speed;
             damage *= 0.5f;
-            if (damage < 1) damage = 1;
+            if (damage < 1)
+            {
+                gameObject.SetActive(false);
+            }
         }
         else
         {
