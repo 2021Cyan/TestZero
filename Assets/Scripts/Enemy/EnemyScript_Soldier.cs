@@ -16,6 +16,7 @@ public class Enemy_Soldier : EnemyBase
     [SerializeField] Transform turret;
     [SerializeField] Transform turret_firePoint;
     [SerializeField] GameObject turret_bullet;
+    [SerializeField] ParticleSystem muzzleFlash_single;
     public float fireRate;
     public float detectionRange = 15f;
     private bool isShooting = false; 
@@ -273,12 +274,15 @@ public class Enemy_Soldier : EnemyBase
     {
         if (turret_bullet != null && turret_firePoint != null)
         {
-            _audio.PlayOneShot(_audio.Laser, transform.position);
+            _audio.SetParameterByName("WeaponType", 0);
+            _audio.PlayOneShot(_audio.Shot);
             Quaternion bulletRotation = turret_firePoint.rotation;
             if (transform.localScale.x < 0)
             {
                 bulletRotation = Quaternion.Euler(0, 0, bulletRotation.eulerAngles.z + 180f);
             }
+            muzzleFlash_single.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            muzzleFlash_single.Play();
             Instantiate(turret_bullet, turret_firePoint.position, bulletRotation);
         }
     }
