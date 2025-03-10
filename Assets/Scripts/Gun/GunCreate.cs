@@ -81,7 +81,7 @@ public class GunCreate : MonoBehaviour
 
     IEnumerator Recycle()
     {
-        if (isRecycling) yield break;
+        if (isRecycling || isGeneratingGuns) yield break;
         isRecycling = true;
 
         List<Transform> toRemove = new List<Transform>();
@@ -132,7 +132,7 @@ public class GunCreate : MonoBehaviour
 
     IEnumerator GenerateMultipleGuns()
     {
-        if (isGeneratingGuns) yield break; 
+        if (isGeneratingGuns || isRecycling) yield break; 
         isGeneratingGuns = true;
         holdTime = _input.GetFPressTime();
         while (_input.GetFPressTime() != 0)
