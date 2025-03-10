@@ -135,7 +135,8 @@ public class Enemy_Drone : EnemyBase
 
     private void Shoot()
     {
-        if (isPlayerNearby && Time.time > lastFireTime + fireRate)
+        bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, player.position, LayerMask.GetMask("Terrain"));
+        if (isPlayerNearby && Time.time > lastFireTime + fireRate && isPathClear)
         {
             lastFireTime = Time.time;
             if (turret_bullet != null && turret_firePoint != null)

@@ -88,7 +88,9 @@ public class EnemyScript_Turret : EnemyBase
 
     private void Shoot()
     {
-        if (isPlayerNearby && canShoot && Time.time > lastFireTime + fireRate)
+        bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, player.position, LayerMask.GetMask("Terrain"));
+
+        if (isPlayerNearby && canShoot && Time.time > lastFireTime + fireRate && isPathClear)
         {
             if (shotsFired < 3)
             {

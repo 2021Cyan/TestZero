@@ -153,7 +153,9 @@ public class Enemy_Soldier : EnemyBase
                 UpdateSpriteDirection(facingLeft);
             }
 
-            if (!isShooting)
+            bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, player.position, LayerMask.GetMask("Terrain"));
+
+            if (!isShooting && isPathClear)
             {
                 StartCoroutine(ShootSequence());
             }
