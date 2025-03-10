@@ -22,7 +22,7 @@ public class Enemy_Soldier : EnemyBase
     private bool isShooting = false; 
     private int shotsFired = 0; 
     private int maxShots = 3; 
-    private float reloadTime = 2f;
+    private float reloadTime = 1f;
     private float attackExitTime = 0f; 
     private float attackToMoveDelay = 0.5f;
 
@@ -74,6 +74,11 @@ public class Enemy_Soldier : EnemyBase
     {
         isPlayerNearby = CheckNearbyPlayers();
 
+        if (isShooting)
+        {
+            currentState = EnemyState.Attack;
+            return;
+        }
         if (isPlayerNearby)
         {
             float distance = Vector3.Distance(transform.position, player.position);
