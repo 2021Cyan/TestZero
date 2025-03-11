@@ -53,7 +53,7 @@ public class LevelGenerator : MonoBehaviour
     void SpawnSegment(Vector3 nextSpawnPosition, int remainingSegments, MapSegment prevSegment=null)
     {
         // Check if max segments have been reached
-        if (remainingSegments == 0)
+        if (remainingSegments <= 0)
         {
             // <><><> Special Demo Addition <><><>
             // Spawn Test room last
@@ -62,17 +62,17 @@ public class LevelGenerator : MonoBehaviour
             // Vector3 entryOffset = testSegmentObj.transform.position - testSegment.entryPoint.position;
             // testSegmentObj.transform.position += entryOffset;
             // return;
+            Debug.Log("Finished spawning segments");
             return;
         }
 
         // <><><> Special Demo Addition <><><>
-        if (ShopFrequency != 0 && remainingSegments % ShopFrequency == 0)
-        {
-            // Spawn shop
-            Spawn(ShopRoomPrefab, nextSpawnPosition);
-            remainingSegments -= 1;
-            return;
-        }
+        // if (ShopFrequency != 0 && remainingSegments % ShopFrequency == 0)
+        // {
+        //     // Spawn shop
+        //     Spawn(ShopRoomPrefab, nextSpawnPosition);
+        //     remainingSegments -= 1;
+        // }
 
         // Select next segment
         GameObject currentSegmentPrefab;
@@ -90,23 +90,22 @@ public class LevelGenerator : MonoBehaviour
             currentSegment = GetMapSegmentFromPrefab(currentSegmentPrefab);
 
             // Check for repeated segments
-            if (prevSegment != null && currentSegment.GetName() == prevSegment.GetName()) {continue;}
+            if (SegmentPrefabs.Length > 1 && prevSegment != null && currentSegment.GetName() == prevSegment.GetName()) {continue;}
 
             // Spawn segment
             currentSegment = Spawn(currentSegmentPrefab, nextSpawnPosition);
+            remainingSegments -= 1;
 
             // Check for overlap
             if (prevSegment != null && currentSegment.Overlaps(prevSegment.GetHull())) 
             {
                 // Destroy segment and select again
-                Destroy(currentSegmentPrefab);
+                Destroy(currentSegment.GetParent());
+                remainingSegments += 1;
                 continue;
             }
-
-            if (prevSegment != null) {Debug.Log(prevSegment.GetName() + " followed by " + currentSegment.GetName());}
             
-            // If all checks pass, update segment count and break
-            remainingSegments -= 1;
+            // If all checks pass, break
             break;
         }
 

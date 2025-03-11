@@ -41,6 +41,11 @@ public class MapSegment : MonoBehaviour
         return _exitPoints;
     }
 
+    public GameObject GetParent()
+    {
+        return gameObject;
+    }
+
     public int GetNumberOfExits()
     {
         return _exitPoints.Count;
@@ -166,26 +171,54 @@ public class MapSegment : MonoBehaviour
     // Determine if hulls overlap
     public bool Overlaps(List<Vector3> otherHull)
     {
-        // Check every point in hull
-        Vector3 lineStart;
-        Vector3 lineEnd;
+        // Check hull's point for being in otherHull
         foreach (Vector3 point in _hull)
         {
-            // Check every line in other hull
-            for (int j = 0; j < otherHull.Count; ++j)
+            if (IsPointInsidePolygon(point, otherHull))
             {
-                lineStart = otherHull[j];
-                lineEnd = otherHull[(j + 1) % otherHull.Count];
-                
-                // Check if point falls within
+                return true;
             }
         }
+
+        // Check other hull's point for being in hull
+        foreach (Vector3 point in otherHull)
+        {
+            if (IsPointInsidePolygon(point, _hull))
+            {
+                return true;
+            }
+        }
+
+        // Return false if checks have passed
         return false;
     }
 
-    private int Orientation(Vector3 p, Vector3 q, Vector3 r)
+    private bool IsPointInsidePolygon(Vector3 point, List<Vector3> polygon)
     {
-        float val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
+        Nullable<int> prev_orientation = null;
+
+        // Check every line in other hull
+        for (int j = 0; j < polygon.Count; ++j)
+        {
+            // Determine orientation of line to point
+            int orientation = FindOrientation(
+                polygon[j],
+                polygon[(j + 1) % polygon.Count],
+                point
+            );
+            
+            // Check orientation of previous line
+            if (prev_orientation == null) {prev_orientation = orientation;}
+            else if (orientation == 0) {return false;}
+            else if (orientation != 0 && orientation != prev_orientation) {return false;}
+        }
+        return true;
+    }
+
+    private int FindOrientation(Vector3 lineStart, Vector3 lineEnd, Vector3 point)
+    {
+        float val = (lineEnd.y - lineStart.y) * (point.x - lineEnd.x) 
+                  - (lineEnd.x - lineStart.x) * (point.y - lineEnd.y);
 
         // Check for collinearity
         if (val == 0) {return 0;}

@@ -776,11 +776,10 @@ MonoBehaviour:
   StartRoomPrefab: {fileID: 8430654730971527948, guid: 41223f40dd283984586908bce5792cc3, type: 3}
   ShopRoomPrefab: {fileID: 7346705287260323825, guid: 77e80cbd8b41ed140b2ba9988a809b11, type: 3}
   SegmentPrefabs:
+  - {fileID: 3032546248418473337, guid: fd1b67b57d97b72448031707edb9592b, type: 3}
   - {fileID: 8911128543407557057, guid: 678100c987d04f54aba4f0de3ce4eac9, type: 3}
   - {fileID: 2322570914769582032, guid: 1e5e9147d402ba349b4dc431e4b3200c, type: 3}
   - {fileID: 7326364849361451869, guid: 20035d2585e995e4e933dd3d8b67db50, type: 3}
-  - {fileID: 393479479986750669, guid: dda4a527091fc874a9ab77430f323fda, type: 3}
-  Dot: {fileID: 3815748628983967340, guid: 6a61f5c2f07c03747a67b82de7816db8, type: 3}
 --- !u!4 &1321328354
 Transform:
   m_ObjectHideFlags: 0
