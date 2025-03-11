@@ -17,6 +17,7 @@ public class Enemy_Drone : EnemyBase
     public float fireRate;
     private float lastFireTime = 0f;
     public float detectionRange = 15;
+    private LineRenderer lineRenderer;
 
     private float timer;
     private bool isPlayerNearby;
@@ -42,6 +43,7 @@ public class Enemy_Drone : EnemyBase
         rb.gravityScale = 0;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        lineRenderer = GetComponent<LineRenderer>();
         ChangeDirection();
     }
 
@@ -124,12 +126,20 @@ public class Enemy_Drone : EnemyBase
 
     private void Aim()
     {
-        if (isPlayerNearby && player != null)
+        bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, player.position, LayerMask.GetMask("Terrain"));
+        if (isPlayerNearby && player != null && isPathClear)
         {
+            lineRenderer.enabled = true;
+            lineRenderer.SetPosition(0, turret_firePoint.position);
+            lineRenderer.SetPosition(1, player.position);
             Vector3 direction = (player.position - turret.position).normalized;
             Debug.DrawLine(turret.position, turret.position + direction * 3f, Color.red, 0.1f);
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             turret.rotation = Quaternion.Euler(0, 0, angle + 45);
+        }
+        else
+        {
+            lineRenderer.enabled=false;
         }
     }
 
@@ -172,6 +182,8 @@ public class Enemy_Drone : EnemyBase
         if (!isFalling)
         {
             isFalling = true;
+            isalive = false;
+            lineRenderer.enabled = false;
             rb.gravityScale = 1f;
             rb.constraints = RigidbodyConstraints2D.None;
             float randomTorque = Random.Range(-5f, 5f);

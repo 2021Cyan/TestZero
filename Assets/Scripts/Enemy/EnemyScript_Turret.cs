@@ -10,6 +10,7 @@ public class EnemyScript_Turret : EnemyBase
     public float fireRate;
     private float lastFireTime = 0f;
     public float detectionRange = 15;
+    private LineRenderer lineRenderer;
 
     private bool isPlayerNearby;
     private Transform player;
@@ -37,6 +38,7 @@ public class EnemyScript_Turret : EnemyBase
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        lineRenderer = GetComponent<LineRenderer>();
     }
 
     void Update()
@@ -78,11 +80,19 @@ public class EnemyScript_Turret : EnemyBase
 
     private void Aim()
     {
-        if (isPlayerNearby && player != null)
+        bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, player.position, LayerMask.GetMask("Terrain"));
+        if (isPlayerNearby && player != null && isPathClear)
         {
+            lineRenderer.enabled = true;
+            lineRenderer.SetPosition(0, turret_firePoint.position);
+            lineRenderer.SetPosition(1, player.position);
             Vector3 direction = (player.position - turret.position).normalized;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             turret.rotation = Quaternion.Euler(0, 0, angle + 45);
+        }
+        else
+        {
+            lineRenderer.enabled = false;
         }
     }
 
@@ -141,6 +151,8 @@ public class EnemyScript_Turret : EnemyBase
     // Function that handles the enemy death
     protected override void Die(int amount)
     {
+        isalive = false;
+        lineRenderer.enabled = false;
         Vector3 explosionPos = transform.position;
         GameObject explosionInstance = Instantiate(explosion, explosionPos, Quaternion.identity);
         _audio.PlayOneShot(_audio.Explosion, transform.position);

@@ -25,6 +25,7 @@ public class Enemy_Soldier : EnemyBase
     private float reloadTime = 1f;
     private float attackExitTime = 0f; 
     private float attackToMoveDelay = 0.5f;
+    private LineRenderer lineRenderer;
 
     private bool isPlayerNearby;
     private Transform player;
@@ -47,6 +48,7 @@ public class Enemy_Soldier : EnemyBase
         rb.gravityScale = 1f;
         moveSpeed = 4f;
         animator = GetComponent<Animator>();
+        lineRenderer = GetComponent<LineRenderer>();
     }
 
     void Update()
@@ -55,6 +57,7 @@ public class Enemy_Soldier : EnemyBase
         {
             UpdateState();
             MoveSoldier();
+            UpdateAim();
         }
     }
 
@@ -185,7 +188,19 @@ public class Enemy_Soldier : EnemyBase
 
         isShooting = false;
     }
-
+    private void UpdateAim()
+    {
+        if (isShooting)
+        {
+            lineRenderer.enabled = true;
+            lineRenderer.SetPosition(0, turret.position);
+            lineRenderer.SetPosition(1, player.position);
+        }
+        else
+        {
+            lineRenderer.enabled = false;
+        }
+    }
 
     private void MoveToPlayer()
     {
@@ -326,6 +341,7 @@ public class Enemy_Soldier : EnemyBase
     protected override void Die(int amount)
     {
         isalive = false;
+        lineRenderer.enabled = false;
         animator.SetTrigger("isDead");
         if (playerController != null)
         {
