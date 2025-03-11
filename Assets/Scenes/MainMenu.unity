@@ -350,6 +350,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 6301761756133653885, guid: 84eaad4cb3a1087489c8ddc0e36290fa, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -915,6 +919,10 @@ PrefabInstance:
     - target: {fileID: 18370379834554816, guid: e74de27f14fc6894abbf9e89bef43f4e, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 444165480595514727, guid: e74de27f14fc6894abbf9e89bef43f4e, type: 3}
+      propertyPath: spawnInterval
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 7799167905210987219, guid: e74de27f14fc6894abbf9e89bef43f4e, type: 3}
       propertyPath: m_LocalPosition.x
