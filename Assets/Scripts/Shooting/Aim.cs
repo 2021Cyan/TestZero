@@ -13,8 +13,6 @@ public class Aim : MonoBehaviour
     private InputManager _input;
     private AudioManager _audio;
 
-    static bool isAiming = false;
-
     void Start()
     {
         startingSize = transform.localScale;
