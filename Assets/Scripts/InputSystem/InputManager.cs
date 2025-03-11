@@ -114,6 +114,7 @@ public class InputManager : MonoBehaviour
 
         Input.Player.G.started -= SetGInput;
         Input.Player.G.canceled -= SetGInput;
+        Input.Disable();
     }
 
     // make some set methods for the inputs
@@ -231,7 +232,7 @@ public class InputManager : MonoBehaviour
     private void Update()
     {
         // MoveInput = Input.Player.Move.ReadValue<Vector2>();
-        // MouseInput = Input.Player.Look.ReadValue<Vector2>();
+        MouseInput = Input.Player.Look.ReadValue<Vector2>();
         MenuInput = Input.Player.Menu.WasPressedThisFrame();
         MenuUIInput = Input.UI.MenuUI.WasPressedThisFrame();
         // AimInput = Input.Player.Aim.IsPressed();

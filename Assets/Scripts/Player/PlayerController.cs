@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -96,11 +94,11 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         _audio.PlayOneShot(_audio.Lobby);
+        InputManager.Input.Enable();
     }
 
     private void Update()
     {
-        mousePos = Camera.main.ScreenToWorldPoint(_input.MouseInput);
         AdjustGravity();
         Restart();
         if (alive)
