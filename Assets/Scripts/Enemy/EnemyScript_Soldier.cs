@@ -282,7 +282,7 @@ public class Enemy_Soldier : EnemyBase
         if (turret_bullet != null && turret_firePoint != null)
         {
             _audio.SetParameterByName("WeaponType", 0);
-            _audio.PlayOneShot(_audio.Shot);
+            _audio.PlayOneShot(_audio.Shot, transform.position);
             Quaternion bulletRotation = turret_firePoint.rotation;
             if (transform.localScale.x < 0)
             {

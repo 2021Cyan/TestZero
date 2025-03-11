@@ -1,11 +1,11 @@
 using UnityEngine;
 using System.Collections;
-using Unity.VisualScripting;
 using System.Collections.Generic;
+
 
 public class Shooting : MonoBehaviour
 {
-    [SerializeField] Transform firePoint;
+    [SerializeField] GameObject gunPoint;
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] ParticleSystem muzzleFlash_single;
     [SerializeField] ParticleSystem muzzleFlash_smg;
@@ -57,8 +57,7 @@ public class Shooting : MonoBehaviour
         if (isFiring)
         {
             Shoot();
-            _audio.SetParameterByName("WeaponType", GetWeaponType());
-            _audio.PlayOneShot(_audio.Shot);
+            
             nextFireTime = Time.time + 1f / playerController.fireRate;
         }
         else
@@ -76,7 +75,23 @@ public class Shooting : MonoBehaviour
     private void Shoot()
     {
         //TODO: optimize this later
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(_input.MouseInput);
+        mousePos.z = 0f;
 
+        BoxCollider2D gunPointCollider = gunPoint.GetComponent<BoxCollider2D>();
+        if (gunPointCollider != null)
+        {
+            Collider2D[] hitColliders = Physics2D.OverlapBoxAll(gunPointCollider.bounds.center, gunPointCollider.bounds.size, 0f);
+            foreach (var hitCollider in hitColliders)
+            {
+            if (hitCollider.CompareTag("Terrain"))
+            {
+                // Handle the collision with the specific tag
+                return;
+            }
+            }
+        }
+        
         // Trigger screen shake
         CameraScript cameraScript = Camera.main.GetComponent<CameraScript>();
         if (cameraScript != null)
@@ -104,26 +119,28 @@ public class Shooting : MonoBehaviour
             muzzleFlash_single.Play();
         }
 
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(_input.MouseInput);
-        mousePos.z = 0f;
-        bool shouldFlipBullet = (mousePos.x < firePoint.position.x && transform.localScale.x > 0) ||
-                                (mousePos.x > firePoint.position.x && transform.localScale.x < 0);
+        
+        bool shouldFlipBullet = (mousePos.x < gunPoint.transform.position.x && transform.localScale.x > 0) ||
+                                (mousePos.x > gunPoint.transform.position.x && transform.localScale.x < 0);
 
         
-        Quaternion originalRotation = firePoint.rotation;
+        Quaternion originalRotation = gunPoint.transform.rotation;
         float randomSpread = Random.Range(-currentSpreadAngle / 4, currentSpreadAngle);
-        firePoint.Rotate(0, 0, randomSpread);
+        gunPoint.transform.Rotate(0, 0, randomSpread);
 
-        Quaternion bulletRotation = firePoint.rotation;
+        Quaternion bulletRotation = gunPoint.transform.rotation;
         if (shouldFlipBullet)
         {
             bulletRotation = Quaternion.Euler(0, 0, bulletRotation.eulerAngles.z + 180f);
         }
-        Instantiate(bulletPrefab, firePoint.position, bulletRotation);
+        Instantiate(bulletPrefab, gunPoint.transform.position, bulletRotation);
 
-        firePoint.rotation = originalRotation;
+        gunPoint.transform.rotation = originalRotation;
         playerController.currentAmmo--;
         currentSpreadAngle = Mathf.Min(currentSpreadAngle + playerController.spreadIncreaseRate, playerController.maxSpreadAngle);
+
+        _audio.SetParameterByName("WeaponType", GetWeaponType());
+        _audio.PlayOneShot(_audio.Shot, transform.position); 
     }
 
     // Return the current spread angle
