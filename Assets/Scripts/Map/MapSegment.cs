@@ -1,8 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
-using Unity.VisualScripting;
-using UnityEditor;
 using System.Linq;
 
 public class MapSegment : MonoBehaviour
@@ -28,7 +26,8 @@ public class MapSegment : MonoBehaviour
 
     public Vector3 GetEntryPoint()
     {
-        return _entryPoint.position;
+        if (_entryPoint != null) {return _entryPoint.position;};
+        return Vector3.zero;
     }
 
     public string GetName()
@@ -52,8 +51,10 @@ public class MapSegment : MonoBehaviour
     }
 
     // Methods
-    void Awake()
+    public void Awake()
     {
+        Debug.Log(gameObject.name + "awakened!!");
+
         // Initialize lists
         _exitPoints = new List<Transform>();
         _terrainComponents = new List<GameObject>();
@@ -61,7 +62,13 @@ public class MapSegment : MonoBehaviour
         _hull = new List<Vector3>();
 
         // Find sole entry
-        _entryPoint = transform.Find("Entry").Find("EntryPoint");
+        try 
+        {
+            _entryPoint = transform.Find("Entry").Find("EntryPoint");
+        } catch {
+            _entryPoint = transform.Find("PlayerSpawnPoint");
+        }
+        
 
         // Find all exit points that exist
         foreach (Transform child in transform)
@@ -71,6 +78,8 @@ public class MapSegment : MonoBehaviour
                 _exitPoints.Add(child.Find("ExitPoint"));
             }
         }
+
+        Debug.Log(gameObject.name + "has " + _exitPoints.Count.ToString() + " exits");
     }
 
     public void CalculateHull(Vector3 offset)
@@ -157,14 +166,17 @@ public class MapSegment : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        List<Vector3> points = _hull;
-        Gizmos.color = Color.green;
-        for (int i = 0; i < points.Count; ++i)
+        if (_hull != null)
         {
-            Gizmos.DrawLine(
-                    points[i], points[(i + 1) % points.Count]
-            );
-            Gizmos.DrawSphere(points[i], 0.5f);
+            List<Vector3> points = _hull;
+            Gizmos.color = Color.green;
+            for (int i = 0; i < points.Count; ++i)
+            {
+                Gizmos.DrawLine(
+                        points[i], points[(i + 1) % points.Count]
+                );
+                Gizmos.DrawSphere(points[i], 0.5f);
+            }
         }
     }
 

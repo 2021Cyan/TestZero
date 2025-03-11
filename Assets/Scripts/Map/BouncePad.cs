@@ -4,6 +4,7 @@ public class BouncePad : MonoBehaviour
 {
     public float bounceForce = 10f;
 
+    // Behaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         Rigidbody2D rb = other.GetComponent<Rigidbody2D>();

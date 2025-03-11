@@ -4,19 +4,64 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
-    public Transform StartPoint;
-    public int NumberOfSegments;
+    public int NumberOfSegmentsPerLevel;
     public int ShopFrequency;
+    public int NumberOfLevels;
+    public float LevelGap;
+    public GameObject Player;
+    public GameObject Camera;
 
     // Map segment prefabs
-    public GameObject StartRoomPrefab;
     public GameObject ShopRoomPrefab;
+    public GameObject[] StartRoomPrefabs;
+    public GameObject[] EndRoomPrefabs;
     public GameObject[] SegmentPrefabs; // List of all generic segments that can spawn (NO DUPLICATES)
+
+    // Private Attributes
+    private List<StartRoomSegment> _startRooms;
+    private List<List<EndRoomSegment>> _endRooms;
 
     void Start()
     {
-        // Spawn segments recursively
-        SpawnSegment(StartPoint.position, NumberOfSegments); 
+        // Initialize lists
+        _startRooms = new List<StartRoomSegment>();
+        _endRooms = new List<List<EndRoomSegment>>();
+        for (int i = 0; i < NumberOfLevels; ++i)
+        {
+            _endRooms.Add(new List<EndRoomSegment>());
+        }
+
+        // Create designated number of levels
+        Vector3 levelCreationStartPosition = Vector3.zero;
+        for (int levelNumber = 0; levelNumber < NumberOfLevels; ++levelNumber)
+        {
+            // Spawn random start room
+            StartRoomSegment startRoom = (StartRoomSegment) Spawn(StartRoomPrefabs[Random.Range(0, StartRoomPrefabs.Length)], levelCreationStartPosition);
+            _startRooms.Add(startRoom);
+
+            // If not first level, set teleporter destination of previous level's end rooms
+            if (levelNumber != 0)
+            {
+                foreach (EndRoomSegment endRoom in _endRooms[levelNumber - 1])
+                {
+                    endRoom.SetTeleporterDestination(startRoom.GetPlayerSpawnPosition());
+                    endRoom.SetTeleporterPlayer(Player, Camera);
+                }
+            }
+
+            // Spawn segments recursively
+            SpawnSegment(
+                startRoom.GetExitPoints()[0].position, 
+                NumberOfSegmentsPerLevel, 
+                levelNumber, 
+                startRoom
+            );
+
+            // Update start point for level creation for next level
+            float furthestEndX = -1;
+            foreach (EndRoomSegment endRoom in _endRooms[levelNumber]) {furthestEndX = Mathf.Max(furthestEndX, endRoom.transform.position.x);}
+            levelCreationStartPosition.x = furthestEndX + LevelGap;
+        }
     }
 
     MapSegment GetMapSegmentFromPrefab(GameObject prefab)
@@ -50,19 +95,16 @@ public class LevelGenerator : MonoBehaviour
     //     }
     // }
 
-    void SpawnSegment(Vector3 nextSpawnPosition, int remainingSegments, MapSegment prevSegment=null)
+    void SpawnSegment(Vector3 nextSpawnPosition, int remainingSegments, int levelNumber, MapSegment prevSegment=null)
     {
         // Check if max segments have been reached
         if (remainingSegments <= 0)
         {
-            // <><><> Special Demo Addition <><><>
-            // Spawn Test room last
-            // GameObject testSegmentObj = Instantiate(testRoom, nextSpawnPosition, Quaternion.identity);
-            // MapSegment testSegment = testSegmentObj.GetComponent<MapSegment>();
-            // Vector3 entryOffset = testSegmentObj.transform.position - testSegment.entryPoint.position;
-            // testSegmentObj.transform.position += entryOffset;
-            // return;
-            Debug.Log("Finished spawning segments");
+            // Spawn end room
+            EndRoomSegment endRoom = (EndRoomSegment) Spawn(EndRoomPrefabs[Random.Range(0, StartRoomPrefabs.Length)], nextSpawnPosition);
+            _endRooms[levelNumber].Add(endRoom);
+
+            // Finish spawning segments for this branch
             return;
         }
 
@@ -115,6 +157,7 @@ public class LevelGenerator : MonoBehaviour
             SpawnSegment(
                 exitPoint.position,
                 remainingSegments / currentSegment.GetNumberOfExits(),
+                levelNumber,
                 currentSegment
             );
         }
