@@ -9,6 +9,8 @@ public class GhostTrail : MonoBehaviour
     public float ghostLifetime = 0.7f; 
     private int ghostIndex = 0;
     private int maxGhosts = 20;
+    private PlayerController playerController;
+    private bool isSpawning = false;
 
     private Color[] ghostColors = new Color[]
     {
@@ -36,16 +38,36 @@ public class GhostTrail : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(SpawnGhosts());
+        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
     }
+
+    private void Update()
+    {
+        if (playerController != null)
+        {
+            if (playerController.isBulletTimeActive && !isSpawning)
+            {
+                isSpawning = true;
+                StartCoroutine(SpawnGhosts());
+            }
+            else if (!playerController.isBulletTimeActive && isSpawning)
+            {
+                isSpawning = false;
+                StopCoroutine(SpawnGhosts());
+            }
+        }
+    }
+
 
     IEnumerator SpawnGhosts()
     {
-        while (true)
+        while (playerController.isBulletTimeActive)
         {
             SpawnGhost();
             yield return new WaitForSeconds(spawnInterval);
         }
+
+        isSpawning = false;
     }
 
     void SpawnGhost()
