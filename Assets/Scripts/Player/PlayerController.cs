@@ -160,7 +160,7 @@ public class PlayerController : MonoBehaviour
         float delta = Time.deltaTime * speedMultiplier;
 
 
-        if (Input.GetAxisRaw("Horizontal") < 0)
+        if (_input.MoveInput.x < 0)
         {
             if (mousePos.x < transform.position.x)
             {
@@ -179,7 +179,7 @@ public class PlayerController : MonoBehaviour
                     anim.SetBool("isWalkBack", true);
             }
         }
-        if (Input.GetAxisRaw("Horizontal") > 0)
+        if (_input.MoveInput.x > 0)
         {
             if (mousePos.x < transform.position.x)
             {

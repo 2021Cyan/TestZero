@@ -10,6 +10,7 @@ public class MenuManager : MonoBehaviour
     public GameObject VolumeMenuUI;
     private InputManager _input;
     private AudioManager _audio;
+    private float _timeScale;
     private void Start()
     {
         if (Instance == null)
@@ -22,6 +23,7 @@ public class MenuManager : MonoBehaviour
         }
         _input = InputManager.Instance;
         _audio = AudioManager.Instance;
+        _timeScale = Time.timeScale;
     }
 
     private void Update()
@@ -55,6 +57,7 @@ public class MenuManager : MonoBehaviour
         Cursor.visible = true;
         _audio.PlayOneShotMenuOpen();
         PauseMenuUI.SetActive(true);
+        _timeScale = Time.timeScale;
         Time.timeScale = 0f;
         
     }
@@ -65,8 +68,7 @@ public class MenuManager : MonoBehaviour
         _audio.PlayOneShotMenuOpen();
         PauseMenuUI.SetActive(false);
         VolumeMenuUI.SetActive(false);
-        Time.timeScale = 1f;
-        
+        Time.timeScale = _timeScale;
     }
 
     public void LoadMenu()
