@@ -43,13 +43,29 @@ public class ReticleController : MonoBehaviour
 
             if (target != null)
             {
-                if (trackerInstance == null)
+                Enemy_Soldier es = target.GetComponent<Enemy_Soldier>();
+
+                if(es != null)
                 {
-                    trackerInstance = Instantiate(trackerPrefab, target.transform.position, Quaternion.identity);
+                    if (trackerInstance == null)
+                    {
+                        trackerInstance = Instantiate(trackerPrefab, es.getAimPos().position, Quaternion.identity);
+                    }
+                    else
+                    {
+                        trackerInstance.transform.position = es.getAimPos().position;
+                    }
                 }
                 else
                 {
-                    trackerInstance.transform.position = target.transform.position;
+                    if (trackerInstance == null)
+                    {
+                        trackerInstance = Instantiate(trackerPrefab, target.transform.position, Quaternion.identity);
+                    }
+                    else
+                    {
+                        trackerInstance.transform.position = target.transform.position;
+                    }
                 }
             }
             else
@@ -84,6 +100,13 @@ public class ReticleController : MonoBehaviour
 
         foreach (GameObject enemy in enemies)
         {
+            EnemyBase eb = enemy.GetComponent<EnemyBase>();
+
+            if (eb == null || !eb.isalive)
+            {
+                continue;
+            }
+
             Vector3 enemyPos = enemy.transform.position;
             if (enemyPos.x >= mousePos.x - searchWidth / 2 && enemyPos.x <= mousePos.x + searchWidth / 2 &&
                 enemyPos.y >= mousePos.y - searchHeight / 2 && enemyPos.y <= mousePos.y + searchHeight / 2)

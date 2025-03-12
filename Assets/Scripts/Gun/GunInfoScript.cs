@@ -39,12 +39,31 @@ public class GunInfoScript : MonoBehaviour
         isTyping = true;
         statText.text = "";
 
-        foreach (char letter in text.ToCharArray())
-        {
-            statText.text += letter;
-            yield return new WaitForSeconds(0.00001f);
-        }
+        string tempText = "";
+        bool insideTag = false;
 
+        for (int i = 0; i < text.Length; i++)
+        {
+            char letter = text[i];
+
+            if (letter == '<')
+            {
+                insideTag = true;
+            }
+
+            tempText += letter;
+
+            if (letter == '>')
+            {
+                insideTag = false;
+            }
+
+            if (!insideTag)
+            {
+                statText.text = tempText;
+                yield return new WaitForSeconds(0.00001f); 
+            }
+        }
         isTyping = false;
     }
 

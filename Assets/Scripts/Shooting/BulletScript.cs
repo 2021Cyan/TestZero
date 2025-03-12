@@ -41,7 +41,7 @@ public class BulletScript : MonoBehaviour
                 bulletType = playerController.bulletType;
                 if (bulletType == 2)
                 {
-                    max_target = 3;
+                    max_target = 2;
                 }
                 if (bulletType == 12)
                 {
@@ -128,7 +128,7 @@ public class BulletScript : MonoBehaviour
             EnemyBase enemy = other.GetComponent<EnemyBase>();
 
             // Enemy is not null
-            if (enemy != null)
+            if (enemy != null && enemy.isalive)
             {
                 enemy.TakeDamage((int)damage);
                 Vector3 hitPosition = other.ClosestPoint(transform.position);
@@ -185,7 +185,18 @@ public class BulletScript : MonoBehaviour
         GameObject target = FindEnemyClosestToMouse();
         if (target != null)
         {
-            Vector2 desiredDirection = (target.transform.position - transform.position).normalized;
+            Enemy_Soldier es = target.GetComponent<Enemy_Soldier>();
+            Vector2 desiredDirection;
+
+            if (es != null) 
+            {
+                desiredDirection = (es.getAimPos().position - transform.position).normalized;
+            }
+            else
+            {
+                desiredDirection = (target.transform.position - transform.position).normalized;
+            }
+
             currentHomingDirection = Slerp(currentHomingDirection, desiredDirection, homingTurnSpeed * Time.fixedDeltaTime);
             rb.linearVelocity = currentHomingDirection * speed;
             float newAngle = Mathf.Atan2(currentHomingDirection.y, currentHomingDirection.x) * Mathf.Rad2Deg;
@@ -217,6 +228,13 @@ public class BulletScript : MonoBehaviour
 
         foreach (GameObject enemy in enemies)
         {
+            EnemyBase eb = enemy.GetComponent<EnemyBase>();
+
+            if(eb == null || !eb.isalive)
+            {
+                continue;
+            }
+
             Vector3 enemyPos = enemy.transform.position;
             if (enemyPos.x >= mousePos.x - searchWidth / 2 && enemyPos.x <= mousePos.x + searchWidth / 2 &&
                 enemyPos.y >= mousePos.y - searchHeight / 2 && enemyPos.y <= mousePos.y + searchHeight / 2)
@@ -241,7 +259,17 @@ public class BulletScript : MonoBehaviour
 
         if (nearestEnemy != null)
         {
-            Vector3 targetDirection = (nearestEnemy.transform.position - transform.position).normalized;
+            Enemy_Soldier es = nearestEnemy.GetComponent<Enemy_Soldier>();
+            Vector3 targetDirection;
+
+            if (es != null) 
+            {
+                targetDirection = (es.getAimPos().position - transform.position).normalized;
+            }
+            else
+            {
+                targetDirection = (nearestEnemy.transform.position - transform.position).normalized;
+            }
 
             RaycastHit2D hit = Physics2D.Raycast(transform.position, targetDirection, Vector2.Distance(transform.position, nearestEnemy.transform.position), LayerMask.GetMask("Terrain"));
 
@@ -251,7 +279,10 @@ public class BulletScript : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0, 0, angle);
                 rb.linearVelocity = targetDirection * speed;
                 damage *= 0.5f;
-                if (damage < 1) damage = 1;
+                if (damage < 1)
+                {
+                    damage = 1;
+                }
                 return;
             }
         }
@@ -269,7 +300,10 @@ public class BulletScript : MonoBehaviour
 
             rb.linearVelocity = reflectedDirection * speed;
             damage *= 0.5f;
-            if (damage < 1) damage = 1;
+            if (damage < 1)
+            {
+                gameObject.SetActive(false);
+            }
         }
         else
         {
@@ -286,6 +320,13 @@ public class BulletScript : MonoBehaviour
 
         foreach (GameObject enemy in enemies)
         {
+            EnemyBase eb = enemy.GetComponent<EnemyBase>();
+
+            if (eb == null || !eb.isalive)
+            {
+                continue;
+            }
+
             float distance = Vector3.Distance(transform.position, enemy.transform.position);
             if (!Physics2D.Linecast(transform.position, enemy.transform.position, LayerMask.GetMask("Terrain")) && distance < shortestDistance)
             {

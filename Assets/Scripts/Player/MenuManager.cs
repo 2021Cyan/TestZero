@@ -1,22 +1,34 @@
 using UnityEngine;
 using FMODUnity;
+using UnityEngine.InputSystem;
 public class MenuManager : MonoBehaviour
 {
     public static bool IsPaused = false;
-    public static Vector3 beforePausePosition;
+    public static Vector2 BeforePausePosition;
+    public static MenuManager Instance;
     public GameObject PauseMenuUI;
     public GameObject VolumeMenuUI;
-    private static InputManager _Input;
-    private static AudioManager _Audio;
+    private InputManager _input;
+    private AudioManager _audio;
+    private float _timeScale;
     private void Start()
     {
-        _Input = InputManager.Instance;
-        _Audio = AudioManager.Instance;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        _input = InputManager.Instance;
+        _audio = AudioManager.Instance;
+        _timeScale = Time.timeScale;
     }
-    
+
     private void Update()
     {
-        if (_Input.MenuInput || _Input.MenuUIInput)
+        if (_input.MenuInput || _input.MenuUIInput)
         {
             PauseCheck();
         }
@@ -26,36 +38,37 @@ public class MenuManager : MonoBehaviour
     {
         if (IsPaused)
         {
+            IsPaused = false;
+            InputManager.Input.Enable();
             Resume();
         }
         else
         {
+            IsPaused = true;
+            BeforePausePosition = _input.MouseInput;
+            InputManager.Input.Disable();
+            InputManager.Input.UI.Enable();
             Pause();
         }
-    }
-
-    public void Resume()
-    {
-        Cursor.visible = false;
-        _Audio.PlayOneShotMenuOpen();
-        PauseMenuUI.SetActive(false);
-        VolumeMenuUI.SetActive(false);
-        InputManager.PlayerInput.actions.FindActionMap("UI").Disable();
-        InputManager.PlayerInput.actions.FindActionMap("Player").Enable();
-        Time.timeScale = 1f;
-        IsPaused = false;
     }
 
     public void Pause()
     {
         Cursor.visible = true;
-        _Audio.PlayOneShotMenuOpen();
+        _audio.PlayOneShotMenuOpen();
         PauseMenuUI.SetActive(true);
-        beforePausePosition = _Input.MouseInput;
-        InputManager.PlayerInput.actions.FindActionMap("Player").Disable();
-        InputManager.PlayerInput.actions.FindActionMap("UI").Enable();
+        _timeScale = Time.timeScale;
         Time.timeScale = 0f;
-        IsPaused = true;
+        
+    }
+
+    public void Resume()
+    {
+        Cursor.visible = false;
+        _audio.PlayOneShotMenuOpen();
+        PauseMenuUI.SetActive(false);
+        VolumeMenuUI.SetActive(false);
+        Time.timeScale = _timeScale;
     }
 
     public void LoadMenu()
@@ -63,7 +76,7 @@ public class MenuManager : MonoBehaviour
         Time.timeScale = 1f;
         IsPaused = false;
     }
-    
+
     public void Quit()
     {
         Application.Quit();

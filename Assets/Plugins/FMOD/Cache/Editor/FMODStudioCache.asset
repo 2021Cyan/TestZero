@@ -96,7 +96,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638772851917896810
+  lastModified: 638772309168525361
   FileSizes: []
   Exists: 1
 --- !u!114 &-6331407245227733521
@@ -126,34 +126,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1205
---- !u!114 &-6230722560096294803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/Shop
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/Shop
-  Guid:
-    Data1: 1760894025
-    Data2: 1166108418
-    Data3: 2124968072
-    Data4: -769887815
-  Banks:
-  - {fileID: -7308324051551039216}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters:
-  - {fileID: 3370565805114245433}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
 --- !u!114 &-6022289475025603008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,7 +165,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638772851917786798
+  lastModified: 638772309167661220
   FileSizes: []
   Exists: 1
 --- !u!114 &-3493520714557879898
@@ -250,6 +222,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-2721973502450787742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Rarity/Rarity
+  m_EditorClassIdentifier: 
+  Name: Rarity
+  StudioPath: 
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 2368239345
+    data2: 1147999255
+  Type: 1
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
 --- !u!114 &-2384357080425012598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,6 +273,54 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 312
+--- !u!114 &-1926206933770989449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Shop/Shop
+  m_EditorClassIdentifier: 
+  Name: Shop
+  StudioPath: 
+  Min: 0
+  Max: 3
+  Default: 0
+  ID:
+    data1: 2708248651
+    data2: 4283521278
+  Type: 1
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
+--- !u!114 &-1583503178709939461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Rarity
+  m_EditorClassIdentifier: 
+  Name: Rarity
+  StudioPath: parameter:/Rarity
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 2368239345
+    data2: 1147999255
+  Type: 1
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
 --- !u!114 &-1572995542750812186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,7 +336,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638772851917496821
+  lastModified: 638772309166642547
   FileSizes: []
   Exists: 1
 --- !u!114 &-733253617468123609
@@ -316,7 +360,7 @@ MonoBehaviour:
   Banks:
   - {fileID: -7308324051551039216}
   IsStream: 0
-  Is3D: 0
+  Is3D: 1
   IsOneShot: 1
   Parameters:
   - {fileID: 2667319243408997246}
@@ -410,17 +454,19 @@ MonoBehaviour:
   - {fileID: 3991897211163003573}
   - {fileID: -7660617721038440751}
   - {fileID: -2384357080425012598}
-  - {fileID: -6230722560096294803}
   - {fileID: 1246861078926555332}
   - {fileID: -6331407245227733521}
+  - {fileID: 8288883508818842257}
+  - {fileID: 7808037990383975658}
   EditorParameters:
   - {fileID: -718438841073009550}
   - {fileID: -6022289475025603008}
+  - {fileID: -1583503178709939461}
   MasterBanks:
   - {fileID: -1572995542750812186}
   StringsBanks:
   - {fileID: 8077821089940174224}
-  cacheTime: 638772851917896810
+  cacheTime: 638772309168525361
   cacheVersion: 131623
 --- !u!114 &264979713123558130
 MonoBehaviour:
@@ -448,7 +494,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 242
+  Length: 950
 --- !u!114 &339878211560477196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -523,30 +569,6 @@ MonoBehaviour:
   ID:
     data1: 3135361411
     data2: 1887069714
-  Type: 1
-  IsGlobal: 1
-  Labels: []
-  Exists: 1
---- !u!114 &3370565805114245433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/Shop/Shop
-  m_EditorClassIdentifier: 
-  Name: Shop
-  StudioPath: 
-  Min: 0
-  Max: 3
-  Default: 0
-  ID:
-    data1: 2708248651
-    data2: 4283521278
   Type: 1
   IsGlobal: 1
   Labels: []
@@ -686,6 +708,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &7808037990383975658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Shop/Rarity
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Shop/Rarity
+  Guid:
+    Data1: -254919572
+    Data2: 1128456945
+    Data3: -1102947158
+    Data4: 547946318
+  Banks:
+  - {fileID: -7308324051551039216}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -2721973502450787742}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &8077821089940174224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -701,10 +751,10 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638772851917506818
+  lastModified: 638772309166658622
   FileSizes:
   - Name: 
-    Value: 1972
+    Value: 2064
   Exists: 1
 --- !u!114 &8122942217061228455
 MonoBehaviour:
@@ -760,6 +810,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 200
+--- !u!114 &8288883508818842257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Shop/Shop
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Shop/Shop
+  Guid:
+    Data1: 1760894025
+    Data2: 1166108418
+    Data3: 2124968072
+    Data4: -769887815
+  Banks:
+  - {fileID: -7308324051551039216}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -1926206933770989449}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &8419233108162169937
 MonoBehaviour:
   m_ObjectHideFlags: 0

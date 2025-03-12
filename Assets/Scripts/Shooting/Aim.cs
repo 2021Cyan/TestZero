@@ -1,21 +1,19 @@
-using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class Aim : MonoBehaviour
 {
     [SerializeField] Transform arm;  // The arm to rotate
     [SerializeField] Transform head; // The head to rotate
+    [SerializeField] bool tracking = false;  // head and arm tracking
     private PlayerController playerController;
     private Animator animator;
-    Vector3 startingSize;
+    private Vector3 startingSize;
     private InputManager _input;
     private AudioManager _audio;
-
-    static bool isAiming = false;
+    private Vector3 mousePos;
 
     void Start()
-    {
+    {        
         startingSize = transform.localScale;
         playerController = PlayerController.Instance;
         animator = GetComponent<Animator>();
@@ -29,8 +27,11 @@ public class Aim : MonoBehaviour
         {
             return;
         }
-        PlayerHeadTracking();
-        PlayerAim();
+        if (tracking)
+        {
+            PlayerHeadTracking();
+            PlayerAim();
+        }
     }
     void PlayerHeadTracking()
     {
@@ -41,10 +42,12 @@ public class Aim : MonoBehaviour
         }
 
         // Get the mouse position in world space (set z to 0 for 2D)
-        Vector3 mousePos;
-        if(MenuManager.IsPaused){
-            _input.SetMouseInput(MenuManager.beforePausePosition);
+        
+        if (MenuManager.IsPaused)
+        {
+            _input.SetMouseInput(MenuManager.BeforePausePosition);
         }
+
         mousePos = Camera.main.ScreenToWorldPoint(_input.MouseInput);
         mousePos.z = 0f;
 
@@ -61,8 +64,9 @@ public class Aim : MonoBehaviour
         }
 
 
-        // Limit head rotation angle
-        if (head_angle >= 45 && head_angle <= 90) {
+        // // Limit head rotation angle
+        if (head_angle >= 45 && head_angle <= 90)
+        {
             head.rotation = Quaternion.Euler(0, 0, 45);
         }
         else if (head_angle >= -90 && head_angle <= -45)
@@ -72,6 +76,14 @@ public class Aim : MonoBehaviour
         else if (head_angle >= 270 && head_angle <= 315)
         {
             head.rotation = Quaternion.Euler(0, 0, 315);
+        }
+        else if (head_angle >= -135 && head_angle <= -90)
+        {
+            head.rotation = Quaternion.Euler(0, 0, -45);
+        }
+        else if (head_angle <= 135 && head_angle >= 90)
+        {
+            head.rotation = Quaternion.Euler(0, 0, 45);
         }
         else
         {
@@ -134,5 +146,9 @@ public class Aim : MonoBehaviour
                 transform.localScale = new Vector3(startingSize.x, startingSize.y, startingSize.z);
             }
         }
+    }
+    public void SetTracking(bool value)
+    {
+        tracking = value;
     }
 }

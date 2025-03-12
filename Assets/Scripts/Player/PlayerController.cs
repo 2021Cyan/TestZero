@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -64,8 +62,7 @@ public class PlayerController : MonoBehaviour
     public float bulletTimeFillRate = 20f; 
     public float bulletTimeDuration = 5f; 
     public bool isBulletTimeActive = false;
-    [SerializeField] private float enemyTimeScale = 0.5f;      
-    [SerializeField] private float playerTimeMultiplier = 0.75f; 
+    [SerializeField] private float enemyTimeScale = 0.5f;
 
     // Singleton Instance
     public static PlayerController Instance;
@@ -88,7 +85,11 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        Cursor.visible = false;
+        if (SceneManager.GetActiveScene().name != "MainMenu")
+        {
+            Cursor.visible = false;
+        }
+        
         _input = InputManager.Instance;
         _audio = AudioManager.Instance;
         hp = max_hp;
@@ -97,11 +98,11 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         _audio.PlayOneShot(_audio.Lobby);
+        InputManager.Input.Enable();
     }
 
     private void Update()
     {
-        mousePos = Camera.main.ScreenToWorldPoint(_input.MouseInput);
         AdjustGravity();
         Restart();
         if (alive)
@@ -149,9 +150,21 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("isWalkBack", false);
 
         // Adjust speed while bullettime
-        float delta = isBulletTimeActive ? Time.unscaledDeltaTime * playerTimeMultiplier : Time.deltaTime;
+        float speedMultiplier;
 
-        if (Input.GetAxisRaw("Horizontal") < 0)
+        if (isBulletTimeActive)
+        {
+            speedMultiplier = 2f;
+        }
+        else
+        {
+            speedMultiplier = 1f;
+        }
+
+        float delta = Time.deltaTime * speedMultiplier;
+
+
+        if (_input.MoveInput.x < 0)
         {
             if (mousePos.x < transform.position.x)
             {
@@ -170,7 +183,7 @@ public class PlayerController : MonoBehaviour
                     anim.SetBool("isWalkBack", true);
             }
         }
-        if (Input.GetAxisRaw("Horizontal") > 0)
+        if (_input.MoveInput.x > 0)
         {
             if (mousePos.x < transform.position.x)
             {
@@ -201,7 +214,7 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if (isDodging)
+        if (isDodging || rb.linearVelocity.y != 0)
             return;
 
         if (_input.JumpInput && !anim.GetBool("isJump"))
@@ -222,7 +235,6 @@ public class PlayerController : MonoBehaviour
 
         isJumping = false;
     }
-
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -359,7 +371,7 @@ public class PlayerController : MonoBehaviour
             _audio.PlayOneShot(_audio.Death);
             anim.SetTrigger("die");
             alive = false;
-            StartCoroutine(RestartAfterDelay(1.5f));
+            StartCoroutine(RestartAfterDelay(5f));
         }
     }
 
@@ -446,9 +458,20 @@ public class PlayerController : MonoBehaviour
         Time.fixedDeltaTime = 0.02f * enemyTimeScale;
 
         // Adjust player animation speed
-        anim.speed = playerTimeMultiplier;
+        anim.speed = 0.9f;
+        float originalFireRate = fireRate;
+        float originalReloadSpeed = reloadSpeed;
+        fireRate *= 2f;
+        reloadSpeed /= 2f;
 
-        yield return new WaitForSecondsRealtime(bulletTimeDuration);
+
+        float depletionRate = bulletTimeMaxGauge / bulletTimeDuration;
+        while (bulletTimeGauge > 0)
+        {
+            bulletTimeGauge -= depletionRate * Time.unscaledDeltaTime;
+            bulletTimeGauge = Mathf.Max(0, bulletTimeGauge);
+            yield return null;
+        }
 
         _audio.SetPitch(1.0f);
         // Restore speed setting
@@ -459,6 +482,8 @@ public class PlayerController : MonoBehaviour
 
         // Restore player animation speed
         anim.speed = 1f;
+        fireRate = originalFireRate;
+        reloadSpeed = originalReloadSpeed;
     }
 
     public Transform GetAimPos()
@@ -479,6 +504,11 @@ public class PlayerController : MonoBehaviour
     public void PlayOneShotMoonWalk()
     {
         _audio.PlayOneShot(_audio.Moonwalk);
+    }
+
+    public void SetCursorVisible(bool visible)
+    {
+        Cursor.visible = visible;
     }
 
 }

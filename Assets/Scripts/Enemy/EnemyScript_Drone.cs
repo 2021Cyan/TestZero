@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class Enemy_Drone : EnemyBase
 {
@@ -16,6 +17,7 @@ public class Enemy_Drone : EnemyBase
     public float fireRate;
     private float lastFireTime = 0f;
     public float detectionRange = 15;
+    private LineRenderer lineRenderer;
 
     private float timer;
     private bool isPlayerNearby;
@@ -41,6 +43,7 @@ public class Enemy_Drone : EnemyBase
         rb.gravityScale = 0;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        lineRenderer = GetComponent<LineRenderer>();
         ChangeDirection();
     }
 
@@ -58,43 +61,42 @@ public class Enemy_Drone : EnemyBase
 
 
     // Move to random direction
-    private void ChangeDirection()
+    // No parameter -> Random direction
+    // collisonHappen == true -> Opposite direction
+    private void ChangeDirection(bool collisonHappen = default(bool))
     {
-        float randomX = Random.Range(-1f, 1f);
-        moveDirection = new Vector3(randomX, 0, 0).normalized;
-
-        if (moveDirection.x > 0)
+        if (!collisonHappen)
         {
-            transform.localScale = new Vector3(1, 1, 0);
-            turret.localScale = new Vector3(1, 1, 0);
+            moveDirection = Random.Range(0, 2) == 1 ? Vector3.right : Vector3.left;
         }
-        else if (moveDirection.x < 0)
+        else
         {
-           transform.localScale = new Vector3(-1, 1, 0);
-           turret.localScale = new Vector3(-1, 1, 0);
+            moveDirection.x = -rb.linearVelocity.normalized.x;
         }
+        transform.localScale = new Vector3(Mathf.Sign(moveDirection.x), 1, 1);
+        turret.localScale = new Vector3(Mathf.Sign(moveDirection.x), 1, 1);
     }
 
 
     // Move Drone
     private void MoveDrone()
     {
-        timer += Time.deltaTime;
-        if (timer >= changeDirectionTime)
-        {
-            ChangeDirection();
-            // _audio.PlayOneShot(_audio.EnemyFlying, transform.position);
-            timer = 0;
-        }
+        // timer += Time.deltaTime;
+        // if (timer >= changeDirectionTime)
+        // {
+        //     ChangeDirection();
+        //     // _audio.PlayOneShot(_audio.EnemyFlying, transform.position);
+        //     timer = 0;
+        // }
         float floatingY = Mathf.Sin(Time.time * 2f) * floatStrength;
 
-        RaycastHit2D wallCheck = Physics2D.Raycast(transform.position, moveDirection, 1f, LayerMask.GetMask("Terrain"));
-        if (wallCheck.collider != null)
-        {
-            ChangeDirection();
-            // _audio.PlayOneShot(_audio.EnemyFlying, transform.position);
-        }
-        rb.linearVelocity = (moveDirection + new Vector3(0, floatingY, 0)) * moveSpeed;
+        // RaycastHit2D wallCheck = Physics2D.Raycast(transform.position, moveDirection, 1f, LayerMask.GetMask("Terrain"));
+        // if (wallCheck.collider != null)
+        // {
+        //     ChangeDirection();
+        //     // _audio.PlayOneShot(_audio.EnemyFlying, transform.position);
+        // }
+        rb.linearVelocity = new Vector3(moveDirection.x, floatingY, 0) * moveSpeed;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -109,7 +111,7 @@ public class Enemy_Drone : EnemyBase
         }
         else if (!isFalling && other.CompareTag("Terrain"))
         {
-            ChangeDirection();
+            ChangeDirection(true);
         }
     }
 
@@ -124,18 +126,27 @@ public class Enemy_Drone : EnemyBase
 
     private void Aim()
     {
-        if (isPlayerNearby && player != null)
+        bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, player.position, LayerMask.GetMask("Terrain"));
+        if (isPlayerNearby && player != null && isPathClear)
         {
+            lineRenderer.enabled = true;
+            lineRenderer.SetPosition(0, turret_firePoint.position);
+            lineRenderer.SetPosition(1, player.position);
             Vector3 direction = (player.position - turret.position).normalized;
             Debug.DrawLine(turret.position, turret.position + direction * 3f, Color.red, 0.1f);
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             turret.rotation = Quaternion.Euler(0, 0, angle + 45);
         }
+        else
+        {
+            lineRenderer.enabled=false;
+        }
     }
 
     private void Shoot()
     {
-        if (isPlayerNearby && Time.time > lastFireTime + fireRate)
+        bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, player.position, LayerMask.GetMask("Terrain"));
+        if (isPlayerNearby && Time.time > lastFireTime + fireRate && isPathClear)
         {
             lastFireTime = Time.time;
             if (turret_bullet != null && turret_firePoint != null)
@@ -149,6 +160,11 @@ public class Enemy_Drone : EnemyBase
     // Function to deal damage to the enemy
     public override void TakeDamage(float damage)
     {
+        if (!isalive)
+        {
+            return;
+        }
+
         base.TakeDamage(damage);
         StartCoroutine(DamageFlash());
     }
@@ -166,6 +182,8 @@ public class Enemy_Drone : EnemyBase
         if (!isFalling)
         {
             isFalling = true;
+            isalive = false;
+            lineRenderer.enabled = false;
             rb.gravityScale = 1f;
             rb.constraints = RigidbodyConstraints2D.None;
             float randomTorque = Random.Range(-5f, 5f);

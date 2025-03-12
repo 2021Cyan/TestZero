@@ -28,9 +28,14 @@ public class PodScript : MonoBehaviour
     private float rotationSpeed = 180f;
     public float fireRate = 1f;
     private float lastFireTime = 0;
-    private float missileCooldown = 1f;
+    public float missileCooldown = 5f;
     private float lastMissileTime = 0f;
     private AudioManager _audio;
+
+    // Pod heal
+    public float healCooldown = 10f;
+    private float healAmount = 10f; 
+    private float lastHealTime = 0f;
 
     private void Awake()
     {
@@ -63,7 +68,23 @@ public class PodScript : MonoBehaviour
         {
             return;
         }
-        fireRate = 1 * weaponlevel;
+
+        if(weaponlevel >= 1)
+        {
+            fireRate = (0.5f * weaponlevel) + 1;
+        }
+
+        if (heallevel >= 1)
+        {
+            healAmount = 10 + (heallevel * 3);
+            healCooldown = 10f - (0.5f * heallevel);
+        }
+
+        if (weaponlevel >= 3)
+        {
+            missileCooldown =  5f - (0.25f * (weaponlevel - 3));
+        }
+
         FollowPlayer();
         Scout();
         Aim();
@@ -87,7 +108,17 @@ public class PodScript : MonoBehaviour
         if (trackedEnemy != null)
         {
             cursor.SetActive(true);
-            Vector3 directionToEnemy = (trackedEnemy.transform.position - transform.position).normalized;
+            Enemy_Soldier es = trackedEnemy.GetComponent<Enemy_Soldier>();
+            Vector3 directionToEnemy;
+            if (es != null)
+            {
+                directionToEnemy = (es.getAimPos().position - transform.position).normalized;
+            }
+            else
+            {
+                directionToEnemy = (trackedEnemy.transform.position - transform.position).normalized;
+            }
+
             float targetAngle = Mathf.Atan2(directionToEnemy.y, directionToEnemy.x) * Mathf.Rad2Deg;
             float smoothAngle = Mathf.LerpAngle(cursor.transform.eulerAngles.z, targetAngle, rotationSpeed * Time.deltaTime);
             cursor.transform.rotation = Quaternion.Euler(0, 0, smoothAngle);
@@ -104,7 +135,16 @@ public class PodScript : MonoBehaviour
     {
         if (weaponlevel >= 0 && trackedEnemy != null)
         {
-            Vector3 direction = (trackedEnemy.transform.position - turret.position).normalized;
+            Enemy_Soldier es = trackedEnemy.GetComponent<Enemy_Soldier>();
+            Vector3 direction;
+            if (es != null)
+            {
+                direction = (es.getAimPos().position - turret.position).normalized;
+            }
+            else
+            {
+                direction = (trackedEnemy.transform.position - turret.position).normalized;
+            }
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             turret.rotation = Quaternion.Euler(0, 0, angle + 45);
         }
@@ -115,7 +155,8 @@ public class PodScript : MonoBehaviour
         if (weaponlevel >= 1 && trackedEnemy != null)
         {
             float distanceToEnemy = Vector3.Distance(transform.position, trackedEnemy.transform.position);
-            if (distanceToEnemy <= detectionrange && Time.time > lastFireTime + (1f / fireRate))
+            bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, trackedEnemy.transform.position, LayerMask.GetMask("Terrain"));
+            if (distanceToEnemy <= detectionrange && Time.time > lastFireTime + (1f / fireRate) && isPathClear)
             {
                 lastFireTime = Time.time;
                 Quaternion fireRotation = Quaternion.Euler(0, 0, turret.rotation.eulerAngles.z - 45);
@@ -127,12 +168,21 @@ public class PodScript : MonoBehaviour
 
     private void ShootMissile()
     {
-
-        if (weaponlevel >= 0 && Time.time > lastMissileTime + missileCooldown && trackedEnemy != null)
+        if (weaponlevel >= 3 && trackedEnemy != null)
         {
-            //TODO: uncomment this when shoot() works better
-            // lastMissileTime = Time.time; 
-            // Instantiate(turret_missle, turret_firePoint.position, turret_firePoint.rotation);
+            if(Time.time > lastMissileTime + missileCooldown)
+            {
+                float distanceToEnemy = Vector3.Distance(transform.position, trackedEnemy.transform.position);
+                if (distanceToEnemy <= detectionrange)
+                {
+                    bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, trackedEnemy.transform.position, LayerMask.GetMask("Terrain"));
+                    if (isPathClear)
+                    {
+                        lastMissileTime = Time.time;
+                        Instantiate(turret_missle, turret_firePoint.position, turret_firePoint.rotation);
+                    }
+                }
+            }
         }
     }
 
@@ -141,6 +191,11 @@ public class PodScript : MonoBehaviour
         if (heallevel >= 1)
         {
 
+            if (Time.time > lastHealTime + healCooldown && playerController.IsAlive())
+            {
+                lastHealTime = Time.time;
+                playerController.Restore(healAmount);
+            }
         }
     }
 
@@ -155,20 +210,42 @@ public class PodScript : MonoBehaviour
     private GameObject FindClosestEnemy()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject closestVisibleEnemy = null;
         GameObject closestEnemy = null;
+        float minVisibleDistance = Mathf.Infinity;
         float minDistance = Mathf.Infinity;
 
         foreach (GameObject enemy in enemies)
         {
+            EnemyBase eb = enemy.GetComponent<EnemyBase>();
+
+            if (eb == null || !eb.isalive)
+            {
+                continue;
+            }
+
             float distance = Vector3.Distance(transform.position, enemy.transform.position);
+            if (!Physics2D.Linecast(transform.position, enemy.transform.position, LayerMask.GetMask("Terrain")))
+            {
+                if (distance < minVisibleDistance)
+                {
+                    minVisibleDistance = distance;
+                    closestVisibleEnemy = enemy;
+                }
+            }
+
             if (distance < minDistance)
             {
                 minDistance = distance;
                 closestEnemy = enemy;
             }
         }
-
+        if (closestVisibleEnemy != null)
+        {
+            return closestVisibleEnemy;
+        }
         return closestEnemy;
     }
+
 }
 

@@ -36,6 +36,7 @@ public class AudioManager : MonoBehaviour
 
     [Header("SFX")]
     public EventReference Shop;
+    public EventReference Rarity;
     public EventReference ButtonPress;
 
     [Header("UI_SFX")]
@@ -56,7 +57,7 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        // RuntimeManager.WaitForAllSampleLoading();
+        RuntimeManager.WaitForAllSampleLoading();
     }
 
     public void PlayOneShot(EventReference sound, Vector3 p)

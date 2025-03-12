@@ -48,10 +48,30 @@ public class ItemInfoScript : MonoBehaviour
         isTyping = true;
         statText.text = "";
 
-        foreach (char letter in text.ToCharArray())
+        string tempText = "";
+        bool insideTag = false;
+
+        for (int i = 0; i < text.Length; i++)
         {
-            statText.text += letter;
-            yield return new WaitForSeconds(0.00001f);
+            char letter = text[i];
+
+            if (letter == '<')
+            {
+                insideTag = true;
+            }
+
+            tempText += letter;
+
+            if (letter == '>')
+            {
+                insideTag = false;
+            }
+
+            if (!insideTag)
+            {
+                statText.text = tempText;
+                yield return new WaitForSeconds(0.00001f);
+            }
         }
         isTyping = false;
     }
