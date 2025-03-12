@@ -125,24 +125,18 @@ public class GunScript : MonoBehaviour
         gunCreateStation = gunCreate;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnMouseEnter()
     {
-        if (other.CompareTag("Player"))
-        {
-            isPlayerNearby = true;
-            info.ShowGunStats(this);
-            infoRender.UpdateGunSprites(this);
-        }
+        isPlayerNearby = true;
+        info.ShowGunStats(this);
+        infoRender.UpdateGunSprites(this);
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    private void OnMouseExit()
     {
-        if (other.CompareTag("Player"))
-        {
-            isPlayerNearby = false;
-            info.HideGunStats();
-            infoRender.HideGunSprites();
-        }
+        isPlayerNearby = false;
+        info.HideGunStats();
+        infoRender.HideGunSprites();
     }
 
     private void SetLightColor()
