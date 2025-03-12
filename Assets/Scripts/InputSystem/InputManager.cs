@@ -1,7 +1,6 @@
-
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class InputManager : MonoBehaviour
 {
@@ -228,6 +227,14 @@ public class InputManager : MonoBehaviour
         Input = new InputMap();
     }
 
+    private void Start()
+    {
+        if (SceneManager.GetActiveScene().name == "MainMenu")
+        {
+            Input.Disable();
+        }
+    }
+
     // Update is called once per frame
     private void Update()
     {
@@ -260,5 +267,11 @@ public class InputManager : MonoBehaviour
         //     }
         // }
         // GInput = Input.Player.G.IsPressed();
+    }
+
+    public void EnableInput()
+    {
+        Input.Enable();
+        
     }
 }

@@ -85,7 +85,11 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        Cursor.visible = false;
+        if (SceneManager.GetActiveScene().name != "MainMenu")
+        {
+            Cursor.visible = false;
+        }
+        
         _input = InputManager.Instance;
         _audio = AudioManager.Instance;
         hp = max_hp;
@@ -231,7 +235,6 @@ public class PlayerController : MonoBehaviour
 
         isJumping = false;
     }
-
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -501,6 +504,11 @@ public class PlayerController : MonoBehaviour
     public void PlayOneShotMoonWalk()
     {
         _audio.PlayOneShot(_audio.Moonwalk);
+    }
+
+    public void SetCursorVisible(bool visible)
+    {
+        Cursor.visible = visible;
     }
 
 }
