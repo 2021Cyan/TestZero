@@ -1,12 +1,14 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 
 
 public class Shooting : MonoBehaviour
 {
     [SerializeField] GameObject gunPoint;
     [SerializeField] GameObject bulletPrefab;
+    [SerializeField] CinemachineCamera mainCamera;
     [SerializeField] ParticleSystem muzzleFlash_single;
     [SerializeField] ParticleSystem muzzleFlash_smg;
 
@@ -91,9 +93,8 @@ public class Shooting : MonoBehaviour
             }
             }
         }
-        
+        CameraScript cameraScript = mainCamera.GetComponent<CameraScript>();
         // Trigger screen shake
-        CameraScript cameraScript = Camera.main.GetComponent<CameraScript>();
         if (cameraScript != null)
         {
             float multiplier = 1f;

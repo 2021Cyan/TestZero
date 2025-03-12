@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Unity.Cinemachine;
 
 public class CameraScript : MonoBehaviour
 {
@@ -10,9 +11,9 @@ public class CameraScript : MonoBehaviour
     // Offset of the camera from the player
     public Vector3 offset;
 
-    // Cam size
-    public float camSize = 10f;
-    private Camera cam;
+    // Cam
+    private CinemachineCamera vcam;
+    private CinemachineBasicMultiChannelPerlin noise;
 
     // Screen shake variables
     private bool isShaking = false;
@@ -21,26 +22,24 @@ public class CameraScript : MonoBehaviour
     private float dampingSpeed = 1.5f;
     private Vector3 shakeOffset;
 
+    private void Awake()
+    {
+        vcam = GetComponent<CinemachineCamera>();
+        noise = vcam.GetCinemachineComponent(CinemachineCore.Stage.Noise) as CinemachineBasicMultiChannelPerlin;
+    }
     private void Update()
     {
-        cam = GetComponent<Camera>();
-        cam.orthographicSize = camSize; 
+        // cam = GetComponent<Camera>();
+        // cam.orthographicSize = camSize; 
     }
 
-    void LateUpdate()
-    {
-        if (player != null)
-        {
-            Vector3 desiredPosition = player.position + offset;
-            Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-            transform.position = new Vector3(smoothedPosition.x + shakeOffset.x, smoothedPosition.y + shakeOffset.y, transform.position.z);
-        }
-    }
 
     public void StartShake(float duration, float magnitude)
     {
+        
         if (!isShaking)
         {
+            noise.AmplitudeGain = magnitude;
             shakeDuration = duration;
             shakePower = magnitude;
             StartCoroutine(Shake());
@@ -56,11 +55,13 @@ public class CameraScript : MonoBehaviour
             float strength = Mathf.Lerp(shakePower, 0, elapsed / shakeDuration);
             float x = Random.Range(-0.2f, 0.2f) * strength;
             float y = Random.Range(-0.2f, 0.2f) * strength;
-            shakeOffset = new Vector3(x, y, 0); 
+            noise.PivotOffset = new Vector3(x, y, 0);
+            // shakeOffset = new Vector3(x, y, 0); 
             elapsed += Time.deltaTime * dampingSpeed;
             yield return null;
         }
         isShaking = false;
-        shakeOffset = Vector3.zero;
+        noise.AmplitudeGain = 0;
+        noise.PivotOffset = Vector3.zero;
     }
 }
