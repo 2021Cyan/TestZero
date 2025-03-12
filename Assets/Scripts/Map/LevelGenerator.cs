@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
+    // Parameters
     public int NumberOfSegmentsPerLevel;
     public int ShopFrequency;
     public int NumberOfLevels;
     public float LevelGap;
+
+    // Game objects
     public GameObject Player;
     public GameObject Camera;
 
@@ -20,6 +23,7 @@ public class LevelGenerator : MonoBehaviour
     // Private Attributes
     private List<StartRoomSegment> _startRooms;
     private List<List<EndRoomSegment>> _endRooms;
+    private List<MapSegment> _levelsegments;
 
     void Start()
     {
@@ -30,6 +34,7 @@ public class LevelGenerator : MonoBehaviour
         {
             _endRooms.Add(new List<EndRoomSegment>());
         }
+        _levelsegments = new List<MapSegment>();
 
         // Create designated number of levels
         Vector3 levelCreationStartPosition = Vector3.zero;
@@ -45,11 +50,12 @@ public class LevelGenerator : MonoBehaviour
                 foreach (EndRoomSegment endRoom in _endRooms[levelNumber - 1])
                 {
                     endRoom.SetTeleporterDestination(startRoom.GetPlayerSpawnPosition());
-                    endRoom.SetTeleporterPlayer(Player, Camera);
+                    endRoom.SetTeleporterPlayer(Player);
                 }
             }
 
             // Spawn segments recursively
+            _levelsegments.Clear();
             SpawnSegment(
                 startRoom.GetExitPoints()[0].position, 
                 NumberOfSegmentsPerLevel, 
@@ -86,15 +92,6 @@ public class LevelGenerator : MonoBehaviour
         return segment;
     }
 
-    // void ShuffleSegments()
-    // {
-    //     List<GameObject> shuffledList = new List<GameObject>(SegmentPrefabs);
-    //     for (int i = SegmentPrefabs.Count; i <= 0; --i)
-    //     {
-
-    //     }
-    // }
-
     void SpawnSegment(Vector3 nextSpawnPosition, int remainingSegments, int levelNumber, MapSegment prevSegment=null)
     {
         // Check if max segments have been reached
@@ -108,13 +105,23 @@ public class LevelGenerator : MonoBehaviour
             return;
         }
 
-        // <><><> Special Demo Addition <><><>
-        // if (ShopFrequency != 0 && remainingSegments % ShopFrequency == 0)
-        // {
-        //     // Spawn shop
-        //     Spawn(ShopRoomPrefab, nextSpawnPosition);
-        //     remainingSegments -= 1;
-        // }
+        // Spawn shop segment if frequency has been reached
+        if (ShopFrequency != 0 && remainingSegments % ShopFrequency == 0)
+        {
+            // Spawn shop
+            ShopRoomSegment shopRoom = (ShopRoomSegment) Spawn(ShopRoomPrefab, nextSpawnPosition);
+            shopRoom.PassPlayerToDoors(Player);
+            remainingSegments -= 1;
+
+            // Spawn next segment
+            SpawnSegment(
+                shopRoom.GetExitPoints()[0].position,
+                remainingSegments,
+                levelNumber,
+                shopRoom
+            );
+            return;
+        }
 
         // Select next segment
         GameObject currentSegmentPrefab;
@@ -139,7 +146,16 @@ public class LevelGenerator : MonoBehaviour
             remainingSegments -= 1;
 
             // Check for overlap
-            if (prevSegment != null && currentSegment.Overlaps(prevSegment.GetHull())) 
+            bool overlaps = false;
+            foreach (MapSegment otherSegment in _levelsegments)
+            {
+                if (currentSegment.Overlaps(otherSegment.GetHull()))
+                {
+                    overlaps = true;
+                    break;
+                }
+            }
+            if (overlaps)
             {
                 // Destroy segment and select again
                 Destroy(currentSegment.GetParent());
@@ -147,7 +163,8 @@ public class LevelGenerator : MonoBehaviour
                 continue;
             }
             
-            // If all checks pass, break
+            // If all checks pass, add accepted segment to list and break
+            _levelsegments.Add(currentSegment);
             break;
         }
 

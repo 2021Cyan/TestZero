@@ -13,9 +13,9 @@ public class EndRoomSegment : MapSegment
         TeleporterInstance.SetDestination(destination);
     }
 
-    public void SetTeleporterPlayer(GameObject player, GameObject camera)
+    public void SetTeleporterPlayer(GameObject player)
     {
-        TeleporterInstance.SetPlayerAndCamera(player, camera);
+        TeleporterInstance.SetPlayer(player);
     }
 
     // Behaviour

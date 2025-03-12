@@ -1,11 +1,9 @@
 using UnityEngine;
 
-public class Teleporter : MonoBehaviour
+public class Teleporter : Interactable
 {
     // Attributes
     private Vector3 _destination;
-    private GameObject _player;
-    private GameObject _camera;
 
     // Getters
     public Vector3 GetDestination()
@@ -14,19 +12,16 @@ public class Teleporter : MonoBehaviour
     }
 
     // Setters
-    public void SetPlayerAndCamera(GameObject player, GameObject camera)
-    {
-        _player = player;
-        _camera = camera;
-    }
     public void SetDestination(Vector3 destination)
     {
         _destination = destination;
     }
 
     // Behaviour
-    void Awake()
+    new void Awake()
     {
+        base.Awake();
+
         // Set default teleport location
         _destination = gameObject.transform.position;
     }

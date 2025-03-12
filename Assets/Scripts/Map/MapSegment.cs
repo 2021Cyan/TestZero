@@ -51,10 +51,8 @@ public class MapSegment : MonoBehaviour
     }
 
     // Methods
-    public void Awake()
+    protected void Awake()
     {
-        Debug.Log(gameObject.name + "awakened!!");
-
         // Initialize lists
         _exitPoints = new List<Transform>();
         _terrainComponents = new List<GameObject>();
@@ -65,7 +63,9 @@ public class MapSegment : MonoBehaviour
         try 
         {
             _entryPoint = transform.Find("Entry").Find("EntryPoint");
-        } catch {
+        } 
+        catch 
+        {
             _entryPoint = transform.Find("PlayerSpawnPoint");
         }
         
@@ -78,8 +78,6 @@ public class MapSegment : MonoBehaviour
                 _exitPoints.Add(child.Find("ExitPoint"));
             }
         }
-
-        Debug.Log(gameObject.name + "has " + _exitPoints.Count.ToString() + " exits");
     }
 
     public void CalculateHull(Vector3 offset)
@@ -203,6 +201,11 @@ public class MapSegment : MonoBehaviour
 
         // Return false if checks have passed
         return false;
+    }
+
+    public bool IsPointInsideSegment(Vector3 point)
+    {
+        return IsPointInsidePolygon(point, _hull);
     }
 
     private bool IsPointInsidePolygon(Vector3 point, List<Vector3> polygon)
