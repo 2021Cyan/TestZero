@@ -26,7 +26,14 @@ public class InputManager : MonoBehaviour
 
     private void OnEnable()
     {
-        Input.Enable();
+        if (SceneManager.GetActiveScene().name != "MainMenu")
+        {
+            EventEnable();
+        }  
+    }
+
+    private void EventEnable()
+    {
         Input.Player.Move.performed += SetMoveInput;
         Input.Player.Move.canceled += SetMoveInput;
 
@@ -69,8 +76,13 @@ public class InputManager : MonoBehaviour
         Input.Player.G.started += SetGInput;
         Input.Player.G.canceled += SetGInput;
     }
-
+    
     private void OnDisable()
+    {
+        EventDisable();
+    }
+
+    private void EventDisable()
     {
         Input.Player.Move.performed -= SetMoveInput;
         Input.Player.Move.canceled -= SetMoveInput;
@@ -113,10 +125,7 @@ public class InputManager : MonoBehaviour
 
         Input.Player.G.started -= SetGInput;
         Input.Player.G.canceled -= SetGInput;
-        Input.Disable();
     }
-
-    // make some set methods for the inputs
     public void SetMoveInput(InputAction.CallbackContext ctx)
     {
         MoveInput = ctx.ReadValue<Vector2>();
@@ -136,16 +145,6 @@ public class InputManager : MonoBehaviour
     {
         MouseInput = v;
     }
-
-    // public void SetMenuInput(InputAction.CallbackContext ctx)
-    // {
-    //     MenuInput = ctx.started;
-    // }
-
-    // public void SetMenuUIInput(InputAction.CallbackContext ctx)
-    // {
-    //     MenuUIInput = ctx.started;
-    // }
 
     public void SetAimInput(InputAction.CallbackContext ctx)
     {
@@ -227,14 +226,6 @@ public class InputManager : MonoBehaviour
         Input = new InputMap();
     }
 
-    private void Start()
-    {
-        if (SceneManager.GetActiveScene().name == "MainMenu")
-        {
-            Input.Disable();
-        }
-    }
-
     // Update is called once per frame
     private void Update()
     {
@@ -250,28 +241,10 @@ public class InputManager : MonoBehaviour
         // BulletTimeInput = Input.Player.BulletTime.WasPressedThisFrame();
         // InteractInput = Input.Player.Interact.WasPressedThisFrame();
         // ResetInput = Input.Player.Reset.WasPressedThisFrame();
-
-        // We need better names for these
-        // FInput = Input.Player.F.IsPressed();
-        // if (_Input.Player.F.WasPressedThisFrame())
-        // {
-        //     Debug.Log("F was pressed this frame");
-        // }
-
-        // if (_Input.Player.F.IsPressed())
-        // {
-        //     Debug.Log("F is pressed");
-        //     if (Time.fixedUnscaledTime - _fPressTime >= 3f)
-        //     {
-        //         Debug.Log("F has been held for 3 second");
-        //     }
-        // }
-        // GInput = Input.Player.G.IsPressed();
     }
 
     public void EnableInput()
     {
-        Input.Enable();
-        
+        EventEnable();
     }
 }
