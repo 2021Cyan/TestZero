@@ -12,15 +12,18 @@ public class MissileScript_Pod : MonoBehaviour
     private Transform target;
     private Rigidbody2D rb;
     private bool isExploded = false;
+    private AudioManager _audio;
 
     public GameObject hitmarkerPrefab;
     public GameObject damageTextPrefab;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         FindClosestEnemy();
         enemylock.SetActive(false);
+        _audio = AudioManager.Instance;
     }
     void Update()
     {
@@ -161,6 +164,7 @@ public class MissileScript_Pod : MonoBehaviour
 
         if (explosionEffect != null)
         {
+            _audio.PlayOneShot(_audio.Missile, transform.position);
             Instantiate(explosionEffect, transform.position, Quaternion.identity);
         }
 

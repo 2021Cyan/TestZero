@@ -81,6 +81,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 183
+--- !u!114 &-7500151532508470187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Weapons/Missile
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Weapons/Missile
+  Guid:
+    Data1: 1110391133
+    Data2: 1088380989
+    Data3: 1533747348
+    Data4: 2006989703
+  Banks:
+  - {fileID: -7308324051551039216}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1357
 --- !u!114 &-7308324051551039216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,7 +123,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638772309168525361
+  lastModified: 638774168097423870
   FileSizes: []
   Exists: 1
 --- !u!114 &-6331407245227733521
@@ -165,7 +192,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638772309167661220
+  lastModified: 638774159471446309
   FileSizes: []
   Exists: 1
 --- !u!114 &-3493520714557879898
@@ -336,7 +363,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638772309166642547
+  lastModified: 638774168096819254
   FileSizes: []
   Exists: 1
 --- !u!114 &-733253617468123609
@@ -458,6 +485,7 @@ MonoBehaviour:
   - {fileID: -6331407245227733521}
   - {fileID: 8288883508818842257}
   - {fileID: 7808037990383975658}
+  - {fileID: -7500151532508470187}
   EditorParameters:
   - {fileID: -718438841073009550}
   - {fileID: -6022289475025603008}
@@ -466,7 +494,7 @@ MonoBehaviour:
   - {fileID: -1572995542750812186}
   StringsBanks:
   - {fileID: 8077821089940174224}
-  cacheTime: 638772309168525361
+  cacheTime: 638774168097423870
   cacheVersion: 131623
 --- !u!114 &264979713123558130
 MonoBehaviour:
@@ -751,10 +779,10 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638772309166658622
+  lastModified: 638774168096844485
   FileSizes:
   - Name: 
-    Value: 2064
+    Value: 2102
   Exists: 1
 --- !u!114 &8122942217061228455
 MonoBehaviour:
