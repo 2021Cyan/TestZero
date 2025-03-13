@@ -18,13 +18,14 @@ public class ReticleController : MonoBehaviour
     void Start()
     {
         // Get the SpriteRenderer component to toggle visibility
+        shootingScript = PlayerController.Instance.GetComponent<Shooting>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         _input = InputManager.Instance;
     }
 
     void LateUpdate()
     {
-        if (!PlayerController.Instance || !PlayerController.Instance.IsAlive())
+        if (!PlayerController.Instance || !PlayerController.Instance.IsAlive() || shootingScript == null)
         {
             DestroyTracker();
             spriteRenderer.enabled = false;
