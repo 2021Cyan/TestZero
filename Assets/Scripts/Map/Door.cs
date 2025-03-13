@@ -10,17 +10,17 @@ public class Door : Interactable
     public float ActivationDistance;
 
     // Private attributes
-    private bool isOpening = false;
+    private bool _isOpening = false;
 
     // Behaviour
     void Update()
     {
         // If player is within activation distance, open door
-        if (Math.Abs(_player.transform.position.x - transform.position.x) < ActivationDistance) {isOpening = true;}
-        else {isOpening = false;}
+        if (Math.Abs(_player.transform.position.x - transform.position.x) < ActivationDistance) {_isOpening = true;}
+        else {_isOpening = false;}
 
         // If opening, move toward open position
-        if (isOpening)
+        if (_isOpening)
         {
             transform.position = Vector3.MoveTowards(transform.position, OpenPosition.position, Velocity * Time.deltaTime);
         }
