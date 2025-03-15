@@ -210,6 +210,8 @@ public class GunScript : MonoBehaviour
         {
             gunCreateStation.ReleaseSlot(transform.position);
         }
+        info.HideGunStats();
+        infoRender.HideGunSprites();
         Destroy(gameObject);
     }
 

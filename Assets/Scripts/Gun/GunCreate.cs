@@ -88,6 +88,9 @@ public class GunCreate : MonoBehaviour
         //TODO: Change this I am testing this for now
         _audio.SetParameterByName("Shop", 3);
         
+        GunInfoScript IS = GetComponentInChildren<GunInfoScript>(true);
+        GunInfoRender IR = GetComponentInChildren<GunInfoRender>(true);
+
         foreach (Transform spawnPoint in occupiedSpawnPoints)
         {
             Collider2D[] gunColliders = Physics2D.OverlapCircleAll(spawnPoint.position, 0.1f);
@@ -114,6 +117,13 @@ public class GunCreate : MonoBehaviour
                             break;
                     }
                     playerController.AddResource(refundAmount);
+
+                    if(IS != null && IR != null)
+                    {
+                        IS.HideGunStats();
+                        IR.HideGunSprites();
+                    }
+
                     Destroy(gunCollider.gameObject);
                     toRemove.Add(spawnPoint);
                     yield return new WaitForSeconds(0.1f);

@@ -136,9 +136,17 @@ public class GunInfoScript : MonoBehaviour
                 break;
         }
 
-        if(gun.bulletType == 10)
+        if (gun.bulletType == 10)
         {
             name = "Smart Pistol";
+        }
+        else if (gun.bulletType == 11)
+        {
+            
+        }
+        else if(gun.bulletType == 12)
+        {
+            name = "RailGun";
         }
 
         int playerBarrel = 0;

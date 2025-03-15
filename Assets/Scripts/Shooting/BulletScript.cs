@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class BulletScript : MonoBehaviour
 {
@@ -114,6 +114,12 @@ public class BulletScript : MonoBehaviour
                 break;
             case 10:
                 bulletColor = new Color(0.5f, 1f, 0.5f);
+                break;
+            case 11:
+                bulletColor = Color.cyan;
+                break;
+            case 12:
+                bulletColor = Color.red;
                 break;
         }
 
@@ -405,15 +411,15 @@ public class BulletScript : MonoBehaviour
 
         if (playerController.gripType == "gun_grip_handcannon")
         {
-            corrosiveDamage = Mathf.Min(maxHealth * 0.1f, maxCorrosiveDamage);
+            corrosiveDamage = Mathf.Min(maxHealth * 0.2f, maxCorrosiveDamage);
         }
         else if (playerController.gripType == "gun_grip_pistol")
         {
-            corrosiveDamage = Mathf.Min(maxHealth * 0.06f, maxCorrosiveDamage);
+            corrosiveDamage = Mathf.Min(maxHealth * 0.1f, maxCorrosiveDamage);
         }
         else if (playerController.gripType == "gun_grip_smg")
         {
-            corrosiveDamage = Mathf.Min(maxHealth * 0.03f, maxCorrosiveDamage);
+            corrosiveDamage = Mathf.Min(maxHealth * 0.05f, maxCorrosiveDamage);
         }
 
         enemy.ApplyCorrosiveEffect(corrosiveDamage, 5f);
