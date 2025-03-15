@@ -21,8 +21,8 @@ public class InputManager : MonoBehaviour
     public bool GInput { get; private set; } = false;
     public bool ResetInput { get; private set; } = false;
 
-    double _fPressTime = 0f;
-    double _gPressTime = 0f;
+    private double _fPressTime = 0f;
+    private double _gPressTime = 0f;
 
     private void OnEnable()
     {
@@ -126,17 +126,17 @@ public class InputManager : MonoBehaviour
         Input.Player.G.started -= SetGInput;
         Input.Player.G.canceled -= SetGInput;
     }
-    public void SetMoveInput(InputAction.CallbackContext ctx)
+    private void SetMoveInput(InputAction.CallbackContext ctx)
     {
         MoveInput = ctx.ReadValue<Vector2>();
     }
 
-    public void SetClickInput(InputAction.CallbackContext ctx)
+    private void SetClickInput(InputAction.CallbackContext ctx)
     {
         ClickInput = ctx.started;
     }
 
-    public void SetMouseInput(InputAction.CallbackContext ctx)
+    private void SetMouseInput(InputAction.CallbackContext ctx)
     {
         MouseInput = ctx.ReadValue<Vector2>();
     }
@@ -146,35 +146,35 @@ public class InputManager : MonoBehaviour
         MouseInput = v;
     }
 
-    public void SetAimInput(InputAction.CallbackContext ctx)
+    private void SetAimInput(InputAction.CallbackContext ctx)
     {
         AimInput = ctx.started;
     }
 
-    public void SetJumpInput(InputAction.CallbackContext ctx)
+    private void SetJumpInput(InputAction.CallbackContext ctx)
     {
         JumpInput = ctx.started;
     }
 
-    public void SetDodgeInput(InputAction.CallbackContext ctx)
+    private void SetDodgeInput(InputAction.CallbackContext ctx)
     {
         DodgeInput = ctx.started;
     }
 
-    public void SetReloadInput(InputAction.CallbackContext ctx)
+    private void SetReloadInput(InputAction.CallbackContext ctx)
     {
         ReloadInput = ctx.started;
     }
 
-    public void SetBulletTimeInput(InputAction.CallbackContext ctx)
+    private void SetBulletTimeInput(InputAction.CallbackContext ctx)
     {
         BulletTimeInput = ctx.started;
     }
-    public void SetInteractInput(InputAction.CallbackContext ctx)
+    private void SetInteractInput(InputAction.CallbackContext ctx)
     {
         InteractInput = ctx.started;
     }
-    public void SetResetInput(InputAction.CallbackContext ctx)
+    private void SetResetInput(InputAction.CallbackContext ctx)
     {
         ResetInput = ctx.started;
     }
@@ -182,7 +182,7 @@ public class InputManager : MonoBehaviour
     {
         return _fPressTime;
     }
-    public void SetFInput(InputAction.CallbackContext ctx)
+    private void SetFInput(InputAction.CallbackContext ctx)
     {
         FInput = ctx.started;
         if (!FInput)
@@ -199,7 +199,7 @@ public class InputManager : MonoBehaviour
     {
         return _gPressTime;
     }
-    public void SetGInput(InputAction.CallbackContext ctx)
+    private void SetGInput(InputAction.CallbackContext ctx)
     {
         GInput = ctx.started;
         if (!GInput)
