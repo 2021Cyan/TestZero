@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using UnityEngine.Splines;
 public abstract class EnemyBase : MonoBehaviour
 {
     // Maximum health of the enemy
