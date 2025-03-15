@@ -68,8 +68,17 @@ public class MissileScript : EnemyBase
         if (isExploded)
             return;
 
+        if (playerController == null)
+        {
+            return;
+        }
 
-        if ((other.CompareTag("Player") && !playerController.GetPlayerInvincible())|| other.CompareTag("Terrain"))
+        bool isPlayerHitbox = other.gameObject.layer == LayerMask.NameToLayer("Hitbox_Player");
+
+        if (((isPlayerHitbox) &&
+            !playerController.GetPlayerInvincible() &&
+            playerController.IsAlive())|| 
+            other.CompareTag("Terrain"))
         {
             Explode();
         }
@@ -101,7 +110,7 @@ public class MissileScript : EnemyBase
             if (hit.CompareTag("Player"))
             {
                 PlayerController playerController = hit.GetComponent<PlayerController>();
-                if (playerController != null)
+                if (playerController != null && !playerController.GetPlayerInvincible() && playerController.IsAlive())
                 {
                     playerController.Hurt(damage);
                 }

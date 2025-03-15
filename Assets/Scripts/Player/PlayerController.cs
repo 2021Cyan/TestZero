@@ -123,21 +123,50 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        if (IsGrounded())
+        {
+            rb.gravityScale = 1f;
+            currentJumpTime = 0f;
+            return;
+        }
+
         if (rb.linearVelocity.y > 0)
         {
             currentJumpTime += Time.deltaTime;
             rb.gravityScale = Mathf.Lerp(1f, 5f, Mathf.Clamp01(currentJumpTime / maxJumpTime));
         }
-        else if (rb.linearVelocity.y < 0)
+        else if (rb.linearVelocity.y < 0) 
         {
             rb.gravityScale = 5f;
-            currentJumpTime = 0f;
         }
-        else
+    }
+
+    bool IsGrounded()
+    {
+        float rayLength = 0.1f;
+        float raySpacing = 0.3f;
+        Vector2 position = transform.position;
+
+        RaycastHit2D centerRay = Physics2D.Raycast(position, Vector2.down, rayLength);
+        RaycastHit2D leftRay = Physics2D.Raycast(position + Vector2.left * raySpacing, Vector2.down, rayLength);
+        RaycastHit2D rightRay = Physics2D.Raycast(position + Vector2.right * raySpacing, Vector2.down, rayLength);
+
+        bool isGround = false;
+
+        if (centerRay.collider != null && centerRay.collider.CompareTag("Terrain") && centerRay.normal.y > 0.5f)
         {
-            rb.gravityScale = 1f;
-            currentJumpTime = 0f; 
+            isGround = true;
         }
+        if (leftRay.collider != null && leftRay.collider.CompareTag("Terrain") && leftRay.normal.y > 0.5f)
+        {
+            isGround = true; 
+        }
+        if (rightRay.collider != null && rightRay.collider.CompareTag("Terrain") && rightRay.normal.y > 0.5f)
+        {
+            isGround = true; 
+        }
+
+        return isGround;
     }
 
     void Move()

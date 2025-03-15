@@ -16,11 +16,11 @@ public class BulletScript_Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Hitbox_Player"))
         {
-            PlayerController player = other.GetComponent<PlayerController>();
+            PlayerController player = other.GetComponentInParent<PlayerController>();
 
-            if (player != null && !player.GetPlayerInvincible())
+            if (player != null && !player.GetPlayerInvincible() && player.IsAlive())
             {
                 player.Hurt(damage);
                 Destroy(gameObject);
