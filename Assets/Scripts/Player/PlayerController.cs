@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public float max_hp = 100f;
     public float hp;
     public float resource = 0f;
+    public int currentLevel;
     [SerializeField] private GameObject ResourceText;
 
     // Gun stats
@@ -94,6 +95,7 @@ public class PlayerController : MonoBehaviour
         _audio = AudioManager.Instance;
         hp = max_hp;
         currentAmmo = maxAmmo;
+        currentLevel = 1;
         maincam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();

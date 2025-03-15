@@ -19,6 +19,11 @@ public class Enemy_Drone : EnemyBase
     public float detectionRange = 15;
     private LineRenderer lineRenderer;
 
+    // Enemy missile
+    [SerializeField] GameObject missile;
+    public float missileCooldown = 5f;
+    private float lastMissileTime = 0f;
+
     private float timer;
     private bool isPlayerNearby;
     private Transform player;
@@ -57,6 +62,14 @@ public class Enemy_Drone : EnemyBase
         isPlayerNearby = CheckNearbyPlayers();
         Aim();
         Shoot();
+        if(playerController.currentLevel >= 2)
+        {
+            FireMissile();
+        }
+        if(playerController.currentLevel >= 3)
+        {
+            //Zap();
+        }
     }
 
 
@@ -153,6 +166,19 @@ public class Enemy_Drone : EnemyBase
             {
                 _audio.PlayOneShot(_audio.Laser, transform.position);
                 Instantiate(turret_bullet, turret_firePoint.position, turret_firePoint.rotation);
+            }
+        }
+    }
+
+    private void FireMissile()
+    {
+        if (Time.time > lastMissileTime + missileCooldown)
+        {
+            bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, player.position, LayerMask.GetMask("Terrain"));
+            if (isPlayerNearby && player != null && isPathClear)
+            {
+                lastMissileTime = Time.time;
+                Instantiate(missile, turret_firePoint.position, turret_firePoint.rotation);
             }
         }
     }
