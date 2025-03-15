@@ -306,6 +306,8 @@ MonoBehaviour:
   turret_bullet: {fileID: 5725336151103119662, guid: 31cf2e8ba6cfe2645917643026e0e2fc, type: 3}
   fireRate: 0
   detectionRange: 15
+  missile: {fileID: 659703125858723184, guid: 919661c276c766e4e86663abab5d5dad, type: 3}
+  missileCooldown: 5
   explosion: {fileID: 100006, guid: 2e7e92bc7175b744ea40878dedfa79e4, type: 3}
 --- !u!120 &4399038669097436662
 LineRenderer:
