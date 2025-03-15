@@ -2,6 +2,8 @@
 
 public class BulletScript : MonoBehaviour
 {
+    [SerializeField] ParticleSystem sparkEffect;
+
     // Hitmarker references
     public GameObject hitmarkerPrefab;
 
@@ -164,12 +166,17 @@ public class BulletScript : MonoBehaviour
 
             if (bulletType == 1)
             {
-                Ricochet();
                 if (ricochetCount < 2)
                 {
+                    sparkEffect.Play();
                     _audio.PlayOneShot(_audio.Ricochet, transform.position);
                     ricochetCount++;
                 }
+                else
+                {
+                    return;
+                }
+                Ricochet();
                 
             }
             else
