@@ -330,7 +330,7 @@ public class GunScript : MonoBehaviour
 
         if (gunRarity == Rarity.Uncommon || gunRarity == Rarity.Rare)
         {
-            bulletType = Random.Range(1, 3);
+            bulletType = Random.Range(1, 6);
         }
         else if (gunRarity == Rarity.Common)
         {

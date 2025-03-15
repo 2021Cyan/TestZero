@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using UnityEngine.Splines;
 public abstract class EnemyBase : MonoBehaviour
 {
     // Maximum health of the enemy
@@ -11,6 +13,16 @@ public abstract class EnemyBase : MonoBehaviour
     // Player Controller script of the player
     public PlayerController playerController;
     public bool isalive;
+
+    // For corrosive bullet type
+    private Coroutine corrosiveCoroutine;
+    private float corrosiveTimer = 0f;
+    private float corrosiveDamagePerSecond = 0f;
+
+    public int GetMaxHealth()
+    {
+        return maxHealth;
+    }
 
     public virtual void TakeDamage(float damage)
     {
@@ -35,5 +47,36 @@ public abstract class EnemyBase : MonoBehaviour
             }
         }
         Destroy(gameObject);  // Destroy the enemy
+    }
+
+    public void ApplyCorrosiveEffect(float damagePerSecond, float duration)
+    {
+        if (!isalive)
+        {
+            return; 
+        }
+
+        if (corrosiveCoroutine != null)
+        {
+            StopCoroutine(corrosiveCoroutine);
+        }
+
+        corrosiveDamagePerSecond = damagePerSecond;
+        corrosiveTimer = duration;
+        corrosiveCoroutine = StartCoroutine(CorrosiveDamageRoutine());
+    }
+
+    private IEnumerator CorrosiveDamageRoutine()
+    {
+        while (corrosiveTimer > 0)
+        {
+            if (!isalive)
+            {
+                yield break;
+            }
+            TakeDamage(corrosiveDamagePerSecond);
+            yield return new WaitForSeconds(1f);
+            corrosiveTimer -= 1f;
+        }
     }
 }

@@ -386,7 +386,7 @@ public class PlayerController : MonoBehaviour
 
     public void Restore(float amount)
     {
-        if (PlayerUI.Instance != null)
+        if (PlayerUI.Instance != null && amount >= 10f)
         {
             PlayerUI.Instance.ShowRestoreEffect();
         }

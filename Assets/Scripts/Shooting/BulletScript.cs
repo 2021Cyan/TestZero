@@ -68,6 +68,12 @@ public class BulletScript : MonoBehaviour
         {
             speed = 40f;
         }
+
+        if(bulletType == 5)
+        {
+            damage = playerController.damage * 0.3f;
+        }
+
         // Calculate the direction based on the rotation angle
         float angle = transform.eulerAngles.z;
         Vector2 direction = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
@@ -96,6 +102,15 @@ public class BulletScript : MonoBehaviour
                 break;
             case 2:
                 bulletColor = Color.red;
+                break;
+            case 3:
+                bulletColor = Color.magenta;
+                break;
+            case 4:
+                bulletColor = new Color(0.2f, 0.8f, 0.2f);
+                break;
+            case 5:
+                bulletColor = Color.black;
                 break;
             case 10:
                 bulletColor = new Color(0.5f, 1f, 0.5f);
@@ -140,6 +155,36 @@ public class BulletScript : MonoBehaviour
                     damage *= 0.5f;
                     if (damage < 1) damage = 1;
                 }
+
+                if (bulletType == 3)
+                {
+                    if(playerController == null)
+                    {
+                        return;
+                    }
+
+                    float healAmount = 0;
+
+                    if(playerController.gripType == "gun_grip_handcannon"){
+                        healAmount = 4f;
+                    }
+                    else if(playerController.gripType == "gun_grip_pistol")
+                    {
+                        healAmount = 2f;
+                    }
+                    else if(playerController.gripType == "gun_grip_smg")
+                    {
+                        healAmount = 1f;
+                    }
+
+                    playerController.Restore(healAmount);
+                }
+
+                if (bulletType == 4)
+                {
+                    ApplyCorrosiveDamage(enemy);
+                }
+
                 if (max_target <= 0)
                 {
                     gameObject.SetActive(false);
@@ -350,5 +395,29 @@ public class BulletScript : MonoBehaviour
             }
         }
     }
+
+    // Corrosive Bullet
+    private void ApplyCorrosiveDamage(EnemyBase enemy)
+    {
+        float maxHealth = enemy.GetMaxHealth();
+        float corrosiveDamage = 0f;
+        float maxCorrosiveDamage = 100f;
+
+        if (playerController.gripType == "gun_grip_handcannon")
+        {
+            corrosiveDamage = Mathf.Min(maxHealth * 0.1f, maxCorrosiveDamage);
+        }
+        else if (playerController.gripType == "gun_grip_pistol")
+        {
+            corrosiveDamage = Mathf.Min(maxHealth * 0.06f, maxCorrosiveDamage);
+        }
+        else if (playerController.gripType == "gun_grip_smg")
+        {
+            corrosiveDamage = Mathf.Min(maxHealth * 0.03f, maxCorrosiveDamage);
+        }
+
+        enemy.ApplyCorrosiveEffect(corrosiveDamage, 5f);
+    }
+
 
 }

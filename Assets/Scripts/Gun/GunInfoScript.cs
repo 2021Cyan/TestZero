@@ -113,6 +113,15 @@ public class GunInfoScript : MonoBehaviour
             case 2:
                 bulletType = $"<color={rarityColor}>PIERCING</color>";
                 break;
+            case 3:
+                bulletType = $"<color={rarityColor}>BIO SIPHON</color>";
+                break;
+            case 4:
+                bulletType = $"<color={rarityColor}>CORROSIVE</color>";
+                break;
+            case 5:
+                bulletType = $"<color={rarityColor}>SCATTER</color>";
+                break;
             case 10:
                 bulletType = $"<color={rarityColor}>TRACKING</color>";
                 break;

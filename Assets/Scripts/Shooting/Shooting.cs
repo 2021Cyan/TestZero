@@ -134,7 +134,23 @@ public class Shooting : MonoBehaviour
         {
             bulletRotation = Quaternion.Euler(0, 0, bulletRotation.eulerAngles.z + 180f);
         }
-        Instantiate(bulletPrefab, gunPoint.transform.position, bulletRotation);
+
+        if (playerController.bulletType == 5)
+        {
+            int pelletCount = 5; 
+            float spreadAngle = 40f; 
+
+            for (int i = 0; i < pelletCount; i++)
+            {
+                float angleOffset = Random.Range(-spreadAngle / 2, spreadAngle / 2);
+                Quaternion pelletRotation = bulletRotation * Quaternion.Euler(0, 0, angleOffset);
+                Instantiate(bulletPrefab, gunPoint.transform.position, pelletRotation);
+            }
+        }
+        else
+        {
+            Instantiate(bulletPrefab, gunPoint.transform.position, bulletRotation);
+        }
 
         gunPoint.transform.rotation = originalRotation;
         playerController.currentAmmo--;
