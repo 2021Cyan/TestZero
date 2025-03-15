@@ -96,9 +96,16 @@ public class ReticleController : MonoBehaviour
         if (reload != null && spin != null)
         {
             float spreadSize = baseSize + (shootingScript.GetCurrentSpread() * sizeMultiplier);
-
-            reload.transform.localScale = new Vector3(1 / spreadSize, 1 / spreadSize, 1);
-            spin.transform.localScale = new Vector3(1 / spreadSize, 1 / spreadSize, 1);
+            if (PlayerController.Instance.bulletType != 10)
+            {
+                reload.transform.localScale = new Vector3(1 / spreadSize, 1 / spreadSize, 1);
+                spin.transform.localScale = new Vector3(1 / spreadSize, 1 / spreadSize, 1);
+            }
+            else
+            {
+                reload.transform.localScale = new Vector3(1f, 1f, 1f);
+                spin.transform.localScale = new Vector3(1f, 1f, 1f);
+            }
             spin.transform.Rotate(0, 0, 300f * Time.deltaTime);
         }
     }
