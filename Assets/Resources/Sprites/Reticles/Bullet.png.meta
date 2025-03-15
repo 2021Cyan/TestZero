@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: d54a86876c842eb4f890ee52ed014993
+guid: ecbdbe0aaa3fc2a489d9445367d1f1ff
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2346302928887187388
-    second: bullet_0
-  - first:
-      213: 5379323082974078785
-    second: bullet_1
-  - first:
-      213: -2863499236874410579
-    second: bullet_2
+      213: 4405297830623518684
+    second: bullet 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -132,67 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bullet_0
+      name: bullet 1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 42
-        height: 44
+        height: 40
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 448783cdae1407fd0800000000000000
-      internalID: -2346302928887187388
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bullet_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 14
-        width: 42
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 147aab4d7d137aa40800000000000000
-      internalID: 5379323082974078785
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bullet_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 42
-        height: 15
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: da5af739d9ec248d0800000000000000
-      internalID: -2863499236874410579
+      spriteID: cdf1d146903c22d30800000000000000
+      internalID: 4405297830623518684
       vertices: []
       indices: 
       edges: []
@@ -201,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: aad4a374de856b5418bb31b4c4967093
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -211,9 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      bullet_0: -2346302928887187388
-      bullet_1: 5379323082974078785
-      bullet_2: -2863499236874410579
+      bullet 1_0: 4405297830623518684
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

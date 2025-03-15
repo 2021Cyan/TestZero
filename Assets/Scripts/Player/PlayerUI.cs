@@ -73,7 +73,9 @@ public class PlayerUI : MonoBehaviour
 
     void UpdateAmmoText()
     {
-        if (player.currentAmmo == 0)
+        Shooting shooting = FindFirstObjectByType<Shooting>();
+
+        if (shooting != null && shooting.getIsReloading())
         {
             int dotCount = Mathf.FloorToInt(Time.time * 4) % 3 + 1;
             string dots = new string('.', dotCount);

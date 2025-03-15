@@ -68,7 +68,7 @@ public class Shooting : MonoBehaviour
             currentSpreadAngle = Mathf.Max(currentSpreadAngle - playerController.spreadResetSpeed * Time.deltaTime, 0f);
         }
 
-        if (playerController.currentAmmo <= 0 || _input.ReloadInput)
+        if ((playerController.currentAmmo <= 0 || _input.ReloadInput) && (playerController.currentAmmo != playerController.maxAmmo))
         {
             Reload();
         }
@@ -182,8 +182,26 @@ public class Shooting : MonoBehaviour
     IEnumerator ReloadAmmo()
     {
         isReloading = true;
+
+        ReticleController reticle = FindFirstObjectByType<ReticleController>();
+        
+        if (reticle != null)
+        {
+            reticle.SetReloadUI(true);
+        }
+
         yield return new WaitForSeconds(playerController.reloadSpeed);
         playerController.currentAmmo = playerController.maxAmmo;
         isReloading = false;
+
+        if (reticle != null)
+        {
+            reticle.SetReloadUI(false);
+        }
+    }
+
+    public bool getIsReloading()
+    {
+        return isReloading;
     }
 }
