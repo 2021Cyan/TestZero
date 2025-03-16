@@ -21,12 +21,19 @@ public class InputManager : MonoBehaviour
     public bool GInput { get; private set; } = false;
     public bool ResetInput { get; private set; } = false;
 
-    double _fPressTime = 0f;
-    double _gPressTime = 0f;
+    private double _fPressTime = 0f;
+    private double _gPressTime = 0f;
 
     private void OnEnable()
     {
-        Input.Enable();
+        if (SceneManager.GetActiveScene().name != "MainMenu")
+        {
+            EventEnable();
+        }  
+    }
+
+    private void EventEnable()
+    {
         Input.Player.Move.performed += SetMoveInput;
         Input.Player.Move.canceled += SetMoveInput;
 
@@ -69,8 +76,13 @@ public class InputManager : MonoBehaviour
         Input.Player.G.started += SetGInput;
         Input.Player.G.canceled += SetGInput;
     }
-
+    
     private void OnDisable()
+    {
+        EventDisable();
+    }
+
+    private void EventDisable()
     {
         Input.Player.Move.performed -= SetMoveInput;
         Input.Player.Move.canceled -= SetMoveInput;
@@ -113,21 +125,18 @@ public class InputManager : MonoBehaviour
 
         Input.Player.G.started -= SetGInput;
         Input.Player.G.canceled -= SetGInput;
-        Input.Disable();
     }
-
-    // make some set methods for the inputs
-    public void SetMoveInput(InputAction.CallbackContext ctx)
+    private void SetMoveInput(InputAction.CallbackContext ctx)
     {
         MoveInput = ctx.ReadValue<Vector2>();
     }
 
-    public void SetClickInput(InputAction.CallbackContext ctx)
+    private void SetClickInput(InputAction.CallbackContext ctx)
     {
         ClickInput = ctx.started;
     }
 
-    public void SetMouseInput(InputAction.CallbackContext ctx)
+    private void SetMouseInput(InputAction.CallbackContext ctx)
     {
         MouseInput = ctx.ReadValue<Vector2>();
     }
@@ -137,45 +146,35 @@ public class InputManager : MonoBehaviour
         MouseInput = v;
     }
 
-    // public void SetMenuInput(InputAction.CallbackContext ctx)
-    // {
-    //     MenuInput = ctx.started;
-    // }
-
-    // public void SetMenuUIInput(InputAction.CallbackContext ctx)
-    // {
-    //     MenuUIInput = ctx.started;
-    // }
-
-    public void SetAimInput(InputAction.CallbackContext ctx)
+    private void SetAimInput(InputAction.CallbackContext ctx)
     {
         AimInput = ctx.started;
     }
 
-    public void SetJumpInput(InputAction.CallbackContext ctx)
+    private void SetJumpInput(InputAction.CallbackContext ctx)
     {
         JumpInput = ctx.started;
     }
 
-    public void SetDodgeInput(InputAction.CallbackContext ctx)
+    private void SetDodgeInput(InputAction.CallbackContext ctx)
     {
         DodgeInput = ctx.started;
     }
 
-    public void SetReloadInput(InputAction.CallbackContext ctx)
+    private void SetReloadInput(InputAction.CallbackContext ctx)
     {
         ReloadInput = ctx.started;
     }
 
-    public void SetBulletTimeInput(InputAction.CallbackContext ctx)
+    private void SetBulletTimeInput(InputAction.CallbackContext ctx)
     {
         BulletTimeInput = ctx.started;
     }
-    public void SetInteractInput(InputAction.CallbackContext ctx)
+    private void SetInteractInput(InputAction.CallbackContext ctx)
     {
         InteractInput = ctx.started;
     }
-    public void SetResetInput(InputAction.CallbackContext ctx)
+    private void SetResetInput(InputAction.CallbackContext ctx)
     {
         ResetInput = ctx.started;
     }
@@ -183,7 +182,7 @@ public class InputManager : MonoBehaviour
     {
         return _fPressTime;
     }
-    public void SetFInput(InputAction.CallbackContext ctx)
+    private void SetFInput(InputAction.CallbackContext ctx)
     {
         FInput = ctx.started;
         if (!FInput)
@@ -200,7 +199,7 @@ public class InputManager : MonoBehaviour
     {
         return _gPressTime;
     }
-    public void SetGInput(InputAction.CallbackContext ctx)
+    private void SetGInput(InputAction.CallbackContext ctx)
     {
         GInput = ctx.started;
         if (!GInput)
@@ -227,14 +226,6 @@ public class InputManager : MonoBehaviour
         Input = new InputMap();
     }
 
-    private void Start()
-    {
-        if (SceneManager.GetActiveScene().name == "MainMenu")
-        {
-            Input.Disable();
-        }
-    }
-
     // Update is called once per frame
     private void Update()
     {
@@ -250,28 +241,10 @@ public class InputManager : MonoBehaviour
         // BulletTimeInput = Input.Player.BulletTime.WasPressedThisFrame();
         // InteractInput = Input.Player.Interact.WasPressedThisFrame();
         // ResetInput = Input.Player.Reset.WasPressedThisFrame();
-
-        // We need better names for these
-        // FInput = Input.Player.F.IsPressed();
-        // if (_Input.Player.F.WasPressedThisFrame())
-        // {
-        //     Debug.Log("F was pressed this frame");
-        // }
-
-        // if (_Input.Player.F.IsPressed())
-        // {
-        //     Debug.Log("F is pressed");
-        //     if (Time.fixedUnscaledTime - _fPressTime >= 3f)
-        //     {
-        //         Debug.Log("F has been held for 3 second");
-        //     }
-        // }
-        // GInput = Input.Player.G.IsPressed();
     }
 
     public void EnableInput()
     {
-        Input.Enable();
-        
+        EventEnable();
     }
 }

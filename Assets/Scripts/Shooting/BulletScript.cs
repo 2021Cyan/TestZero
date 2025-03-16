@@ -1,14 +1,17 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BulletScript : MonoBehaviour
 {
     // Hitmarker references
     public GameObject hitmarkerPrefab;
 
+    [SerializeField] ParticleSystem sparkEffectPrefab;
+    private ParticleSystem sparkEffect;
+
     // Speed of the bullet
     public float speed = 50f;
     // Lifetime of the bullet
-    public float lifetime = 5f;
+    public float lifetime = 3f;
     // Rigidbody of the bullet
     private Rigidbody2D rb;
     // Damage of the bullet
@@ -64,12 +67,19 @@ public class BulletScript : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         SetBulletColor();
 
-        if(bulletType == 10)
+        // Instantiate the spark effect for this bullet
+        if (sparkEffectPrefab != null)
+        {
+            sparkEffect = Instantiate(sparkEffectPrefab, transform.position, Quaternion.identity);
+            // sparkEffect.transform.SetParent(transform); // Make the spark effect a child of the bullet
+            sparkEffect.Stop(); // Ensure it's not playing at start
+        }
+
+        if (bulletType == 10)
         {
             speed = 40f;
         }
-
-        if(bulletType == 5)
+        if (bulletType == 5)
         {
             damage = playerController.damage * 0.3f;
         }
@@ -93,7 +103,7 @@ public class BulletScript : MonoBehaviour
 
     private void SetBulletColor()
     {
-        Color bulletColor = new Color(255, 187,0, 255);
+        Color bulletColor = new Color(255, 187, 0, 255);
 
         switch (bulletType)
         {
@@ -136,7 +146,7 @@ public class BulletScript : MonoBehaviour
         if (hitmarkerPrefab != null)
         {
             GameObject hitmarker = Instantiate(hitmarkerPrefab, mousePos, Quaternion.identity);
-            Destroy(hitmarker, 0.05f); 
+            Destroy(hitmarker, 0.05f);
         }
     }
 
@@ -164,21 +174,22 @@ public class BulletScript : MonoBehaviour
 
                 if (bulletType == 3)
                 {
-                    if(playerController == null)
+                    if (playerController == null)
                     {
                         return;
                     }
 
                     float healAmount = 0;
 
-                    if(playerController.gripType == "gun_grip_handcannon"){
+                    if (playerController.gripType == "gun_grip_handcannon")
+                    {
                         healAmount = 4f;
                     }
-                    else if(playerController.gripType == "gun_grip_pistol")
+                    else if (playerController.gripType == "gun_grip_pistol")
                     {
                         healAmount = 2f;
                     }
-                    else if(playerController.gripType == "gun_grip_smg")
+                    else if (playerController.gripType == "gun_grip_smg")
                     {
                         healAmount = 1f;
                     }
@@ -212,7 +223,14 @@ public class BulletScript : MonoBehaviour
         if (wallHit.collider != null)
         {
             transform.position = wallHit.point + wallHit.normal * 0.1f;
-
+            if (sparkEffect != null)
+            {
+                Vector3 temp = wallHit.point;
+                temp.z = -1;
+                sparkEffect.transform.position = temp;
+                sparkEffect.Play();
+                // sparkEffect.Stop();
+            }
             if (bulletType == 1)
             {
                 Ricochet();
@@ -221,7 +239,10 @@ public class BulletScript : MonoBehaviour
                     _audio.PlayOneShot(_audio.Ricochet, transform.position);
                     ricochetCount++;
                 }
-                
+                else
+                {
+                    gameObject.SetActive(false);
+                }
             }
             else
             {
@@ -239,7 +260,7 @@ public class BulletScript : MonoBehaviour
             Enemy_Soldier es = target.GetComponent<Enemy_Soldier>();
             Vector2 desiredDirection;
 
-            if (es != null) 
+            if (es != null)
             {
                 desiredDirection = (es.getAimPos().position - transform.position).normalized;
             }
@@ -281,7 +302,7 @@ public class BulletScript : MonoBehaviour
         {
             EnemyBase eb = enemy.GetComponent<EnemyBase>();
 
-            if(eb == null || !eb.isalive)
+            if (eb == null || !eb.isalive)
             {
                 continue;
             }
@@ -313,7 +334,7 @@ public class BulletScript : MonoBehaviour
             Enemy_Soldier es = nearestEnemy.GetComponent<Enemy_Soldier>();
             Vector3 targetDirection;
 
-            if (es != null) 
+            if (es != null)
             {
                 targetDirection = (es.getAimPos().position - transform.position).normalized;
             }
@@ -423,6 +444,14 @@ public class BulletScript : MonoBehaviour
         }
 
         enemy.ApplyCorrosiveEffect(corrosiveDamage, 5f);
+    }
+    private void OnDestroy()
+    {
+        // Destroy the spark effect when the bullet is destroyed
+        if (sparkEffect != null)
+        {
+            Destroy(sparkEffect.gameObject);
+        }
     }
 
 

@@ -104,6 +104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitmarkerPrefab: {fileID: 8288332386246024384, guid: 9d0cd5c19edd87d49bd702fb36707451, type: 3}
+  sparkEffectPrefab: {fileID: 1571184921683612930, guid: 226085472917dbe4e930748fb24629e2, type: 3}
   speed: 50
   lifetime: 5
   damage: 50
