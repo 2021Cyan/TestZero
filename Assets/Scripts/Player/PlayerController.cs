@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     private Camera maincam;
     private Vector3 mousePos;
+    [SerializeField] ParticleSystem sparkFootEffect;
 
     private bool alive = true;
 
@@ -259,10 +260,13 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
             Vector2 dodgeDir = new Vector2(direction, 0);
             float totalDodgeDistance = dodgePower;
-
             if (anim.GetBool("isRun"))
             {
                 anim.SetTrigger("slide");
+                Vector3 temp = transform.position;
+                temp.z = -1;
+                sparkFootEffect.transform.position = temp;
+                sparkFootEffect.Play();
                 _audio.PlayOneShot(_audio.Dodge);
                 rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
             }
@@ -322,6 +326,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator EndDodge()
     {
         yield return new WaitForSeconds(dodgeDuration);
+        sparkFootEffect.Stop();
         rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         isDodging = false;
         if (anim.GetBool("rollCheck"))

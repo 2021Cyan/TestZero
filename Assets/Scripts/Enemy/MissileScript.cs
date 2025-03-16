@@ -14,6 +14,7 @@ public class MissileScript : EnemyBase
     private Transform player;
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
+    private AudioManager _audio;
     private bool isExploded = false;
 
     void Start()
@@ -26,6 +27,7 @@ public class MissileScript : EnemyBase
         player = playerController.GetAimPos();
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        _audio = AudioManager.Instance;
     }
 
     void Update()
@@ -88,6 +90,7 @@ public class MissileScript : EnemyBase
         if (explosionEffect != null)
         {
             Instantiate(explosionEffect, transform.position, Quaternion.identity);
+            _audio.PlayOneShot(_audio.Missile, transform.position);
         }
 
         if (playerlock != null)
