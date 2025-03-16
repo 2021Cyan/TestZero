@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BulletScript : MonoBehaviour
 {
@@ -7,10 +7,13 @@ public class BulletScript : MonoBehaviour
     // Hitmarker references
     public GameObject hitmarkerPrefab;
 
+    [SerializeField] ParticleSystem sparkEffectPrefab;
+    private ParticleSystem sparkEffect;
+
     // Speed of the bullet
     public float speed = 50f;
     // Lifetime of the bullet
-    public float lifetime = 5f;
+    public float lifetime = 3f;
     // Rigidbody of the bullet
     private Rigidbody2D rb;
     // Damage of the bullet
@@ -66,12 +69,19 @@ public class BulletScript : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         SetBulletColor();
 
+        // Instantiate the spark effect for this bullet
+        if (sparkEffectPrefab != null)
+        {
+            sparkEffect = Instantiate(sparkEffectPrefab, transform.position, Quaternion.identity);
+            // sparkEffect.transform.SetParent(transform); // Make the spark effect a child of the bullet
+            sparkEffect.Stop(); // Ensure it's not playing at start
+        }
+
         if(bulletType == 10)
         {
             speed = 40f;
         }
-
-        if(bulletType == 5)
+	if(bulletType == 5)
         {
             damage = playerController.damage * 0.3f;
         }
@@ -214,21 +224,26 @@ public class BulletScript : MonoBehaviour
         if (wallHit.collider != null)
         {
             transform.position = wallHit.point + wallHit.normal * 0.1f;
-
+            if (sparkEffect != null)
+            {
+                Vector3 temp = wallHit.point;
+                temp.z = -1;
+                sparkEffect.transform.position = temp;
+                sparkEffect.Play();
+                // sparkEffect.Stop();
+            }
             if (bulletType == 1)
             {
                 if (ricochetCount < 2)
                 {
-                    sparkEffect.Play();
+                    Ricochet();
                     _audio.PlayOneShot(_audio.Ricochet, transform.position);
                     ricochetCount++;
                 }
                 else
                 {
-                    return;
-                }
-                Ricochet();
-                
+                    gameObject.SetActive(false);
+                }               
             }
             else
             {
@@ -431,6 +446,14 @@ public class BulletScript : MonoBehaviour
 
         enemy.ApplyCorrosiveEffect(corrosiveDamage, 5f);
     }
+	private void OnDestroy()
+	    {
+		// Destroy the spark effect when the bullet is destroyed
+		if (sparkEffect != null)
+		{
+		    Destroy(sparkEffect.gameObject);
+		}
+	    }
 
 
 }
