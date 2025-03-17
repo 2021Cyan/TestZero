@@ -217,7 +217,7 @@ public class MapSegment : MonoBehaviour
 
     private bool IsPointInsidePolygon(Vector3 point, List<Vector3> polygon)
     {
-        Nullable<int> prev_orientation = null;
+        int? prev_orientation = null;
 
         // Check every line in other hull
         for (int j = 0; j < polygon.Count; ++j)
@@ -252,20 +252,32 @@ public class MapSegment : MonoBehaviour
     public void SpawnEnemies(int levelNumber, float scaling)
     {
         // Determine number of enemies
-        _numberOfEnemies = UnityEngine.Random.Range(
-            (int) (MinEnemies + (MinEnemies * levelNumber * scaling)),
-            (int) (MaxEnemies + (MaxEnemies * levelNumber * scaling))
+        _numberOfEnemies = Math.Min(
+            UnityEngine.Random.Range(
+                (int) (MinEnemies + (MinEnemies * levelNumber * scaling)),
+                (int) (MaxEnemies + (MaxEnemies * levelNumber * scaling))
+            ),
+            _spawnPoints.Count
         );
 
-        // Spawn enemies at random points
+        // Spawn enemies
         HashSet<int> used = new HashSet<int>();
+        int spawnPointIndex;
         for (int i = 0; i < _numberOfEnemies; ++i)
         {
-            if (!used.Contains(i))
+            // Pick random point that hasn't been used before
+            while (true)
             {
-                _spawnPoints[i].Spawn(levelNumber);
-                used.Add(i);
-            }   
+                spawnPointIndex = UnityEngine.Random.Range(0, _spawnPoints.Count);
+                if (!used.Contains(spawnPointIndex))
+                {
+                    used.Add(i);
+                    break;
+                }
+            }
+            
+            // Spawn random enemy at chosen point
+            _spawnPoints[i].Spawn(levelNumber);
         }
     }
 }

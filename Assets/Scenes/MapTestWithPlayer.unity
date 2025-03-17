@@ -764,10 +764,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2e25e350e12870469892588bff8f877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NumberOfSegmentsPerLevel: 2
+  NumberOfSegmentsPerLevel: 20
   ShopFrequency: 0
   NumberOfLevels: 1
   LevelGap: 20
+  EnemySpawnLevelScaling: 0.5
   Player: {fileID: 1634541014}
   Camera: {fileID: 419354690}
   ShopRoomPrefab: {fileID: 7346705287260323825, guid: 77e80cbd8b41ed140b2ba9988a809b11, type: 3}
@@ -776,7 +777,7 @@ MonoBehaviour:
   EndRoomPrefabs:
   - {fileID: 1156781272073676450, guid: 9780077d69f1c2247a4f2f8843ec704d, type: 3}
   SegmentPrefabs:
-  - {fileID: 393479479986750669, guid: dda4a527091fc874a9ab77430f323fda, type: 3}
+  - {fileID: 7326364849361451869, guid: 20035d2585e995e4e933dd3d8b67db50, type: 3}
 --- !u!4 &1321328354
 Transform:
   m_ObjectHideFlags: 0

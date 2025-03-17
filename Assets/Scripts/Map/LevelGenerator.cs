@@ -64,9 +64,18 @@ public class LevelGenerator : MonoBehaviour
                 startRoom
             );
 
+            // Spawn enemies into current level
+            for (int i = 0; i < _levelsegments.Count; ++i)
+            {
+                _levelsegments[i].SpawnEnemies(levelNumber, EnemySpawnLevelScaling);
+            }
+
             // Update start point for level creation for next level
             float furthestEndX = -1;
-            foreach (EndRoomSegment endRoom in _endRooms[levelNumber]) {furthestEndX = Mathf.Max(furthestEndX, endRoom.transform.position.x);}
+            foreach (EndRoomSegment endRoom in _endRooms[levelNumber]) 
+            {
+                furthestEndX = Mathf.Max(furthestEndX, endRoom.transform.position.x);
+            }
             levelCreationStartPosition.x = furthestEndX + LevelGap;
         }
     }
