@@ -9,6 +9,7 @@ public class LevelGenerator : MonoBehaviour
     public int ShopFrequency;
     public int NumberOfLevels;
     public float LevelGap;
+    public float EnemySpawnLevelScaling; // value by which min/max enemies spawns are modified
 
     // Game objects
     public GameObject Player;

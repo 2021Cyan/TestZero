@@ -10,6 +10,8 @@ public class MapSegment : MonoBehaviour
     public bool CanFlipX;
     public bool CanFlipY;
     public int Likelihood; // value representing how often segment should occur
+    public int MinEnemies;
+    public int MaxEnemies;
 
     // Private attributes
     private List<GameObject> _terrainComponents;
@@ -17,6 +19,8 @@ public class MapSegment : MonoBehaviour
     private List<Vector3> _hull;
     private Transform _entryPoint;
     private List<Transform> _exitPoints;
+    private List<EnemySpawnPoint> _spawnPoints;
+    private int _numberOfEnemies;
 
     // Getters
     public List<Vector3> GetHull()
@@ -78,6 +82,9 @@ public class MapSegment : MonoBehaviour
                 _exitPoints.Add(child.Find("ExitPoint"));
             }
         }
+
+        // Find all enemy spawn points
+        _spawnPoints = new List<EnemySpawnPoint>(GetComponentsInChildren<EnemySpawnPoint>());
     }
 
     public void CalculateHull(Vector3 offset)
@@ -242,32 +249,23 @@ public class MapSegment : MonoBehaviour
         return (val > 0) ? 1 : -1;
     }
 
-    // private bool LinesIntersect(Vector3 a, Vector3 b, Vector3 c, Vector3 d)
-    // {
-    //     // Check if points A and B are on opposite sides of line CD
-    //     int o1 = Orientation(a, b, c);
-    //     int o2 = Orientation(a, b, d);
+    public void SpawnEnemies(int levelNumber, float scaling)
+    {
+        // Determine number of enemies
+        _numberOfEnemies = UnityEngine.Random.Range(
+            (int) (MinEnemies + (MinEnemies * levelNumber * scaling)),
+            (int) (MaxEnemies + (MaxEnemies * levelNumber * scaling))
+        );
 
-    //     // Check if points C and D are on opposite sides of line AB
-    //     int o3 = Orientation(c, d, a);
-    //     int o4 = Orientation(c, d, b);
-
-    //     // General case: straddling check
-    //     if (o1 != o2 && o3 != o4) return true;
-
-    //     // // Special cases: collinear overlap checks (optional if you want to count overlaps as intersections)
-    //     // bool OnSegment(Vector3 p, Vector3 q, Vector3 r)
-    //     // {
-    //     //     return q.x <= Math.Max(p.x, r.x) && q.x >= Math.Min(p.x, r.x) &&
-    //     //         q.y <= Math.Max(p.y, r.y) && q.y >= Math.Min(p.y, r.y);
-    //     // }
-
-    //     // if (o1 == 0 && OnSegment(a, c, b)) return true;
-    //     // if (o2 == 0 && OnSegment(a, d, b)) return true;
-    //     // if (o3 == 0 && OnSegment(c, a, d)) return true;
-    //     // if (o4 == 0 && OnSegment(c, b, d)) return true;
-
-    //     // No intersection
-    //     return false;
-    // }
+        // Spawn enemies at random points
+        HashSet<int> used = new HashSet<int>();
+        for (int i = 0; i < _numberOfEnemies; ++i)
+        {
+            if (!used.Contains(i))
+            {
+                _spawnPoints[i].Spawn(levelNumber);
+                used.Add(i);
+            }   
+        }
+    }
 }
