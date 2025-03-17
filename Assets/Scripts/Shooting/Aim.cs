@@ -1,10 +1,11 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Aim : MonoBehaviour
 {
     [SerializeField] Transform arm;  // The arm to rotate
     [SerializeField] Transform head; // The head to rotate
-    [SerializeField] bool tracking = false;  // head and arm tracking
+    [SerializeField] bool tracking;  // head and arm tracking
     private PlayerController playerController;
     private Animator animator;
     private Vector3 startingSize;
@@ -19,6 +20,7 @@ public class Aim : MonoBehaviour
         animator = GetComponent<Animator>();
         _input = InputManager.Instance;
         _audio = AudioManager.Instance;
+        tracking = SceneManager.GetActiveScene().name != "MainMenu";
     }
 
     void LateUpdate()
