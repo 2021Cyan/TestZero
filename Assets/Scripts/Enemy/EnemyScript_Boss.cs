@@ -39,9 +39,7 @@ public class EnemyScript_Boss : EnemyBase
         rb.gravityScale = 0;
         spriteRenderer = GetComponent<SpriteRenderer>();
         lineRenderer = GetComponent<LineRenderer>();
-        rb.gravityScale = 0;
         initialPosition = transform.position;
-        transform.localScale = Vector3.zero;
     }
 
     void Update()
