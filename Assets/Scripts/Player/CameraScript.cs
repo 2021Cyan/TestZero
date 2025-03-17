@@ -25,7 +25,7 @@ public class CameraScript : MonoBehaviour
     private void Awake()
     {
         vcam = GetComponent<CinemachineCamera>();
-        noise = vcam.GetCinemachineComponent(CinemachineCore.Stage.Noise) as CinemachineBasicMultiChannelPerlin;
+        // noise = vcam.GetCinemachineComponent(CinemachineCore.Stage.Noise) as CinemachineBasicMultiChannelPerlin;
     }
     private void Update()
     {
