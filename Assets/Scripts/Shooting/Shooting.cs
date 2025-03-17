@@ -42,7 +42,7 @@ public class Shooting : MonoBehaviour
             return;
         }
 
-        if ((_input.ClickInput) && playerController.gripType == "gun_grip_smg" && playerController.currentAmmo > 0)
+        if ((_input.ClickInput) && playerController.gripType == "gun_grip_smg" && playerController.currentAmmo > 0 && !GunCollideCheck())
         {
             if (!muzzleFlash_smg.isPlaying)
             {
@@ -80,19 +80,11 @@ public class Shooting : MonoBehaviour
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(_input.MouseInput);
         mousePos.z = 0f;
 
-        BoxCollider2D gunPointCollider = gunPoint.GetComponent<BoxCollider2D>();
-        if (gunPointCollider != null)
+        if (GunCollideCheck())
         {
-            Collider2D[] hitColliders = Physics2D.OverlapBoxAll(gunPointCollider.bounds.center, gunPointCollider.bounds.size, 0f);
-            foreach (var hitCollider in hitColliders)
-            {
-            if (hitCollider.CompareTag("Terrain"))
-            {
-                // Handle the collision with the specific tag
-                return;
-            }
-            }
+            return;
         }
+
         CameraScript cameraScript = mainCamera.GetComponent<CameraScript>();
         // Trigger screen shake
         if (cameraScript != null)
@@ -203,5 +195,26 @@ public class Shooting : MonoBehaviour
     public bool getIsReloading()
     {
         return isReloading;
+    }
+
+    private bool GunCollideCheck()
+    {
+        bool gunCollide = false;
+
+        BoxCollider2D gunPointCollider = gunPoint.GetComponent<BoxCollider2D>();
+        if (gunPointCollider != null)
+        {
+            Collider2D[] hitColliders = Physics2D.OverlapBoxAll(gunPointCollider.bounds.center, gunPointCollider.bounds.size, 0f);
+            foreach (var hitCollider in hitColliders)
+            {
+                if (hitCollider.CompareTag("Terrain"))
+                {
+                    // Handle the collision with the specific tag
+                    gunCollide = true;
+                    break;
+                }
+            }
+        }
+        return gunCollide;
     }
 }
