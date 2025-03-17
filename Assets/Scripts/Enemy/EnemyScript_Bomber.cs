@@ -19,6 +19,7 @@ public class EnemyScript_Bomber : EnemyBase
     private AudioManager _audio;
     private bool explosionTriggered = false;
     [SerializeField] GameObject explosion;
+    private Collider2D enemyCollider;
 
 
     void Start()
@@ -41,6 +42,7 @@ public class EnemyScript_Bomber : EnemyBase
         rb.gravityScale = 0; 
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        enemyCollider = GetComponent<Collider2D>();
         ChangeDirection();
     }
 
@@ -51,12 +53,23 @@ public class EnemyScript_Bomber : EnemyBase
             return;
         }
 
-        if (player != null && Vector3.Distance(transform.position, player.position) <= detectionRange)
+        if (CheckNearbyPlayers())
         {
             float directionX = Mathf.Sign(player.position.x - transform.position.x);
+            FlipSprite(directionX);
             moveDirection = new Vector3(directionX, 0, 0);
         }
         rb.linearVelocity = new Vector2(moveDirection.x * moveSpeed, 0);
+    }
+
+    private bool CheckNearbyPlayers()
+    {
+        if (player == null)
+        {
+            return false;
+        }
+        bool isPathClear = !Physics2D.Linecast(transform.position, player.position, LayerMask.GetMask("Terrain"));
+        return Vector3.Distance(transform.position, player.position) <= detectionRange && isPathClear;
     }
 
     private void ChangeDirection(bool collisonHappen = default(bool))
@@ -70,18 +83,29 @@ public class EnemyScript_Bomber : EnemyBase
             moveDirection.x = -rb.linearVelocity.normalized.x;
         }
         transform.localScale = new Vector3(Mathf.Sign(moveDirection.x), 1, 1);
+        FlipSprite(moveDirection.x);
     }
-
+    private void FlipSprite(float directionX)
+    {
+        if (directionX != 0)
+        {
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * Mathf.Sign(directionX), transform.localScale.y, transform.localScale.z);
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!explosionTriggered && other.gameObject.layer == LayerMask.NameToLayer("Hitbox_Player"))
         {
+            if (enemyCollider != null)
+            {
+                enemyCollider.enabled = false;
+            }
             explosionTriggered = true;
             rb.linearVelocity = Vector2.zero;
             StartCoroutine(ExplosionCountdown());
         }
-        else if (other.CompareTag("Terrain"))
+        if (other.CompareTag("Terrain"))
         {
             ChangeDirection(true);
         }
@@ -89,6 +113,7 @@ public class EnemyScript_Bomber : EnemyBase
 
     private IEnumerator ExplosionCountdown()
     {
+        currentHealth = 10000;
         float timer = 0f;
         Vector3 originalScale = transform.localScale;
 
@@ -124,7 +149,7 @@ public class EnemyScript_Bomber : EnemyBase
             }
         }
 
-        base.Die(resourceAmount);
+        base.Die(0);
     }
 
     public override void TakeDamage(float damage)

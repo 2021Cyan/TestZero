@@ -156,7 +156,7 @@ public class Enemy_Soldier : EnemyBase
 
             if (player != null)
             {
-                float directionX = player.position.x - transform.position.x;
+                float directionX = player.position.x - center.position.x;
                 bool facingLeft = directionX < 0;
                 UpdateSpriteDirection(facingLeft);
             }
@@ -178,19 +178,26 @@ public class Enemy_Soldier : EnemyBase
 
         while (shotsFired < maxShots)
         {
+            if (!CheckNearbyPlayers())
+            {
+                isShooting = false;
+                yield break;  
+            }
             Shoot();
             shotsFired++;
             yield return new WaitForSeconds(fireRate);
         }
 
         shotsFired = 0;
-        yield return new WaitForSeconds(reloadTime); 
-
+        if (isShooting)
+        {
+            yield return new WaitForSeconds(reloadTime);
+        }
         isShooting = false;
     }
     private void UpdateAim()
     {
-        if (isShooting)
+        if (CheckNearbyPlayers())
         {
             lineRenderer.enabled = true;
             lineRenderer.SetPosition(0, turret.position);
@@ -274,12 +281,13 @@ public class Enemy_Soldier : EnemyBase
         {
             return false;
         }
-        return Vector3.Distance(transform.position, player.position) <= detectionRange;
+        bool isPathClear = !Physics2D.Linecast(center.position, player.position, LayerMask.GetMask("Terrain"));
+        return Vector3.Distance(center.position, player.position) <= detectionRange && isPathClear;
     }
 
     private void Aim()
     {
-        if (isPlayerNearby && player != null)
+        if (isPlayerNearby)
         {
             Vector3 direction = (player.position - turret.position).normalized;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;

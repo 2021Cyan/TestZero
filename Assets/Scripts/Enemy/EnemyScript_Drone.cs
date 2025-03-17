@@ -134,19 +134,18 @@ public class Enemy_Drone : EnemyBase
         {
             return false;
         }
-        return Vector3.Distance(transform.position, player.position) <= detectionRange;
+        bool isPathClear = !Physics2D.Linecast(transform.position, player.position, LayerMask.GetMask("Terrain"));
+        return Vector3.Distance(transform.position, player.position) <= detectionRange && isPathClear;
     }
 
     private void Aim()
     {
-        bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, player.position, LayerMask.GetMask("Terrain"));
-        if (isPlayerNearby && player != null && isPathClear)
+        if (isPlayerNearby)
         {
             lineRenderer.enabled = true;
             lineRenderer.SetPosition(0, turret_firePoint.position);
             lineRenderer.SetPosition(1, player.position);
             Vector3 direction = (player.position - turret.position).normalized;
-            Debug.DrawLine(turret.position, turret.position + direction * 3f, Color.red, 0.1f);
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             turret.rotation = Quaternion.Euler(0, 0, angle + 45);
         }

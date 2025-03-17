@@ -88,13 +88,13 @@ public class EnemyScript_Turret : EnemyBase
         {
             return false;
         }
-        return Vector3.Distance(transform.position, player.position) <= detectionRange;
+        bool isPathClear = !Physics2D.Linecast(transform.position, player.position, LayerMask.GetMask("Terrain"));
+        return Vector3.Distance(transform.position, player.position) <= detectionRange && isPathClear;
     }
 
     private void Aim()
     {
-        bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, player.position, LayerMask.GetMask("Terrain"));
-        if (isPlayerNearby && player != null && isPathClear)
+        if (isPlayerNearby)
         {
             lineRenderer.enabled = true;
             lineRenderer.SetPosition(0, turret_firePoint.position);
