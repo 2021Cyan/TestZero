@@ -312,6 +312,7 @@ MonoBehaviour:
   LeftPosition: {fileID: 5492463614270061021}
   RightPosition: {fileID: 7349125279047804540}
   Velocity: 1
+  ParentContainer: {fileID: 2295833357015227449}
 --- !u!212 &6214672216377867402
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1068,6 +1069,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_Drone (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 4708171975505064179, guid: 4345ad00409584b4c8e59f4b8d7aa150, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1129,6 +1134,10 @@ PrefabInstance:
     - target: {fileID: 4708171975505064179, guid: 4345ad00409584b4c8e59f4b8d7aa150, type: 3}
       propertyPath: m_Name
       value: Enemy_Drone (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708171975505064179, guid: 4345ad00409584b4c8e59f4b8d7aa150, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1254,6 +1263,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_Drone (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4708171975505064179, guid: 4345ad00409584b4c8e59f4b8d7aa150, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1315,6 +1328,10 @@ PrefabInstance:
     - target: {fileID: 4708171975505064179, guid: 4345ad00409584b4c8e59f4b8d7aa150, type: 3}
       propertyPath: m_Name
       value: Enemy_Drone
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708171975505064179, guid: 4345ad00409584b4c8e59f4b8d7aa150, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

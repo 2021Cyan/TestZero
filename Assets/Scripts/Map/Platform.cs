@@ -14,7 +14,7 @@ public class Platform : Interactable
     private bool _isGoingRight = false;
     private Vector3 _prevPosition;
     private Vector3 _movement;
-    private HashSet<Rigidbody2D> _entitiesOnPlatform = new HashSet<Rigidbody2D>();
+    private HashSet<Transform> _entitiesOnPlatform = new HashSet<Transform>();
 
     // Behaviour
     private void OnTriggerEnter2D(Collider2D other)
@@ -24,7 +24,7 @@ public class Platform : Interactable
         if (rb != null && (other.CompareTag("Player") || other.CompareTag("Enemy")))
         {
             // Add object to set of objects on platform
-            _entitiesOnPlatform.Add(rb);
+            _entitiesOnPlatform.Add(other.gameObject.transform);
         }
     }
 
@@ -35,15 +35,15 @@ public class Platform : Interactable
         if (rb != null && (other.CompareTag("Player") || other.CompareTag("Enemy")))
         {
             // Remove object from set of objects on platform
-            _entitiesOnPlatform.Remove(rb);
+            _entitiesOnPlatform.Remove(other.gameObject.transform);
         }
     }
 
     void Update()
     {
         // Flip direction if bounds are reached
-        if (transform.position == LeftPosition.position) {_isGoingRight = true;}
-        else {_isGoingRight = false;}
+        if (transform.position.x <= LeftPosition.position.x) {_isGoingRight = true;}
+        else if (transform.position.x >= RightPosition.position.x) {_isGoingRight = false;}
 
         // If going right, move right
         if (_isGoingRight)
@@ -63,9 +63,10 @@ public class Platform : Interactable
         _movement = transform.position - _prevPosition;
 
         // Apply movement to all objects on platform
-        foreach (Rigidbody2D rb in _entitiesOnPlatform)
+        foreach (Transform tf in _entitiesOnPlatform)
         {
-            rb.linearVelocity = new Vector2(_movement.x / Time.fixedDeltaTime, rb.linearVelocity.y);
+            tf.position += _movement;
+            // rb.linearVelocity = new Vector2(_movement.x / Time.fixedDeltaTime, rb.linearVelocity.y);
         }
     }
 }

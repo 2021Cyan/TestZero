@@ -94,7 +94,15 @@ public class LevelGenerator : MonoBehaviour
             // levelCreationStartPosition.x = furthestEndX + LevelGap;
 
             // Get last segment of level
-            MapSegment lastSegment = _levelsegments[_levelsegments.Count -1];
+            MapSegment lastSegment;
+            if (_levelsegments.Count > 0)
+            {
+                lastSegment = _levelsegments[_levelsegments.Count -1];
+            }
+            else
+            {
+                lastSegment = levelStartSegment;
+            }
 
             // If last level, spawn terminal room
             if (levelNumber == NumberOfLevels - 1)
@@ -128,12 +136,12 @@ public class LevelGenerator : MonoBehaviour
                 RaftSectionBlock currentBlock = raftStartBlock;
                 for (int i = 0; i < NumberOfBlocksPerRaftSection; ++i)
                 {
-                    currentPrefab = Instantiate(RaftSectionBlockPrefab, currentBlock.ExitPoint);
+                    currentPrefab = Instantiate(RaftSectionBlockPrefab, currentBlock.ExitPoint.position, Quaternion.identity);
                     currentBlock = currentPrefab.GetComponent<RaftSectionBlock>();
                 }
 
                 // Spawn raft end segment and set start room for next level
-                currentPrefab = Instantiate(RaftSectionEndPrefab, currentBlock.ExitPoint);
+                currentPrefab = Instantiate(RaftSectionEndPrefab, currentBlock.ExitPoint.position, Quaternion.identity);
                 levelStartSegment = currentPrefab.GetComponent<MapSegment>();
 
                 // Set destination of raft
