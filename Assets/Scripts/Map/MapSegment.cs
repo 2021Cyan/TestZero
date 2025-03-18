@@ -19,6 +19,7 @@ public class MapSegment : MonoBehaviour
     private List<Vector3> _hull;
     private Transform _entryPoint;
     private List<Transform> _exitPoints;
+    private List<Interactable> _interactables;
     private List<EnemySpawnPoint> _spawnPoints;
     private int _numberOfEnemies;
 
@@ -54,6 +55,11 @@ public class MapSegment : MonoBehaviour
         return _exitPoints.Count;
     }
 
+    public List<Interactable> GetInteractables()
+    {
+        return _interactables;
+    }
+
     // Methods
     protected void Awake()
     {
@@ -70,7 +76,7 @@ public class MapSegment : MonoBehaviour
         } 
         catch 
         {
-            _entryPoint = transform.Find("PlayerSpawnPoint");
+            _entryPoint = null;//transform.Find("PlayerSpawnPoint");
         }
         
 
@@ -85,8 +91,53 @@ public class MapSegment : MonoBehaviour
 
         // Find all enemy spawn points
         _spawnPoints = new List<EnemySpawnPoint>(GetComponentsInChildren<EnemySpawnPoint>());
+
+        // Find all interactables
+        _interactables = new List<Interactable>(GetComponentsInChildren<Interactable>());
     }
 
+    public void PassPlayerToInteractables(GameObject player)
+    {
+        // Pass reference to player object to all interactables in segment
+        for (int i = 0; i < _interactables.Count; ++i)
+        {
+            _interactables[i].SetPlayer(player);
+        }
+    }
+
+    public void SpawnEnemies(int levelNumber, float scaling)
+    {
+        // Determine number of enemies
+        _numberOfEnemies = Math.Min(
+            UnityEngine.Random.Range(
+                (int) (MinEnemies + (MinEnemies * levelNumber * scaling)),
+                (int) (MaxEnemies + (MaxEnemies * levelNumber * scaling))
+            ),
+            _spawnPoints.Count
+        );
+
+        // Spawn enemies
+        HashSet<int> used = new HashSet<int>();
+        int spawnPointIndex;
+        for (int i = 0; i < _numberOfEnemies; ++i)
+        {
+            // Pick random point that hasn't been used before
+            while (true)
+            {
+                spawnPointIndex = UnityEngine.Random.Range(0, _spawnPoints.Count);
+                if (!used.Contains(spawnPointIndex))
+                {
+                    used.Add(i);
+                    break;
+                }
+            }
+            
+            // Spawn random enemy at chosen point
+            _spawnPoints[i].Spawn(levelNumber);
+        }
+    }
+
+    // Convex hull functions
     public void CalculateHull(Vector3 offset)
     {
         // Find all terrain pieces (walls, ceilings, floors, etc.)
@@ -247,37 +298,5 @@ public class MapSegment : MonoBehaviour
 
         // Otherwise, return orientation between lines (clockwise or counterclockwise)
         return (val > 0) ? 1 : -1;
-    }
-
-    public void SpawnEnemies(int levelNumber, float scaling)
-    {
-        // Determine number of enemies
-        _numberOfEnemies = Math.Min(
-            UnityEngine.Random.Range(
-                (int) (MinEnemies + (MinEnemies * levelNumber * scaling)),
-                (int) (MaxEnemies + (MaxEnemies * levelNumber * scaling))
-            ),
-            _spawnPoints.Count
-        );
-
-        // Spawn enemies
-        HashSet<int> used = new HashSet<int>();
-        int spawnPointIndex;
-        for (int i = 0; i < _numberOfEnemies; ++i)
-        {
-            // Pick random point that hasn't been used before
-            while (true)
-            {
-                spawnPointIndex = UnityEngine.Random.Range(0, _spawnPoints.Count);
-                if (!used.Contains(spawnPointIndex))
-                {
-                    used.Add(i);
-                    break;
-                }
-            }
-            
-            // Spawn random enemy at chosen point
-            _spawnPoints[i].Spawn(levelNumber);
-        }
     }
 }

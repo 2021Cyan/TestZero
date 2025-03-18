@@ -31,7 +31,7 @@ public class Teleporter : Interactable
 
         if (rb != null && other.CompareTag("Player"))
         {
-            // Get collider's parent entity (ideally the player) and update position
+            // Update position of player
             // Debug.Log(other.transform.parent.name + "teleported");
             _player.transform.position = _destination;
         }
