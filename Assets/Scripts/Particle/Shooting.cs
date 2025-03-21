@@ -19,7 +19,6 @@ public class Shooting : MonoBehaviour
         { "gun_grip_handcannon", 2 }
     };
 
-
     private PlayerController playerController;
     private InputManager _input;
     private AudioManager _audio;
@@ -28,11 +27,14 @@ public class Shooting : MonoBehaviour
     private float currentSpreadAngle = 0f;
     private bool isReloading = false;
 
+    private GameObject _bulletParent;
+
     private void Start()
     {
         playerController = PlayerController.Instance;
         _input = InputManager.Instance;
         _audio = AudioManager.Instance;
+        _bulletParent = new GameObject("BulletParent");
     }
 
     private void Update()
@@ -136,12 +138,14 @@ public class Shooting : MonoBehaviour
             {
                 float angleOffset = Random.Range(-spreadAngle / 2, spreadAngle / 2);
                 Quaternion pelletRotation = bulletRotation * Quaternion.Euler(0, 0, angleOffset);
-                Instantiate(bulletPrefab, gunPoint.transform.position, pelletRotation);
+                Instantiate(bulletPrefab, gunPoint.transform.position, pelletRotation, _bulletParent.transform);
+                // Instantiate(bulletPrefab, gunPoint.transform.position, pelletRotation);
             }
         }
         else
         {
-            Instantiate(bulletPrefab, gunPoint.transform.position, bulletRotation);
+            // Instantiate(bulletPrefab, gunPoint.transform.position, bulletRotation);
+            Instantiate(bulletPrefab, gunPoint.transform.position, bulletRotation, _bulletParent.transform);
         }
 
         gunPoint.transform.rotation = originalRotation;

@@ -17,6 +17,8 @@ GameObject:
   - component: {fileID: 7497396291302168351}
   - component: {fileID: 8819735896569111308}
   - component: {fileID: 444165480595514727}
+  - component: {fileID: 7261418725451773087}
+  - component: {fileID: 2369832788867763305}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -81,6 +83,7 @@ MonoBehaviour:
   max_hp: 100
   hp: 100
   resource: 16000
+  currentLevel: 0
   ResourceText: {fileID: 2392417955568809763, guid: e1c331f98e06af44db2d4583c0412cff, type: 3}
   damage: 20
   fireRate: 4
@@ -263,6 +266,32 @@ MonoBehaviour:
   ghostPrefab: {fileID: 18370379834554816, guid: 2051818f0877a224db8f83b92bdfee3f, type: 3}
   spawnInterval: 0.1
   ghostLifetime: 0.5
+--- !u!114 &7261418725451773087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18370379834554816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edce79503d798e84f84a72c9084e9ef0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sparkPrefab: {fileID: 8381630665279689963, guid: 226085472917dbe4e930748fb24629e2, type: 3}
+--- !u!114 &2369832788867763305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18370379834554816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7de54cc71603b14f9aa445f2a6b16eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightPrefab: {fileID: 7132323633365181299, guid: 5114156a57ce8354ca6b50db0a41ec94, type: 3}
 --- !u!1 &515380408780825251
 GameObject:
   m_ObjectHideFlags: 0

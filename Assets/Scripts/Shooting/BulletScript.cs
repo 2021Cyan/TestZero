@@ -11,7 +11,7 @@ public class BulletScript : MonoBehaviour
     // Speed of the bullet
     public float speed = 50f;
     // Lifetime of the bullet
-    public float lifetime = 3f;
+    public float lifetime = 0.3f;
     // Rigidbody of the bullet
     private Rigidbody2D rb;
     // Damage of the bullet
@@ -23,6 +23,7 @@ public class BulletScript : MonoBehaviour
     private AudioManager _audio;
     private Transform player;
     private PlayerController playerController;
+    private SparkPool sparkPool;
     public GameObject damageTextPrefab;
     // For Tracker bullet
     public float homingTurnSpeed = 5f;
@@ -52,8 +53,8 @@ public class BulletScript : MonoBehaviour
                 }
             }
         }
-
     }
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -61,6 +62,7 @@ public class BulletScript : MonoBehaviour
         damage = playerController.damage;
         _input = InputManager.Instance;
         _audio = AudioManager.Instance;
+        sparkPool = SparkPool.Instance;
         // Get the Rigidbody2D component
         rb = GetComponent<Rigidbody2D>();
 
@@ -70,7 +72,8 @@ public class BulletScript : MonoBehaviour
         // Instantiate the spark effect for this bullet
         if (sparkEffectPrefab != null)
         {
-            sparkEffect = Instantiate(sparkEffectPrefab, transform.position, Quaternion.identity);
+            // sparkEffect = Instantiate(sparkEffectPrefab, transform.position, Quaternion.identity, transform.parent);
+            sparkEffect = sparkPool.GetSpark().GetComponent<ParticleSystem>();
             // sparkEffect.transform.SetParent(transform); // Make the spark effect a child of the bullet
             sparkEffect.Stop(); // Ensure it's not playing at start
         }
@@ -445,14 +448,13 @@ public class BulletScript : MonoBehaviour
 
         enemy.ApplyCorrosiveEffect(corrosiveDamage, 5f);
     }
+
     private void OnDestroy()
     {
         // Destroy the spark effect when the bullet is destroyed
         if (sparkEffect != null)
         {
-            Destroy(sparkEffect.gameObject);
+            sparkPool.ReturnSpark(sparkEffect.gameObject);
         }
     }
-
-
 }
