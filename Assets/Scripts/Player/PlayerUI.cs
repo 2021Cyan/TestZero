@@ -133,7 +133,7 @@ public class PlayerUI : MonoBehaviour
                 bulletTimeFilter.gameObject.SetActive(true);
 
             Color c = bulletTimeFilter.color;
-            c.a = Mathf.Lerp(c.a, 0.3f, Time.deltaTime * 10);
+            c.a = Mathf.Lerp(c.a, 0.05f, Time.deltaTime * 10);
             bulletTimeFilter.color = c;
         }
         else
