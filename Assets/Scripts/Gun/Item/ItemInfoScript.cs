@@ -111,17 +111,17 @@ public class ItemInfoScript : MonoBehaviour
                 break;
             case 2:
                 itemName = "Neuro Boost";  
-                itemEffect = "<color=#00FF00>+1</color> Synaptic Boost duration";
+                itemEffect = "<color=#00FF00>+1</color> Acceleration duration";
                 colorCode = "#3498DB"; 
                 break;
             case 3:
                 itemName = "Drone Combat Module";  
-                itemEffect = "Enhance Pod <color=#00FF00>Attack</color>   capabilities";
+                itemEffect = "Enhance Drone <color=#00FF00>Attack</color>   capabilities";
                 colorCode = "#8E44AD"; 
                 break;
             case 4:
                 itemName = "Drone Support Module";  
-                itemEffect = "Enhances Pod <color=#00FF00>Support</color> capabilities";
+                itemEffect = "Enhances Drone <color=#00FF00>Support</color> capabilities";
                 colorCode = "#8E44AD"; 
                 break;
             default:
