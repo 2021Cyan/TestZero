@@ -124,6 +124,8 @@ MonoBehaviour:
   arm: {fileID: 2106109061845794455}
   head: {fileID: 6703265335522516261}
   tracking: 0
+  head_angle: 0
+  arm_angle: 0
 --- !u!114 &4547352747563694736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,8 +266,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghostPrefab: {fileID: 18370379834554816, guid: 2051818f0877a224db8f83b92bdfee3f, type: 3}
-  spawnInterval: 0.1
-  ghostLifetime: 0.5
+  spawnInterval: 0.05
+  ghostLifetime: 1
 --- !u!114 &7261418725451773087
 MonoBehaviour:
   m_ObjectHideFlags: 0

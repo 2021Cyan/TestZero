@@ -7,6 +7,7 @@ public class Ghost : MonoBehaviour
     private Animator playerAnimator;
     private PlayerController playerController;
     private Aim aim;
+    private SpriteRenderer[] spriteRenderers;
 
     [SerializeField] Transform arm;  // The arm to rotate
     [SerializeField] Transform head; // The head to rotate
@@ -14,6 +15,13 @@ public class Ghost : MonoBehaviour
     private void Awake()
     {
         ghostAnimator = GetComponent<Animator>();
+        spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        foreach (var sr in spriteRenderers)
+        {
+            Color c = sr.color;
+            c.a = 0f;
+            sr.color = c;
+        }
     }
 
     private void Start()
@@ -65,6 +73,12 @@ public class Ghost : MonoBehaviour
         {
             arm.rotation = Quaternion.Euler(0, 0, aim.getArmAngle());
             head.rotation = Quaternion.Euler(0, 0, aim.getHeadAngle());
+        }
+        foreach (var sr in spriteRenderers)
+        {
+            Color c = sr.color;
+            c.a = 1f;
+            sr.color = c;
         }
         StartFade(0.5f);
         yield return null;
