@@ -25,6 +25,22 @@ public class EnemyScript_Boss : EnemyBase
     [SerializeField] Transform[] missile_firePoints;
     [SerializeField] GameObject missile;
 
+    // Enemy Zap
+    [SerializeField] Transform laserOrigin;
+    [SerializeField] LineRenderer laserLine;
+    [SerializeField] float laserLength = 50f;
+
+    // Enemy Zap2
+    [SerializeField] LineRenderer[] crossLasers;
+    private float spinStartTime;
+    private bool isSpinning = false;
+    private float spinSpeed = 90f;
+
+    // Enemy Summon
+    [SerializeField] GameObject Bomber;
+    [SerializeField] Transform[] SummonPoints;
+
+    // Pattern Management
     private delegate IEnumerator Pattern();
     private Pattern[] patternList;
 
@@ -41,7 +57,7 @@ public class EnemyScript_Boss : EnemyBase
         _audio = AudioManager.Instance;
         isalive = true;
         resourceAmount = 0;
-        maxHealth = 50000;
+        maxHealth = 5000;
         currentHealth = maxHealth;
         fireRate = 0.05f;
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
@@ -50,7 +66,7 @@ public class EnemyScript_Boss : EnemyBase
         rb.gravityScale = 0;
         spriteRenderer = GetComponent<SpriteRenderer>();
         initialPosition = transform.position;
-        patternList = new Pattern[] { Pattern1, Pattern2};
+        patternList = new Pattern[] {Pattern1, Pattern2, Pattern3, Pattern4};
         StartCoroutine(ManagePatterns());
     }
 
@@ -59,7 +75,21 @@ public class EnemyScript_Boss : EnemyBase
         isPlayerNearby = CheckNearbyPlayers();
         ApplyFloatingEffect();
 
-        if (isPatternRunning)
+        if (isalive && currentHealth <= maxHealth * 0.5f)
+        {
+            if (!isSpinning)
+            {
+                spinStartTime = Time.time;
+                isSpinning = true;
+                foreach (var laser in crossLasers)
+                {
+                    laser.enabled = true;
+                }
+            }
+            RotateCrossLasers();
+        }
+
+        if (isPatternRunning && isalive)
         {
             if (isAiming)
             {
@@ -86,7 +116,7 @@ public class EnemyScript_Boss : EnemyBase
         {
             int patternCount = patternList.Length;
 
-            if (currentHealth <= maxHealth * 0.5f)
+            if (currentHealth <= maxHealth * 0.3f)
             {
                 int indexA = Random.Range(0, patternCount);
                 int indexB = Random.Range(0, patternCount);
@@ -99,7 +129,7 @@ public class EnemyScript_Boss : EnemyBase
                 yield return StartCoroutine(patternList[randomIndex]());
             }
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
         }
     }
 
@@ -122,7 +152,106 @@ public class EnemyScript_Boss : EnemyBase
         {
             Transform firePoint = missile_firePoints[i];
             Instantiate(missile, firePoint.position, firePoint.rotation);
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.4f);
+        }
+    }
+
+    private IEnumerator Pattern3()
+    {
+        float startAngle, endAngle;
+        if (Random.value < 0.5f)
+        {
+            startAngle = -90f;
+            endAngle = 90f;
+        }
+        else
+        {
+            startAngle = 90f;
+            endAngle = -90f;
+        }
+
+        float currentAngle = startAngle;
+        float totalAngle = Mathf.Abs(endAngle - startAngle);
+        float traveledAngle = 0f;
+
+        float startSpeed = 200f;
+        float endSpeed = 360f;
+
+        bool hasHitPlayer = false;
+
+        laserLine.enabled = true;
+
+        while ((endAngle > startAngle && currentAngle < endAngle) ||
+               (endAngle < startAngle && currentAngle > endAngle))
+        {
+            float t = traveledAngle / totalAngle;
+            float currentSpeed = Mathf.Lerp(startSpeed, endSpeed, t);
+            Vector3 dir = Quaternion.Euler(0, 0, currentAngle) * Vector3.down;
+            RaycastHit2D hit = Physics2D.Raycast(laserOrigin.position, dir, laserLength, LayerMask.GetMask("Terrain"));
+            Vector3 laserEnd = hit.collider != null ? hit.point : laserOrigin.position + dir * laserLength;
+
+            laserLine.SetPosition(0, laserOrigin.position);
+            laserLine.SetPosition(1, laserEnd);
+
+            if (!hasHitPlayer)
+            {
+                RaycastHit2D hitPlayer = Physics2D.Raycast(laserOrigin.position, dir, laserLength, LayerMask.GetMask("Hitbox_Player"));
+                if (hitPlayer.collider != null)
+                {
+                    PlayerController playerController = hitPlayer.collider.GetComponentInParent<PlayerController>();
+                    if (playerController != null && !playerController.GetPlayerInvincible() && playerController.IsAlive())
+                    {
+                        playerController.Hurt(20);
+                        hasHitPlayer = true;
+                    }
+                }
+            }
+            float step = currentSpeed * Time.deltaTime;
+            traveledAngle += step;
+            currentAngle = Mathf.MoveTowards(currentAngle, endAngle, step);
+
+            yield return null;
+        }
+
+        laserLine.enabled = false;
+    }
+
+    private IEnumerator Pattern4()
+    {
+        for (int i = 0; i < SummonPoints.Length; i++)
+        {
+            Transform summonPoint = SummonPoints[i];
+            Instantiate(Bomber, summonPoint.position, summonPoint.rotation);
+            yield return new WaitForSeconds(0.75f);
+        }
+    }
+
+    private void RotateCrossLasers()
+    {
+        float elapsed = Time.time - spinStartTime;
+        float rotationOffset = elapsed * spinSpeed;
+
+        float[] baseAngles = { 0f, 120f, 240f };
+
+        for (int i = 0; i < crossLasers.Length; i++)
+        {
+            float angle = baseAngles[i] + rotationOffset;
+            Vector3 dir = Quaternion.Euler(0, 0, angle) * Vector3.up;
+
+            RaycastHit2D hitTerrain = Physics2D.Raycast(laserOrigin.position, dir, laserLength, LayerMask.GetMask("Terrain"));
+            Vector3 endPoint = hitTerrain.collider != null ? hitTerrain.point : laserOrigin.position + dir * laserLength;
+
+            crossLasers[i].SetPosition(0, laserOrigin.position);
+            crossLasers[i].SetPosition(1, endPoint);
+            RaycastHit2D hitPlayer = Physics2D.Raycast(laserOrigin.position, dir, laserLength, LayerMask.GetMask("Hitbox_Player"));
+            if (hitPlayer.collider != null)
+            {
+                PlayerController playerController = hitPlayer.collider.GetComponentInParent<PlayerController>();
+                if (playerController != null && playerController.IsAlive() && !playerController.GetPlayerInvincible())
+                {
+                    playerController.Hurt(0.1f);
+                }
+            }
         }
     }
 

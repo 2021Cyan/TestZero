@@ -35,7 +35,7 @@ public class EnemyScript_Bomber : EnemyBase
         // Enemy stat
         resourceAmount = 200;
         maxHealth = 100;
-        moveSpeed = 5f;
+        moveSpeed = 3f;
         detectionRange = 15f;
         explosionDelay = 2f;
         explosionDamage = 40f;
@@ -60,14 +60,14 @@ public class EnemyScript_Bomber : EnemyBase
 
         if (CheckNearbyPlayers())
         {
-            moveSpeed = 7f;
+            moveSpeed = 5f;
             float directionX = Mathf.Sign(player.position.x - transform.position.x);
             FlipSprite(directionX);
             moveDirection = new Vector3(directionX, 0, 0);
         }
         else
         {
-            moveSpeed = 5f;
+            moveSpeed = 3f;
             if (CheckWallCollision())
             {
                 ChangeDirection(true);
