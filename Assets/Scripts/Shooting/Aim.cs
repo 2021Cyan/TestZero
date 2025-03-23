@@ -13,6 +13,10 @@ public class Aim : MonoBehaviour
     private AudioManager _audio;
     private Vector3 mousePos;
 
+    // For ghost trail 
+    private bool isGhost = false;
+    private bool hasTracked = false;
+
     void Start()
     {        
         startingSize = transform.localScale;
