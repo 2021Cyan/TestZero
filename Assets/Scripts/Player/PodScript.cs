@@ -71,7 +71,7 @@ public class PodScript : MonoBehaviour
 
         if(weaponlevel >= 1)
         {
-            fireRate = (0.5f * weaponlevel) + 1;
+            fireRate = (weaponlevel) + 1;
         }
 
         if (heallevel >= 1)
