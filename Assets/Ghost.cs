@@ -6,6 +6,11 @@ public class Ghost : MonoBehaviour
     private Animator ghostAnimator;
     private Animator playerAnimator;
     private PlayerController playerController;
+    private Aim aim;
+
+    [SerializeField] Transform arm;  // The arm to rotate
+    [SerializeField] Transform head; // The head to rotate
+
     private void Awake()
     {
         ghostAnimator = GetComponent<Animator>();
@@ -14,7 +19,8 @@ public class Ghost : MonoBehaviour
     private void Start()
     {
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        if (playerController != null)
+        aim = GameObject.FindGameObjectWithTag("Player").GetComponent<Aim>();
+        if (playerController != null && aim != null)
         {
             playerAnimator = playerController.GetComponent<Animator>();
             StartCoroutine(SetupGhost());
@@ -55,6 +61,11 @@ public class Ghost : MonoBehaviour
         ghostAnimator.Update(0);
         ghostAnimator.Update(0);
         ghostAnimator.enabled = false;
+        if(arm != null && head != null)
+        {
+            arm.rotation = Quaternion.Euler(0, 0, aim.getArmAngle());
+            head.rotation = Quaternion.Euler(0, 0, aim.getHeadAngle());
+        }
         StartFade(0.5f);
         yield return null;
     }

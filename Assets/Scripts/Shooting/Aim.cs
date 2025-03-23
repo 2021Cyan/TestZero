@@ -12,10 +12,8 @@ public class Aim : MonoBehaviour
     private InputManager _input;
     private AudioManager _audio;
     private Vector3 mousePos;
-
-    // For ghost trail 
-    private bool isGhost = false;
-    private bool hasTracked = false;
+    public float head_angle = 0;
+    public float arm_angle = 0;
 
     void Start()
     {        
@@ -29,10 +27,16 @@ public class Aim : MonoBehaviour
 
     void LateUpdate()
     {
+        if(playerController == null)
+        {
+            return;
+        }
+
         if (!playerController.IsAlive())
         {
             return;
         }
+
         if (tracking)
         {
             PlayerHeadTracking();
@@ -61,7 +65,7 @@ public class Aim : MonoBehaviour
         Vector3 head_direction = mousePos - head.position;
 
         // Calculate the angle to rotate the head towards the mouse (in degrees)
-        float head_angle = Mathf.Atan2(head_direction.y, head_direction.x) * Mathf.Rad2Deg;
+        head_angle = Mathf.Atan2(head_direction.y, head_direction.x) * Mathf.Rad2Deg;
 
         // Check if the character is flipped (scale.x < 0) and adjust accordingly
         if (transform.localScale.x < 0)
@@ -124,7 +128,7 @@ public class Aim : MonoBehaviour
         Vector3 arm_direction = mousePos - arm.position;
 
         // Calculate the angle to rotate the arm towards the mouse (in degrees)
-        float arm_angle = Mathf.Atan2(arm_direction.y, arm_direction.x) * Mathf.Rad2Deg;
+        arm_angle = Mathf.Atan2(arm_direction.y, arm_direction.x) * Mathf.Rad2Deg;
 
         // Check if the character is flipped (scale.x < 0) and adjust accordingly
         if (transform.localScale.x < 0)
@@ -156,5 +160,15 @@ public class Aim : MonoBehaviour
     public void SetTracking(bool value)
     {
         tracking = value;
+    }
+
+    public float getHeadAngle()
+    {
+        return head_angle;
+    }
+
+    public float getArmAngle()
+    {
+        return arm_angle;
     }
 }
