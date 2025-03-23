@@ -8,7 +8,8 @@ public class MissileScript : EnemyBase
     public float rotationSpeed = 200f;    
     public float explosionRadius = 5f;    
     public float damage = 10f;            
-    public GameObject explosionEffect;    
+    public GameObject explosionEffect;
+    public GameObject destroyEffect;
     public GameObject playerlock;
 
     private Transform player;
@@ -124,6 +125,32 @@ public class MissileScript : EnemyBase
         Destroy(gameObject);
     }
 
+    private void Explode_destroy()
+    {
+        if (isExploded)
+        {
+            return;
+        }
+
+        isExploded = true;
+        rb.linearVelocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+
+        if (destroyEffect != null)
+        {
+            Instantiate(destroyEffect, transform.position, Quaternion.identity);
+            _audio.PlayOneShot(_audio.Missile, transform.position);
+        }
+
+        if (playerlock != null)
+        {
+            Destroy(playerlock);
+        }
+
+        isalive = false;
+        Destroy(gameObject);
+    }
+
     // Function to deal damage to the enemy
     public override void TakeDamage(float damage)
     {
@@ -143,7 +170,7 @@ public class MissileScript : EnemyBase
     {
         if (!isExploded) 
         {
-            Explode();  
+            Explode_destroy();  
         }
         base.Die(resourceAmount);
     }
