@@ -26,6 +26,7 @@ public class Enemy_Soldier : EnemyBase
     private float attackExitTime = 0f; 
     private float attackToMoveDelay = 0.5f;
     private LineRenderer lineRenderer;
+    private float stopAndShootDistance;
 
     private bool isPlayerNearby;
     private Transform player;
@@ -49,6 +50,7 @@ public class Enemy_Soldier : EnemyBase
         moveSpeed = 4f;
         animator = GetComponent<Animator>();
         lineRenderer = GetComponent<LineRenderer>();
+        stopAndShootDistance = Random.Range(8f, 10f);
     }
 
     void Update()
@@ -86,7 +88,7 @@ public class Enemy_Soldier : EnemyBase
         {
             float distance = Vector3.Distance(transform.position, player.position);
 
-            if (distance > 8f)
+            if (distance > stopAndShootDistance)
             {
                 if (currentState == EnemyState.Attack)
                 {
