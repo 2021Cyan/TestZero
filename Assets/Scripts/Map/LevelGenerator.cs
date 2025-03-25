@@ -21,10 +21,12 @@ public class LevelGenerator : MonoBehaviour
     
     public GameObject[] SegmentPrefabs; // List of all generic segments that can spawn (NO DUPLICATES)
 
-    // Raft section prefabs
+    // Raft section components
     public GameObject RaftSectionStartPrefab;
     public GameObject RaftSectionBlockPrefab;
     public GameObject RaftSectionEndPrefab;
+    public GameObject[] Events;
+    public int EventFrequency;
 
     // Private Attributes
     private List<MapSegment> _startRooms;
@@ -138,6 +140,10 @@ public class LevelGenerator : MonoBehaviour
                 {
                     currentPrefab = Instantiate(RaftSectionBlockPrefab, currentBlock.ExitPoint.position, Quaternion.identity);
                     currentBlock = currentPrefab.GetComponent<RaftSectionBlock>();
+                    if (EventFrequency != 0 && i % EventFrequency == 0)
+                    {
+                        currentBlock.SetEvent(Events[Random.Range(0, Events.Length)]);
+                    }
                 }
 
                 // Spawn raft end segment and set start room for next level

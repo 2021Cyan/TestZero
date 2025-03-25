@@ -7,6 +7,8 @@ public class Raft : Interactable
 {
     // Public attributes
     public float Velocity;
+    public Transform EntryPoint;
+    public Transform ExitPoint;
 
     // Private attributes
     private bool _activated = false;
@@ -35,9 +37,12 @@ public class Raft : Interactable
             // Activate platform if player has touched
             if (!_activated && other.CompareTag("Player"))
             {
-                Debug.Log("ACTIVATED");
                 _activated = true;
             }
+
+            
+            // TO DELETE
+            if (other.CompareTag("Player")){Debug.Log("Entered");}
         }
     }
 
@@ -49,6 +54,9 @@ public class Raft : Interactable
         {
             // Remove object from set of objects on platform
             _entitiesOnPlatform.Remove(other.gameObject.transform);
+
+            // TO DELETE
+            if (other.CompareTag("Player")){Debug.Log("Left");}
         }
     }
 
@@ -84,5 +92,12 @@ public class Raft : Interactable
             // Spawn enemies in next level
             // TODO
         }
+    }
+
+    public void OnDrawGizmos()
+    {
+        Gizmos.color = Color.black;
+        Gizmos.DrawSphere(EntryPoint.position, 0.5f);
+        Gizmos.DrawSphere(ExitPoint.position, 0.5f);
     }
 }

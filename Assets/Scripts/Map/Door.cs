@@ -11,24 +11,33 @@ public class Door : Interactable
 
     // Private attributes
     private bool _isOpening = false;
+    private bool _isDisabled = false;
+
+    // Setters
+    public void Disable() {_isDisabled = true;}
+    public void Enable() {_isDisabled = false;}
 
     // Behaviour
     void Update()
     {
-        // If player is within activation distance, open door
-        if (Math.Abs(_player.transform.position.x - transform.position.x) < ActivationDistance) {_isOpening = true;}
-        else {_isOpening = false;}
-
-        // If opening, move toward open position
-        if (_isOpening)
+        // If door isn't disabled:
+        if (!_isDisabled)
         {
-            transform.position = Vector3.MoveTowards(transform.position, OpenPosition.position, Velocity * Time.deltaTime);
-        }
+            // If player is within activation distance, open door
+            if (Math.Abs(_player.transform.position.x - transform.position.x) < ActivationDistance) {_isOpening = true;}
+            else {_isOpening = false;}
 
-        // If closing, move toward closed position
-        else
-        {
-            transform.position = Vector3.MoveTowards(transform.position, ClosedPosition.position, Velocity * Time.deltaTime);
+            // If opening, move toward open position
+            if (_isOpening)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, OpenPosition.position, Velocity * Time.deltaTime);
+            }
+
+            // If closing, move toward closed position
+            else
+            {
+                transform.position = Vector3.MoveTowards(transform.position, ClosedPosition.position, Velocity * Time.deltaTime);
+            }
         }
     }
 }

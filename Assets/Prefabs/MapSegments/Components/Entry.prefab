@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3852444963001839036}
   - component: {fileID: 1467771616173332604}
   m_Layer: 0
-  m_Name: Floor
+  m_Name: ceiling
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 2044667984733527866}
   - component: {fileID: 4049960058050141323}
   m_Layer: 0
-  m_Name: Ceiling
+  m_Name: floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
