@@ -3,6 +3,7 @@ using UnityEngine;
 public class Interactable : MonoBehaviour
 {
     // Attributes
+    public float ActivationDistance;
     protected GameObject _player;
 
     // Setters
@@ -12,8 +13,8 @@ public class Interactable : MonoBehaviour
     }
 
     // Behaviour
-    public void Awake()
+    public bool PlayerIsNear()
     {
-        
+        return Mathf.Abs(_player.transform.position.x - transform.position.x) < ActivationDistance;
     }
 }

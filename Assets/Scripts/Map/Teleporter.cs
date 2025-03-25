@@ -18,10 +18,8 @@ public class Teleporter : Interactable
     }
 
     // Behaviour
-    new void Awake()
+    void Awake()
     {
-        base.Awake();
-
         // Set default teleport location
         _destination = gameObject.transform.position;
     }

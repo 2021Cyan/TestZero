@@ -119,7 +119,6 @@ public class LevelGenerator : MonoBehaviour
                 // Spawn raft start segment
                 MapSegment raftStart = Spawn(RaftSectionStartPrefab, lastSegment.GetExitPoints()[0].position);
                 
-
                 // Get raft in start segment
                 Raft raft = null;
                 foreach (Interactable interactable in raftStart.GetInteractables())
@@ -206,14 +205,15 @@ public class LevelGenerator : MonoBehaviour
         if (ShopFrequency != 0 && remainingSegments % ShopFrequency == 0)
         {
             // Spawn shop
-            ShopRoomSegment shopRoom = (ShopRoomSegment) Spawn(ShopRoomPrefab, nextSpawnPosition);
-            shopRoom.PassPlayerToDoors(Player);
-            remainingSegments -= 1;
+            MapSegment shopRoom = Spawn(ShopRoomPrefab, nextSpawnPosition);
+
+            // Add segment to list of current level segments
+            _levelsegments.Add(shopRoom);
 
             // Spawn next segment
             SpawnSegment(
                 shopRoom.GetExitPoints()[0].position,
-                remainingSegments,
+                remainingSegments - 1,
                 levelNumber,
                 shopRoom
             );

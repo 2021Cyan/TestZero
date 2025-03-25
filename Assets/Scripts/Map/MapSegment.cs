@@ -88,6 +88,7 @@ public class MapSegment : MonoBehaviour
                 _exitPoints.Add(child.Find("ExitPoint"));
             }
         }
+        // Debug.Log("Segment " + name + " has " + _exitPoints.Count + " exits.");
 
         // Find all enemy spawn points
         _spawnPoints = new List<EnemySpawnPoint>(GetComponentsInChildren<EnemySpawnPoint>());

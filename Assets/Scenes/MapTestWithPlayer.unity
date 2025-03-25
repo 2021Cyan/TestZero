@@ -739,8 +739,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2e25e350e12870469892588bff8f877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NumberOfSegmentsPerLevel: 10
-  ShopFrequency: 0
+  NumberOfSegmentsPerLevel: 4
+  ShopFrequency: 1
   NumberOfLevels: 2
   NumberOfBlocksPerRaftSection: 5
   EnemySpawnLevelScaling: 0.5
@@ -755,7 +755,7 @@ MonoBehaviour:
   RaftSectionEndPrefab: {fileID: 3758704199689100100, guid: 5d1a662639838664397bde9e5c8fac91, type: 3}
   Events:
   - {fileID: 4644817467462089079, guid: 4fa0090a020149047ab142f3fd4d923b, type: 3}
-  EventFrequency: 1
+  EventFrequency: 0
 --- !u!4 &1321328354
 Transform:
   m_ObjectHideFlags: 0

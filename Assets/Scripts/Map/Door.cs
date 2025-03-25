@@ -7,7 +7,6 @@ public class Door : Interactable
     public Transform ClosedPosition;
     public Transform OpenPosition;
     public float Velocity;
-    public float ActivationDistance;
 
     // Private attributes
     private bool _isOpening = false;
@@ -24,7 +23,7 @@ public class Door : Interactable
         if (!_isDisabled)
         {
             // If player is within activation distance, open door
-            if (Math.Abs(_player.transform.position.x - transform.position.x) < ActivationDistance) {_isOpening = true;}
+            if (PlayerIsNear()) {_isOpening = true;}
             else {_isOpening = false;}
 
             // If opening, move toward open position
