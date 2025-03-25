@@ -69,4 +69,12 @@ public class Platform : Interactable
             // rb.linearVelocity = new Vector2(_movement.x / Time.fixedDeltaTime, rb.linearVelocity.y);
         }
     }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.white;
+        Gizmos.DrawSphere(LeftPosition.position, 0.5f);
+        Gizmos.DrawSphere(RightPosition.position, 0.5f);
+        Gizmos.DrawLine(LeftPosition.position, RightPosition.position);
+    }
 }

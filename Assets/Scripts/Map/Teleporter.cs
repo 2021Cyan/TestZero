@@ -39,6 +39,7 @@ public class Teleporter : Interactable
 
     void OnDrawGizmos()
     {
+        return;
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, _destination);
     }
