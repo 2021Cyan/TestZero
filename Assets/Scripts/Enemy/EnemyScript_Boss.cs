@@ -29,12 +29,16 @@ public class EnemyScript_Boss : EnemyBase
     [SerializeField] Transform laserOrigin;
     [SerializeField] LineRenderer laserLine;
     [SerializeField] float laserLength = 50f;
+    [SerializeField] private GameObject zapEffectPrefabSingle;
+    private GameObject sweepEffect;
 
     // Enemy Zap2
     [SerializeField] LineRenderer[] crossLasers;
     private float spinStartTime;
     private bool isSpinning = false;
     private float spinSpeed = 90f;
+    [SerializeField] private GameObject zapEffectPrefab;
+    private GameObject[] zapEffects;
 
     // Enemy Summon
     [SerializeField] GameObject Bomber;
@@ -68,6 +72,23 @@ public class EnemyScript_Boss : EnemyBase
         rb.gravityScale = 0;
         spriteRenderer = GetComponent<SpriteRenderer>();
         initialPosition = transform.position;
+
+        if(zapEffectPrefabSingle != null)
+        {
+            sweepEffect = Instantiate(zapEffectPrefabSingle, Vector3.zero, Quaternion.identity);
+            sweepEffect.SetActive(false);
+        }
+
+        zapEffects = new GameObject[crossLasers.Length];
+        if (zapEffectPrefab != null) 
+        {
+            for (int i = 0; i < zapEffects.Length; i++)
+            {
+                zapEffects[i] = Instantiate(zapEffectPrefab, Vector3.zero, Quaternion.identity);
+                zapEffects[i].SetActive(false);
+            }
+        }
+
         patternList = new Pattern[] {Pattern1, Pattern2, Pattern3, Pattern4};
         StartCoroutine(ManagePatterns());
     }
@@ -159,7 +180,7 @@ public class EnemyScript_Boss : EnemyBase
         yield return new WaitForSeconds(1f);
 
         isShooting = true;
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(4f);
 
         isAiming = false;
         isShooting = false;
@@ -193,8 +214,8 @@ public class EnemyScript_Boss : EnemyBase
         float totalAngle = Mathf.Abs(endAngle - startAngle);
         float traveledAngle = 0f;
 
-        float startSpeed = 200f;
-        float endSpeed = 360f;
+        float startSpeed = 50f;
+        float endSpeed = 300f;
 
         bool hasHitPlayer = false;
 
@@ -212,6 +233,12 @@ public class EnemyScript_Boss : EnemyBase
             laserLine.SetPosition(0, laserOrigin.position);
             laserLine.SetPosition(1, laserEnd);
 
+            if (sweepEffect != null)
+            {
+                sweepEffect.SetActive(true);
+                sweepEffect.transform.position = laserEnd;
+            }
+
             if (!hasHitPlayer)
             {
                 RaycastHit2D hitPlayer = Physics2D.Raycast(laserOrigin.position, dir, laserLength, LayerMask.GetMask("Hitbox_Player"));
@@ -220,7 +247,7 @@ public class EnemyScript_Boss : EnemyBase
                     PlayerController playerController = hitPlayer.collider.GetComponentInParent<PlayerController>();
                     if (playerController != null && !playerController.GetPlayerInvincible() && playerController.IsAlive())
                     {
-                        playerController.Hurt(20);
+                        playerController.Hurt(10);
                         hasHitPlayer = true;
                     }
                 }
@@ -231,7 +258,7 @@ public class EnemyScript_Boss : EnemyBase
 
             yield return null;
         }
-
+        sweepEffect.SetActive(false);
         laserLine.enabled = false;
     }
 
@@ -262,13 +289,20 @@ public class EnemyScript_Boss : EnemyBase
 
             crossLasers[i].SetPosition(0, laserOrigin.position);
             crossLasers[i].SetPosition(1, endPoint);
+
+            if (zapEffects[i] != null)
+            {
+                zapEffects[i].SetActive(true);
+                zapEffects[i].transform.position = endPoint;
+            }
+
             RaycastHit2D hitPlayer = Physics2D.Raycast(laserOrigin.position, dir, laserLength, LayerMask.GetMask("Hitbox_Player"));
             if (hitPlayer.collider != null)
             {
                 PlayerController playerController = hitPlayer.collider.GetComponentInParent<PlayerController>();
                 if (playerController != null && playerController.IsAlive() && !playerController.GetPlayerInvincible())
                 {
-                    playerController.Hurt(0.1f);
+                    playerController.Hurt(0.25f);
                 }
             }
         }
@@ -395,6 +429,16 @@ public class EnemyScript_Boss : EnemyBase
         {
             isFalling = true;
             isalive = false;
+
+            sweepEffect.SetActive(false);
+            foreach (var effect in zapEffects)
+            {
+                if (effect != null)
+                {
+                    effect.SetActive(false);
+                }
+            }
+
             foreach (var l in lineRenderers)
             {
                 l.enabled = false;
