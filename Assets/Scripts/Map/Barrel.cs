@@ -13,9 +13,7 @@ public class Barrel : Interactable
     // Behaviour
     void OnTriggerEnter2D(Collider2D other)
     {
-        Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
-
-        if (!_used && rb != null && other.CompareTag("Player"))
+        if (!_used && other.CompareTag("Player"))
         {
             // Allow interaction
             _playerIsNear = true;
@@ -24,9 +22,7 @@ public class Barrel : Interactable
 
     void OnTriggerExit2D(Collider2D other)
     {
-        Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
-
-        if (!_used && rb != null && other.CompareTag("Player"))
+        if (!_used && other.CompareTag("Player"))
         {
             // Allow interaction
             _playerIsNear = false;

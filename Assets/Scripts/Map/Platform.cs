@@ -19,9 +19,7 @@ public class Platform : Interactable
     // Behaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
-
-        if (rb != null && (other.CompareTag("Player") || other.CompareTag("Enemy")))
+        if (other.CompareTag("Player") || other.CompareTag("Enemy"))
         {
             // Add object to set of objects on platform
             _entitiesOnPlatform.Add(other.gameObject.transform);
@@ -30,9 +28,7 @@ public class Platform : Interactable
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
-
-        if (rb != null && (other.CompareTag("Player") || other.CompareTag("Enemy")))
+        if (other.CompareTag("Player") || other.CompareTag("Enemy"))
         {
             // Remove object from set of objects on platform
             _entitiesOnPlatform.Remove(other.gameObject.transform);

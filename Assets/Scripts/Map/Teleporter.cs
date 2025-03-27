@@ -23,11 +23,10 @@ public class Teleporter : Interactable
         // Set default teleport location
         _destination = gameObject.transform.position;
     }
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
-
-        if (rb != null && other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             // Update position of player
             // Debug.Log(other.transform.parent.name + "teleported");

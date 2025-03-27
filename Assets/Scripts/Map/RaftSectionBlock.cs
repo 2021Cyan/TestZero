@@ -24,9 +24,7 @@ public class RaftSectionBlock : MonoBehaviour
         if (_hasSpawnedEvent) {return;}
 
         // Spawn event if player has entered block
-        Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
-
-        if (rb != null && other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             if (_event != null)
             {
