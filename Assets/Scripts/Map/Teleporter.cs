@@ -4,6 +4,7 @@ public class Teleporter : Interactable
 {
     // Attributes
     private Vector3 _destination;
+    private PlayerController playerController;
 
     // Getters
     public Vector3 GetDestination()
@@ -30,6 +31,11 @@ public class Teleporter : Interactable
         {
             // Update position of player
             // Debug.Log(other.transform.parent.name + "teleported");
+            playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+            if (playerController != null)
+            {
+                playerController.currentLevel += 1;
+            }
             _player.transform.position = _destination;
         }
     }

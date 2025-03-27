@@ -73,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -654489317
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 6554736390298987251, guid: 8c13dc4aa70dbf3478cfdc3305decbe7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -161,8 +161,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -654489317
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 9070432998003694436, guid: 581e39b1894589d4199fc9406b7bcf34, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -251,8 +251,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -654489317
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 2086976579309540767, guid: 581e39b1894589d4199fc9406b7bcf34, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -282,7 +282,7 @@ MonoBehaviour:
   offset: {x: -1, y: 1, z: 0}
   swayAmount: 0.2
   swaySpeed: 3
-  weaponlevel: 0
+  weaponlevel: 3
   heallevel: 0
   turret: {fileID: 4780581766014652321}
   turret_firePoint: {fileID: 7447723339939649333}
@@ -290,6 +290,8 @@ MonoBehaviour:
   turret_missle: {fileID: 2480651976651919124, guid: 11c591062f513c14c9c33533e2d241fc, type: 3}
   cursor: {fileID: 1358844218807729699}
   fireRate: 1
+  missileCooldown: 5
+  healCooldown: 10
 --- !u!1 &8845788933096403024
 GameObject:
   m_ObjectHideFlags: 0

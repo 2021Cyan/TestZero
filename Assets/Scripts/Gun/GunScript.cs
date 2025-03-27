@@ -81,17 +81,17 @@ public class GunScript : MonoBehaviour
             reloadSpeed = 2.0f,
             bulletType = 10,
         },new LegendaryGunData() {
-            gunName = "",
+            gunName = "Combo",
             gripType = "gun_grip_smg",
             barrelLevel = 5,
             frameLevel = 5,
             magazineLevel = 2,
-            damage = 24f,
-            fireRate = 12.0f,
-            maxAmmo = 60,
-            maxSpreadAngle = 30.0f,
-            spreadIncreaseRate = 6.0f,
-            spreadResetSpeed = 20.0f,
+            damage = 5.0f,
+            fireRate = 20.0f,
+            maxAmmo = 100,
+            maxSpreadAngle = 10.0f,
+            spreadIncreaseRate = 2.0f,
+            spreadResetSpeed = 30.0f,
             reloadSpeed = 2.0f,
             bulletType = 11,
         },new LegendaryGunData() {
@@ -125,24 +125,18 @@ public class GunScript : MonoBehaviour
         gunCreateStation = gunCreate;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnMouseEnter()
     {
-        if (other.CompareTag("Player"))
-        {
-            isPlayerNearby = true;
-            info.ShowGunStats(this);
-            infoRender.UpdateGunSprites(this);
-        }
+        isPlayerNearby = true;
+        info.ShowGunStats(this);
+        infoRender.UpdateGunSprites(this);
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    private void OnMouseExit()
     {
-        if (other.CompareTag("Player"))
-        {
-            isPlayerNearby = false;
-            info.HideGunStats();
-            infoRender.HideGunSprites();
-        }
+        isPlayerNearby = false;
+        info.HideGunStats();
+        infoRender.HideGunSprites();
     }
 
     private void SetLightColor()
@@ -216,6 +210,8 @@ public class GunScript : MonoBehaviour
         {
             gunCreateStation.ReleaseSlot(transform.position);
         }
+        info.HideGunStats();
+        infoRender.HideGunSprites();
         Destroy(gameObject);
     }
 
@@ -336,7 +332,7 @@ public class GunScript : MonoBehaviour
 
         if (gunRarity == Rarity.Uncommon || gunRarity == Rarity.Rare)
         {
-            bulletType = Random.Range(1, 3);
+            bulletType = Random.Range(1, 6);
         }
         else if (gunRarity == Rarity.Common)
         {

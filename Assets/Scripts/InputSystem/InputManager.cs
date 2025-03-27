@@ -29,7 +29,7 @@ public class InputManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "MainMenu")
         {
             EventEnable();
-        }
+        }  
     }
 
     private void EventEnable()
@@ -76,7 +76,7 @@ public class InputManager : MonoBehaviour
         Input.Player.G.started += SetGInput;
         Input.Player.G.canceled += SetGInput;
     }
-
+    
     private void OnDisable()
     {
         EventDisable();

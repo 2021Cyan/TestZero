@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public float max_hp = 100f;
     public float hp;
     public float resource = 0f;
+    public int currentLevel;
     [SerializeField] private GameObject ResourceText;
 
     // Gun stats
@@ -38,6 +39,7 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     private Camera maincam;
     private Vector3 mousePos;
+    [SerializeField] ParticleSystem sparkFootEffect;
 
     private bool alive = true;
 
@@ -94,6 +96,7 @@ public class PlayerController : MonoBehaviour
         _audio = AudioManager.Instance;
         hp = max_hp;
         currentAmmo = maxAmmo;
+        currentLevel = 1;
         maincam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
@@ -123,21 +126,50 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        if (IsGrounded())
+        {
+            rb.gravityScale = 1f;
+            currentJumpTime = 0f;
+            return;
+        }
+
         if (rb.linearVelocity.y > 0)
         {
             currentJumpTime += Time.deltaTime;
             rb.gravityScale = Mathf.Lerp(1f, 5f, Mathf.Clamp01(currentJumpTime / maxJumpTime));
         }
-        else if (rb.linearVelocity.y < 0)
+        else if (rb.linearVelocity.y < 0) 
         {
             rb.gravityScale = 5f;
-            currentJumpTime = 0f;
         }
-        else
+    }
+
+    bool IsGrounded()
+    {
+        float rayLength = 0.1f;
+        float raySpacing = 0.3f;
+        Vector2 position = transform.position;
+
+        RaycastHit2D centerRay = Physics2D.Raycast(position, Vector2.down, rayLength);
+        RaycastHit2D leftRay = Physics2D.Raycast(position + Vector2.left * raySpacing, Vector2.down, rayLength);
+        RaycastHit2D rightRay = Physics2D.Raycast(position + Vector2.right * raySpacing, Vector2.down, rayLength);
+
+        bool isGround = false;
+
+        if (centerRay.collider != null && centerRay.collider.CompareTag("Terrain") && centerRay.normal.y > 0.5f)
         {
-            rb.gravityScale = 1f;
-            currentJumpTime = 0f; 
+            isGround = true;
         }
+        if (leftRay.collider != null && leftRay.collider.CompareTag("Terrain") && leftRay.normal.y > 0.5f)
+        {
+            isGround = true; 
+        }
+        if (rightRay.collider != null && rightRay.collider.CompareTag("Terrain") && rightRay.normal.y > 0.5f)
+        {
+            isGround = true; 
+        }
+
+        return isGround;
     }
 
     void Move()
@@ -259,10 +291,13 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
             Vector2 dodgeDir = new Vector2(direction, 0);
             float totalDodgeDistance = dodgePower;
-
             if (anim.GetBool("isRun"))
             {
                 anim.SetTrigger("slide");
+                Vector3 temp = transform.position;
+                temp.z = -1;
+                sparkFootEffect.transform.position = temp;
+                sparkFootEffect.Play();
                 _audio.PlayOneShot(_audio.Dodge);
                 rb.AddForce(dodgeDir * totalDodgeDistance, ForceMode2D.Impulse);
             }
@@ -322,6 +357,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator EndDodge()
     {
         yield return new WaitForSeconds(dodgeDuration);
+        sparkFootEffect.Stop();
         rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         isDodging = false;
         if (anim.GetBool("rollCheck"))
@@ -357,7 +393,7 @@ public class PlayerController : MonoBehaviour
 
     public void Restore(float amount)
     {
-        if (PlayerUI.Instance != null)
+        if (PlayerUI.Instance != null && amount >= 10f)
         {
             PlayerUI.Instance.ShowRestoreEffect();
         }

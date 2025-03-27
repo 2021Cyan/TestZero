@@ -12,6 +12,11 @@ public class EnemyScript_Turret : EnemyBase
     public float detectionRange = 15;
     private LineRenderer lineRenderer;
 
+    // Enemy missile
+    [SerializeField] GameObject missile;
+    public float missileCooldown = 5f;
+    private float lastMissileTime = 0f;
+
     private bool isPlayerNearby;
     private Transform player;
     private Rigidbody2D rb;
@@ -47,6 +52,14 @@ public class EnemyScript_Turret : EnemyBase
         ChangeDirection();
         Aim();
         Shoot();
+        if (playerController.currentLevel >= 2)
+        {
+            FireMissile();
+        }
+        if (playerController.currentLevel >= 3)
+        {
+            //Zap();
+        }
     }
 
 
@@ -75,13 +88,13 @@ public class EnemyScript_Turret : EnemyBase
         {
             return false;
         }
-        return Vector3.Distance(transform.position, player.position) <= detectionRange;
+        bool isPathClear = !Physics2D.Linecast(transform.position, player.position, LayerMask.GetMask("Terrain"));
+        return Vector3.Distance(transform.position, player.position) <= detectionRange && isPathClear;
     }
 
     private void Aim()
     {
-        bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, player.position, LayerMask.GetMask("Terrain"));
-        if (isPlayerNearby && player != null && isPathClear)
+        if (isPlayerNearby)
         {
             lineRenderer.enabled = true;
             lineRenderer.SetPosition(0, turret_firePoint.position);
@@ -127,6 +140,19 @@ public class EnemyScript_Turret : EnemyBase
         yield return new WaitForSeconds(burstCooldown);
         shotsFired = 0;
         canShoot = true; 
+    }
+
+    private void FireMissile()
+    {
+        if (Time.time > lastMissileTime + missileCooldown)
+        {
+            bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, player.position, LayerMask.GetMask("Terrain"));
+            if (isPlayerNearby && player != null && isPathClear)
+            {
+                lastMissileTime = Time.time;
+                Instantiate(missile, turret_firePoint.position, turret_firePoint.rotation);
+            }
+        }
     }
 
     // Function to deal damage to the enemy

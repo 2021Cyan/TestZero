@@ -12,19 +12,27 @@ public class ReticleController : MonoBehaviour
     // Tracker references
     public GameObject trackerPrefab;
     private GameObject trackerInstance;
+    public GameObject reload;
+    public GameObject spin;
     string reticlePath_original = $"Sprites/Reticles/Crosshair_08";
     string reticlePath = $"Sprites/Reticles/Crosshair_17";
 
     void Start()
     {
         // Get the SpriteRenderer component to toggle visibility
+        if(reload != null && spin != null)
+        {
+            reload.SetActive(false);
+            spin.SetActive(false);
+        }
+        shootingScript = PlayerController.Instance.GetComponent<Shooting>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         _input = InputManager.Instance;
     }
 
     void LateUpdate()
     {
-        if (!PlayerController.Instance || !PlayerController.Instance.IsAlive())
+        if (!PlayerController.Instance || !PlayerController.Instance.IsAlive() || shootingScript == null)
         {
             DestroyTracker();
             spriteRenderer.enabled = false;
@@ -84,6 +92,22 @@ public class ReticleController : MonoBehaviour
             float spreadSize = baseSize + (shootingScript.GetCurrentSpread() * sizeMultiplier);
             transform.localScale = new Vector3(spreadSize, spreadSize, 1f);
         }
+
+        if (reload != null && spin != null)
+        {
+            float spreadSize = baseSize + (shootingScript.GetCurrentSpread() * sizeMultiplier);
+            if (PlayerController.Instance.bulletType != 10)
+            {
+                reload.transform.localScale = new Vector3(1 / spreadSize, 1 / spreadSize, 1);
+                spin.transform.localScale = new Vector3(1 / spreadSize, 1 / spreadSize, 1);
+            }
+            else
+            {
+                reload.transform.localScale = new Vector3(1f, 1f, 1f);
+                spin.transform.localScale = new Vector3(1f, 1f, 1f);
+            }
+            spin.transform.Rotate(0, 0, 300f * Time.deltaTime);
+        }
     }
 
     private GameObject FindEnemyClosestToMouse()
@@ -130,6 +154,15 @@ public class ReticleController : MonoBehaviour
         {
             Destroy(trackerInstance);
             trackerInstance = null;
+        }
+    }
+
+    public void SetReloadUI(bool state)
+    {
+        if (reload != null && spin != null)
+        {
+            reload.SetActive(state);
+            spin.SetActive(state);
         }
     }
 }

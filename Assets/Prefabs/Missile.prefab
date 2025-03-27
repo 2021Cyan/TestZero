@@ -80,7 +80,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1641134401
   m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 7090155094444324726, guid: b8b7fa3b128089b40a8863a458c7fed9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -109,11 +109,12 @@ MonoBehaviour:
   resourceAmount: 0
   playerController: {fileID: 0}
   isalive: 0
-  moveSpeed: 8
+  moveSpeed: 5
   rotationSpeed: 2
   explosionRadius: 2
   damage: 25
   explosionEffect: {fileID: 100008, guid: 1dbc518224e49f34095aab42fe05751a, type: 3}
+  destroyEffect: {fileID: 100006, guid: 2e7e92bc7175b744ea40878dedfa79e4, type: 3}
   playerlock: {fileID: 5433783978762614648}
 --- !u!50 &5203682650762683722
 Rigidbody2D:
@@ -262,9 +263,9 @@ TrailRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1641134401
+  m_SortingLayer: 3
+  m_SortingOrder: 2
   m_Time: 0.5
   m_PreviewTimeScale: 1
   m_Parameters:
@@ -409,9 +410,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1641134401
+  m_SortingLayer: 3
+  m_SortingOrder: 2
   m_Sprite: {fileID: -6781260589902532202, guid: 03db2ccb7d1b8bd4d924a5d29a6fbe8f, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0

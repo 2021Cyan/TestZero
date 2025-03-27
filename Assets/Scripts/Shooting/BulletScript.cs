@@ -5,10 +5,13 @@ public class BulletScript : MonoBehaviour
     // Hitmarker references
     public GameObject hitmarkerPrefab;
 
+    [SerializeField] ParticleSystem sparkEffectPrefab;
+    private ParticleSystem sparkEffect;
+
     // Speed of the bullet
     public float speed = 50f;
     // Lifetime of the bullet
-    public float lifetime = 5f;
+    public float lifetime = 0.3f;
     // Rigidbody of the bullet
     private Rigidbody2D rb;
     // Damage of the bullet
@@ -20,6 +23,7 @@ public class BulletScript : MonoBehaviour
     private AudioManager _audio;
     private Transform player;
     private PlayerController playerController;
+    private SparkPool sparkPool;
     public GameObject damageTextPrefab;
     // For Tracker bullet
     public float homingTurnSpeed = 5f;
@@ -49,8 +53,8 @@ public class BulletScript : MonoBehaviour
                 }
             }
         }
-
     }
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -58,16 +62,31 @@ public class BulletScript : MonoBehaviour
         damage = playerController.damage;
         _input = InputManager.Instance;
         _audio = AudioManager.Instance;
+        sparkPool = SparkPool.Instance;
         // Get the Rigidbody2D component
         rb = GetComponent<Rigidbody2D>();
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         SetBulletColor();
 
-        if(bulletType == 10)
+        // Instantiate the spark effect for this bullet
+        if (sparkEffectPrefab != null)
+        {
+            // sparkEffect = Instantiate(sparkEffectPrefab, transform.position, Quaternion.identity, transform.parent);
+            sparkEffect = sparkPool.GetSpark().GetComponent<ParticleSystem>();
+            // sparkEffect.transform.SetParent(transform); // Make the spark effect a child of the bullet
+            sparkEffect.Stop(); // Ensure it's not playing at start
+        }
+
+        if (bulletType == 10)
         {
             speed = 40f;
         }
+        if (bulletType == 5)
+        {
+            damage = playerController.damage * 0.3f;
+        }
+
         // Calculate the direction based on the rotation angle
         float angle = transform.eulerAngles.z;
         Vector2 direction = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
@@ -87,7 +106,7 @@ public class BulletScript : MonoBehaviour
 
     private void SetBulletColor()
     {
-        Color bulletColor = new Color(255, 187,0, 255);
+        Color bulletColor = new Color(255, 187, 0, 255);
 
         switch (bulletType)
         {
@@ -97,8 +116,23 @@ public class BulletScript : MonoBehaviour
             case 2:
                 bulletColor = Color.red;
                 break;
+            case 3:
+                bulletColor = Color.magenta;
+                break;
+            case 4:
+                bulletColor = new Color(0.2f, 0.8f, 0.2f);
+                break;
+            case 5:
+                bulletColor = Color.black;
+                break;
             case 10:
                 bulletColor = new Color(0.5f, 1f, 0.5f);
+                break;
+            case 11:
+                bulletColor = Color.cyan;
+                break;
+            case 12:
+                bulletColor = Color.red;
                 break;
         }
 
@@ -115,7 +149,7 @@ public class BulletScript : MonoBehaviour
         if (hitmarkerPrefab != null)
         {
             GameObject hitmarker = Instantiate(hitmarkerPrefab, mousePos, Quaternion.identity);
-            Destroy(hitmarker, 0.05f); 
+            Destroy(hitmarker, 0.05f);
         }
     }
 
@@ -130,9 +164,18 @@ public class BulletScript : MonoBehaviour
             // Enemy is not null
             if (enemy != null && enemy.isalive)
             {
-                enemy.TakeDamage((int)damage);
+                float comboBonus = 0f;
+
+                if (bulletType == 11)
+                {
+                    enemy.ApplyComboEffect(1f);
+                    comboBonus = enemy.GetComboBonus();
+                }
+                float totalDamage = damage + comboBonus;
+                enemy.TakeDamage(damage);
+
                 Vector3 hitPosition = other.ClosestPoint(transform.position);
-                ShowDamageText((int)damage, hitPosition);
+                ShowDamageText((int)totalDamage, hitPosition);
                 ShowHitmarker();
                 if (bulletType == 2)
                 {
@@ -140,6 +183,37 @@ public class BulletScript : MonoBehaviour
                     damage *= 0.5f;
                     if (damage < 1) damage = 1;
                 }
+
+                if (bulletType == 3)
+                {
+                    if (playerController == null)
+                    {
+                        return;
+                    }
+
+                    float healAmount = 0;
+
+                    if (playerController.gripType == "gun_grip_handcannon")
+                    {
+                        healAmount = 4f;
+                    }
+                    else if (playerController.gripType == "gun_grip_pistol")
+                    {
+                        healAmount = 2f;
+                    }
+                    else if (playerController.gripType == "gun_grip_smg")
+                    {
+                        healAmount = 1f;
+                    }
+
+                    playerController.Restore(healAmount);
+                }
+
+                if (bulletType == 4)
+                {
+                    ApplyCorrosiveDamage(enemy);
+                }
+
                 if (max_target <= 0)
                 {
                     gameObject.SetActive(false);
@@ -161,7 +235,14 @@ public class BulletScript : MonoBehaviour
         if (wallHit.collider != null)
         {
             transform.position = wallHit.point + wallHit.normal * 0.1f;
-
+            if (sparkEffect != null)
+            {
+                Vector3 temp = wallHit.point;
+                temp.z = -1;
+                sparkEffect.transform.position = temp;
+                sparkEffect.Play();
+                // sparkEffect.Stop();
+            }
             if (bulletType == 1)
             {
                 Ricochet();
@@ -170,7 +251,10 @@ public class BulletScript : MonoBehaviour
                     _audio.PlayOneShot(_audio.Ricochet, transform.position);
                     ricochetCount++;
                 }
-                
+                else
+                {
+                    gameObject.SetActive(false);
+                }
             }
             else
             {
@@ -188,7 +272,7 @@ public class BulletScript : MonoBehaviour
             Enemy_Soldier es = target.GetComponent<Enemy_Soldier>();
             Vector2 desiredDirection;
 
-            if (es != null) 
+            if (es != null)
             {
                 desiredDirection = (es.getAimPos().position - transform.position).normalized;
             }
@@ -230,7 +314,7 @@ public class BulletScript : MonoBehaviour
         {
             EnemyBase eb = enemy.GetComponent<EnemyBase>();
 
-            if(eb == null || !eb.isalive)
+            if (eb == null || !eb.isalive)
             {
                 continue;
             }
@@ -262,7 +346,7 @@ public class BulletScript : MonoBehaviour
             Enemy_Soldier es = nearestEnemy.GetComponent<Enemy_Soldier>();
             Vector3 targetDirection;
 
-            if (es != null) 
+            if (es != null)
             {
                 targetDirection = (es.getAimPos().position - transform.position).normalized;
             }
@@ -351,4 +435,35 @@ public class BulletScript : MonoBehaviour
         }
     }
 
+    // Corrosive Bullet
+    private void ApplyCorrosiveDamage(EnemyBase enemy)
+    {
+        float maxHealth = enemy.GetMaxHealth();
+        float corrosiveDamage = 0f;
+        float maxCorrosiveDamage = 100f;
+
+        if (playerController.gripType == "gun_grip_handcannon")
+        {
+            corrosiveDamage = Mathf.Min(maxHealth * 0.2f, maxCorrosiveDamage);
+        }
+        else if (playerController.gripType == "gun_grip_pistol")
+        {
+            corrosiveDamage = Mathf.Min(maxHealth * 0.1f, maxCorrosiveDamage);
+        }
+        else if (playerController.gripType == "gun_grip_smg")
+        {
+            corrosiveDamage = Mathf.Min(maxHealth * 0.05f, maxCorrosiveDamage);
+        }
+
+        enemy.ApplyCorrosiveEffect(corrosiveDamage, 5f);
+    }
+
+    private void OnDestroy()
+    {
+        // Destroy the spark effect when the bullet is destroyed
+        if (sparkEffect != null)
+        {
+            sparkPool.ReturnSpark(sparkEffect.gameObject);
+        }
+    }
 }

@@ -8,12 +8,14 @@ public class MissileScript : EnemyBase
     public float rotationSpeed = 200f;    
     public float explosionRadius = 5f;    
     public float damage = 10f;            
-    public GameObject explosionEffect;    
+    public GameObject explosionEffect;
+    public GameObject destroyEffect;
     public GameObject playerlock;
 
     private Transform player;
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
+    private AudioManager _audio;
     private bool isExploded = false;
 
     void Start()
@@ -26,6 +28,7 @@ public class MissileScript : EnemyBase
         player = playerController.GetAimPos();
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        _audio = AudioManager.Instance;
     }
 
     void Update()
@@ -68,8 +71,17 @@ public class MissileScript : EnemyBase
         if (isExploded)
             return;
 
+        if (playerController == null)
+        {
+            return;
+        }
 
-        if ((other.CompareTag("Player") && !playerController.GetPlayerInvincible())|| other.CompareTag("Terrain"))
+        bool isPlayerHitbox = other.gameObject.layer == LayerMask.NameToLayer("Hitbox_Player");
+
+        if (((isPlayerHitbox) &&
+            !playerController.GetPlayerInvincible() &&
+            playerController.IsAlive())|| 
+            other.CompareTag("Terrain"))
         {
             Explode();
         }
@@ -88,6 +100,7 @@ public class MissileScript : EnemyBase
         if (explosionEffect != null)
         {
             Instantiate(explosionEffect, transform.position, Quaternion.identity);
+            _audio.PlayOneShot(_audio.Missile, transform.position);
         }
 
         if (playerlock != null)
@@ -101,13 +114,39 @@ public class MissileScript : EnemyBase
             if (hit.CompareTag("Player"))
             {
                 PlayerController playerController = hit.GetComponent<PlayerController>();
-                if (playerController != null)
+                if (playerController != null && !playerController.GetPlayerInvincible() && playerController.IsAlive())
                 {
                     playerController.Hurt(damage);
                 }
                 break;
             }
         }
+        isalive = false;
+        Destroy(gameObject);
+    }
+
+    private void Explode_destroy()
+    {
+        if (isExploded)
+        {
+            return;
+        }
+
+        isExploded = true;
+        rb.linearVelocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+
+        if (destroyEffect != null)
+        {
+            Instantiate(destroyEffect, transform.position, Quaternion.identity);
+            _audio.PlayOneShot(_audio.Missile, transform.position);
+        }
+
+        if (playerlock != null)
+        {
+            Destroy(playerlock);
+        }
+
         isalive = false;
         Destroy(gameObject);
     }
@@ -131,7 +170,7 @@ public class MissileScript : EnemyBase
     {
         if (!isExploded) 
         {
-            Explode();  
+            Explode_destroy();  
         }
         base.Die(resourceAmount);
     }

@@ -113,11 +113,20 @@ public class GunInfoScript : MonoBehaviour
             case 2:
                 bulletType = $"<color={rarityColor}>PIERCING</color>";
                 break;
+            case 3:
+                bulletType = $"<color={rarityColor}>BIO SIPHON</color>";
+                break;
+            case 4:
+                bulletType = $"<color={rarityColor}>CORROSIVE</color>";
+                break;
+            case 5:
+                bulletType = $"<color={rarityColor}>SCATTER</color>";
+                break;
             case 10:
                 bulletType = $"<color={rarityColor}>TRACKING</color>";
                 break;
             case 11:
-                bulletType = $"<color={rarityColor}>CHAIN</color>";
+                bulletType = $"<color={rarityColor}>COMBO</color>";
                 break;
             case 12:
                 bulletType = $"<color={rarityColor}>INFINITE PIERCING</color>";
@@ -127,9 +136,17 @@ public class GunInfoScript : MonoBehaviour
                 break;
         }
 
-        if(gun.bulletType == 10)
+        if (gun.bulletType == 10)
         {
             name = "Smart Pistol";
+        }
+        else if (gun.bulletType == 11)
+        {
+            
+        }
+        else if(gun.bulletType == 12)
+        {
+            name = "RailGun";
         }
 
         int playerBarrel = 0;

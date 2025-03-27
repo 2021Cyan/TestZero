@@ -30,6 +30,7 @@ public class AudioManager : MonoBehaviour
     [Header("Enemy_SFX")]
     public EventReference EnemyDeath;
     public EventReference Explosion;
+    public EventReference Missile;
     public EventReference EnemyHurt;
     public EventReference Laser;
     public EventReference EnemyFlying;

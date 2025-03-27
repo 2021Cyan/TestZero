@@ -25,24 +25,18 @@ public class ItemScript : MonoBehaviour
         infoRender = infoRenderer;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnMouseEnter()
     {
-        if (other.CompareTag("Player"))
-        {
-            isPlayerNearby = true;
-            info.ShowItemStats(this);
-            infoRender.UpdateItemSprites(this);
-        }
+        isPlayerNearby = true;
+        info.ShowItemStats(this);
+        infoRender.UpdateItemSprites(this);
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    private void OnMouseExit()
     {
-        if (other.CompareTag("Player"))
-        {
-            isPlayerNearby = false;
-            info.HideItemStats();
-            infoRender.HideGunSprites();
-        }
+        isPlayerNearby = false;
+        info.HideItemStats();
+        infoRender.HideGunSprites();
     }
 
     void Start()
