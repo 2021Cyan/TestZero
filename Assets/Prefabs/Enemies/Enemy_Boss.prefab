@@ -946,6 +946,7 @@ MonoBehaviour:
   - {fileID: 3497314450889820325}
   - {fileID: 8873363121496227810}
   - {fileID: 101152777737410635}
+  explosion: {fileID: 100002, guid: 6ecf76dc4f268d340b2666896a954bcc, type: 3}
 --- !u!60 &6120545746943894681
 PolygonCollider2D:
   m_ObjectHideFlags: 0

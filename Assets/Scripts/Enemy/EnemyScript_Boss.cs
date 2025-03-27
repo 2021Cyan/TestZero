@@ -50,6 +50,8 @@ public class EnemyScript_Boss : EnemyBase
     private SpriteRenderer spriteRenderer;
     private AudioManager _audio;
 
+    private bool isFalling = false;
+    [SerializeField] GameObject explosion;
 
 
     void Start()
@@ -57,7 +59,7 @@ public class EnemyScript_Boss : EnemyBase
         _audio = AudioManager.Instance;
         isalive = true;
         resourceAmount = 0;
-        maxHealth = 5000;
+        maxHealth = 10000;
         currentHealth = maxHealth;
         fireRate = 0.05f;
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
@@ -72,6 +74,11 @@ public class EnemyScript_Boss : EnemyBase
 
     void Update()
     {
+        if (isFalling || !isalive)
+        {
+            return;
+        }
+
         isPlayerNearby = CheckNearbyPlayers();
         ApplyFloatingEffect();
 
@@ -106,6 +113,18 @@ public class EnemyScript_Boss : EnemyBase
             }
         }
 
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (isFalling && other.CompareTag("Terrain"))
+        {
+            Vector3 explosionPos = transform.position + new Vector3(0, -1f, 0);
+            GameObject explosionInstance = Instantiate(explosion, explosionPos, Quaternion.identity);
+            _audio.PlayOneShot(_audio.Explosion, transform.position);
+            Destroy(explosionInstance.gameObject, 5f);
+            base.Die(resourceAmount);
+        }
     }
 
     private IEnumerator ManagePatterns()
@@ -372,7 +391,15 @@ public class EnemyScript_Boss : EnemyBase
     // Function that handles the enemy death
     protected override void Die(int amount)
     {
-        isalive = false;
-        base.Die(resourceAmount);
+        if (!isFalling)
+        {
+            isFalling = true;
+            isalive = false;
+            foreach (var l in lineRenderers)
+            {
+                l.enabled = false;
+            }
+            rb.gravityScale = 2f;
+        }
     }
 }
