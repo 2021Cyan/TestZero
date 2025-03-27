@@ -255,6 +255,7 @@ MonoBehaviour:
   resourceAmount: 0
   playerController: {fileID: 0}
   isalive: 0
+  damageTextPrefab: {fileID: 2392417955568809763, guid: 0e0617012df934e47bec0d477b81457c, type: 3}
   moveSpeed: 5
   changeDirectionTime: 2
   floatStrength: 0.1

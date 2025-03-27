@@ -903,6 +903,7 @@ MonoBehaviour:
   resourceAmount: 0
   playerController: {fileID: 0}
   isalive: 0
+  damageTextPrefab: {fileID: 2392417955568809763, guid: 0e0617012df934e47bec0d477b81457c, type: 3}
   turret_bullet: {fileID: 5725336151103119662, guid: 719b27462d1913141a5ea7a991fa5b67, type: 3}
   turrets:
   - {fileID: 4240377371676802375}

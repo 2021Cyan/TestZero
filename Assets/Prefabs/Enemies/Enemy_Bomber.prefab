@@ -134,6 +134,7 @@ MonoBehaviour:
   resourceAmount: 0
   playerController: {fileID: 0}
   isalive: 0
+  damageTextPrefab: {fileID: 2392417955568809763, guid: 0e0617012df934e47bec0d477b81457c, type: 3}
   explosionPrefab: {fileID: 100008, guid: 1dbc518224e49f34095aab42fe05751a, type: 3}
   explosion: {fileID: 100006, guid: 2e7e92bc7175b744ea40878dedfa79e4, type: 3}
 --- !u!60 &2216491376832603473

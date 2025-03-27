@@ -17,6 +17,8 @@ public abstract class EnemyBase : MonoBehaviour
     private Coroutine corrosiveCoroutine;
     private float corrosiveTimer = 0f;
     private float corrosiveDamagePerSecond = 0f;
+    public GameObject damageTextPrefab;
+    private bool isCorroding = false;
 
     // For Combo bullet 
     private Coroutine comboCoroutine;
@@ -62,6 +64,10 @@ public abstract class EnemyBase : MonoBehaviour
             return; 
         }
 
+        if (isCorroding)
+        {
+            return;
+        }
         if (corrosiveCoroutine != null)
         {
             StopCoroutine(corrosiveCoroutine);
@@ -70,6 +76,7 @@ public abstract class EnemyBase : MonoBehaviour
         corrosiveDamagePerSecond = damagePerSecond;
         corrosiveTimer = duration;
         corrosiveCoroutine = StartCoroutine(CorrosiveDamageRoutine());
+        isCorroding = true;
     }
 
     private IEnumerator CorrosiveDamageRoutine()
@@ -81,8 +88,23 @@ public abstract class EnemyBase : MonoBehaviour
                 yield break;
             }
             TakeDamage(corrosiveDamagePerSecond);
+            ShowDamageText((int)corrosiveDamagePerSecond, transform.position + Vector3.up * 1f);
             yield return new WaitForSeconds(1f);
             corrosiveTimer -= 1f;
+        }
+        isCorroding = false;
+    }
+
+    private void ShowDamageText(int damageAmount, Vector3 position)
+    {
+        if (damageTextPrefab != null)
+        {
+            GameObject damageText = Instantiate(damageTextPrefab, position, Quaternion.identity);
+            DamageText textComponent = damageText.GetComponent<DamageText>();
+            if (textComponent != null)
+            {
+                textComponent.SetDamageText(damageAmount);
+            }
         }
     }
 
