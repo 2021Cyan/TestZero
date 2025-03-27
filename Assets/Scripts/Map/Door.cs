@@ -39,4 +39,12 @@ public class Door : Interactable
             }
         }
     }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+
+        Gizmos.DrawLine(ClosedPosition.position, ClosedPosition.position + new Vector3(ActivationDistance, 0, 0));
+        Gizmos.DrawLine(ClosedPosition.position, ClosedPosition.position + new Vector3(-ActivationDistance, 0, 0));
+    }
 }

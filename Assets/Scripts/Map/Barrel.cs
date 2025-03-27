@@ -56,6 +56,7 @@ public class Barrel : Interactable
                 // Remember interaction
                 enabled = false;
                 _used = true;
+                ShowPrompt(false);
             }
         }
 
