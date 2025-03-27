@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 
 public class Barrel : Interactable
@@ -9,9 +8,31 @@ public class Barrel : Interactable
 
     // Private attributes
     private bool _used = false;
-    
+    private bool _playerIsNear = false;
 
     // Behaviour
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
+
+        if (!_used && rb != null && other.CompareTag("Player"))
+        {
+            // Allow interaction
+            _playerIsNear = true;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
+
+        if (!_used && rb != null && other.CompareTag("Player"))
+        {
+            // Allow interaction
+            _playerIsNear = false;
+        }
+    }
+
     void Start()
     {
         // Hide prompt
@@ -21,7 +42,7 @@ public class Barrel : Interactable
     private void Update()
     {
         // Allow interactions if player is close enough and barrel hasn't been used
-        if (PlayerIsNear() && !_used)
+        if (_playerIsNear && !_used)
         {
             // Show prompt
             ShowPrompt(true);
