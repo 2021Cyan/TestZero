@@ -164,9 +164,18 @@ public class BulletScript : MonoBehaviour
             // Enemy is not null
             if (enemy != null && enemy.isalive)
             {
-                enemy.TakeDamage((int)damage);
+                float comboBonus = 0f;
+
+                if (bulletType == 11)
+                {
+                    enemy.ApplyComboEffect(1f);
+                    comboBonus = enemy.GetComboBonus();
+                }
+                float totalDamage = damage + comboBonus;
+                enemy.TakeDamage(damage);
+
                 Vector3 hitPosition = other.ClosestPoint(transform.position);
-                ShowDamageText((int)damage, hitPosition);
+                ShowDamageText((int)totalDamage, hitPosition);
                 ShowHitmarker();
                 if (bulletType == 2)
                 {

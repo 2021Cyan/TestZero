@@ -18,6 +18,10 @@ public abstract class EnemyBase : MonoBehaviour
     private float corrosiveTimer = 0f;
     private float corrosiveDamagePerSecond = 0f;
 
+    // For Combo bullet 
+    private Coroutine comboCoroutine;
+    private float comboDamage = 0f;
+
     public int GetMaxHealth()
     {
         return maxHealth;
@@ -25,8 +29,11 @@ public abstract class EnemyBase : MonoBehaviour
 
     public virtual void TakeDamage(float damage)
     {
+        float bonus = comboDamage;
+        float totalDamage = damage + bonus;
+
         // Subtract damage from current health
-        currentHealth -= Mathf.RoundToInt(damage);
+        currentHealth -= Mathf.RoundToInt(totalDamage);
 
         // Check if the enemy is dead
         if (currentHealth <= 0)
@@ -78,4 +85,35 @@ public abstract class EnemyBase : MonoBehaviour
             corrosiveTimer -= 1f;
         }
     }
+
+    public void ApplyComboEffect(float duration)
+    {
+        if (!isalive)
+            return;
+
+        if (comboCoroutine != null)
+        {
+            StopCoroutine(comboCoroutine);
+        }
+
+        comboCoroutine = StartCoroutine(ComboDamageRoutine(duration));
+    }
+
+    private IEnumerator ComboDamageRoutine(float duration)
+    {
+        comboDamage += 1f; 
+        if (comboDamage > 45.0f)
+        {
+            comboDamage = 45.0f;
+        }
+
+        yield return new WaitForSeconds(duration);
+        comboDamage = 0f;
+    }
+
+    public float GetComboBonus()
+    {
+        return comboDamage;
+    }
+
 }

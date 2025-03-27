@@ -126,7 +126,7 @@ public class GunInfoScript : MonoBehaviour
                 bulletType = $"<color={rarityColor}>TRACKING</color>";
                 break;
             case 11:
-                bulletType = $"<color={rarityColor}>CHAIN</color>";
+                bulletType = $"<color={rarityColor}>COMBO</color>";
                 break;
             case 12:
                 bulletType = $"<color={rarityColor}>INFINITE PIERCING</color>";
