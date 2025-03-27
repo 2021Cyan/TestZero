@@ -740,7 +740,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NumberOfSegmentsPerLevel: 4
-  ShopFrequency: 1
+  ShopFrequency: 0
   NumberOfLevels: 2
   NumberOfBlocksPerRaftSection: 5
   EnemySpawnLevelScaling: 0.5
