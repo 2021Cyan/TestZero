@@ -7,7 +7,7 @@ public class SparkPool : MonoBehaviour
 
     public GameObject sparkPrefab; // Prefab with Light2D component
     private Queue<GameObject> pool = new Queue<GameObject>();
-    private int count = 0;
+    // private int count = 0;
     GameObject SparkPoolParent;
     private void Awake()
     {
@@ -36,7 +36,7 @@ public class SparkPool : MonoBehaviour
         else
         {
             // Instantiate a new Light2D object if the pool is empty
-            count++;
+            // count++;
             return Instantiate(sparkPrefab, SparkPoolParent.transform);
         }
     }
@@ -72,6 +72,6 @@ public class SparkPool : MonoBehaviour
             Destroy(spark);
         }
         pool.Clear();
-        Debug.Log("Count: " + count);
+        // Debug.Log("Count: " + count);
     }
 }
