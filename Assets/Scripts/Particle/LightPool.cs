@@ -8,7 +8,7 @@ public class LightPool : MonoBehaviour
     public GameObject lightPrefab; // Prefab with Light2D component
     private Queue<GameObject> pool = new Queue<GameObject>();
     private Transform temp;
-    private int count = 0;
+    // private int count = 0;
 
     private void Awake()
     {
@@ -40,7 +40,7 @@ public class LightPool : MonoBehaviour
         else
         {
             // Instantiate a new Light2D object if the pool is empty
-            count++;
+            // count++;
             return Instantiate(lightPrefab);
         }
     }
@@ -78,6 +78,6 @@ public class LightPool : MonoBehaviour
             Destroy(light);
         }
         pool.Clear();
-        Debug.Log("Count: " + count);
+        // Debug.Log("Count: " + count);
     }
 }
