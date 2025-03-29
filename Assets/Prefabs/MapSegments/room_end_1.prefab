@@ -46,14 +46,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1156781272073676450}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57364c081ee4f7a46a1d579c6f85626f, type: 3}
+  m_Script: {fileID: 11500000, guid: 19b77c922b19e6940a911b31a02f63cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CanBeStart: 0
   CanFlipX: 0
   CanFlipY: 0
   Likelihood: 0
-  Teleporter: {fileID: 53964801133521564}
+  MinEnemies: 0
+  MaxEnemies: 0
 --- !u!1 &1299099209288844629
 GameObject:
   m_ObjectHideFlags: 0
@@ -513,11 +514,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 838e18fd4bd331d45a2bb8a5ca2d6389, type: 3}
---- !u!1 &53964801133521564 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 590403641148283379, guid: 838e18fd4bd331d45a2bb8a5ca2d6389, type: 3}
-  m_PrefabInstance: {fileID: 616483287632556911}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1917299083211103350 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1303137965244378905, guid: 838e18fd4bd331d45a2bb8a5ca2d6389, type: 3}

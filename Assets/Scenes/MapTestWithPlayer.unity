@@ -655,8 +655,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NumberOfSegmentsPerLevel: 4
-  ShopFrequency: 2
-  NumberOfLevels: 2
+  ShopFrequency: 0
+  NumberOfLevels: 5
   NumberOfBlocksPerRaftSection: 5
   EnemySpawnLevelScaling: 0.5
   Player: {fileID: 1634541014}

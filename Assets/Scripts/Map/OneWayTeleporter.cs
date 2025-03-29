@@ -1,8 +1,11 @@
 using UnityEngine;
 
-public class Teleporter : Interactable
+public class OneWayTeleporter : Interactable
 {
-    // Attributes
+    // Public attributes
+    public Transform DestinationPoint;
+
+    // Private attributes
     private Vector3 _destination;
     private PlayerController playerController;
 
@@ -22,7 +25,14 @@ public class Teleporter : Interactable
     void Awake()
     {
         // Set default teleport location
-        _destination = gameObject.transform.position;
+        if (DestinationPoint == null)
+        {
+            _destination = gameObject.transform.position;
+        }
+        else 
+        {
+            _destination = DestinationPoint.position;
+        }
     }
     
     private void OnTriggerEnter2D(Collider2D other)
@@ -30,19 +40,12 @@ public class Teleporter : Interactable
         if (other.CompareTag("Player"))
         {
             // Update position of player
-            // Debug.Log(other.transform.parent.name + "teleported");
-            playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-            if (playerController != null)
-            {
-                playerController.currentLevel += 1;
-            }
             _player.transform.position = _destination;
         }
     }
 
     void OnDrawGizmos()
     {
-        return;
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, _destination);
     }

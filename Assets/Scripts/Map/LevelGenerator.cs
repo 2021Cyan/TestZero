@@ -109,8 +109,8 @@ public class LevelGenerator : MonoBehaviour
             // If last level, spawn terminal room
             if (levelNumber == NumberOfLevels - 1)
             {
-                EndRoomSegment finalRoom = (EndRoomSegment) Spawn(EndRoomPrefab, lastSegment.GetExitPoints()[0].position);
-                finalRoom.SetTeleporterDestination(Vector3.zero);
+                MapSegment finalRoom = Spawn(EndRoomPrefab, lastSegment.GetExitPoints()[0].position);
+                // finalRoom.SetTeleporterDestination(Vector3.zero);
             }
 
             // Otherwise, spawn raft section

@@ -112,8 +112,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActivationDistance: 7.5
-  ClosedPosition: {fileID: 4869021625590183819}
-  OpenPosition: {fileID: 4793338026694700277}
+  ClosedPoint: {fileID: 4869021625590183819}
+  OpenPoint: {fileID: 4793338026694700277}
   Velocity: 5
 --- !u!212 &8243816141272059086
 SpriteRenderer:
@@ -160,7 +160,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.084337234, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.34509805, g: 0.34509805, b: 0.34509805, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

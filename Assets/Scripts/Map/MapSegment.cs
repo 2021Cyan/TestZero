@@ -6,9 +6,6 @@ using System.Linq;
 public class MapSegment : MonoBehaviour
 {
     // Public attributes
-    public bool CanBeStart;
-    public bool CanFlipX;
-    public bool CanFlipY;
     public int Likelihood; // value representing how often segment should occur
     public int MinEnemies;
     public int MaxEnemies;
@@ -92,6 +89,7 @@ public class MapSegment : MonoBehaviour
 
         // Find all enemy spawn points
         _spawnPoints = new List<EnemySpawnPoint>(GetComponentsInChildren<EnemySpawnPoint>());
+        // Debug.Log(name + " has " + _spawnPoints.Count.ToString() + " spawn points");
 
         // Find all interactables
         _interactables = new List<Interactable>(GetComponentsInChildren<Interactable>());

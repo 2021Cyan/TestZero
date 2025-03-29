@@ -4,8 +4,8 @@ using UnityEngine;
 public class Door : Interactable
 {
     // Public attributes
-    public Transform ClosedPosition;
-    public Transform OpenPosition;
+    public Transform ClosedPoint;
+    public Transform OpenPoint;
     public float Velocity;
 
     // Private attributes
@@ -23,28 +23,29 @@ public class Door : Interactable
         if (!_isDisabled)
         {
             // If player is within activation distance, open door
-            if (PlayerIsNear()) {_isOpening = true;}
+            if (PlayerIsNear(ClosedPoint.position)) {_isOpening = true;}
             else {_isOpening = false;}
 
             // If opening, move toward open position
             if (_isOpening)
             {
-                transform.position = Vector3.MoveTowards(transform.position, OpenPosition.position, Velocity * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, OpenPoint.position, Velocity * Time.deltaTime);
             }
 
             // If closing, move toward closed position
             else
             {
-                transform.position = Vector3.MoveTowards(transform.position, ClosedPosition.position, Velocity * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, ClosedPoint.position, Velocity * Time.deltaTime);
             }
         }
     }
 
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.magenta;
+        Gizmos.color = new Color(255, 165, 0, 0.5f); // transparent orange
 
-        Gizmos.DrawLine(ClosedPosition.position, ClosedPosition.position + new Vector3(ActivationDistance, 0, 0));
-        Gizmos.DrawLine(ClosedPosition.position, ClosedPosition.position + new Vector3(-ActivationDistance, 0, 0));
+        // Gizmos.DrawLine(ClosedPosition.position, ClosedPosition.position + new Vector3(ActivationDistance, 0, 0));
+        // Gizmos.DrawLine(ClosedPosition.position, ClosedPosition.position + new Vector3(-ActivationDistance, 0, 0));
+        // Gizmos.DrawSphere(transform.position, ActivationDistance);
     }
 }

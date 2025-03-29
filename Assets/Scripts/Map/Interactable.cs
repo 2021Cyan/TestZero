@@ -13,8 +13,8 @@ public class Interactable : MonoBehaviour
     }
 
     // Behaviour
-    public bool PlayerIsNear()
+    public bool PlayerIsNear(Vector3 selfPosition)
     {
-        return Mathf.Abs(_player.transform.position.x - transform.position.x) < ActivationDistance;
+        return Vector3.Distance(_player.transform.position, selfPosition) < ActivationDistance;
     }
 }
