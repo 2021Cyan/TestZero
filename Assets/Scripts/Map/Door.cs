@@ -42,7 +42,10 @@ public class Door : Interactable
 
     void OnDrawGizmos()
     {
-        Gizmos.color = new Color(255, 165, 0, 0.5f); // transparent orange
+        Gizmos.color = new Color(255, 165, 0); // orange
+        Gizmos.DrawLine(OpenPoint.position, ClosedPoint.position);
+        Gizmos.DrawSphere(OpenPoint.position, 0.5f);
+        Gizmos.DrawSphere(ClosedPoint.position, 0.5f);
 
         // Gizmos.DrawLine(ClosedPosition.position, ClosedPosition.position + new Vector3(ActivationDistance, 0, 0));
         // Gizmos.DrawLine(ClosedPosition.position, ClosedPosition.position + new Vector3(-ActivationDistance, 0, 0));
