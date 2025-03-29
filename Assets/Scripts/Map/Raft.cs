@@ -58,7 +58,7 @@ public class Raft : Interactable
         if (_activated)
         {
             _prevPosition = transform.position;
-            transform.position = Vector3.MoveTowards(transform.position, _destination, Velocity);
+            transform.position = Vector3.MoveTowards(transform.position, _destination, Velocity * Time.deltaTime);
 
             // Calculate and apply movement to all objects on platform
             _movement = transform.position - _prevPosition;

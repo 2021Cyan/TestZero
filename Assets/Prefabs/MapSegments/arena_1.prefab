@@ -57,9 +57,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19b77c922b19e6940a911b31a02f63cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanBeStart: 0
-  CanFlipX: 0
-  CanFlipY: 0
   Likelihood: 1
   MinEnemies: 0
   MaxEnemies: 0
@@ -309,9 +306,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b5d08b8eb91a544b340efeb4f8641c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ActivationDistance: 0
   LeftPosition: {fileID: 5492463614270061021}
   RightPosition: {fileID: 7349125279047804540}
-  Velocity: 1
+  Velocity: 2
 --- !u!212 &6214672216377867402
 SpriteRenderer:
   m_ObjectHideFlags: 0
