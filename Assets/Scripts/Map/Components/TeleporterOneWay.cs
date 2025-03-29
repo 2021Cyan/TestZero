@@ -7,7 +7,6 @@ public class OneWayTeleporter : Interactable
 
     // Private attributes
     private Vector3 _destination;
-    private PlayerController playerController;
 
     // Getters
     public Vector3 GetDestination()
