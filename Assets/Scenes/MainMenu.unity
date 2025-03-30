@@ -72435,7 +72435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transition: {fileID: 11400000, guid: 9710edcf009d00943af961dd2a7ca7d3, type: 2}
-  startDelay: 1
+  startDelay: 0.5
 --- !u!1001 &4144857622712899867
 PrefabInstance:
   m_ObjectHideFlags: 0
