@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 602466401298325456}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -9.953664}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -51,10 +51,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19b77c922b19e6940a911b31a02f63cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanBeStart: 0
-  CanFlipX: 0
-  CanFlipY: 0
   Likelihood: 2
+  MinEnemies: 0
+  MaxEnemies: 0
 --- !u!1 &2318114417800896639
 GameObject:
   m_ObjectHideFlags: 0
