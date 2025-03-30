@@ -1,37 +1,33 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class OneWayTeleporter : Interactable
 {
     // Public attributes
-    public Transform DestinationPoint;
+    public Transform[] DestinationPoints;
 
     // Private attributes
-    private Vector3 _destination;
-
-    // Getters
-    public Vector3 GetDestination()
-    {
-        return _destination;
-    }
-
-    // Setters
-    public void SetDestination(Vector3 destination)
-    {
-        _destination = destination;
-    }
+    private List<Vector3> _destinations = new List<Vector3>();
 
     // Behaviour
     void Awake()
     {
-        // Set default teleport location
-        if (DestinationPoint == null)
+        for (int i = 0; i < DestinationPoints.Length; ++i)
         {
-            _destination = gameObject.transform.position;
+            _destinations.Add(DestinationPoints[i].position);
         }
-        else 
-        {
-            _destination = DestinationPoint.position;
-        }
+    }
+
+    public void AddDestination(Vector3 destination, bool clear=false)
+    {
+        if (clear) {_destinations.Clear();}
+        _destinations.Add(destination);
+    }
+
+    public void AddDestinations(List<Vector3> destinations, bool clear=false)
+    {
+        if (clear) {_destinations.Clear();}
+        _destinations.AddRange(destinations);
     }
     
     private void OnTriggerEnter2D(Collider2D other)
@@ -39,14 +35,24 @@ public class OneWayTeleporter : Interactable
         if (other.CompareTag("Player"))
         {
             // Update position of player
-            _player.transform.position = _destination;
+            if (_destinations.Count == 1)
+            {
+                other.gameObject.transform.position = _destinations[0];
+            }
+            else
+            {
+                other.gameObject.transform.position = _destinations[Random.Range(0, _destinations.Count)];
+            }
         }
     }
 
     void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, _destination);
+        for (int i = 0; i < _destinations.Count; ++i)
+        {
+            Gizmos.DrawLine(transform.position, _destinations[i]);
+        }
     }
 
 }

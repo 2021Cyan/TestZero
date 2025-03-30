@@ -1,26 +1,30 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
+using UnityEditor;
 
-public class Platform : Interactable
+public class Elevator : MonoBehaviour
 {
     // Public attributes
-    public Transform LeftPosition;
-    public Transform RightPosition;
+    public Transform TopPoint;
+    public Transform BottomPoint;
     public float Velocity;
+    public bool WaitForPlayer = false;
 
     // Private attributes
-    private bool _isGoingRight = false;
+    private bool _isGoingUp;
+    private bool _playerIsOn = false;
     private Vector3 _prevPosition;
     private Vector3 _movement;
     private HashSet<Transform> _entitiesOnPlatform = new HashSet<Transform>();
 
-    // Behaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player") || other.CompareTag("Enemy"))
         {
             // Add object to set of objects on platform
             _entitiesOnPlatform.Add(other.gameObject.transform);
+
+            if (other.CompareTag("Player")) {_playerIsOn = true;}
         }
     }
 
@@ -30,27 +34,30 @@ public class Platform : Interactable
         {
             // Remove object from set of objects on platform
             _entitiesOnPlatform.Remove(other.gameObject.transform);
+
+            if (other.CompareTag("Player")) {_playerIsOn = false;}
         }
     }
 
+    // Update is called once per frame
     void Update()
     {
         // Flip direction if bounds are reached
-        if (transform.position.x <= LeftPosition.position.x) {_isGoingRight = true;}
-        else if (transform.position.x >= RightPosition.position.x) {_isGoingRight = false;}
+        if (transform.position.y <= BottomPoint.position.y) {_isGoingUp = true;}
+        else if (transform.position.y >= TopPoint.position.y) {_isGoingUp = false;}
 
-        // If going right, move right
-        if (_isGoingRight)
+        // If going up, move up
+        if (_isGoingUp)
         {
             _prevPosition = transform.position;
-            transform.position = Vector3.MoveTowards(transform.position, RightPosition.position, Velocity * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, TopPoint.position, Velocity * Time.deltaTime);
         }
 
-        // If going left, move left
+        // If going down, move down
         else
         {
             _prevPosition = transform.position;
-            transform.position = Vector3.MoveTowards(transform.position, LeftPosition.position, Velocity * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, BottomPoint.position, Velocity * Time.deltaTime);
         }
 
         // Calculate movement
@@ -65,9 +72,7 @@ public class Platform : Interactable
 
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.white;
-        Gizmos.DrawSphere(LeftPosition.position, 0.5f);
-        Gizmos.DrawSphere(RightPosition.position, 0.5f);
-        Gizmos.DrawLine(LeftPosition.position, RightPosition.position);
+        Gizmos.color = Color.black;
+        Gizmos.DrawLine(TopPoint.position, BottomPoint.position);
     }
 }

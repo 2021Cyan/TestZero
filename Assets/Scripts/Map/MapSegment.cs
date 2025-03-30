@@ -85,11 +85,11 @@ public class MapSegment : MonoBehaviour
                 _exitPoints.Add(child.Find("ExitPoint"));
             }
         }
-        // Debug.Log("Segment " + name + " has " + _exitPoints.Count + " exits.");
+        Debug.Log("Segment " + name + " has " + _exitPoints.Count + " exits.");
 
         // Find all enemy spawn points
         _spawnPoints = new List<EnemySpawnPoint>(GetComponentsInChildren<EnemySpawnPoint>());
-        // Debug.Log(name + " has " + _spawnPoints.Count.ToString() + " spawn points");
+        Debug.Log(name + " has " + _spawnPoints.Count.ToString() + " spawn points");
 
         // Increment MaxEnemies to ensure bounds to be inclusive
         MaxEnemies += 1;
@@ -144,7 +144,7 @@ public class MapSegment : MonoBehaviour
     public void CalculateHull(Vector3 offset)
     {
         // Find all terrain pieces (walls, ceilings, floors, etc.)
-        foreach (Transform child in transform.GetComponentInChildren<Transform>())
+        foreach (Transform child in transform.GetComponentsInChildren<Transform>())
         {
             if (child.CompareTag("Terrain"))
             {
