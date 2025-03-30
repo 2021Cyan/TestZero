@@ -2434,7 +2434,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7799167905210987219, guid: e74de27f14fc6894abbf9e89bef43f4e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.555
+      value: 6.524
       objectReference: {fileID: 0}
     - target: {fileID: 7799167905210987219, guid: e74de27f14fc6894abbf9e89bef43f4e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -72513,10 +72513,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3765890162936835495, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 15.688911
+      objectReference: {fileID: 0}
     - target: {fileID: 3779266254465316696, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
       propertyPath: Target.TrackingTarget
       value: 
       objectReference: {fileID: 127391390}
+    - target: {fileID: 3942680907849944876, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 15.688911
+      objectReference: {fileID: 0}
     - target: {fileID: 3955896091204143735, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
       propertyPath: orthographic size
       value: 2.6999998
