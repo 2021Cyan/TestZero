@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using FMODUnity;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -61,8 +62,8 @@ public class PlayerController : MonoBehaviour
     // Bullettime variables
     public float bulletTimeGauge = 0f;
     public float bulletTimeMaxGauge = 100f;
-    public float bulletTimeFillRate = 20f; 
-    public float bulletTimeDuration = 5f; 
+    public float bulletTimeFillRate = 20f;
+    public float bulletTimeDuration = 5f;
     public bool isBulletTimeActive = false;
     [SerializeField] private float enemyTimeScale = 0.5f;
 
@@ -78,20 +79,25 @@ public class PlayerController : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
             Destroy(gameObject);
+        } 
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name != "MainMenu")
+        {
+            FindSceneReferences();
         }
     }
 
     void Start()
     {
-        if (SceneManager.GetActiveScene().name != "MainMenu")
-        {
-            Cursor.visible = false;
-        }
-        
+
         _input = InputManager.Instance;
         _audio = AudioManager.Instance;
         hp = max_hp;
@@ -102,6 +108,34 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         _audio.PlayOneShot(_audio.Lobby);
         InputManager.Input.Enable();
+
+        if (SceneManager.GetActiveScene().name != "MainMenu")
+        {
+            Cursor.visible = false;
+            FinishIntroAinm();
+        }
+    }
+
+    private void FindSceneReferences()
+    {
+        _input = InputManager.Instance;
+        _audio = AudioManager.Instance;
+        hp = max_hp;
+        currentAmmo = maxAmmo;
+        currentLevel = 1;
+        maincam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        GameObject.FindGameObjectWithTag("CinemachineCamera").GetComponent<CinemachineCamera>().Follow = transform;
+    
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        _audio.PlayOneShot(_audio.Lobby);
+        InputManager.Input.Enable();
+
+        if (SceneManager.GetActiveScene().name != "MainMenu")
+        {
+            Cursor.visible = false;
+            FinishIntroAinm();
+        }
     }
 
     private void Update()
@@ -138,7 +172,7 @@ public class PlayerController : MonoBehaviour
             currentJumpTime += Time.deltaTime;
             rb.gravityScale = Mathf.Lerp(1f, 5f, Mathf.Clamp01(currentJumpTime / maxJumpTime));
         }
-        else if (rb.linearVelocity.y < 0) 
+        else if (rb.linearVelocity.y < 0)
         {
             rb.gravityScale = 5f;
         }
@@ -162,11 +196,11 @@ public class PlayerController : MonoBehaviour
         }
         if (leftRay.collider != null && leftRay.collider.CompareTag("Terrain") && leftRay.normal.y > 0.5f)
         {
-            isGround = true; 
+            isGround = true;
         }
         if (rightRay.collider != null && rightRay.collider.CompareTag("Terrain") && rightRay.normal.y > 0.5f)
         {
-            isGround = true; 
+            isGround = true;
         }
 
         return isGround;
@@ -370,7 +404,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator ActivateDodgeInvincibility()
     {
         isInvincible = true;
-        yield return new WaitForSeconds(dodgeDuration); 
+        yield return new WaitForSeconds(dodgeDuration);
         isInvincible = false;
     }
 
@@ -429,7 +463,7 @@ public class PlayerController : MonoBehaviour
 
     void Restart()
     {
-        if(_input.ResetInput)
+        if (_input.ResetInput)
         {
             if (PodScript.Instance != null)
             {
