@@ -547,4 +547,9 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = visible;
     }
 
+    public void FinishIntroAinm()
+    {
+        anim.SetTrigger("FinishIntro");
+    }
+
 }
