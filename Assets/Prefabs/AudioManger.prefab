@@ -190,7 +190,7 @@ MonoBehaviour:
       Data2: 1088380989
       Data3: 1533747348
       Data4: 2006989703
-    Path: event:/SFX/Weapons/Missile
+    Path: event:/SFX/Weapons/MissileExplosion
   EnemyHurt:
     Guid:
       Data1: 0
