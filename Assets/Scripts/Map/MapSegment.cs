@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class MapSegment : MonoBehaviour
 {
@@ -66,23 +67,18 @@ public class MapSegment : MonoBehaviour
         _allPoints = new List<Vector3>();
         _hull = new List<Vector3>();
 
-        // Find sole entry
-        try 
+        // Find sole entry  point and all exit points that exist
+        _entryPoint = null;
+        foreach (Transform child in GetComponentsInChildren<Transform>())
         {
-            _entryPoint = transform.Find("Entry").Find("EntryPoint");
-        } 
-        catch 
-        {
-            _entryPoint = null;//transform.Find("PlayerSpawnPoint");
-        }
-        
-
-        // Find all exit points that exist
-        foreach (Transform child in transform)
-        {
-            if (child.name.StartsWith("Exit"))
+            if (child.name.StartsWith("ExitPoint"))
             {
-                _exitPoints.Add(child.Find("ExitPoint"));
+                _exitPoints.Add(child);
+            }
+
+            if (_entryPoint == null && child.name.StartsWith("EntryPoint"))
+            {
+                _entryPoint = child;
             }
         }
         Debug.Log("Segment " + name + " has " + _exitPoints.Count + " exits.");
@@ -236,6 +232,12 @@ public class MapSegment : MonoBehaviour
                 );
                 Gizmos.DrawSphere(points[i], 0.5f);
             }
+        }
+
+        Gizmos.color = Color.white;
+        foreach (Transform point in _exitPoints)
+        {
+            Gizmos.DrawSphere(point.position, 0.5f);
         }
     }
 

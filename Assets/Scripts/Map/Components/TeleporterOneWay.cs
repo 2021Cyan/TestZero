@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class OneWayTeleporter : Interactable
@@ -10,7 +12,7 @@ public class OneWayTeleporter : Interactable
     private List<Vector3> _destinations = new List<Vector3>();
 
     // Behaviour
-    void Awake()
+    void Start()
     {
         for (int i = 0; i < DestinationPoints.Length; ++i)
         {
@@ -52,6 +54,11 @@ public class OneWayTeleporter : Interactable
         for (int i = 0; i < _destinations.Count; ++i)
         {
             Gizmos.DrawLine(transform.position, _destinations[i]);
+        }
+
+        for (int i = 0; i < DestinationPoints.Length; ++i)
+        {
+            Gizmos.DrawLine(transform.position, DestinationPoints[i].position);
         }
     }
 
