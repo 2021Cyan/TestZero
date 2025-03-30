@@ -27,12 +27,12 @@ namespace EasyTransition
 
             if (playerController != null)
             {
-                playerController.transform.position = new Vector3(0f, -2.5f, 0f);
+                playerController.transform.position = new Vector3(-5.5f, -2.5f, 0f);
             }
 
             if (podScript != null)
             {
-                podScript.transform.position = new Vector3(0f, -2.5f, 0f);
+                podScript.transform.position = new Vector3(-5.5f, -2.5f, 0f);
             }
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
