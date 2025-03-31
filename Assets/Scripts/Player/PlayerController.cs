@@ -522,14 +522,17 @@ public class PlayerController : MonoBehaviour
         float originalFireRate = fireRate;
         float originalReloadSpeed = reloadSpeed;
         fireRate *= 2f;
-        reloadSpeed /= 2f;
+        reloadSpeed /= 4f;
 
 
         float depletionRate = bulletTimeMaxGauge / bulletTimeDuration;
         while (bulletTimeGauge > 0)
         {
-            bulletTimeGauge -= depletionRate * Time.unscaledDeltaTime;
-            bulletTimeGauge = Mathf.Max(0, bulletTimeGauge);
+            if (Time.timeScale > 0f)
+            {
+                bulletTimeGauge -= depletionRate * Time.unscaledDeltaTime;
+                bulletTimeGauge = Mathf.Max(0, bulletTimeGauge);
+            }
             yield return null;
         }
 
