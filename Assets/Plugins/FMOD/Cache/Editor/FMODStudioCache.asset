@@ -123,9 +123,36 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638786945096675619
+  lastModified: 638789686931085935
   FileSizes: []
   Exists: 1
+--- !u!114 &-6696834731696385168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/BouncePad
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/BouncePad
+  Guid:
+    Data1: 452870617
+    Data2: 1178433447
+    Data3: -349081472
+    Data4: -1726698430
+  Banks:
+  - {fileID: -7308324051551039216}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 428
 --- !u!114 &-6331407245227733521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,7 +219,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638781710776125511
+  lastModified: 638788476141203192
   FileSizes: []
   Exists: 1
 --- !u!114 &-3493520714557879898
@@ -273,7 +300,7 @@ MonoBehaviour:
   IsGlobal: 1
   Labels: []
   Exists: 1
---- !u!114 &-2613093079138993181
+--- !u!114 &-2627448346538914634
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -283,14 +310,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/Weapons/Missile
+  m_Name: event:/SFX/Weapons/MissileLaunch
   m_EditorClassIdentifier: 
-  Path: event:/SFX/Weapons/Missile
+  Path: event:/SFX/Weapons/MissileLaunch
   Guid:
-    Data1: 1110391133
-    Data2: 1088380989
-    Data3: 1533747348
-    Data4: 2006989703
+    Data1: 1948244972
+    Data2: 1220867596
+    Data3: -1018815836
+    Data4: 1946066782
   Banks:
   - {fileID: -7308324051551039216}
   IsStream: 0
@@ -299,7 +326,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 1357
+  Length: 1593
 --- !u!114 &-2384357080425012598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,7 +417,7 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638781710776079812
+  lastModified: 638789686929636202
   FileSizes: []
   Exists: 1
 --- !u!114 &-733253617468123609
@@ -472,6 +499,30 @@ MonoBehaviour:
   IsGlobal: 1
   Labels: []
   Exists: 1
+--- !u!114 &-249553475322546699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Missile
+  m_EditorClassIdentifier: 
+  Name: Missile
+  StudioPath: parameter:/Missile
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2851585087
+    data2: 3905140251
+  Type: 1
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -512,16 +563,20 @@ MonoBehaviour:
   - {fileID: -6331407245227733521}
   - {fileID: 8288883508818842257}
   - {fileID: 7808037990383975658}
-  - {fileID: -2613093079138993181}
+  - {fileID: 5822432742714014193}
+  - {fileID: 6132271894036548968}
+  - {fileID: -2627448346538914634}
+  - {fileID: -6696834731696385168}
   EditorParameters:
   - {fileID: -718438841073009550}
   - {fileID: -6022289475025603008}
   - {fileID: -1583503178709939461}
+  - {fileID: -249553475322546699}
   MasterBanks:
   - {fileID: -1572995542750812186}
   StringsBanks:
   - {fileID: 8077821089940174224}
-  cacheTime: 638786945096675619
+  cacheTime: 638789686931085935
   cacheVersion: 131623
 --- !u!114 &264979713123558130
 MonoBehaviour:
@@ -736,6 +791,60 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1718
+--- !u!114 &5822432742714014193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Weapons/MissileExplosion
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Weapons/MissileExplosion
+  Guid:
+    Data1: 1110391133
+    Data2: 1088380989
+    Data3: 1533747348
+    Data4: 2006989703
+  Banks:
+  - {fileID: -7308324051551039216}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1357
+--- !u!114 &6132271894036548968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Lava
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Lava
+  Guid:
+    Data1: -717349730
+    Data2: 1081303904
+    Data3: 1968380297
+    Data4: 426293578
+  Banks:
+  - {fileID: -7308324051551039216}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 15549
 --- !u!114 &6485597107471027225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -806,10 +915,10 @@ MonoBehaviour:
   Path: Assets/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638781710776094960
+  lastModified: 638789686929636202
   FileSizes:
   - Name: 
-    Value: 2102
+    Value: 2272
   Exists: 1
 --- !u!114 &8122942217061228455
 MonoBehaviour:

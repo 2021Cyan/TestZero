@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
     private Camera maincam;
+    private CinemachineCamera nearCinemachineCamera;
+    public CinemachineCamera farCinemachineCamera;
     private Vector3 mousePos;
     [SerializeField] ParticleSystem sparkFootEffect;
 
@@ -97,23 +99,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-
-        _input = InputManager.Instance;
-        _audio = AudioManager.Instance;
-        hp = max_hp;
-        currentAmmo = maxAmmo;
-        currentLevel = 1;
-        maincam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
-        _audio.PlayOneShot(_audio.Lobby);
-        InputManager.Input.Enable();
-
-        if (SceneManager.GetActiveScene().name != "MainMenu")
-        {
-            Cursor.visible = false;
-            FinishIntroAinm();
-        }
+        FindSceneReferences();
     }
 
     private void FindSceneReferences()
@@ -124,15 +110,19 @@ public class PlayerController : MonoBehaviour
         currentAmmo = maxAmmo;
         currentLevel = 1;
         maincam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        GameObject.FindGameObjectWithTag("CinemachineCamera").GetComponent<CinemachineCamera>().Follow = transform;
-    
+        nearCinemachineCamera = GameObject.FindGameObjectWithTag("NearCinemachineCamera").GetComponent<CinemachineCamera>();
+        farCinemachineCamera = GameObject.FindGameObjectWithTag("FarCinemachineCamera").GetComponent<CinemachineCamera>();
+        farCinemachineCamera.Follow = transform;
+
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
         _audio.PlayOneShot(_audio.Lobby);
         InputManager.Input.Enable();
 
         if (SceneManager.GetActiveScene().name != "MainMenu")
         {
+            nearCinemachineCamera.Priority = -2;
             Cursor.visible = false;
             FinishIntroAinm();
         }
@@ -587,6 +577,11 @@ public class PlayerController : MonoBehaviour
     public void FinishIntroAinm()
     {
         anim.SetTrigger("FinishIntro");
+    }
+
+    public void UseFarCamera()
+    {
+        nearCinemachineCamera.Priority = -2;
     }
 
 }

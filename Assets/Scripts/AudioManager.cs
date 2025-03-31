@@ -31,14 +31,16 @@ public class AudioManager : MonoBehaviour
     public EventReference EnemyDeath;
     public EventReference Explosion;
     public EventReference Missile;
+    public EventReference MissileLaunch;
     public EventReference EnemyHurt;
     public EventReference Laser;
     public EventReference EnemyFlying;
 
     [Header("SFX")]
+    public EventReference Lava;
     public EventReference Shop;
     public EventReference Rarity;
-    public EventReference ButtonPress;
+    public EventReference BouncePad;
 
     [Header("UI_SFX")]
     public EventReference UIClick;
