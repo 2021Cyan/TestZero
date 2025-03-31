@@ -654,7 +654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2e25e350e12870469892588bff8f877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NumberOfSegmentsPerLevel: 4
+  NumberOfSegmentsPerLevel: 1
   ShopFrequency: 0
   NumberOfLevels: 1
   NumberOfBlocksPerRaftSection: 3
@@ -664,8 +664,7 @@ MonoBehaviour:
   StartRoomPrefab: {fileID: 8430654730971527948, guid: 41223f40dd283984586908bce5792cc3, type: 3}
   EndRoomPrefab: {fileID: 1156781272073676450, guid: 9780077d69f1c2247a4f2f8843ec704d, type: 3}
   SegmentPrefabs:
-  - {fileID: 2406672136540584934, guid: 2331abf4e30a0134399276ceff75e2ca, type: 3}
-  - {fileID: 8811842756682670596, guid: 71c6fade6550fe648982df8240c343f4, type: 3}
+  - {fileID: 5763636540913620868, guid: a6fe6b4de248e1940ad840f37470d8d7, type: 3}
   RaftSectionStartPrefab: {fileID: 3464161219176289035, guid: 969629f43824b254baa1c6bd5fff8800, type: 3}
   RaftSectionBlockPrefab: {fileID: 3610564700861612366, guid: 4607cfb1c5bd71f4b8d3dee7c1855c28, type: 3}
   RaftSectionEndPrefab: {fileID: 3758704199689100100, guid: 5d1a662639838664397bde9e5c8fac91, type: 3}
