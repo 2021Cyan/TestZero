@@ -10,7 +10,7 @@ namespace EasyTransition
         private PlayerController playerController;
         private PodScript podScript;
 
-        void Awake()
+        void Start()
         {
             playerController = PlayerController.Instance;
             podScript = PodScript.Instance;
