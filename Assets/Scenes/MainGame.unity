@@ -211,10 +211,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 681657528678893090, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1103433083964833274, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10.584053
@@ -255,37 +251,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3942680907849944876, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 10.584053
-      objectReference: {fileID: 0}
-    - target: {fileID: 3942680907849944876, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 11.164911
-      objectReference: {fileID: 0}
-    - target: {fileID: 3955896091204143735, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
-      propertyPath: orthographic size
-      value: 1.89
-      objectReference: {fileID: 0}
-    - target: {fileID: 6673491019507536146, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
-      propertyPath: Target.TrackingTarget
-      value: 
-      objectReference: {fileID: 9152691687118219673}
-    - target: {fileID: 7776305126759511735, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 10.584053
-      objectReference: {fileID: 0}
-    - target: {fileID: 7776305126759511735, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 11.164911
-      objectReference: {fileID: 0}
     - target: {fileID: 7956118938123415454, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
       propertyPath: m_Name
       value: Cameras
-      objectReference: {fileID: 0}
-    - target: {fileID: 9032267778601864975, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1481,7 +1449,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Shop.Path
-      value: event:/SFX/Shop
+      value: event:/SFX/Shop/Shop
       objectReference: {fileID: 0}
     - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Shop.Guid.Data1
@@ -1670,11 +1638,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84eaad4cb3a1087489c8ddc0e36290fa, type: 3}
---- !u!4 &9152691687118219673 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7799167905210987219, guid: e74de27f14fc6894abbf9e89bef43f4e, type: 3}
-  m_PrefabInstance: {fileID: 1969593148872451394}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
