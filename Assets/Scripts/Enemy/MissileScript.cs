@@ -25,7 +25,10 @@ public class MissileScript : EnemyBase
         maxHealth = 20;
         currentHealth = maxHealth;
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        player = playerController.GetAimPos();
+        if(playerController != null)
+        {
+            player = playerController.GetAimPos();
+        }
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         _audio = AudioManager.Instance;

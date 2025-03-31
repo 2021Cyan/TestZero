@@ -3,6 +3,7 @@ using FMODUnity;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using EasyTransition;
 
 public class PlayerController : MonoBehaviour
 {
@@ -74,6 +75,8 @@ public class PlayerController : MonoBehaviour
     private InputManager _input;
     private AudioManager _audio;
     [SerializeField] Transform center;
+    public TransitionSettings transition;
+    public float startDelay;
 
     private void Awake()
     {
@@ -404,14 +407,7 @@ public class PlayerController : MonoBehaviour
         {
             PlayerUI.Instance.ShowHurtEffect();
             _audio.PlayOneShot(_audio.Hurt);
-            if (mousePos.x > transform.position.x)
-            {
-                hp = hp - amount;
-            }
-            else
-            {
-                hp = hp - amount;
-            }
+            hp = hp - amount;
         }
     }
 
@@ -431,7 +427,7 @@ public class PlayerController : MonoBehaviour
             _audio.PlayOneShot(_audio.Death);
             anim.SetTrigger("die");
             alive = false;
-            StartCoroutine(RestartAfterDelay(5f));
+            StartCoroutine(RestartAfterDelay(3f));
         }
     }
 
@@ -447,7 +443,7 @@ public class PlayerController : MonoBehaviour
         Destroy(Instance.gameObject);
         Instance = null;
         RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        TransitionManager.Instance().Transition("MainMenu", transition, startDelay);
     }
 
 
@@ -463,7 +459,7 @@ public class PlayerController : MonoBehaviour
             Destroy(Instance.gameObject);
             Instance = null;
             RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            TransitionManager.Instance().Transition("MainMenu", transition, startDelay);
         }
     }
 

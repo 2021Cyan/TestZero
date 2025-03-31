@@ -42,7 +42,10 @@ public class EnemyScript_Bomber : EnemyBase
 
         currentHealth = maxHealth;
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        player = playerController.GetAimPos();
+        if(playerController != null)
+        {
+            player = playerController.GetAimPos();
+        }
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 1f; 
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
