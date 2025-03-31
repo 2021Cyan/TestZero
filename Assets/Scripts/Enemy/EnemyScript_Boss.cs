@@ -67,7 +67,10 @@ public class EnemyScript_Boss : EnemyBase
         currentHealth = maxHealth;
         fireRate = 0.05f;
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        player = playerController.GetAimPos();
+        if(playerController != null)
+        {
+            player = playerController.GetAimPos();
+        }
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0;
         spriteRenderer = GetComponent<SpriteRenderer>();

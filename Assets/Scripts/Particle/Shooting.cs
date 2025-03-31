@@ -1,14 +1,14 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Cinemachine;
+using UnityEngine.SceneManagement;
 
 
 public class Shooting : MonoBehaviour
 {
     [SerializeField] GameObject gunPoint;
     [SerializeField] GameObject bulletPrefab;
-    [SerializeField] CinemachineCamera mainCamera;
+    // [SerializeField] CinemachineCamera mainCamera;
     [SerializeField] ParticleSystem muzzleFlash_single;
     [SerializeField] ParticleSystem muzzleFlash_smg;
 
@@ -31,10 +31,12 @@ public class Shooting : MonoBehaviour
 
     private void Start()
     {
-        playerController = PlayerController.Instance;
-        _input = InputManager.Instance;
-        _audio = AudioManager.Instance;
-        _bulletParent = new GameObject("BulletParent");
+        // playerController = PlayerController.Instance;
+        // _input = InputManager.Instance;
+        // _audio = AudioManager.Instance;
+        // _bulletParent = new GameObject("BulletParent");
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
     }
 
     private void Update()
@@ -61,7 +63,7 @@ public class Shooting : MonoBehaviour
         if (isFiring)
         {
             Shoot();
-            
+
             nextFireTime = Time.time + 1f / playerController.fireRate;
         }
         else
@@ -76,6 +78,13 @@ public class Shooting : MonoBehaviour
         }
     }
 
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        playerController = PlayerController.Instance;
+        _input = InputManager.Instance;
+        _audio = AudioManager.Instance;
+        _bulletParent = new GameObject("BulletParent");
+    }
     private void Shoot()
     {
         //TODO: optimize this later
@@ -87,7 +96,7 @@ public class Shooting : MonoBehaviour
             return;
         }
 
-        CameraScript cameraScript = mainCamera.GetComponent<CameraScript>();
+        CameraScript cameraScript = playerController.farCinemachineCamera.GetComponent<CameraScript>();
         // Trigger screen shake
         if (cameraScript != null)
         {
@@ -114,11 +123,11 @@ public class Shooting : MonoBehaviour
             muzzleFlash_single.Play();
         }
 
-        
+
         bool shouldFlipBullet = (mousePos.x < gunPoint.transform.position.x && transform.localScale.x > 0) ||
                                 (mousePos.x > gunPoint.transform.position.x && transform.localScale.x < 0);
 
-        
+
         Quaternion originalRotation = gunPoint.transform.rotation;
         float randomSpread = Random.Range(-currentSpreadAngle / 4, currentSpreadAngle);
         gunPoint.transform.Rotate(0, 0, randomSpread);
@@ -131,8 +140,8 @@ public class Shooting : MonoBehaviour
 
         if (playerController.bulletType == 5)
         {
-            int pelletCount = 5; 
-            float spreadAngle = 40f; 
+            int pelletCount = 5;
+            float spreadAngle = 40f;
 
             for (int i = 0; i < pelletCount; i++)
             {
@@ -153,7 +162,7 @@ public class Shooting : MonoBehaviour
         currentSpreadAngle = Mathf.Min(currentSpreadAngle + playerController.spreadIncreaseRate, playerController.maxSpreadAngle);
 
         _audio.SetParameterByName("WeaponType", GetWeaponType());
-        _audio.PlayOneShot(_audio.Shot, transform.position); 
+        _audio.PlayOneShot(_audio.Shot, transform.position);
     }
 
     // Return the current spread angle
@@ -180,7 +189,7 @@ public class Shooting : MonoBehaviour
         isReloading = true;
 
         ReticleController reticle = FindFirstObjectByType<ReticleController>();
-        
+
         if (reticle != null)
         {
             reticle.SetReloadUI(true);

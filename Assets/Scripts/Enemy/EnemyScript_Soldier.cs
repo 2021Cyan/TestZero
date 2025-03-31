@@ -44,7 +44,10 @@ public class Enemy_Soldier : EnemyBase
         currentHealth = maxHealth;
         fireRate = 0.175f;
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        player = playerController.GetAimPos();
+        if(playerController != null)
+        {
+            player = playerController.GetAimPos();
+        }
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 1f;
         moveSpeed = 4f;

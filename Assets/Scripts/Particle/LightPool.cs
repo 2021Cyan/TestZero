@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LightPool : MonoBehaviour
 {
@@ -21,6 +22,18 @@ public class LightPool : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Reset the pool when a new scene is loaded
+        foreach (var light in pool)
+        {
+            Destroy(light);
+        }
+        pool.Clear();
         GameObject tempObject = GameObject.Find("temp");
         if (tempObject == null)
         {

@@ -43,7 +43,10 @@ public class Enemy_Drone : EnemyBase
         currentHealth = maxHealth;
         fireRate = 1.5f;
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        player = playerController.GetAimPos();
+        if(playerController != null)
+        {
+            player = playerController.GetAimPos();
+        }
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -60,15 +63,22 @@ public class Enemy_Drone : EnemyBase
         }
         MoveDrone();
         isPlayerNearby = CheckNearbyPlayers();
-        Aim();
-        Shoot();
-        if(playerController.currentLevel >= 2)
+        if(playerController!= null && playerController.IsAlive())
         {
-            FireMissile();
+            Aim();
+            Shoot();
+            if (playerController.currentLevel >= 2)
+            {
+                FireMissile();
+            }
+            if (playerController.currentLevel >= 3)
+            {
+                //Zap();
+            }
         }
-        if(playerController.currentLevel >= 3)
+        else
         {
-            //Zap();
+            lineRenderer.enabled = false;
         }
     }
 

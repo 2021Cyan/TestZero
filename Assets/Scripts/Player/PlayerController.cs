@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using FMODUnity;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using EasyTransition;
 
 public class PlayerController : MonoBehaviour
 {
@@ -38,6 +40,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
     private Camera maincam;
+    private CinemachineCamera nearCinemachineCamera;
+    public CinemachineCamera farCinemachineCamera;
     private Vector3 mousePos;
     [SerializeField] ParticleSystem sparkFootEffect;
 
@@ -61,8 +65,8 @@ public class PlayerController : MonoBehaviour
     // Bullettime variables
     public float bulletTimeGauge = 0f;
     public float bulletTimeMaxGauge = 100f;
-    public float bulletTimeFillRate = 20f; 
-    public float bulletTimeDuration = 5f; 
+    public float bulletTimeFillRate = 20f;
+    public float bulletTimeDuration = 5f;
     public bool isBulletTimeActive = false;
     [SerializeField] private float enemyTimeScale = 0.5f;
 
@@ -71,6 +75,8 @@ public class PlayerController : MonoBehaviour
     private InputManager _input;
     private AudioManager _audio;
     [SerializeField] Transform center;
+    public TransitionSettings transition;
+    public float startDelay;
 
     private void Awake()
     {
@@ -78,30 +84,51 @@ public class PlayerController : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
             Destroy(gameObject);
+        } 
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name != "MainMenu")
+        {
+            FindSceneReferences();
         }
     }
 
     void Start()
     {
-        if (SceneManager.GetActiveScene().name != "MainMenu")
-        {
-            Cursor.visible = false;
-        }
-        
+        FindSceneReferences();
+    }
+
+    private void FindSceneReferences()
+    {
         _input = InputManager.Instance;
         _audio = AudioManager.Instance;
         hp = max_hp;
         currentAmmo = maxAmmo;
         currentLevel = 1;
         maincam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        nearCinemachineCamera = GameObject.FindGameObjectWithTag("NearCinemachineCamera").GetComponent<CinemachineCamera>();
+        farCinemachineCamera = GameObject.FindGameObjectWithTag("FarCinemachineCamera").GetComponent<CinemachineCamera>();
+        farCinemachineCamera.Follow = transform;
+
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
         _audio.PlayOneShot(_audio.Lobby);
         InputManager.Input.Enable();
+
+        if (SceneManager.GetActiveScene().name != "MainMenu")
+        {
+            nearCinemachineCamera.Priority = -2;
+            Cursor.visible = false;
+            FinishIntroAinm();
+        }
     }
 
     private void Update()
@@ -138,7 +165,7 @@ public class PlayerController : MonoBehaviour
             currentJumpTime += Time.deltaTime;
             rb.gravityScale = Mathf.Lerp(1f, 5f, Mathf.Clamp01(currentJumpTime / maxJumpTime));
         }
-        else if (rb.linearVelocity.y < 0) 
+        else if (rb.linearVelocity.y < 0)
         {
             rb.gravityScale = 5f;
         }
@@ -162,11 +189,11 @@ public class PlayerController : MonoBehaviour
         }
         if (leftRay.collider != null && leftRay.collider.CompareTag("Terrain") && leftRay.normal.y > 0.5f)
         {
-            isGround = true; 
+            isGround = true;
         }
         if (rightRay.collider != null && rightRay.collider.CompareTag("Terrain") && rightRay.normal.y > 0.5f)
         {
-            isGround = true; 
+            isGround = true;
         }
 
         return isGround;
@@ -370,7 +397,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator ActivateDodgeInvincibility()
     {
         isInvincible = true;
-        yield return new WaitForSeconds(dodgeDuration); 
+        yield return new WaitForSeconds(dodgeDuration);
         isInvincible = false;
     }
 
@@ -380,14 +407,7 @@ public class PlayerController : MonoBehaviour
         {
             PlayerUI.Instance.ShowHurtEffect();
             _audio.PlayOneShot(_audio.Hurt);
-            if (mousePos.x > transform.position.x)
-            {
-                hp = hp - amount;
-            }
-            else
-            {
-                hp = hp - amount;
-            }
+            hp = hp - amount;
         }
     }
 
@@ -407,7 +427,7 @@ public class PlayerController : MonoBehaviour
             _audio.PlayOneShot(_audio.Death);
             anim.SetTrigger("die");
             alive = false;
-            StartCoroutine(RestartAfterDelay(5f));
+            StartCoroutine(RestartAfterDelay(3f));
         }
     }
 
@@ -423,13 +443,13 @@ public class PlayerController : MonoBehaviour
         Destroy(Instance.gameObject);
         Instance = null;
         RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        TransitionManager.Instance().Transition("MainMenu", transition, startDelay);
     }
 
 
     void Restart()
     {
-        if(_input.ResetInput)
+        if (_input.ResetInput)
         {
             if (PodScript.Instance != null)
             {
@@ -439,7 +459,7 @@ public class PlayerController : MonoBehaviour
             Destroy(Instance.gameObject);
             Instance = null;
             RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            TransitionManager.Instance().Transition("MainMenu", transition, startDelay);
         }
     }
 
@@ -498,14 +518,17 @@ public class PlayerController : MonoBehaviour
         float originalFireRate = fireRate;
         float originalReloadSpeed = reloadSpeed;
         fireRate *= 2f;
-        reloadSpeed /= 2f;
+        reloadSpeed /= 4f;
 
 
         float depletionRate = bulletTimeMaxGauge / bulletTimeDuration;
         while (bulletTimeGauge > 0)
         {
-            bulletTimeGauge -= depletionRate * Time.unscaledDeltaTime;
-            bulletTimeGauge = Mathf.Max(0, bulletTimeGauge);
+            if (Time.timeScale > 0f)
+            {
+                bulletTimeGauge -= depletionRate * Time.unscaledDeltaTime;
+                bulletTimeGauge = Mathf.Max(0, bulletTimeGauge);
+            }
             yield return null;
         }
 
@@ -545,6 +568,16 @@ public class PlayerController : MonoBehaviour
     public void SetCursorVisible(bool visible)
     {
         Cursor.visible = visible;
+    }
+
+    public void FinishIntroAinm()
+    {
+        anim.SetTrigger("FinishIntro");
+    }
+
+    public void UseFarCamera()
+    {
+        nearCinemachineCamera.Priority = -2;
     }
 
 }

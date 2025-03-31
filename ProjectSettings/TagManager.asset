@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - FxTemporaire
   - Pod
+  - NearCinemachineCamera
+  - FarCinemachineCamera
   layers:
   - Default
   - TransparentFX

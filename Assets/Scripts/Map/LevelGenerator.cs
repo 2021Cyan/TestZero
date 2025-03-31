@@ -35,6 +35,7 @@ public class LevelGenerator : MonoBehaviour
 
     void Start()
     {
+        Player = PlayerController.Instance.gameObject;
         // Initialize lists
         _startRooms = new List<MapSegment>();
         _endRooms = new List<List<MapSegment>>();

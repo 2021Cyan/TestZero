@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SparkPool : MonoBehaviour
 {
@@ -15,11 +16,30 @@ public class SparkPool : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
+        // SparkPoolParent = new GameObject("SparkPoolParent");
+        // PreWarmPool(100);
+    }
+
+    private void Start()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Reset the pool when a new scene is loaded
+        foreach (var spark in pool)
+        {
+            Destroy(spark);
+        }
+        pool.Clear();
         SparkPoolParent = new GameObject("SparkPoolParent");
         PreWarmPool(100);
     }
