@@ -390,8 +390,8 @@ Transform:
   m_GameObject: {fileID: 4454524012500569035}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10, y: -2, z: 0}
-  m_LocalScale: {x: 14, y: 1, z: 1}
+  m_LocalPosition: {x: -10, y: -1.5, z: 0}
+  m_LocalScale: {x: 11, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 539559633228311059}
@@ -752,8 +752,8 @@ Transform:
   m_GameObject: {fileID: 6167897343656291769}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13, y: 1, z: 0}
-  m_LocalScale: {x: 5, y: 1, z: 1}
+  m_LocalPosition: {x: -13.5, y: 2, z: 0}
+  m_LocalScale: {x: 4, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 539559633228311059}
@@ -1142,6 +1142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9379147ab72296c438b6a8ea1f767d84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ActivationDistance: 0
   Velocity: 0.005
   EntryPoint: {fileID: 202483098670851567}
   ExitPoint: {fileID: 7902918668037713733}
@@ -1231,26 +1232,16 @@ CompositeCollider2D:
         Y: -25000000
       - X: -185000000
         Y: -25000000
-  - m_Collider: {fileID: 2240350734172424821}
-    m_ColliderPaths:
-    - - X: -30000000
-        Y: -15000000
-      - X: -170000000
-        Y: -15000000
-      - X: -170000000
-        Y: -25000000
-      - X: -30000000
-        Y: -25000000
   - m_Collider: {fileID: 3496769569005817234}
     m_ColliderPaths:
-    - - X: -105000000
-        Y: 15000000
+    - - X: -115000000
+        Y: 25000000
+      - X: -155000000
+        Y: 25000000
       - X: -155000000
         Y: 15000000
-      - X: -155000000
-        Y: 5000000
-      - X: -105000000
-        Y: 5000000
+      - X: -115000000
+        Y: 15000000
   - m_Collider: {fileID: 1489791508564770511}
     m_ColliderPaths:
     - - X: -185000000
@@ -1281,26 +1272,40 @@ CompositeCollider2D:
         Y: -45000000
       - X: -5000000
         Y: -45000000
+  - m_Collider: {fileID: 2240350734172424821}
+    m_ColliderPaths:
+    - - X: -45000000
+        Y: -10000000
+      - X: -155000000
+        Y: -10000000
+      - X: -155000000
+        Y: -20000000
+      - X: -45000000
+        Y: -20000000
   - m_Collider: {fileID: 3297975518922086523}
     m_ColliderPaths:
-    - - X: -40000000
+    - - X: -45000000
+        Y: 25000000
+      - X: -85000000
+        Y: 25000000
+      - X: -85000000
         Y: 15000000
-      - X: -90000000
+      - X: -45000000
         Y: 15000000
-      - X: -90000000
-        Y: 5000000
-      - X: -40000000
-        Y: 5000000
   m_CompositePaths:
     m_Paths:
-    - - {x: -4.000029, y: 0.5}
-      - {x: -4.000029, y: 1.5}
-      - {x: -9, y: 1.4999707}
-      - {x: -8.99997, y: 0.5}
-    - - {x: -10.50003, y: 0.5}
-      - {x: -10.50003, y: 1.5}
-      - {x: -15.5, y: 1.4999707}
-      - {x: -15.499971, y: 0.5}
+    - - {x: -4.500029, y: 1.5}
+      - {x: -4.500029, y: 2.5}
+      - {x: -8.5, y: 2.499971}
+      - {x: -8.49997, y: 1.5}
+    - - {x: -11.50003, y: 1.5}
+      - {x: -11.50003, y: 2.5}
+      - {x: -15.5, y: 2.499971}
+      - {x: -15.499971, y: 1.5}
+    - - {x: -4.500029, y: -2}
+      - {x: -4.500029, y: -1}
+      - {x: -15.5, y: -1.0000293}
+      - {x: -15.499971, y: -2}
     - - {x: -0.5000293, y: -5.5}
       - {x: -0.49997061, y: -2.5}
       - {x: 0.5, y: -2.499971}
@@ -1313,10 +1318,6 @@ CompositeCollider2D:
       - {x: -20.499971, y: -2.5}
       - {x: -19.5, y: -2.5000293}
       - {x: -19.499971, y: -5.5}
-    - - {x: -3.0000293, y: -2.5}
-      - {x: -3.0000293, y: -1.5}
-      - {x: -17, y: -1.5000293}
-      - {x: -16.999971, y: -2.5}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
@@ -1530,8 +1531,8 @@ Transform:
   m_GameObject: {fileID: 8718253639939554225}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.5, y: 1, z: 0}
-  m_LocalScale: {x: 5, y: 1, z: 1}
+  m_LocalPosition: {x: -6.5, y: 2, z: 0}
+  m_LocalScale: {x: 4, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 539559633228311059}
