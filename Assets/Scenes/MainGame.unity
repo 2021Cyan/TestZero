@@ -251,33 +251,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-<<<<<<< HEAD:Assets/Scenes/MapTestWithPlayer.unity
-    - target: {fileID: 3942680907849944876, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 10.584053
-      objectReference: {fileID: 0}
-    - target: {fileID: 3942680907849944876, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 11.164911
-      objectReference: {fileID: 0}
-    - target: {fileID: 3955896091204143735, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
-      propertyPath: orthographic size
-      value: 5.3999996
-      objectReference: {fileID: 0}
-    - target: {fileID: 6673491019507536146, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
-      propertyPath: Target.TrackingTarget
-      value: 
-      objectReference: {fileID: 9152691687118219673}
-    - target: {fileID: 7776305126759511735, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 10.584053
-      objectReference: {fileID: 0}
-    - target: {fileID: 7776305126759511735, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 11.164911
-      objectReference: {fileID: 0}
-=======
->>>>>>> main:Assets/Scenes/MainGame.unity
     - target: {fileID: 7956118938123415454, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
       propertyPath: m_Name
       value: Cameras

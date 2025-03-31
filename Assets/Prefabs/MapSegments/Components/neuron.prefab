@@ -1461,7 +1461,7 @@ Transform:
   - {fileID: 3237169270293727474}
   - {fileID: 4071999135941122897}
   - {fileID: 1417699322243486262}
-  - {fileID: 3437810512024202553}
+  - {fileID: 7464717950278120075}
   - {fileID: 3096601287252768373}
   - {fileID: 1339997974350109597}
   m_Father: {fileID: 0}
@@ -1920,14 +1920,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6500983499178520747, guid: 838e18fd4bd331d45a2bb8a5ca2d6389, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 838e18fd4bd331d45a2bb8a5ca2d6389, type: 3}
---- !u!4 &3437810512024202553 stripped
+--- !u!4 &7464717950278120075 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 1303137965244378905, guid: 838e18fd4bd331d45a2bb8a5ca2d6389, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6500983499178520747, guid: 838e18fd4bd331d45a2bb8a5ca2d6389, type: 3}
   m_PrefabInstance: {fileID: 4440588134018253344}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5893434456799727474

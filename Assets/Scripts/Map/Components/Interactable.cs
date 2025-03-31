@@ -15,6 +15,13 @@ public class Interactable : MonoBehaviour
     // Behaviour
     public bool PlayerIsNear(Vector3 selfPosition)
     {
-        return Vector3.Distance(_player.transform.position, selfPosition) < ActivationDistance;
+        if (_player != null)
+        {
+            return Vector3.Distance(_player.transform.position, selfPosition) < ActivationDistance;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
