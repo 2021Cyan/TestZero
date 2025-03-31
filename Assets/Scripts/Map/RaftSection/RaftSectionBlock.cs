@@ -51,5 +51,10 @@ public class RaftSectionBlock : MonoBehaviour
         {
             Gizmos.DrawSphere(ExitPoint.position, 0.5f);
         }
+        Gizmos.color = Color.red;
+        if (EventSpawnPoint != null)
+        {
+            Gizmos.DrawSphere(EventSpawnPoint.position, 0.5f);
+        }
     }
 }

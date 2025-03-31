@@ -8,6 +8,7 @@ public class MapSegment : MonoBehaviour
 {
     // Public attributes
     public int Likelihood; // value representing how often segment should occur
+    public int Type;
     public int MinEnemies;
     public int MaxEnemies;
 

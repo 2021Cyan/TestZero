@@ -50,10 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19b77c922b19e6940a911b31a02f63cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanBeStart: 0
-  CanFlipX: 0
-  CanFlipY: 0
   Likelihood: 0
+  Type: 0
   MinEnemies: 0
   MaxEnemies: 0
 --- !u!114 &1401620331337619930
@@ -411,11 +409,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 539559633228311059, guid: 1e5ccc8e33297ab438c9390590f7f221, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 25
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 539559633228311059, guid: 1e5ccc8e33297ab438c9390590f7f221, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 539559633228311059, guid: 1e5ccc8e33297ab438c9390590f7f221, type: 3}
       propertyPath: m_LocalPosition.z
@@ -481,11 +479,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5961419783156633638, guid: 4607cfb1c5bd71f4b8d3dee7c1855c28, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5961419783156633638, guid: 4607cfb1c5bd71f4b8d3dee7c1855c28, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 5961419783156633638, guid: 4607cfb1c5bd71f4b8d3dee7c1855c28, type: 3}
       propertyPath: m_LocalPosition.z

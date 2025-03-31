@@ -236,7 +236,7 @@ public class LevelGenerator : MonoBehaviour
             currentSegment = GetMapSegmentFromPrefab(currentSegmentPrefab);
 
             // Check for repeated segments
-            if (SegmentPrefabs.Length > 1 && prevSegment != null && currentSegment.GetName() == prevSegment.GetName()) {continue;}
+            if (SegmentPrefabs.Length > 1 && prevSegment != null && currentSegment.Type == prevSegment.Type) {continue;}
 
             // Spawn segment
             currentSegment = Spawn(currentSegmentPrefab, nextSpawnPosition);

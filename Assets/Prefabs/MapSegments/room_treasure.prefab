@@ -612,6 +612,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Likelihood: 0
+  Type: 2
   MinEnemies: 1
   MaxEnemies: 3
 --- !u!1 &3106341753872010705
