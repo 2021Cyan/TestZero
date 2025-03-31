@@ -24,7 +24,7 @@ public class Teleporter : Interactable
         // Set default teleport location
         _destination = gameObject.transform.position;
     }
-    
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -43,8 +43,8 @@ public class Teleporter : Interactable
     void OnDrawGizmos()
     {
         return;
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, _destination);
+        // Gizmos.color = Color.blue;
+        // Gizmos.DrawLine(transform.position, _destination);
     }
 
 }
