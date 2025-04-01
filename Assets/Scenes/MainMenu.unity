@@ -71377,7 +71377,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "        \n    acceleration"
+  m_text: "        \n    Acceleration"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a4750605d104fd429bcab4f5cd40fb0, type: 2}
   m_sharedMaterial: {fileID: 207135095965902284, guid: 5a4750605d104fd429bcab4f5cd40fb0, type: 2}
