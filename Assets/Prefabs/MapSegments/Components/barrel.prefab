@@ -287,7 +287,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActivationDistance: 3
   Reward: 10
-  _prompt: {fileID: 6049973666257805093}
+  Prompt: {fileID: 6049973666257805093}
+  Likelihood: 1
 --- !u!212 &4020686304416012832
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -48,8 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Likelihood: 0
   Type: 3
-  MinEnemies: 0
-  MaxEnemies: 0
+  MinEnemies: 5
+  MaxEnemies: 10
 --- !u!1001 &1495987220213436413
 PrefabInstance:
   m_ObjectHideFlags: 0

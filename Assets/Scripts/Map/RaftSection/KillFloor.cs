@@ -12,7 +12,9 @@ public class KillFloor : MonoBehaviour
 
         else if (other.CompareTag("Enemy"))
         {
-            other.gameObject.GetComponent<EnemyBase>().TakeDamage(float.MaxValue);
+            EnemyBase enemy = other.gameObject.GetComponent<EnemyBase>();
+            enemy.ZeroResourceAmount();
+            enemy.TakeDamage(float.MaxValue);
         }
     }
 }

@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 public class Enemy_Drone : EnemyBase
 {
     // Enemy movement
+    public bool StartMovingLeft = false;
     private Vector3 moveDirection;
     public float moveSpeed = 3f;
     public float changeDirectionTime = 2f;
@@ -34,6 +35,11 @@ public class Enemy_Drone : EnemyBase
 
     [SerializeField] GameObject explosion;
 
+    public Vector3 GetDirection()
+    {
+        return moveDirection;
+    }
+
     void Start()
     {
         _audio = AudioManager.Instance;
@@ -52,7 +58,14 @@ public class Enemy_Drone : EnemyBase
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         spriteRenderer = GetComponent<SpriteRenderer>();
         lineRenderer = GetComponent<LineRenderer>();
-        ChangeDirection();
+        if (!StartMovingLeft)
+        {
+            ChangeDirection();
+        }
+        else
+        {
+            moveDirection = Vector3.left;
+        }
     }
 
     void Update()
@@ -67,11 +80,11 @@ public class Enemy_Drone : EnemyBase
         {
             Aim();
             Shoot();
-            if (playerController.currentLevel >= 2)
+            if (_levelNumber >= 1)
             {
                 FireMissile();
             }
-            if (playerController.currentLevel >= 3)
+            if (_levelNumber >= 2)
             {
                 //Zap();
             }
@@ -86,7 +99,7 @@ public class Enemy_Drone : EnemyBase
     // Move to random direction
     // No parameter -> Random direction
     // collisonHappen == true -> Opposite direction
-    private void ChangeDirection(bool collisonHappen = default(bool))
+    public void ChangeDirection(bool collisonHappen = default(bool))
     {
         if (!collisonHappen)
         {

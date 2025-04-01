@@ -671,10 +671,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2e25e350e12870469892588bff8f877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NumberOfSegmentsPerLevel: 20
+  NumberOfSegmentsPerLevel: 1
   ShopFrequency: 0
   NumberOfLevels: 3
-  NumberOfBlocksPerRaftSection: 3
+  NumberOfBlocksPerRaftSection: 5
   EnemySpawnLevelScaling: 0.5
   Player: {fileID: 1634541014}
   ShopRoomPrefab: {fileID: 7346705287260323825, guid: 77e80cbd8b41ed140b2ba9988a809b11, type: 3}
@@ -702,7 +702,11 @@ MonoBehaviour:
   RaftSectionBlockPrefab: {fileID: 3610564700861612366, guid: 4607cfb1c5bd71f4b8d3dee7c1855c28, type: 3}
   RaftSectionEndPrefab: {fileID: 3758704199689100100, guid: 5d1a662639838664397bde9e5c8fac91, type: 3}
   Events:
+  - {fileID: 691447258150488323, guid: 6847252f5e888e0468811e0b4a6dbbe1, type: 3}
+  - {fileID: 4644817467462089079, guid: 5ea5d76a22b4dcb4f825b7d30d48fbc0, type: 3}
+  - {fileID: 4644817467462089079, guid: 54858818e03ecde44afbfb0dde2bf015, type: 3}
   - {fileID: 4644817467462089079, guid: 4fa0090a020149047ab142f3fd4d923b, type: 3}
+  - {fileID: 691447258150488323, guid: a008743524df83241a6ac2baa1e3b912, type: 3}
   EventFrequency: 1
 --- !u!4 &1321328354
 Transform:
