@@ -250,6 +250,7 @@ MonoBehaviour:
   EntryPoint: {fileID: 0}
   ExitPoint: {fileID: 7467886118237999981}
   EventSpawnPoint: {fileID: 0}
+  DroneEventSpawnPoint: {fileID: 0}
 --- !u!1 &6409116304680131990
 GameObject:
   m_ObjectHideFlags: 0
@@ -3034,7 +3035,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
