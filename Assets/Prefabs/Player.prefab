@@ -83,7 +83,7 @@ MonoBehaviour:
   jumpPower: 13
   max_hp: 100
   hp: 100
-  resource: 16000
+  resource: 800
   currentLevel: 0
   ResourceText: {fileID: 2392417955568809763, guid: e1c331f98e06af44db2d4583c0412cff, type: 3}
   damage: 20
