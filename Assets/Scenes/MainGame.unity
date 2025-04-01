@@ -720,8 +720,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2e25e350e12870469892588bff8f877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NumberOfSegmentsPerLevel: 1
-  ShopFrequency: 0
+  NumberOfSegmentsPerLevel: 6
+  ShopFrequency: 5
   NumberOfLevels: 3
   NumberOfBlocksPerRaftSection: 5
   EnemySpawnLevelScaling: 0.5

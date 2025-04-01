@@ -58,6 +58,14 @@ public class Enemy_Soldier : EnemyBase
 
     void Update()
     {
+        if (_levelNumber >= 1)
+        {
+            maxShots = 5;
+        }
+        if (_levelNumber >= 2)
+        {
+            maxShots = 7;
+        }
         if (isalive)
         {
             UpdateState();

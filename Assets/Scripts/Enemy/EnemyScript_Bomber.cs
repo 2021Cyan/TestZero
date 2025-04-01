@@ -9,7 +9,7 @@ public class EnemyScript_Bomber : EnemyBase
     private float detectionRange;
 
     // Hover
-    private float hoverHeight = 2f; 
+    private float hoverHeight = 1.5f; 
     private float hoverForce = 10f; 
     private float hoverDamping = 5f; 
 
