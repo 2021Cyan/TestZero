@@ -52,11 +52,11 @@ public class EnemyScript_Turret : EnemyBase
         ChangeDirection();
         Aim();
         Shoot();
-        if (playerController.currentLevel >= 2)
+        if (_levelNumber >= 1)
         {
             FireMissile();
         }
-        if (playerController.currentLevel >= 3)
+        if (_levelNumber >= 2)
         {
             //Zap();
         }

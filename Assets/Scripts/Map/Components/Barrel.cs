@@ -5,7 +5,8 @@ public class Barrel : Interactable
 {
     // Public attributes
     public int Reward;
-    public GameObject _prompt;
+    public GameObject Prompt;
+    public float Likelihood = 1f;
 
     // Private attributes
     private bool _used = false;
@@ -34,6 +35,12 @@ public class Barrel : Interactable
 
     void Start()
     {
+        // Destory self based on likelihood
+        if (Random.value > Likelihood)
+        {
+            Destroy(gameObject);
+        }
+
         // Hide prompt
         ShowPrompt(false);
         _audio = AudioManager.Instance;
@@ -81,12 +88,12 @@ public class Barrel : Interactable
         {
             // Display "Press E to interact"
             // TODO
-            _prompt.SetActive(true);
+            Prompt.SetActive(true);
         }
         else
         {
             // Hide prompt text
-            _prompt.SetActive(false);
+            Prompt.SetActive(false);
         }
     }
 }

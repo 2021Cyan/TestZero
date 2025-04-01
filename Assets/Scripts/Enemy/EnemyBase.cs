@@ -19,10 +19,21 @@ public abstract class EnemyBase : MonoBehaviour
     private float corrosiveDamagePerSecond = 0f;
     public GameObject damageTextPrefab;
     private bool isCorroding = false;
+    protected int _levelNumber = 0;
 
     // For Combo bullet 
     private Coroutine comboCoroutine;
     private float comboDamage = 0f;
+
+    public void ZeroResourceAmount()
+    {
+        resourceAmount = 0;
+    }
+
+    public void SetLevelNumber(int levelNumber)
+    {
+        _levelNumber = levelNumber;
+    }
 
     public int GetMaxHealth()
     {
