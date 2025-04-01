@@ -79,5 +79,5 @@ crashlytics-build.properties
 # FMOD Editor Generated Files
 Fmod.log
 Fmod_editor.log
+Assets/Plugins/FMOD/Cache/Editor/*
 Assets/Plugins/FMOD/Cache/Editor/FMODStudioCache.asset
-Assets/Plugins/FMOD/Cache/Editor/FMODStudioCache.asset.meta
