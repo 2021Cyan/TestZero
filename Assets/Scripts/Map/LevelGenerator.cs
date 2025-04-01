@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
@@ -35,7 +34,6 @@ public class LevelGenerator : MonoBehaviour
 
     void Start()
     {
-        Player = PlayerController.Instance.gameObject;
         // Initialize lists
         _startRooms = new List<MapSegment>();
         _endRooms = new List<List<MapSegment>>();
