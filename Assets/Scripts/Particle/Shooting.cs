@@ -46,7 +46,7 @@ public class Shooting : MonoBehaviour
             return;
         }
 
-        if ((_input.ClickInput) && playerController.gripType == "gun_grip_smg" && playerController.currentAmmo > 0 && !GunCollideCheck())
+        if ((_input.ClickInput) && playerController.gripType == "gun_grip_smg" && playerController.currentAmmo > 0 && !GunCollideCheck() && !isReloading)
         {
             if (!muzzleFlash_smg.isPlaying)
             {
