@@ -15,7 +15,9 @@ public class ItemInfoScript : MonoBehaviour
     private TextMeshPro statText;
     private Coroutine typingCoroutine;
     private bool isTyping = false;
-    private string DefaultText = $"<mspace=1.5>Exchange Data for Upgrades</mspace>";
+    private string DefaultText = $"<mspace=1.5>Exchange Data for Upgrades</mspace>" +
+                                 $"\n" +
+                                 $"\n<mspace=1.5>Hover <color=#00FF00>MOUSE</color> over to SELECT</mspace>";
 
     private string SoldOutText = $"<mspace=1.5>All Upgrades Sold Out</mspace>";
 

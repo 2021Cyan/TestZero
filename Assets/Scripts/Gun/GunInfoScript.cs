@@ -13,7 +13,9 @@ public class GunInfoScript : MonoBehaviour
                                  $"\n" +
                                  $"\n<mspace=1.5>Hold  <color=#00FF00>F</color> to Generate 10 (1600)</mspace>" +
                                  $"\n" +
-                                 $"\n<mspace=1.5>Hold  <color=#00FF00>G</color> to Recycle ALL Guns</mspace>";
+                                 $"\n<mspace=1.5>Hold  <color=#00FF00>G</color> to Recycle ALL Guns</mspace>" +
+                                 $"\n" +
+                                 $"\n<mspace=1.5>Hover <color=#00FF00>MOUSE</color> over to see STAT</mspace>";
 
 
     void Start()

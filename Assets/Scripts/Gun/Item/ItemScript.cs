@@ -75,6 +75,7 @@ public class ItemScript : MonoBehaviour
                 break;
             case 1:
                 playerController.max_hp += 20;
+                playerController.Restore(10000);
                 break;
             case 2:
                 playerController.bulletTimeDuration += 1;
