@@ -83,7 +83,7 @@ public class GunInfoScript : MonoBehaviour
         switch (gun.gunRarity)
         {
             case GunScript.Rarity.Common:
-                rarityColor = "#3498DB"; 
+                rarityColor = "#005AB3"; 
                 rarityText = "Standard";
                 break;
             case GunScript.Rarity.Uncommon:
