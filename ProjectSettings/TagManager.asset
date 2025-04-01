@@ -10,6 +10,7 @@ TagManager:
   - Pod
   - NearCinemachineCamera
   - FarCinemachineCamera
+  - SparkSlide
   layers:
   - Default
   - TransparentFX

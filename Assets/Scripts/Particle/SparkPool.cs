@@ -21,15 +21,22 @@ public class SparkPool : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
-        // SparkPoolParent = new GameObject("SparkPoolParent");
-        // PreWarmPool(100);
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void Start()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+        // SceneManager.sceneLoaded += OnSceneLoaded;
+        // SceneManager.sceneUnloaded += OnSceneUnloaded;
+        // // foreach (var spark in pool)
+        // // {
+        // //     Destroy(spark);
+        // // }
+        // // pool.Clear();
+        // SparkPoolParent = new GameObject("SparkPoolParent");
+        // PreWarmPool(100);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -43,6 +50,35 @@ public class SparkPool : MonoBehaviour
         SparkPoolParent = new GameObject("SparkPoolParent");
         PreWarmPool(100);
     }
+
+    private void CleanUpPool()
+    {
+        // Clear the pool when the scene is unloaded
+        // if (SparkPoolParent != null)
+        // {
+        //     foreach (var spark in pool)
+        //     {
+        //         Destroy(spark);
+        //     }
+        //     pool.Clear();
+        //     Destroy(SparkPoolParent);
+        // }
+        pool.Clear();
+    }
+
+    void OnDestroy()
+    {
+        // CleanUpPool();
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        // SceneManager.sceneUnloaded -= OnSceneUnloaded;
+    }
+
+    private void OnDisable()
+    {
+        // CleanUpPool();
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
 
     // Get a Light2D object from the pool
     public GameObject GetSpark()
@@ -84,14 +120,5 @@ public class SparkPool : MonoBehaviour
         }
     }
 
-    private void OnDisable()
-    {
-        // Clear the pool when the object is disabled
-        foreach (var spark in pool)
-        {
-            Destroy(spark);
-        }
-        pool.Clear();
-        // Debug.Log("Count: " + count);
-    }
+
 }

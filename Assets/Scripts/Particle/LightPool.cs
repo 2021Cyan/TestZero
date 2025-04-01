@@ -17,13 +17,40 @@ public class LightPool : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
+            return;
         }
         SceneManager.sceneLoaded += OnSceneLoaded;
-        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+    }
+
+    private void CleanUpPool()
+    {
+        // Clear the pool when the scene is unloaded
+        if (temp != null)
+        {
+            foreach (var light in pool)
+            {
+                Destroy(light);
+            }
+            pool.Clear();
+            Destroy(temp.gameObject);
+        }
+    }
+    
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        CleanUpPool();
+    }
+
+    private void OnDisable()
+    {
+        // Clear the pool when the scene is unloaded
+        CleanUpPool();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -83,14 +110,4 @@ public class LightPool : MonoBehaviour
         }
     }
 
-    private void OnDisable()
-    {
-        // Clear the pool when the object is disabled
-        foreach (var light in pool)
-        {
-            Destroy(light);
-        }
-        pool.Clear();
-        // Debug.Log("Count: " + count);
-    }
 }
