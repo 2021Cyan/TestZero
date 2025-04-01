@@ -57,6 +57,32 @@ public class Raft : Interactable
         // Move if activated
         if (_activated)
         {
+            // Temporary
+            List<Transform> toRemove = new List<Transform>();
+            foreach (Transform tf in _entitiesOnPlatform)
+            {
+                if (tf == null)
+                {
+                    toRemove.Add(tf);
+                    continue;
+                }
+
+                if (tf.CompareTag("Enemy"))
+                {
+                    EnemyBase enemy = tf.GetComponent<EnemyBase>();
+                    if (enemy == null || !enemy.isalive)
+                    {
+                        toRemove.Add(tf);
+                    }
+                }
+            }
+
+            foreach (Transform tf in toRemove)
+            {
+                _entitiesOnPlatform.Remove(tf);
+            }
+
+
             _prevPosition = transform.position;
             transform.position = Vector3.MoveTowards(transform.position, _destination, Velocity * Time.deltaTime);
 
