@@ -467,7 +467,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void Restart()
+    private void Restart()
     {
         if (_input.ResetInput)
         {
@@ -479,8 +479,14 @@ public class PlayerController : MonoBehaviour
             Destroy(Instance.gameObject);
             Instance = null;
             RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            _input.SetResetInput(false);
             TransitionManager.Instance().Transition("MainMenu", transition, startDelay);
         }
+    }
+
+    public void RestartGame()
+    {
+        _input.SetResetInput(true);
     }
 
     // Increase Resource when enenmy is killed
