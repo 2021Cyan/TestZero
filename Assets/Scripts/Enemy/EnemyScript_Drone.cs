@@ -43,7 +43,7 @@ public class Enemy_Drone : EnemyBase
         currentHealth = maxHealth;
         fireRate = 1.5f;
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        if(playerController != null)
+        if (playerController != null)
         {
             player = playerController.GetAimPos();
         }
@@ -63,7 +63,7 @@ public class Enemy_Drone : EnemyBase
         }
         MoveDrone();
         isPlayerNearby = CheckNearbyPlayers();
-        if(playerController!= null && playerController.IsAlive())
+        if (playerController != null && playerController.IsAlive())
         {
             Aim();
             Shoot();
@@ -161,7 +161,7 @@ public class Enemy_Drone : EnemyBase
         }
         else
         {
-            lineRenderer.enabled=false;
+            lineRenderer.enabled = false;
         }
     }
 
@@ -181,6 +181,10 @@ public class Enemy_Drone : EnemyBase
 
     private void FireMissile()
     {
+        if (player == null)
+        {
+            return;
+        }
         if (Time.time > lastMissileTime + missileCooldown)
         {
             bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, player.position, LayerMask.GetMask("Terrain"));
