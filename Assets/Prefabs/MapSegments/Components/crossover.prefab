@@ -1783,12 +1783,12 @@ Transform:
   m_GameObject: {fileID: 1904852171124077107}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.75, y: 0.5, z: 0}
+  m_LocalScale: {x: 0.125, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8085394740088768325}
-  m_Father: {fileID: 6586422349479642125}
+  m_Father: {fileID: 6068916558333715190}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!156049354 &2189992325869234559
 Grid:
@@ -1865,7 +1865,6 @@ Transform:
   - {fileID: 6248953796097561358}
   - {fileID: 302524260311055350}
   - {fileID: 6969507962319020830}
-  - {fileID: 5722879811282156312}
   m_Father: {fileID: 6331582016355287302}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4080089509451265832
@@ -1900,7 +1899,8 @@ Transform:
   m_LocalPosition: {x: 6, y: 0, z: 0}
   m_LocalScale: {x: 8, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5722879811282156312}
   m_Father: {fileID: 4844215478096502030}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2462079461179703047
@@ -2092,12 +2092,12 @@ Transform:
   m_GameObject: {fileID: 4715969121506866073}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -17.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.75, y: -17.5, z: 0}
+  m_LocalScale: {x: 0.125, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2908789505279385472}
-  m_Father: {fileID: 4844215478096502030}
+  m_Father: {fileID: 6248953796097561358}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!156049354 &5872028217107771200
 Grid:
@@ -2143,7 +2143,6 @@ Transform:
   - {fileID: 6068916558333715190}
   - {fileID: 7305011841718027277}
   - {fileID: 5273152338239026108}
-  - {fileID: 1198837264798314922}
   m_Father: {fileID: 6331582016355287302}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5060700548643928434
@@ -2877,7 +2876,8 @@ Transform:
   m_LocalPosition: {x: -6, y: 0, z: 0}
   m_LocalScale: {x: 8, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1198837264798314922}
   m_Father: {fileID: 6586422349479642125}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8317042477565622661
