@@ -11,11 +11,13 @@ public class RaftSectionBlock : MonoBehaviour
     // Private attributes
     private GameObject _event;
     private bool _hasSpawnedEvent= false;
+    private int _levelNumber = 0;
 
     // Setters
-    public void SetEvent(GameObject newEvent)
+    public void SetEventAndLevelNumber(GameObject newEvent, int levelNumber)
     {
         _event = newEvent;
+        _levelNumber = levelNumber;
     }
 
     // Behaviour
@@ -40,16 +42,22 @@ public class RaftSectionBlock : MonoBehaviour
         RaftEvent raftEvent = _event.GetComponent<RaftEvent>();
         if (raftEvent != null && raftEvent.HasDrones)
         {
-            Instantiate(_event, DroneEventSpawnPoint.position, Quaternion.identity);
+            raftEvent = Instantiate(_event, DroneEventSpawnPoint.position, Quaternion.identity).GetComponent<RaftEvent>();
             _hasSpawnedEvent = true;
         }
 
         // Otherwise, spawn at event point
         else
         {
-            Instantiate(_event, EventSpawnPoint.position, Quaternion.identity);
+            raftEvent = Instantiate(_event, EventSpawnPoint.position, Quaternion.identity).GetComponent<RaftEvent>();
             _hasSpawnedEvent = true;
-        }        
+        }
+
+        // Convey level number to each enemy in event
+        foreach (EnemyBase enemy in raftEvent.GetComponentsInChildren<EnemyBase>())
+        {
+            enemy.SetLevelNumber(_levelNumber);
+        }
     }
 
     void OnDrawGizmos()

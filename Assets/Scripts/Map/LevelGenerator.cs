@@ -140,7 +140,7 @@ public class LevelGenerator : MonoBehaviour
                     currentBlock = currentPrefab.GetComponent<RaftSectionBlock>();
                     if (EventFrequency != 0 && i % EventFrequency == 0)
                     {
-                        currentBlock.SetEvent(Events[Random.Range(0, Events.Length)]);
+                        currentBlock.SetEventAndLevelNumber(Events[Random.Range(0, Events.Length)], levelNumber);
                     }
                 }
 
