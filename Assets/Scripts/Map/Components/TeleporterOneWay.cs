@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Rendering;
+//using UnityEditor.Rendering;
 using UnityEngine;
 
 public class OneWayTeleporter : Interactable
@@ -48,7 +48,7 @@ public class OneWayTeleporter : Interactable
         }
     }
 
-    
+    /*
     void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
@@ -62,5 +62,6 @@ public class OneWayTeleporter : Interactable
             Gizmos.DrawLine(transform.position, DestinationPoints[i].position);
         }
     }
-    
+    */
+
 }
