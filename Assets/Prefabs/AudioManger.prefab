@@ -191,6 +191,13 @@ MonoBehaviour:
       Data3: 1533747348
       Data4: 2006989703
     Path: event:/SFX/Weapons/MissileExplosion
+  MissileLaunch:
+    Guid:
+      Data1: 1948244972
+      Data2: 1220867596
+      Data3: -1018815836
+      Data4: 1946066782
+    Path: event:/SFX/Weapons/MissileLaunch
   EnemyHurt:
     Guid:
       Data1: 0
@@ -212,6 +219,13 @@ MonoBehaviour:
       Data3: 961014203
       Data4: 185352016
     Path: event:/SFX/DroneFlying
+  Lava:
+    Guid:
+      Data1: -717349730
+      Data2: 1081303904
+      Data3: 1968380297
+      Data4: 426293578
+    Path: event:/SFX/Lava
   Shop:
     Guid:
       Data1: 1760894025
@@ -226,13 +240,13 @@ MonoBehaviour:
       Data3: -1102947158
       Data4: 547946318
     Path: event:/SFX/Shop/Rarity
-  ButtonPress:
+  BouncePad:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 452870617
+      Data2: 1178433447
+      Data3: -349081472
+      Data4: -1726698430
+    Path: event:/SFX/BouncePad
   UIClick:
     Guid:
       Data1: 1400899860

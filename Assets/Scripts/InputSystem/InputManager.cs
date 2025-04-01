@@ -182,6 +182,10 @@ public class InputManager : MonoBehaviour
     {
         ResetInput = ctx.started;
     }
+    public void SetResetInput(bool b)
+    {
+        ResetInput = b;
+    }
     public double GetFPressTime()
     {
         return _fPressTime;

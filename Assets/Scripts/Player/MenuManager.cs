@@ -10,6 +10,7 @@ public class MenuManager : MonoBehaviour
     public GameObject VolumeMenuUI;
     private InputManager _input;
     private AudioManager _audio;
+    private PlayerController _playerController;
     private float _timeScale;
     private void Start()
     {
@@ -23,6 +24,7 @@ public class MenuManager : MonoBehaviour
         }
         _input = InputManager.Instance;
         _audio = AudioManager.Instance;
+        _playerController = PlayerController.Instance;
         _timeScale = Time.timeScale;
     }
 
@@ -73,8 +75,7 @@ public class MenuManager : MonoBehaviour
 
     public void LoadMenu()
     {
-        Time.timeScale = 1f;
-        IsPaused = false;
+        _playerController.RestartGame();
     }
 
     public void Quit()
