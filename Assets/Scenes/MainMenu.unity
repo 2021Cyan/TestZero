@@ -72374,6 +72374,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FPSCounter
       objectReference: {fileID: 0}
+    - target: {fileID: 1094401135184743419, guid: 7d0b4836d7a0d734780afcf024a55cfd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1547136036700488116, guid: 7d0b4836d7a0d734780afcf024a55cfd, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 451

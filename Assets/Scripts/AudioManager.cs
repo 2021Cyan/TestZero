@@ -61,49 +61,50 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        // SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDestroy()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        // SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // iterate through all eventreferences and preload them
         // Get all EventReference fields in this class
-        var fields = typeof(AudioManager).GetFields().Where(field => field.FieldType == typeof(EventReference));
+        // var fields = typeof(AudioManager).GetFields().Where(field => field.FieldType == typeof(EventReference));
 
-        // Preload each EventReference field
-        foreach (var field in fields)
-        {
-            EventReference eventRef = (EventReference)field.GetValue(this);
-            PreloadSounds(eventRef);
-        }
+        // // Preload each EventReference field
+        // foreach (var field in fields)
+        // {
+        //     EventReference eventRef = (EventReference)field.GetValue(this);
+        //     PreloadSounds(eventRef);
+        // }
 
 
-        void PreloadSounds(EventReference musicEvent)
-        {
-            // Check if the event has a spacializer
-            EventDescription eventDescription;
-            FMOD.RESULT result = RuntimeManager.StudioSystem.getEvent(musicEvent.Path, out eventDescription);
-            if (result == FMOD.RESULT.OK)
-            {
-                bool is3D;
-                eventDescription.is3D(out is3D);
-                if (is3D)
-                    return; // Skip events with spacializer (3D events)
-            }
-            if (musicEvent.IsNull)
-                return;
-            string key = musicEvent.Path;
-            if (!_preloadedInstances.TryGetValue(key, out EventInstance instance))
-            {
-                instance = RuntimeManager.CreateInstance(musicEvent);
-                _preloadedInstances[key] = instance;
-            }
-        }
+        // void PreloadSounds(EventReference musicEvent)
+        // {
+        //     if (musicEvent.IsNull)
+        //         return;
+        //     // Check if the event has a spacializer
+        //     EventDescription eventDescription;
+        //     FMOD.RESULT result = RuntimeManager.StudioSystem.getEvent(musicEvent.Path, out eventDescription);
+        //     if (result == FMOD.RESULT.OK)
+        //     {
+        //         bool is3D;
+        //         eventDescription.is3D(out is3D);
+        //         if (is3D)
+        //             return; // Skip events with spacializer (3D events)
+        //     }
+
+        //     string key = musicEvent.Path;
+        //     if (!_preloadedInstances.TryGetValue(key, out EventInstance instance))
+        //     {
+        //         instance = RuntimeManager.CreateInstance(musicEvent);
+        //         _preloadedInstances[key] = instance;
+        //     }
+        // }
     }
 
 
@@ -115,20 +116,28 @@ public class AudioManager : MonoBehaviour
         instance.release();
         // RuntimeManager.PlayOneShot(sound, p);
     }
+    // public void PlayOneShot(EventReference sound)
+    // {
+    //     string key = sound.Path;
+    //     if (_preloadedInstances.TryGetValue(key, out EventInstance instance))
+    //     {
+    //         instance.start();
+    //     }
+    //     else
+    //     {
+    //         instance = RuntimeManager.CreateInstance(sound);
+    //         _preloadedInstances[key] = instance;
+    //         instance.start();
+    //     }
+
+    //     // RuntimeManager.PlayOneShot(sound);
+    // }
+
     public void PlayOneShot(EventReference sound)
     {
-        string key = sound.Path;
-        if (_preloadedInstances.TryGetValue(key, out EventInstance instance))
-        {
-            instance.start();
-        }
-        else
-        {
-            instance = RuntimeManager.CreateInstance(sound);
-            _preloadedInstances[key] = instance;
-            instance.start();
-        }
-
+        EventInstance instance = RuntimeManager.CreateInstance(sound);
+        instance.start();
+        instance.release();
         // RuntimeManager.PlayOneShot(sound);
     }
 
