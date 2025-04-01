@@ -43,7 +43,8 @@ public class PlayerController : MonoBehaviour
     private CinemachineCamera nearCinemachineCamera;
     public CinemachineCamera farCinemachineCamera;
     private Vector3 mousePos;
-    [SerializeField] ParticleSystem sparkFootEffect;
+    [SerializeField] ParticleSystem sparkFootEffectPrefab;
+    private ParticleSystem sparkFootEffect;
 
     private bool alive = true;
 
@@ -94,15 +95,15 @@ public class PlayerController : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name != "MainMenu")
-        {
-            FindSceneReferences();
-        }
-    }
-
-    void Start()
-    {
         FindSceneReferences();
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void FindSceneReferences()
@@ -117,6 +118,19 @@ public class PlayerController : MonoBehaviour
         farCinemachineCamera = GameObject.FindGameObjectWithTag("FarCinemachineCamera").GetComponent<CinemachineCamera>();
         farCinemachineCamera.Follow = transform;
 
+        GameObject tempSpark = GameObject.FindGameObjectWithTag("SparkSlide");
+        if (tempSpark != null)
+        {
+            if (tempSpark.transform.childCount > 0)
+            {
+                Transform tempChild = tempSpark.transform.GetChild(0);
+                Destroy(tempChild.gameObject);
+            }
+            sparkFootEffect = Instantiate(sparkFootEffectPrefab, tempSpark.transform);
+            sparkFootEffect.transform.Rotate(0, -90, 0);
+            sparkFootEffect.transform.SetParent(tempSpark.transform);
+        }
+
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
@@ -127,7 +141,13 @@ public class PlayerController : MonoBehaviour
         {
             nearCinemachineCamera.Priority = -2;
             Cursor.visible = false;
+            _input.EnableInput();
             FinishIntroAinm();
+        }
+        else
+        {
+            InputManager.Input.Disable();
+            _input.DisableInput();
         }
     }
 
@@ -580,4 +600,8 @@ public class PlayerController : MonoBehaviour
         nearCinemachineCamera.Priority = -2;
     }
 
+    public void EnableInput()
+    {
+        _input.EnableInput();
+    }
 }

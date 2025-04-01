@@ -26,10 +26,12 @@ public class InputManager : MonoBehaviour
 
     private void OnEnable()
     {
+        Input.Enable();
         if (SceneManager.GetActiveScene().name != "MainMenu")
         {
+            // Input.Enable();
             EventEnable();
-        }  
+        }
     }
 
     private void EventEnable()
@@ -76,9 +78,10 @@ public class InputManager : MonoBehaviour
         Input.Player.G.started += SetGInput;
         Input.Player.G.canceled += SetGInput;
     }
-    
+
     private void OnDisable()
     {
+        Input.Disable();
         EventDisable();
     }
 
@@ -139,6 +142,7 @@ public class InputManager : MonoBehaviour
     private void SetMouseInput(InputAction.CallbackContext ctx)
     {
         MouseInput = ctx.ReadValue<Vector2>();
+        // Debug.Log("Mouse Input: " + MouseInput);
     }
 
     public void SetMouseInput(Vector2 v)
@@ -221,7 +225,6 @@ public class InputManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-            return;
         }
         Input = new InputMap();
     }
@@ -229,22 +232,20 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        // MoveInput = Input.Player.Move.ReadValue<Vector2>();
         MouseInput = Input.Player.Look.ReadValue<Vector2>();
         MenuInput = Input.Player.Menu.WasPressedThisFrame();
         MenuUIInput = Input.UI.MenuUI.WasPressedThisFrame();
-        // AimInput = Input.Player.Aim.IsPressed();
-        // ClickInput = Input.Player.Shoot.IsPressed();
-        // JumpInput = Input.Player.Jump.WasPressedThisFrame();
-        // DodgeInput = Input.Player.Dodge.WasPressedThisFrame();
-        // ReloadInput = Input.Player.Reload.WasPressedThisFrame();
-        // BulletTimeInput = Input.Player.BulletTime.WasPressedThisFrame();
-        // InteractInput = Input.Player.Interact.WasPressedThisFrame();
-        // ResetInput = Input.Player.Reset.WasPressedThisFrame();
     }
 
     public void EnableInput()
     {
+        Input.Enable();
         EventEnable();
+    }
+
+    public void DisableInput()
+    {
+        Input.Disable();
+        EventDisable();
     }
 }

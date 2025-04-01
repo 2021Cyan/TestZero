@@ -94,6 +94,11 @@ public class EnemyScript_Turret : EnemyBase
 
     private void Aim()
     {
+        if (player == null)
+        {
+            return;
+        }
+
         if (isPlayerNearby)
         {
             lineRenderer.enabled = true;
@@ -111,6 +116,10 @@ public class EnemyScript_Turret : EnemyBase
 
     private void Shoot()
     {
+        if (player == null)
+        {
+            return;
+        }
         bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, player.position, LayerMask.GetMask("Terrain"));
 
         if (isPlayerNearby && canShoot && Time.time > lastFireTime + fireRate && isPathClear)
@@ -144,6 +153,10 @@ public class EnemyScript_Turret : EnemyBase
 
     private void FireMissile()
     {
+        if (player == null)
+        {
+            return;
+        }
         if (Time.time > lastMissileTime + missileCooldown)
         {
             bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, player.position, LayerMask.GetMask("Terrain"));

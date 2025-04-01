@@ -19,11 +19,11 @@ public class Enemy_Soldier : EnemyBase
     [SerializeField] ParticleSystem muzzleFlash_single;
     public float fireRate;
     public float detectionRange = 15f;
-    private bool isShooting = false; 
-    private int shotsFired = 0; 
-    private int maxShots = 3; 
+    private bool isShooting = false;
+    private int shotsFired = 0;
+    private int maxShots = 3;
     private float reloadTime = 1f;
-    private float attackExitTime = 0f; 
+    private float attackExitTime = 0f;
     private float attackToMoveDelay = 0.5f;
     private LineRenderer lineRenderer;
     private float stopAndShootDistance;
@@ -44,7 +44,7 @@ public class Enemy_Soldier : EnemyBase
         currentHealth = maxHealth;
         fireRate = 0.175f;
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        if(playerController != null)
+        if (playerController != null)
         {
             player = playerController.GetAimPos();
         }
@@ -108,7 +108,7 @@ public class Enemy_Soldier : EnemyBase
             else
             {
                 currentState = EnemyState.Attack;
-                attackExitTime = Time.time; 
+                attackExitTime = Time.time;
             }
         }
         else
@@ -123,21 +123,21 @@ public class Enemy_Soldier : EnemyBase
     {
         if (currentState == EnemyState.Patrol)
         {
-            animator.SetBool("isWalking", !isIdle); 
-            animator.SetBool("isIdle", isIdle);     
+            animator.SetBool("isWalking", !isIdle);
+            animator.SetBool("isIdle", isIdle);
             animator.SetBool("isRunning", false);
         }
         else if (currentState == EnemyState.Moving)
         {
             animator.SetBool("isWalking", false);
             animator.SetBool("isIdle", false);
-            animator.SetBool("isRunning", true);  
+            animator.SetBool("isRunning", true);
         }
         else if (currentState == EnemyState.Attack)
         {
             animator.SetBool("isWalking", false);
             animator.SetBool("isRunning", false);
-            animator.SetBool("isIdle", true);  
+            animator.SetBool("isIdle", true);
         }
     }
 
@@ -159,13 +159,12 @@ public class Enemy_Soldier : EnemyBase
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
 
-            if (player != null)
-            {
-                float directionX = player.position.x - center.position.x;
-                bool facingLeft = directionX < 0;
-                UpdateSpriteDirection(facingLeft);
-            }
+            if (player == null)
+                return;
 
+            float directionX = player.position.x - center.position.x;
+            bool facingLeft = directionX < 0;
+            UpdateSpriteDirection(facingLeft);
             bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, player.position, LayerMask.GetMask("Terrain"));
 
             if (!isShooting && isPathClear)
@@ -179,14 +178,14 @@ public class Enemy_Soldier : EnemyBase
     private IEnumerator ShootSequence()
     {
         isShooting = true;
-        yield return new WaitForSeconds(0.5f); 
+        yield return new WaitForSeconds(0.5f);
 
         while (shotsFired < maxShots)
         {
             if (!CheckNearbyPlayers())
             {
                 isShooting = false;
-                yield break;  
+                yield break;
             }
             Shoot();
             shotsFired++;
@@ -216,6 +215,8 @@ public class Enemy_Soldier : EnemyBase
 
     private void MoveToPlayer()
     {
+        if (player == null)
+            return;
         Vector2 direction = (player.position - transform.position).normalized;
 
         float moveDirectionX = 1f;
@@ -271,13 +272,13 @@ public class Enemy_Soldier : EnemyBase
     private IEnumerator IdleBeforeTurn()
     {
         isIdle = true;
-        UpdateAnimation(); 
+        UpdateAnimation();
         rb.linearVelocity = Vector2.zero;
         yield return new WaitForSeconds(1f);
         movingLeft = !movingLeft;
         directionTimer = 0f;
         isIdle = false;
-        UpdateAnimation(); 
+        UpdateAnimation();
     }
 
     private bool CheckNearbyPlayers()

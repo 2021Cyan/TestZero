@@ -29,14 +29,14 @@ public class Shooting : MonoBehaviour
 
     private GameObject _bulletParent;
 
-    private void Start()
+    private void Awake()
     {
         // playerController = PlayerController.Instance;
         // _input = InputManager.Instance;
         // _audio = AudioManager.Instance;
         // _bulletParent = new GameObject("BulletParent");
         SceneManager.sceneLoaded += OnSceneLoaded;
-        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+        // OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
     }
 
     private void Update()
@@ -84,6 +84,18 @@ public class Shooting : MonoBehaviour
         _input = InputManager.Instance;
         _audio = AudioManager.Instance;
         _bulletParent = new GameObject("BulletParent");
+    }
+
+    private void OnDisable()
+    {
+        if (_bulletParent != null)
+            Destroy(_bulletParent);
+    }
+    private void OnDestroy()
+    {
+        if (_bulletParent != null)
+            Destroy(_bulletParent);
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
     private void Shoot()
     {
