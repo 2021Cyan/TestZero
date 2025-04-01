@@ -6,6 +6,7 @@ public class RaftSectionBlock : MonoBehaviour
     public Transform EntryPoint;
     public Transform ExitPoint;
     public Transform EventSpawnPoint;
+    public Transform DroneEventSpawnPoint;
 
     // Private attributes
     private GameObject _event;
@@ -35,9 +36,20 @@ public class RaftSectionBlock : MonoBehaviour
 
     private void SpawnEvent()
     {
-        // Spawn event at denoted spawn point
-        Instantiate(_event, EventSpawnPoint.position, Quaternion.identity);
-        _hasSpawnedEvent = true;
+        // If drone event, spawn at exit point
+        RaftEvent raftEvent = _event.GetComponent<RaftEvent>();
+        if (raftEvent != null && raftEvent.HasDrones)
+        {
+            Instantiate(_event, DroneEventSpawnPoint.position, Quaternion.identity);
+            _hasSpawnedEvent = true;
+        }
+
+        // Otherwise, spawn at event point
+        else
+        {
+            Instantiate(_event, EventSpawnPoint.position, Quaternion.identity);
+            _hasSpawnedEvent = true;
+        }        
     }
 
     void OnDrawGizmos()
@@ -55,6 +67,10 @@ public class RaftSectionBlock : MonoBehaviour
         if (EventSpawnPoint != null)
         {
             Gizmos.DrawSphere(EventSpawnPoint.position, 0.5f);
+        }
+        if (DroneEventSpawnPoint != null)
+        {
+            Gizmos.DrawSphere(DroneEventSpawnPoint.position, 0.5f);
         }
     }
 }

@@ -82,11 +82,11 @@ public class MapSegment : MonoBehaviour
                 _entryPoint = child;
             }
         }
-        Debug.Log("Segment " + name + " has " + _exitPoints.Count + " exits.");
+        // Debug.Log("Segment " + name + " has " + _exitPoints.Count + " exits.");
 
         // Find all enemy spawn points
         _spawnPoints = new List<EnemySpawnPoint>(GetComponentsInChildren<EnemySpawnPoint>());
-        Debug.Log(name + " has " + _spawnPoints.Count.ToString() + " spawn points");
+        // Debug.Log(name + " has " + _spawnPoints.Count.ToString() + " spawn points");
 
         // Increment MaxEnemies to ensure bounds to be inclusive
         MaxEnemies += 1;
@@ -114,7 +114,7 @@ public class MapSegment : MonoBehaviour
             ),
             _spawnPoints.Count
         );
-        Debug.Log(name + " spawning " + _numberOfEnemies.ToString() + " enemies");
+        // Debug.Log(name + " spawning " + _numberOfEnemies.ToString() + " enemies");
 
         // Spawn enemies
         HashSet<int> used = new HashSet<int>();

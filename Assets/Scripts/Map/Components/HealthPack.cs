@@ -4,8 +4,18 @@ public class HealthPack : Interactable
 {
     // Public attributes
     public float HealAmount;
+    public float Likelihood = 1f;
 
     // Behaviour
+    void Start()
+    {
+        // Destory self based on likelihood
+        if (Random.value > Likelihood)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))

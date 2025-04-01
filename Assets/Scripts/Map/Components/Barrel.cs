@@ -1,14 +1,18 @@
+using TMPro;
 using UnityEngine;
 
 public class Barrel : Interactable
 {
     // Public attributes
     public int Reward;
-    public GameObject _prompt;
+    public GameObject Prompt;
+    public float Likelihood = 1f;
 
     // Private attributes
     private bool _used = false;
     private bool _playerIsNear = false;
+    private AudioManager _audio;
+    private InputManager _input;
 
     // Behaviour
     void OnTriggerEnter2D(Collider2D other)
@@ -31,10 +35,18 @@ public class Barrel : Interactable
 
     void Start()
     {
+        // Destory self based on likelihood
+        if (Random.value > Likelihood)
+        {
+            Destroy(gameObject);
+        }
+
         // Hide prompt
         ShowPrompt(false);
+        _audio = AudioManager.Instance;
+        _input = InputManager.Instance;
     }
-    
+
     private void Update()
     {
         // Allow interactions if player is close enough and barrel hasn't been used
@@ -44,7 +56,7 @@ public class Barrel : Interactable
             ShowPrompt(true);
 
             // Handle interaction
-            if (Input.GetKeyDown(KeyCode.E))
+            if (_input.InteractInput)
             {
                 // Reward player
                 _player.GetComponent<PlayerController>().AddResource(Reward);
@@ -56,6 +68,9 @@ public class Barrel : Interactable
                 // Remember interaction
                 enabled = false;
                 _used = true;
+                _audio.SetParameterByName("Shop", 3);
+                _audio.PlayOneShot(_audio.Shop);
+                GetComponent<ParticleSystem>().Stop();
                 ShowPrompt(false);
             }
         }
@@ -73,12 +88,12 @@ public class Barrel : Interactable
         {
             // Display "Press E to interact"
             // TODO
-            _prompt.SetActive(true);
+            Prompt.SetActive(true);
         }
         else
         {
             // Hide prompt text
-            _prompt.SetActive(false);
+            Prompt.SetActive(false);
         }
     }
 }
