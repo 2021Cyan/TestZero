@@ -47,8 +47,7 @@ public class OneWayTeleporter : Interactable
             }
         }
     }
-
-    /*
+    
     void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
@@ -62,6 +61,5 @@ public class OneWayTeleporter : Interactable
             Gizmos.DrawLine(transform.position, DestinationPoints[i].position);
         }
     }
-    */
 
 }
