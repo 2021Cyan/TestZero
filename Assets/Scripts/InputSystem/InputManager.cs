@@ -81,7 +81,6 @@ public class InputManager : MonoBehaviour
 
     private void OnDisable()
     {
-        Input.Disable();
         EventDisable();
     }
 
