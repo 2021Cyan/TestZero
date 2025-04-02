@@ -20,6 +20,7 @@ public class MapSegment : MonoBehaviour
     private List<Transform> _exitPoints;
     private List<Interactable> _interactables;
     private List<EnemySpawnPoint> _spawnPoints;
+    private List<EnemyBase> _spawnedEnemies;
     private int _numberOfEnemies;
 
     // Getters
@@ -67,6 +68,7 @@ public class MapSegment : MonoBehaviour
         _terrainComponents = new List<GameObject>();
         _allPoints = new List<Vector3>();
         _hull = new List<Vector3>();
+        _spawnedEnemies = new List<EnemyBase>();
 
         // Find sole entry  point and all exit points that exist
         _entryPoint = null;
@@ -132,8 +134,46 @@ public class MapSegment : MonoBehaviour
                 }
             }
             
-            // Spawn random enemy at chosen point
-            _spawnPoints[i].Spawn(levelNumber);
+            // Spawn random enemy at chosen point and add to spawned enemies list
+            _spawnedEnemies.Add(
+                _spawnPoints[i].Spawn(levelNumber)
+            );
+        }
+    }
+
+    public void Enable(bool isEnabled)
+    {
+        // Update state of all spawned enemies
+        foreach (EnemyBase enemy in _spawnedEnemies)
+        {
+            if (enemy != null)
+            {
+                enemy.enabled = isEnabled;
+            }
+        }
+
+        // Update state of all interactables
+        foreach (Interactable interactable in _interactables)
+        {
+            if (interactable != null)
+            {
+                interactable.enabled = isEnabled;
+            }
+        }
+
+        // Freeze self
+        enabled = isEnabled;
+    }
+
+    public void KillAllEnemies()
+    {
+        // Kill all enemies
+        foreach (EnemyBase enemy in _spawnedEnemies)
+        {
+            if (enemy != null)
+            {
+                enemy.Smite();
+            }
         }
     }
 
@@ -220,28 +260,6 @@ public class MapSegment : MonoBehaviour
         _hull.RemoveAt(_hull.Count - 1);
     }
 
-    private void OnDrawGizmos()
-    {
-        if (_hull != null)
-        {
-            List<Vector3> points = _hull;
-            Gizmos.color = Color.green;
-            for (int i = 0; i < points.Count; ++i)
-            {
-                Gizmos.DrawLine(
-                        points[i], points[(i + 1) % points.Count]
-                );
-                Gizmos.DrawSphere(points[i], 0.5f);
-            }
-        }
-
-        Gizmos.color = Color.white;
-        foreach (Transform point in _exitPoints)
-        {
-            Gizmos.DrawSphere(point.position, 0.5f);
-        }
-    }
-
     // Determine if hulls overlap
     public bool Overlaps(List<Vector3> otherHull)
     {
@@ -304,5 +322,27 @@ public class MapSegment : MonoBehaviour
 
         // Otherwise, return orientation between lines (clockwise or counterclockwise)
         return (val > 0) ? 1 : -1;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (_hull != null)
+        {
+            List<Vector3> points = _hull;
+            Gizmos.color = Color.green;
+            for (int i = 0; i < points.Count; ++i)
+            {
+                Gizmos.DrawLine(
+                        points[i], points[(i + 1) % points.Count]
+                );
+                Gizmos.DrawSphere(points[i], 0.5f);
+            }
+        }
+
+        Gizmos.color = Color.white;
+        foreach (Transform point in _exitPoints)
+        {
+            Gizmos.DrawSphere(point.position, 0.5f);
+        }
     }
 }

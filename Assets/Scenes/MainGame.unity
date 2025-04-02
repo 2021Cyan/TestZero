@@ -725,8 +725,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2e25e350e12870469892588bff8f877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NumberOfSegmentsPerLevel: 0
-  ShopFrequency: 0
+  NumberOfSegmentsPerLevel: 5
+  ShopFrequency: 3
   NumberOfLevels: 3
   NumberOfBlocksPerRaftSection: 5
   EnemySpawnLevelScaling: 0.5
@@ -761,7 +761,7 @@ MonoBehaviour:
   - {fileID: 4644817467462089079, guid: 54858818e03ecde44afbfb0dde2bf015, type: 3}
   - {fileID: 4644817467462089079, guid: 4fa0090a020149047ab142f3fd4d923b, type: 3}
   - {fileID: 691447258150488323, guid: a008743524df83241a6ac2baa1e3b912, type: 3}
-  EventFrequency: 1
+  EventFrequency: 0
 --- !u!4 &1321328354
 Transform:
   m_ObjectHideFlags: 0

@@ -40,6 +40,12 @@ public abstract class EnemyBase : MonoBehaviour
         return maxHealth;
     }
 
+    public void Smite()
+    {
+        resourceAmount = 0;
+        TakeDamage(float.MaxValue);
+    }
+
     public virtual void TakeDamage(float damage)
     {
         float bonus = comboDamage;

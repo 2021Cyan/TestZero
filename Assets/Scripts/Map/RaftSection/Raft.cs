@@ -17,11 +17,17 @@ public class Raft : Interactable
     private Vector3 _prevPosition;
     private Vector3 _movement;
     private HashSet<Transform> _entitiesOnPlatform = new HashSet<Transform>();
+    private LevelGenerator _levelGenerator;
 
     // Setters
     public void SetDestination(Vector3 destination)
     {
         _destination = destination;
+    }
+
+    public void SetLevelGenerator(LevelGenerator levelGenerator)
+    {
+        _levelGenerator = levelGenerator;
     }
 
     // Behaviour
@@ -101,11 +107,9 @@ public class Raft : Interactable
             // Stop forever
             _stopped = true;
 
-            // Increment player level number
-            // TODO
-
-            // Spawn enemies in next level
-            // TODO
+            // Trigger level generator to start next level
+            _levelGenerator.StartNextLevel();
+            Debug.Log("Raft has started next level!");
         }
     }
 

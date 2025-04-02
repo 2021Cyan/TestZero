@@ -28,20 +28,17 @@ public class LevelGenerator : MonoBehaviour
     public int EventFrequency;
 
     // Private Attributes
-    private List<MapSegment> _startRooms;
-    private List<List<MapSegment>> _endRooms;
-    private List<MapSegment> _levelsegments;
+    private List<List<MapSegment>> _levelSegments;
+    private int _currentLevel = 0;
 
     void Start()
     {
         // Initialize lists
-        _startRooms = new List<MapSegment>();
-        _endRooms = new List<List<MapSegment>>();
+        _levelSegments = new List<List<MapSegment>>();
         for (int i = 0; i < NumberOfLevels; ++i)
         {
-            _endRooms.Add(new List<MapSegment>());
+            _levelSegments.Add(new List<MapSegment>());
         }
-        _levelsegments = new List<MapSegment>();
 
         // Create designated number of levels
         Vector3 levelCreationStartPosition = Vector3.zero;
@@ -55,24 +52,7 @@ public class LevelGenerator : MonoBehaviour
                 levelStartSegment = Spawn(StartRoomPrefab, levelCreationStartPosition);
             }
 
-            // // Otherwise, spawn raft end segment
-            // else
-            // {
-            //     levelStartSegment = Spawn(RaftSectionStart, levelCreationStartPosition);
-            // }
-
-            // // If not first level, set teleporter destination of previous level's end rooms
-            // if (levelNumber != 0)
-            // {
-            //     foreach (EndRoomSegment endRoom in _endRooms[levelNumber - 1])
-            //     {
-            //         endRoom.SetTeleporterDestination(startRoom.GetPlayerSpawnPosition());
-            //         endRoom.SetTeleporterPlayer(Player);
-            //     }
-            // }
-
             // Spawn segments recursively
-            _levelsegments.Clear();
             SpawnSegment(
                 levelStartSegment.GetExitPoints()[0].position, 
                 NumberOfSegmentsPerLevel, 
@@ -81,24 +61,25 @@ public class LevelGenerator : MonoBehaviour
             );
 
             // Spawn enemies into current level
-            for (int i = 0; i < _levelsegments.Count; ++i)
+            for (int i = 0; i < _levelSegments[levelNumber].Count; ++i)
             {
-                _levelsegments[i].SpawnEnemies(levelNumber, EnemySpawnLevelScaling);
+                _levelSegments[levelNumber][i].SpawnEnemies(levelNumber, EnemySpawnLevelScaling);
             }
 
-            // // Update start point for level creation for next level
-            // float furthestEndX = -1;
-            // foreach (EndRoomSegment endRoom in _endRooms[levelNumber]) 
-            // {
-            //     furthestEndX = Mathf.Max(furthestEndX, endRoom.transform.position.x);
-            // }
-            // levelCreationStartPosition.x = furthestEndX + LevelGap;
+            // If not first level, disable all segments in level
+            if (levelNumber != 0)
+            {
+                for (int i = 0; i < _levelSegments[levelNumber].Count; ++i)
+                {
+                    _levelSegments[levelNumber][i].Enable(false);
+                }
+            }
 
             // Get last segment of level
             MapSegment lastSegment;
-            if (_levelsegments.Count > 0)
+            if (_levelSegments.Count > 0)
             {
-                lastSegment = _levelsegments[_levelsegments.Count -1];
+                lastSegment = _levelSegments[levelNumber][_levelSegments[levelNumber].Count - 1];
             }
             else
             {
@@ -109,7 +90,6 @@ public class LevelGenerator : MonoBehaviour
             if (levelNumber == NumberOfLevels - 1)
             {
                 MapSegment finalRoom = Spawn(EndRoomPrefab, lastSegment.GetExitPoints()[0].position);
-                // finalRoom.SetTeleporterDestination(Vector3.zero);
             }
 
             // Otherwise, spawn raft section
@@ -128,12 +108,15 @@ public class LevelGenerator : MonoBehaviour
                     }
                 }
 
+                // Pass level generator reference to raft
+                raft.SetLevelGenerator(this);
+
                 // Get RaftSectionBlockObject from segment
                 RaftSectionBlock raftStartBlock = raftStart.GetParent().GetComponent<RaftSectionBlock>();
+                RaftSectionBlock currentBlock = raftStartBlock;
 
                 // Spawn desired number of raft section blocks
-                GameObject currentPrefab = null;
-                RaftSectionBlock currentBlock = raftStartBlock;
+                GameObject currentPrefab;
                 for (int i = 0; i < NumberOfBlocksPerRaftSection; ++i)
                 {
                     currentPrefab = Instantiate(RaftSectionBlockPrefab, currentBlock.ExitPoint.position, Quaternion.identity);
@@ -151,6 +134,25 @@ public class LevelGenerator : MonoBehaviour
                 // Set destination of raft
                 raft.SetDestination(levelStartSegment.GetEntryPoint());
             }
+        }
+    }
+
+    public void StartNextLevel()
+    {
+        // Freeze all segments and kill all enemies in current level
+        for (int i = 0; i < _levelSegments[_currentLevel].Count; ++i)
+        {
+            _levelSegments[_currentLevel][i].KillAllEnemies();
+            _levelSegments[_currentLevel][i].Enable(false);
+        }
+
+        // Increment current level index
+        _currentLevel += 1;
+
+        // Unfreeze all segments in next level
+        for (int i = 0; i < _levelSegments[_currentLevel].Count; ++i)
+        {
+            _levelSegments[_currentLevel][i].Enable(true);
         }
     }
 
@@ -184,18 +186,6 @@ public class LevelGenerator : MonoBehaviour
         // Check if max segments have been reached
         if (remainingSegments <= 0)
         {
-            // // If last level, spawn terminal segment
-            // if (levelNumber == NumberOfLevels - 1)
-            // {
-            //     _endRooms[levelNumber].Add(Spawn(EndRoomPrefab, nextSpawnPosition));
-            // }
-
-            // // Otherwise, spawn raft start section
-            // else
-            // {
-            //     _endRooms[levelNumber].Add(Spawn(RaftSectionStart, nextSpawnPosition));
-            // }
-
             // Finish spawning segments for this branch
             return;
         }
@@ -207,7 +197,7 @@ public class LevelGenerator : MonoBehaviour
             MapSegment shopRoom = Spawn(ShopRoomPrefab, nextSpawnPosition);
 
             // Add segment to list of current level segments
-            _levelsegments.Add(shopRoom);
+            _levelSegments[levelNumber].Add(shopRoom);  
 
             // Spawn next segment
             SpawnSegment(
@@ -243,13 +233,16 @@ public class LevelGenerator : MonoBehaviour
 
             // Check for overlap
             bool overlaps = false;
-            foreach (MapSegment otherSegment in _levelsegments)
+            try
+            {foreach (MapSegment otherSegment in _levelSegments[levelNumber])
             {
                 if (currentSegment.Overlaps(otherSegment.GetHull()))
                 {
                     overlaps = true;
                     break;
                 }
+            }} catch{Debug.Log("Index error with level number " + levelNumber);Debug.Log("Length of _levelSegments " + _levelSegments.Count);
+            // Debug.Log("Length of nested list" + _levelSegments[levelNumber].Count);
             }
             if (overlaps)
             {
@@ -260,7 +253,7 @@ public class LevelGenerator : MonoBehaviour
             }
             
             // If all checks pass, add accepted segment to list and break
-            _levelsegments.Add(currentSegment);
+            _levelSegments[levelNumber].Add(currentSegment);
             break;
         }
 
