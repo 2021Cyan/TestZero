@@ -691,11 +691,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1253030719 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 18370379834554816, guid: e74de27f14fc6894abbf9e89bef43f4e, type: 3}
-  m_PrefabInstance: {fileID: 1929628140}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1321328352
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,8 +720,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2e25e350e12870469892588bff8f877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NumberOfSegmentsPerLevel: 5
-  ShopFrequency: 3
+  NumberOfSegmentsPerLevel: 6
+  ShopFrequency: 5
   NumberOfLevels: 3
   NumberOfBlocksPerRaftSection: 5
   EnemySpawnLevelScaling: 0.5

@@ -33,6 +33,8 @@ public class LevelGenerator : MonoBehaviour
 
     void Start()
     {
+        Player = PlayerController.Instance.gameObject;
+
         // Initialize lists
         _levelSegments = new List<List<MapSegment>>();
         for (int i = 0; i < NumberOfLevels; ++i)
@@ -233,16 +235,13 @@ public class LevelGenerator : MonoBehaviour
 
             // Check for overlap
             bool overlaps = false;
-            try
-            {foreach (MapSegment otherSegment in _levelSegments[levelNumber])
+            foreach (MapSegment otherSegment in _levelSegments[levelNumber])
             {
                 if (currentSegment.Overlaps(otherSegment.GetHull()))
                 {
                     overlaps = true;
                     break;
                 }
-            }} catch{Debug.Log("Index error with level number " + levelNumber);Debug.Log("Length of _levelSegments " + _levelSegments.Count);
-            // Debug.Log("Length of nested list" + _levelSegments[levelNumber].Count);
             }
             if (overlaps)
             {

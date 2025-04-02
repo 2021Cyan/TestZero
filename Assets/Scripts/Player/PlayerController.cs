@@ -108,6 +108,7 @@ public class PlayerController : MonoBehaviour
 
     private void FindSceneReferences()
     {
+        SetCursorVisible(false);
         _input = InputManager.Instance;
         _audio = AudioManager.Instance;
         hp = max_hp;

@@ -9,13 +9,13 @@ public class GunInfoScript : MonoBehaviour
     private TextMeshPro statText;
     private Coroutine typingCoroutine;
     private bool isTyping = false;
-    private string DefaultText = $"<mspace=1.5>Press <color=#00FF00>F</color> to Generate 1 (160)</mspace>" +
+    private string DefaultText = $"<mspace=1.5>Press <color=#FFCA00>F</color> to Generate 1 (160)</mspace>" +
                                  $"\n" +
-                                 $"\n<mspace=1.5>Hold  <color=#00FF00>F</color> to Generate 10 (1600)</mspace>" +
+                                 $"\n<mspace=1.5>Hold  <color=#FFCA00>F</color> to Generate 10 (1600)</mspace>" +
                                  $"\n" +
-                                 $"\n<mspace=1.5>Hold  <color=#00FF00>G</color> to Recycle ALL Guns</mspace>" +
+                                 $"\n<mspace=1.5>Hold  <color=#FFCA00>G</color> to Recycle ALL Guns</mspace>" +
                                  $"\n" +
-                                 $"\n<mspace=1.5>Hover <color=#00FF00>MOUSE</color> over to see STAT</mspace>";
+                                 $"\n<mspace=1.5>Hover <color=#FFCA00>MOUSE</color> over to see STAT</mspace>";
 
 
     void Start()
@@ -63,7 +63,7 @@ public class GunInfoScript : MonoBehaviour
             if (!insideTag)
             {
                 statText.text = tempText;
-                yield return new WaitForSeconds(0.00001f); 
+                yield return new WaitForSeconds(0.00001f);
             }
         }
         isTyping = false;
@@ -85,19 +85,19 @@ public class GunInfoScript : MonoBehaviour
         switch (gun.gunRarity)
         {
             case GunScript.Rarity.Common:
-                rarityColor = "#005AB3"; 
+                rarityColor = "#005AB3";
                 rarityText = "Standard";
                 break;
             case GunScript.Rarity.Uncommon:
-                rarityColor = "#8E44AD";  
+                rarityColor = "#8E44AD";
                 rarityText = "Augmented";
                 break;
             case GunScript.Rarity.Rare:
-                rarityColor = "#F1C40F";  
+                rarityColor = "#F1C40F";
                 rarityText = "Overclocked";
                 break;
             case GunScript.Rarity.Legendary:
-                rarityColor = "#E74C3C";  
+                rarityColor = "#E74C3C";
                 rarityText = "Prototype";
                 break;
         }
@@ -144,9 +144,9 @@ public class GunInfoScript : MonoBehaviour
         }
         else if (gun.bulletType == 11)
         {
-            
+
         }
-        else if(gun.bulletType == 12)
+        else if (gun.bulletType == 12)
         {
             name = "RailGun";
         }
