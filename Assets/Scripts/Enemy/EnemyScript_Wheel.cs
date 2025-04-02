@@ -24,6 +24,7 @@ public class EnemyScript_Wheel : EnemyBase
     [SerializeField] GameObject explosion;
     [SerializeField] GameObject sparkEffect;
     [SerializeField] Transform sparkPos;
+    private GameObject sparkInstance;
 
     void Start()
     {
@@ -48,7 +49,8 @@ public class EnemyScript_Wheel : EnemyBase
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (sparkEffect != null && sparkPos != null)
         {
-            GameObject effect = Instantiate(sparkEffect, sparkPos.position, Quaternion.identity, sparkPos);
+            sparkInstance = Instantiate(sparkEffect, sparkPos.position, Quaternion.identity, sparkPos);
+            sparkInstance.SetActive(false);
         }
     }
 
@@ -62,6 +64,10 @@ public class EnemyScript_Wheel : EnemyBase
         {
             ChangeDirection();
         }
+        if (sparkInstance != null && !sparkInstance.activeSelf && IsOnGround())
+        {
+            sparkInstance.SetActive(true);
+        }
     }
 
     void FixedUpdate()
@@ -71,6 +77,11 @@ public class EnemyScript_Wheel : EnemyBase
 
         rb.linearVelocity = new Vector2(moveDirection.x * moveSpeed, rb.linearVelocity.y);
         RotateWheel();
+    }
+
+    private bool IsOnGround()
+    {
+        return Physics2D.Raycast(transform.position, Vector2.down, 1f, LayerMask.GetMask("Terrain"));
     }
 
     private void RotateWheel()

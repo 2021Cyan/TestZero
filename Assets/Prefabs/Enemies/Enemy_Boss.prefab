@@ -943,6 +943,7 @@ MonoBehaviour:
   - {fileID: 3497245670573633726}
   zapEffectPrefab: {fileID: 100000, guid: 5a4723eba1f3efd4e992d78be01cb3f0, type: 3}
   Bomber: {fileID: 4708171975505064179, guid: 00cc1733859a6da4d9ced957f8e8c875, type: 3}
+  Wheel: {fileID: 4708171975505064179, guid: bd7448b54946bf043919286bcd17b04a, type: 3}
   SummonPoints:
   - {fileID: 5071935212818220989}
   - {fileID: 3497314450889820325}
