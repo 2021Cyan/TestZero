@@ -34,7 +34,7 @@ public class EnemyScript_Wheel : EnemyBase
         // Enemy stat
         resourceAmount = 50;
         maxHealth = 50;
-        moveSpeed = 8f;
+        moveSpeed = 3f;
         currentHealth = maxHealth;
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         if(playerController != null)
@@ -45,7 +45,7 @@ public class EnemyScript_Wheel : EnemyBase
             FlipSprite(moveDirection.x);
         }
         rb = GetComponent<Rigidbody2D>();
-        rb.gravityScale = 1f; 
+        rb.gravityScale = 2f; 
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (sparkEffect != null && sparkPos != null)
         {
@@ -64,6 +64,16 @@ public class EnemyScript_Wheel : EnemyBase
         {
             ChangeDirection();
         }
+
+        if(IsOnGround())
+        {
+            moveSpeed = 8f;
+        }
+        else
+        {
+            moveSpeed = 3f;
+        }
+
         if (sparkInstance != null && !sparkInstance.activeSelf && IsOnGround())
         {
             sparkInstance.SetActive(true);
