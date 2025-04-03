@@ -290,7 +290,7 @@ MonoBehaviour:
   ActivationDistance: 3
   Reward: 250
   Prompt: {fileID: 6049973666257805093}
-  Likelihood: 1
+  Likelihood: 0.25
 --- !u!212 &4020686304416012832
 SpriteRenderer:
   m_ObjectHideFlags: 0
