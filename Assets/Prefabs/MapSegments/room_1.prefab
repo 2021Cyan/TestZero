@@ -6210,8 +6210,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Likelihood: 1
   Type: 2
-  MinEnemies: 1
-  MaxEnemies: 2
+  MinEnemies: 3
+  MaxEnemies: 6
 --- !u!1 &7596692369592731322
 GameObject:
   m_ObjectHideFlags: 0

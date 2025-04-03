@@ -42,6 +42,7 @@ public class EnemyScript_Boss : EnemyBase
 
     // Enemy Summon
     [SerializeField] GameObject Bomber;
+    [SerializeField] GameObject Wheel;
     [SerializeField] Transform[] SummonPoints;
 
     // Pattern Management
@@ -92,7 +93,7 @@ public class EnemyScript_Boss : EnemyBase
             }
         }
 
-        patternList = new Pattern[] {Pattern1, Pattern2, Pattern3, Pattern4};
+        patternList = new Pattern[] {Pattern1, Pattern2, Pattern3, Pattern4, Pattern5};
         StartCoroutine(ManagePatterns());
     }
 
@@ -272,6 +273,18 @@ public class EnemyScript_Boss : EnemyBase
             Transform summonPoint = SummonPoints[i];
             Instantiate(Bomber, summonPoint.position, summonPoint.rotation);
             yield return new WaitForSeconds(0.75f);
+        }
+    }
+
+    private IEnumerator Pattern5()
+    {
+        for (int i = 0; i < SummonPoints.Length; i++)
+        {
+            Transform summonPoint = SummonPoints[i];
+            Instantiate(Wheel, summonPoint.position, summonPoint.rotation);
+            yield return new WaitForSeconds(0.5f);
+            Instantiate(Wheel, summonPoint.position, summonPoint.rotation);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
