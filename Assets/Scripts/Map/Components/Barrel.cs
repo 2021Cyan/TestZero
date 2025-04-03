@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Barrel : Interactable
 {
@@ -13,6 +14,7 @@ public class Barrel : Interactable
     private bool _playerIsNear = false;
     private AudioManager _audio;
     private InputManager _input;
+    private Light2D _light;
 
     // Behaviour
     void OnTriggerEnter2D(Collider2D other)
@@ -45,8 +47,10 @@ public class Barrel : Interactable
         ShowPrompt(false);
         _audio = AudioManager.Instance;
         _input = InputManager.Instance;
+        _light = GetComponent<Light2D>();
     }
 
+    //TODO: not efficient... gotta update this later.
     private void Update()
     {
         // Allow interactions if player is close enough and barrel hasn't been used
@@ -71,6 +75,7 @@ public class Barrel : Interactable
                 _audio.SetParameterByName("Shop", 3);
                 _audio.PlayOneShot(_audio.Shop);
                 GetComponent<ParticleSystem>().Stop();
+                _light.enabled = false;
                 ShowPrompt(false);
             }
         }
