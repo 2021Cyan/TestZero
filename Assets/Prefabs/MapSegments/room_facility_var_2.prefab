@@ -2739,6 +2739,10 @@ PrefabInstance:
       propertyPath: m_Tiles.Array.data[281].second.m_TileObjectToInstantiateIndex
       value: 65535
       objectReference: {fileID: 0}
+    - target: {fileID: 706438504217048614, guid: e0f69166b37751c4d9eda1e115e15740, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1260504078132067888, guid: e0f69166b37751c4d9eda1e115e15740, type: 3}
       propertyPath: m_Name
       value: room_facility
@@ -2839,6 +2843,10 @@ PrefabInstance:
       propertyPath: m_Tiles.Array.data[611].second.m_TileSpriteIndex
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7227892535262354298, guid: e0f69166b37751c4d9eda1e115e15740, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8093631116235987972, guid: e0f69166b37751c4d9eda1e115e15740, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2877,6 +2885,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8093631116235987972, guid: e0f69166b37751c4d9eda1e115e15740, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8321537134737899677, guid: e0f69166b37751c4d9eda1e115e15740, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9183445348141766849, guid: e0f69166b37751c4d9eda1e115e15740, type: 3}
+      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
