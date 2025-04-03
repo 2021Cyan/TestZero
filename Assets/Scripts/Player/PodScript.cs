@@ -33,7 +33,7 @@ public class PodScript : MonoBehaviour
     private AudioManager _audio;
 
     // Pod heal
-    public float healCooldown = 10f;
+    public float healCooldown = 15f;
     private float healAmount = 10f; 
     private float lastHealTime = 0f;
 
