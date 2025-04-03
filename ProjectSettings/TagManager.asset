@@ -11,6 +11,8 @@ TagManager:
   - NearCinemachineCamera
   - FarCinemachineCamera
   - SparkSlide
+  - LavaCC
+  - VolumeSlider
   layers:
   - Default
   - TransparentFX

@@ -1,9 +1,9 @@
 using UnityEngine;
 using FMODUnity;
 using FMOD.Studio;
-using UnityEngine.SceneManagement;
+using FMOD;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 public class AudioManager : MonoBehaviour
 {
@@ -48,97 +48,43 @@ public class AudioManager : MonoBehaviour
     public EventReference UIHover;
     public EventReference MenuOpen;
 
+    public Bus MasterBus { get; private set; }
+    public Bus SFXBus { get; private set; }
+    public Bus MusicBus { get; private set; }
+
     public static AudioManager Instance { get; private set; }
-    private Dictionary<string, FMOD.Studio.EventInstance> _preloadedInstances = new();
+    private Dictionary<EventInstance, Coroutine> activeCoroutines = new Dictionary<EventInstance, Coroutine>();
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
+            MasterBus = RuntimeManager.GetBus("bus:/");
+            SFXBus = RuntimeManager.GetBus("bus:/SFX");
+            MusicBus = RuntimeManager.GetBus("bus:/Music");
         }
         else
         {
             Destroy(gameObject);
         }
-        // SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void OnDestroy()
+    private void Update()
     {
-        // SceneManager.sceneLoaded -= OnSceneLoaded;
+        // RuntimeManager.CoreSystem.createSound
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    public void PlayOneShot(EventReference sound, Vector3? position = null)
     {
-        // iterate through all eventreferences and preload them
-        // Get all EventReference fields in this class
-        // var fields = typeof(AudioManager).GetFields().Where(field => field.FieldType == typeof(EventReference));
+        var instance = RuntimeManager.CreateInstance(sound);
 
-        // // Preload each EventReference field
-        // foreach (var field in fields)
-        // {
-        //     EventReference eventRef = (EventReference)field.GetValue(this);
-        //     PreloadSounds(eventRef);
-        // }
-
-
-        // void PreloadSounds(EventReference musicEvent)
-        // {
-        //     if (musicEvent.IsNull)
-        //         return;
-        //     // Check if the event has a spacializer
-        //     EventDescription eventDescription;
-        //     FMOD.RESULT result = RuntimeManager.StudioSystem.getEvent(musicEvent.Path, out eventDescription);
-        //     if (result == FMOD.RESULT.OK)
-        //     {
-        //         bool is3D;
-        //         eventDescription.is3D(out is3D);
-        //         if (is3D)
-        //             return; // Skip events with spacializer (3D events)
-        //     }
-
-        //     string key = musicEvent.Path;
-        //     if (!_preloadedInstances.TryGetValue(key, out EventInstance instance))
-        //     {
-        //         instance = RuntimeManager.CreateInstance(musicEvent);
-        //         _preloadedInstances[key] = instance;
-        //     }
-        // }
-    }
-
-
-    public void PlayOneShot(EventReference sound, Vector3 p)
-    {
-        EventInstance instance = RuntimeManager.CreateInstance(sound);
-        instance.set3DAttributes(RuntimeUtils.To3DAttributes(p));
+        if (position.HasValue)
+        {
+            instance.set3DAttributes(RuntimeUtils.To3DAttributes(position.Value));
+        }
         instance.start();
         instance.release();
-        // RuntimeManager.PlayOneShot(sound, p);
-    }
-    // public void PlayOneShot(EventReference sound)
-    // {
-    //     string key = sound.Path;
-    //     if (_preloadedInstances.TryGetValue(key, out EventInstance instance))
-    //     {
-    //         instance.start();
-    //     }
-    //     else
-    //     {
-    //         instance = RuntimeManager.CreateInstance(sound);
-    //         _preloadedInstances[key] = instance;
-    //         instance.start();
-    //     }
-
-    //     // RuntimeManager.PlayOneShot(sound);
-    // }
-
-    public void PlayOneShot(EventReference sound)
-    {
-        EventInstance instance = RuntimeManager.CreateInstance(sound);
-        instance.start();
-        instance.release();
-        // RuntimeManager.PlayOneShot(sound);
     }
 
     public void SetParameterByName(string paraName, float value)
@@ -146,17 +92,10 @@ public class AudioManager : MonoBehaviour
         RuntimeManager.StudioSystem.setParameterByName(paraName, value);
     }
 
-    public void PlayOneShotUIClick()
+    public float GetParameterByName(string paraName)
     {
-        RuntimeManager.PlayOneShot(UIClick);
-    }
-    public void PlayOneShotUIHover()
-    {
-        RuntimeManager.PlayOneShot(UIHover);
-    }
-    public void PlayOneShotMenuOpen()
-    {
-        RuntimeManager.PlayOneShot(MenuOpen);
+        RuntimeManager.StudioSystem.getParameterByName(paraName, out float value);
+        return value;
     }
 
     public void SetPitch(float pitch)
@@ -165,4 +104,70 @@ public class AudioManager : MonoBehaviour
         masterBus.getChannelGroup(out FMOD.ChannelGroup masterChannelGroup);
         masterChannelGroup.setPitch(pitch);
     }
+
+    public EventInstance GetEventInstance(EventReference sound, GameObject gameObject = null)
+    {
+        var instance = RuntimeManager.CreateInstance(sound);
+        if (gameObject != null)
+        {
+            instance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
+        }
+        return instance;
+    }
+
+    public void StopEvent(EventInstance instance)
+    {
+        instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        instance.release();
+    }
+
+    public void StopFade(EventInstance instance)
+    {
+        if (activeCoroutines.TryGetValue(instance, out Coroutine coroutine))
+        {
+            StopCoroutine(coroutine);
+            activeCoroutines.Remove(instance);
+        }
+    }
+    
+    public void FadeInAudio(EventInstance instance, string parameterName, float targetValue, float duration)
+    {
+        StopFade(instance); // Stop any existing fade for this instance
+        SetParameterByName(parameterName, GetParameterByName(parameterName));
+        instance.start();
+
+        var coroutine = StartCoroutine(FadeAudioCoroutine(instance, parameterName, 0f, targetValue, duration));
+        activeCoroutines[instance] = coroutine;
+    }
+
+    public void FadeOutAudio(EventInstance instance, string parameterName, float duration)
+    {
+        StopFade(instance);
+        var coroutine = StartCoroutine(FadeAudioCoroutine(instance, parameterName, GetParameterByName(parameterName), 0f, duration, true));
+        activeCoroutines[instance] = coroutine;
+    }
+
+    private IEnumerator FadeAudioCoroutine(EventInstance instance, string parameterName, float startValue, float endValue, float duration, bool stopOnComplete = false)
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float currentValue = Mathf.Lerp(startValue, endValue, elapsedTime / duration);
+            UnityEngine.Debug.Log($"Setting {parameterName} to {currentValue}");
+            SetParameterByName(parameterName, currentValue);
+            yield return null; // Ensure the coroutine yields control back to Unity
+        }
+        SetParameterByName(parameterName, endValue);
+
+        if (stopOnComplete)
+        {
+            instance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            instance.release();
+        }
+
+        activeCoroutines.Remove(instance); // Remove the coroutine from the dictionary when done
+    }
+
 }

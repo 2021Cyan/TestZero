@@ -301,7 +301,7 @@ public class Enemy_Soldier : EnemyBase
 
     private void Aim()
     {
-        if (isPlayerNearby)
+        if (isPlayerNearby && player != null)
         {
             Vector3 direction = (player.position - turret.position).normalized;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;

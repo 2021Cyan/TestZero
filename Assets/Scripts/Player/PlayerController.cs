@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
     private Camera maincam;
     private CinemachineCamera nearCinemachineCamera;
     public CinemachineCamera farCinemachineCamera;
+    public CinemachineCamera lavaCinemachineCamera;
     private Vector3 mousePos;
     [SerializeField] ParticleSystem sparkFootEffectPrefab;
     private ParticleSystem sparkFootEffect;
@@ -90,7 +91,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             Destroy(gameObject);
-        } 
+        }
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -117,6 +118,8 @@ public class PlayerController : MonoBehaviour
         maincam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         nearCinemachineCamera = GameObject.FindGameObjectWithTag("NearCinemachineCamera").GetComponent<CinemachineCamera>();
         farCinemachineCamera = GameObject.FindGameObjectWithTag("FarCinemachineCamera").GetComponent<CinemachineCamera>();
+        lavaCinemachineCamera = GameObject.FindGameObjectWithTag("LavaCC").GetComponent<CinemachineCamera>();
+        lavaCinemachineCamera.Follow = transform;
         farCinemachineCamera.Follow = transform;
 
         GameObject tempSpark = GameObject.FindGameObjectWithTag("SparkSlide");
