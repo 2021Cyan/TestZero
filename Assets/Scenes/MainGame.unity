@@ -300,10 +300,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1384732669714997566, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
-      propertyPath: FollowOffset.y
-      value: 3.5
-      objectReference: {fileID: 0}
     - target: {fileID: 3955896091204143735, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
       propertyPath: orthographic size
       value: 2.6999998
@@ -889,6 +885,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1481660431273865390, guid: ccf680442c8145a45ba8e950930aeb66, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1885976940178534421, guid: ccf680442c8145a45ba8e950930aeb66, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -897,12 +897,20 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1885976940178534421, guid: ccf680442c8145a45ba8e950930aeb66, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2395203638170604065, guid: ccf680442c8145a45ba8e950930aeb66, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2395203638170604065, guid: ccf680442c8145a45ba8e950930aeb66, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2395203638170604065, guid: ccf680442c8145a45ba8e950930aeb66, type: 3}
+      propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2592006035507293301, guid: ccf680442c8145a45ba8e950930aeb66, type: 3}
@@ -915,6 +923,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2592006035507293301, guid: ccf680442c8145a45ba8e950930aeb66, type: 3}
       propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2592006035507293301, guid: ccf680442c8145a45ba8e950930aeb66, type: 3}
+      propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3517046393831032358, guid: ccf680442c8145a45ba8e950930aeb66, type: 3}
@@ -929,6 +941,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5442174481058918731, guid: ccf680442c8145a45ba8e950930aeb66, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7603409929135254390, guid: ccf680442c8145a45ba8e950930aeb66, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -939,6 +955,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7603409929135254390, guid: ccf680442c8145a45ba8e950930aeb66, type: 3}
       propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603409929135254390, guid: ccf680442c8145a45ba8e950930aeb66, type: 3}
+      propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8781647051473171125, guid: ccf680442c8145a45ba8e950930aeb66, type: 3}
@@ -1142,6 +1162,26 @@ PrefabInstance:
     - target: {fileID: 6441533872060072971, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Shot.Path
+      value: event:/SFX/Weapons/Shot
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Shot.Guid.Data1
+      value: 2034535271
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Shot.Guid.Data2
+      value: 1116034415
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Shot.Guid.Data3
+      value: 472149175
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Shot.Guid.Data4
+      value: 180634203
       objectReference: {fileID: 0}
     - target: {fileID: 7838885707744038890, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: PreloadSamples

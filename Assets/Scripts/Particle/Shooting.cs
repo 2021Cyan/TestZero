@@ -26,17 +26,13 @@ public class Shooting : MonoBehaviour
     private float nextFireTime = 0f;
     private float currentSpreadAngle = 0f;
     private bool isReloading = false;
+    private int previousWeaponType = -1;
 
     private GameObject _bulletParent;
 
     private void Awake()
     {
-        // playerController = PlayerController.Instance;
-        // _input = InputManager.Instance;
-        // _audio = AudioManager.Instance;
-        // _bulletParent = new GameObject("BulletParent");
         SceneManager.sceneLoaded += OnSceneLoaded;
-        // OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
     }
 
     private void Update()
@@ -84,6 +80,7 @@ public class Shooting : MonoBehaviour
         _input = InputManager.Instance;
         _audio = AudioManager.Instance;
         _bulletParent = new GameObject("BulletParent");
+        previousWeaponType = GetWeaponType();
     }
 
     private void OnDisable()
@@ -173,8 +170,15 @@ public class Shooting : MonoBehaviour
         playerController.currentAmmo--;
         currentSpreadAngle = Mathf.Min(currentSpreadAngle + playerController.spreadIncreaseRate, playerController.maxSpreadAngle);
 
-        _audio.SetParameterByName("WeaponType", GetWeaponType());
-        _audio.PlayOneShot(_audio.Shot, transform.position);
+        // Play the shooting sound
+        int tempWeaponType = GetWeaponType();
+        if (previousWeaponType != tempWeaponType)
+        {
+            _audio.SetParameterByName("WeaponType", tempWeaponType);
+            previousWeaponType = tempWeaponType;
+        }
+        // _audio.SetParameterByName("WeaponType", GetWeaponType());
+        _audio.PlayOneShot(_audio.Shot, muzzleFlash_single.transform.position);
     }
 
     // Return the current spread angle

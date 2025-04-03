@@ -129,7 +129,7 @@ public class AudioManager : MonoBehaviour
             activeCoroutines.Remove(instance);
         }
     }
-    
+
     public void FadeInAudio(EventInstance instance, string parameterName, float targetValue, float duration)
     {
         StopFade(instance); // Stop any existing fade for this instance

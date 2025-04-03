@@ -109,10 +109,10 @@ MonoBehaviour:
     Path: event:/SFX/Weapons/Ricochet
   Shot:
     Guid:
-      Data1: -130069547
-      Data2: 1074638838
-      Data3: -2102660213
-      Data4: 1622467977
+      Data1: 2034535271
+      Data2: 1116034415
+      Data3: 472149175
+      Data4: 180634203
     Path: event:/SFX/Weapons/Shot
   Reload:
     Guid:
