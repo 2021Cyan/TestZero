@@ -10394,8 +10394,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1997852324}
-          m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        - m_Target: {fileID: 331746424}
+          m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
           m_MethodName: PlayOneShotUIHover
           m_Mode: 1
           m_Arguments:
@@ -10522,8 +10522,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1997852324}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 331746424}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: PlayOneShotUIClick
         m_Mode: 1
         m_Arguments:
@@ -10776,8 +10776,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1997852324}
-          m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        - m_Target: {fileID: 331746424}
+          m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
           m_MethodName: PlayOneShotUIHover
           m_Mode: 1
           m_Arguments:
@@ -10832,8 +10832,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1997852324}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 331746424}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: PlayOneShotUIClick
         m_Mode: 1
         m_Arguments:
