@@ -72848,6 +72848,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1178793122384077142, guid: bb4c3bda67756964f8e9be43a6090c7b, type: 3}
+      propertyPath: transition
+      value: 
+      objectReference: {fileID: 11400000, guid: 06fa0ad2bc756f44ab258bc74947381d, type: 2}
     - target: {fileID: 6165084241441001399, guid: bb4c3bda67756964f8e9be43a6090c7b, type: 3}
       propertyPath: m_Name
       value: Scene_teleporter
