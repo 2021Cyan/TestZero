@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,24 +11,24 @@ public class Aim : MonoBehaviour
     private Animator animator;
     private Vector3 startingSize;
     private InputManager _input;
-    private AudioManager _audio;
+    // private AudioManager _audio;
     private Vector3 mousePos;
     public float head_angle = 0;
     public float arm_angle = 0;
 
     void Start()
-    {        
+    {
         startingSize = transform.localScale;
         playerController = PlayerController.Instance;
         animator = GetComponent<Animator>();
         _input = InputManager.Instance;
-        _audio = AudioManager.Instance;
+        // _audio = AudioManager.Instance;
         tracking = SceneManager.GetActiveScene().name != "MainMenu";
     }
 
     void LateUpdate()
     {
-        if(playerController == null)
+        if (playerController == null)
         {
             return;
         }
@@ -39,10 +40,11 @@ public class Aim : MonoBehaviour
 
         if (tracking)
         {
-            PlayerHeadTracking();
             PlayerAim();
+            PlayerHeadTracking();
         }
     }
+
     void PlayerHeadTracking()
     {
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
@@ -52,7 +54,7 @@ public class Aim : MonoBehaviour
         }
 
         // Get the mouse position in world space (set z to 0 for 2D)
-        
+
         if (MenuManager.IsPaused)
         {
             _input.SetMouseInput(MenuManager.BeforePausePosition);

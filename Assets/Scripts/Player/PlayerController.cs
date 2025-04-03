@@ -148,11 +148,6 @@ public class PlayerController : MonoBehaviour
             _input.EnableInput();
             FinishIntroAinm();
         }
-        else
-        {
-            InputManager.Input.Disable();
-            _input.DisableInput();
-        }
     }
 
     private void Update()
