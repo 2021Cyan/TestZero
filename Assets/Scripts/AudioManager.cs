@@ -27,6 +27,7 @@ public class AudioManager : MonoBehaviour
     public EventReference AirDash;
     public EventReference Death;
     public EventReference Hurt;
+    public EventReference Heal;
 
     [Header("Enemy_SFX")]
     public EventReference EnemyDeath;

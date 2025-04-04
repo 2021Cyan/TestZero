@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 mousePos;
     [SerializeField] ParticleSystem sparkFootEffectPrefab;
     private ParticleSystem sparkFootEffect;
+    private ParticleSystem healingEffect;
 
     private bool alive = true;
 
@@ -134,6 +135,13 @@ public class PlayerController : MonoBehaviour
             sparkFootEffect.transform.Rotate(0, -90, 0);
             sparkFootEffect.transform.SetParent(tempSpark.transform);
         }
+
+        GameObject healingParticle = GameObject.FindGameObjectWithTag("HealingParticle");
+        if (healingParticle != null)
+        {
+            healingEffect = healingParticle.GetComponent<ParticleSystem>();
+        }
+
 
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
@@ -432,9 +440,14 @@ public class PlayerController : MonoBehaviour
 
     public void Restore(float amount)
     {
-        if (PlayerUI.Instance != null && amount >= 10f)
+        // if (PlayerUI.Instance != null && amount >= 10f)
+        // {
+        //     PlayerUI.Instance.ShowRestoreEffect();
+        // }
+        if (healingEffect != null && amount >= 10f)
         {
-            PlayerUI.Instance.ShowRestoreEffect();
+            healingEffect.Play();
+            _audio.PlayOneShot(_audio.Heal);
         }
         hp = Mathf.Min(hp + amount, max_hp);
     }

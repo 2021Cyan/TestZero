@@ -6,8 +6,10 @@ using UnityEngine.Rendering.Universal;
 [RequireComponent(typeof(Light2D))]
 public class LightFlicker : MonoBehaviour
 {
-    public float time = 1f;
-    private Light2D light2D;
+    [SerializeField] private float time = 1f;
+    [SerializeField] private float minIntensity = 0f;
+    [SerializeField] private float maxIntensity = 1f;
+    [SerializeField] private Light2D light2D;
 
     void Start()
     {
@@ -20,7 +22,7 @@ public class LightFlicker : MonoBehaviour
         while (true)
         {
             float startIntensity = light2D.intensity;
-            float targetIntensity = startIntensity == 1 ? 0 : 1;
+            float targetIntensity = startIntensity == minIntensity ? 0 : maxIntensity;
             float elapsedTime = 0;
 
             while (elapsedTime < time)
