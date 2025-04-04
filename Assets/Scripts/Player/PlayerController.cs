@@ -420,6 +420,41 @@ public class PlayerController : MonoBehaviour
         isInvincible = false;
     }
 
+    IEnumerator ActivateInvincibility()
+    {
+        isInvincible = true;
+
+        SpriteRenderer[] sprites = GetComponentsInChildren<SpriteRenderer>();
+        float blinkDuration = 0.05f;
+        float totalDuration = 0.4f;
+        float timer = 0f;
+
+        while (timer < totalDuration)
+        {
+            foreach (var sr in sprites)
+            {
+                sr.color = new Color(1f, 1f, 1f, 0.3f); 
+            }
+
+            yield return new WaitForSeconds(blinkDuration);
+
+            foreach (var sr in sprites)
+            {
+                sr.color = new Color(1f, 1f, 1f, 1f); 
+            }
+
+            yield return new WaitForSeconds(blinkDuration);
+            timer += blinkDuration * 2f;
+        }
+
+        foreach (var sr in sprites)
+        {
+            sr.color = new Color(1f, 1f, 1f, 1f);
+        }
+
+        isInvincible = false;
+    }
+
     public void Hurt(float amount)
     {
         if (!isInvincible)
@@ -427,6 +462,7 @@ public class PlayerController : MonoBehaviour
             PlayerUI.Instance.ShowHurtEffect();
             _audio.PlayOneShot(_audio.Hurt);
             hp = hp - amount;
+            StartCoroutine(ActivateInvincibility());
         }
     }
 
