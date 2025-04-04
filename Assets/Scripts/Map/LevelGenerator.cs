@@ -79,7 +79,7 @@ public class LevelGenerator : MonoBehaviour
 
             // Get last segment of level
             MapSegment lastSegment;
-            if (_levelSegments.Count > 0)
+            if (_levelSegments[levelNumber].Count > 0 )
             {
                 lastSegment = _levelSegments[levelNumber][_levelSegments[levelNumber].Count - 1];
             }

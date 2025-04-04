@@ -340,9 +340,12 @@ public class MapSegment : MonoBehaviour
         }
 
         Gizmos.color = Color.white;
-        foreach (Transform point in _exitPoints)
+        if (_exitPoints != null)
         {
-            Gizmos.DrawSphere(point.position, 0.5f);
+            foreach (Transform point in _exitPoints)
+            {
+                Gizmos.DrawSphere(point.position, 0.5f);
+            }
         }
     }
 }
