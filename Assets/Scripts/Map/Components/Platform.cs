@@ -53,6 +53,30 @@ public class Platform : Interactable
             transform.position = Vector3.MoveTowards(transform.position, LeftPosition.position, Velocity * Time.deltaTime);
         }
 
+        List<Transform> toRemove = new List<Transform>();
+        foreach (Transform tf in _entitiesOnPlatform)
+        {
+            if (tf == null)
+            {
+                toRemove.Add(tf);
+                continue;
+            }
+
+            if (tf.CompareTag("Enemy"))
+            {
+                EnemyBase enemy = tf.GetComponent<EnemyBase>();
+                if (enemy == null || !enemy.isalive)
+                {
+                    toRemove.Add(tf);
+                }
+            }
+        }
+
+        foreach (Transform tf in toRemove)
+        {
+            _entitiesOnPlatform.Remove(tf);
+        }
+
         // Calculate movement
         _movement = transform.position - _prevPosition;
 
