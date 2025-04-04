@@ -302,7 +302,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3955896091204143735, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
       propertyPath: orthographic size
-      value: 2.005
+      value: 2.4
       objectReference: {fileID: 0}
     - target: {fileID: 7956118938123415454, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
       propertyPath: m_Name
@@ -733,7 +733,7 @@ MonoBehaviour:
   Player: {fileID: 1253030719}
   ShopRoomPrefab: {fileID: 7346705287260323825, guid: 77e80cbd8b41ed140b2ba9988a809b11, type: 3}
   StartRoomPrefab: {fileID: 8430654730971527948, guid: 41223f40dd283984586908bce5792cc3, type: 3}
-  EndRoomPrefab: {fileID: 1156781272073676450, guid: 9780077d69f1c2247a4f2f8843ec704d, type: 3}
+  EndRoomPrefab: {fileID: 393479479986750669, guid: b764fed37eaa3ab4e9f978aef9692be8, type: 3}
   SegmentPrefabs:
   - {fileID: 8911128543407557057, guid: 678100c987d04f54aba4f0de3ce4eac9, type: 3}
   - {fileID: 2322570914769582032, guid: 1e5e9147d402ba349b4dc431e4b3200c, type: 3}
