@@ -7,13 +7,18 @@ using UnityEngine.Rendering.Universal;
 public class LightFlicker : MonoBehaviour
 {
     [SerializeField] private float time = 1f;
-    [SerializeField] private float minIntensity = 0f;
-    [SerializeField] private float maxIntensity = 1f;
+    [SerializeField] private bool falloffStrengthControl = false;
+    [SerializeField] private float falloffStrengthRange = 0.1f;
     [SerializeField] private Light2D light2D;
 
+
+    private float initialFalloffStrength;
+    private float initialIntensity;
     void Start()
     {
         light2D = GetComponent<Light2D>();
+        initialFalloffStrength = light2D.falloffIntensity;
+        initialIntensity = light2D.intensity;
         StartCoroutine("Flicker");
     }
 
@@ -21,17 +26,41 @@ public class LightFlicker : MonoBehaviour
     {
         while (true)
         {
-            float startIntensity = light2D.intensity;
-            float targetIntensity = startIntensity == minIntensity ? 0 : maxIntensity;
+            float startValue;
+            float targetValue;
+
+            startValue = light2D.intensity;
+            targetValue = startValue == 0 ? initialIntensity : 0;
+            if (falloffStrengthControl)
+            {
+                startValue = Mathf.Clamp(light2D.falloffIntensity, initialFalloffStrength - falloffStrengthRange, initialFalloffStrength + falloffStrengthRange);
+                targetValue = Mathf.Approximately(startValue, initialFalloffStrength - falloffStrengthRange) ? initialFalloffStrength : (initialFalloffStrength - falloffStrengthRange);
+            }
+               
             float elapsedTime = 0;
 
             while (elapsedTime < time)
             {
-                light2D.intensity = Mathf.Lerp(startIntensity, targetIntensity, elapsedTime / time);
+                if (falloffStrengthControl)
+                {
+                    light2D.falloffIntensity = Mathf.Lerp(startValue, targetValue, elapsedTime / time);
+                }
+                else
+                {
+                    light2D.intensity = Mathf.Lerp(startValue, targetValue, elapsedTime / time);
+                }
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
-            light2D.intensity = targetIntensity;
+
+            if (falloffStrengthControl)
+            {
+                light2D.falloffIntensity = targetValue;
+            }
+            else
+            {
+                light2D.intensity = targetValue;
+            }
         }
     }
 }

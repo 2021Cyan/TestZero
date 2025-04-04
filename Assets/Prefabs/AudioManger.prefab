@@ -52,7 +52,7 @@ MonoBehaviour:
   - SFX
   - Music
   CollisionTag: 
-  PreloadSamples: 0
+  PreloadSamples: 1
 --- !u!114 &7359788693089475494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,6 +170,13 @@ MonoBehaviour:
       Data3: 270879405
       Data4: 225342027
     Path: event:/SFX/Character/Hurt
+  Heal:
+    Guid:
+      Data1: 33562032
+      Data2: 1287069354
+      Data3: -1171048559
+      Data4: 2066108523
+    Path: event:/SFX/Character/Heal
   EnemyDeath:
     Guid:
       Data1: 0

@@ -441,14 +441,14 @@ public class PlayerController : MonoBehaviour
         {
             foreach (var sr in sprites)
             {
-                sr.color = new Color(1f, 1f, 1f, 0.3f); 
+                sr.color = new Color(1f, 1f, 1f, 0.3f);
             }
 
             yield return new WaitForSeconds(blinkDuration);
 
             foreach (var sr in sprites)
             {
-                sr.color = new Color(1f, 1f, 1f, 1f); 
+                sr.color = new Color(1f, 1f, 1f, 1f);
             }
 
             yield return new WaitForSeconds(blinkDuration);
@@ -476,15 +476,8 @@ public class PlayerController : MonoBehaviour
 
     public void Restore(float amount)
     {
-        // if (PlayerUI.Instance != null && amount >= 10f)
-        // {
-        //     PlayerUI.Instance.ShowRestoreEffect();
-        // }
-        if (healingEffect != null && amount >= 10f)
-        {
-            healingEffect.Play();
-            _audio.PlayOneShot(_audio.Heal);
-        }
+        if (healingEffect != null && amount > 0) healingEffect.Play();
+        if (amount > 5f) _audio.PlayOneShot(_audio.Heal);
         hp = Mathf.Min(hp + amount, max_hp);
     }
 
