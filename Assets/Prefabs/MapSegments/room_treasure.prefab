@@ -7099,7 +7099,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6500983499178520747, guid: 838e18fd4bd331d45a2bb8a5ca2d6389, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -11
+      value: -12.15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
