@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6430601802657249042}
   - component: {fileID: 8921304402776929489}
+  - component: {fileID: 7785982021956664867}
   m_Layer: 0
   m_Name: SpotLight
   m_TagString: Untagged
@@ -88,6 +89,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7785982021956664867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1379333725707344022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e40d944e3318dc47bad542a06e2071f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _time: 5
+  _rotationAngle: 15
+  _rotateLeft: 1
 --- !u!1 &2212453502466923932
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,7 +259,7 @@ MonoBehaviour:
   m_LocalBounds:
     m_Center: {x: 0, y: -0.00000011920929, z: 0}
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
-  m_PointLightInnerAngle: 30.14
+  m_PointLightInnerAngle: 27.45
   m_PointLightOuterAngle: 39.65
   m_PointLightInnerRadius: 4.1782312
   m_PointLightOuterRadius: 9.253183
@@ -283,7 +299,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9007203890350082850}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.37452555, w: 0.92721665}
+  m_LocalRotation: {x: 0, y: 0, z: -0.38268343, w: 0.92387956}
   m_LocalPosition: {x: -0.0531, y: -0.125, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -291,7 +307,7 @@ Transform:
   - {fileID: 6247796003853635185}
   - {fileID: 5108744977586820354}
   m_Father: {fileID: 6430601802657249042}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -43.99}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -45}
 --- !u!212 &5082592420263174472
 SpriteRenderer:
   m_ObjectHideFlags: 0
