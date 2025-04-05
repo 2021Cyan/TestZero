@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9125439218772791185}
   - component: {fileID: -623209835492781431}
   - component: {fileID: 4551109952384042856}
-  - component: {fileID: 2216491376832603473}
+  - component: {fileID: 5782034102789596536}
   m_Layer: 10
   m_Name: Enemy_Bomber
   m_TagString: Enemy
@@ -137,8 +137,8 @@ MonoBehaviour:
   damageTextPrefab: {fileID: 2392417955568809763, guid: 0e0617012df934e47bec0d477b81457c, type: 3}
   explosionPrefab: {fileID: 100008, guid: 1dbc518224e49f34095aab42fe05751a, type: 3}
   explosion: {fileID: 100006, guid: 2e7e92bc7175b744ea40878dedfa79e4, type: 3}
---- !u!60 &2216491376832603473
-PolygonCollider2D:
+--- !u!61 &5782034102789596536
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -171,7 +171,7 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0067362785, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -181,26 +181,5 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.78499997, y: -0.42999998}
-      - {x: 0.85499996, y: -0.39999998}
-      - {x: 0.85499996, y: -0.26999998}
-      - {x: 0.615, y: -0.14999999}
-      - {x: 0.36499998, y: -0.16}
-      - {x: 0.385, y: 0.42}
-      - {x: 0.325, y: 0.44}
-      - {x: -0.044999998, y: 0.44}
-      - {x: -0.095, y: 0.42999998}
-      - {x: -0.175, y: 0.39999998}
-      - {x: -0.385, y: 0.089999996}
-      - {x: -0.625, y: -0.19}
-      - {x: -0.805, y: -0.25}
-      - {x: -0.85499996, y: -0.29999998}
-      - {x: -0.85499996, y: -0.41}
-      - {x: -0.745, y: -0.44}
-      - {x: -0.355, y: -0.44}
-      - {x: -0.235, y: -0.42}
-      - {x: 0.155, y: -0.44}
-      - {x: 0.73499995, y: -0.44}
-  m_UseDelaunayMesh: 0
+  m_Size: {x: 0.6149702, y: 0.88}
+  m_EdgeRadius: 0

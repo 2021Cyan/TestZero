@@ -76,7 +76,11 @@ public class EnemyScript_Bomber : EnemyBase
         }
 
         MaintainHoverHeight();
-        rb.linearVelocity = new Vector2(moveDirection.x * moveSpeed, rb.linearVelocity.y);
+        bool isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 2.0f, LayerMask.GetMask("Terrain"));
+        if(isGrounded)
+        {
+            rb.linearVelocity = new Vector2(moveDirection.x * moveSpeed, rb.linearVelocity.y);
+        }
     }
 
     private void MaintainHoverHeight()

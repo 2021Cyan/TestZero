@@ -267,7 +267,7 @@ MonoBehaviour:
   laserOrigin: {fileID: 6607559197135168641}
   laserLine: {fileID: 613612904257950818}
   laserLength: 50
-  zapEffectPrefabSingle: {fileID: 0}
+  zapEffectPrefabSingle: {fileID: 100002, guid: e3b931080c9262e408c0378d77443cb7, type: 3}
   explosion: {fileID: 100006, guid: 2e7e92bc7175b744ea40878dedfa79e4, type: 3}
 --- !u!120 &4399038669097436662
 LineRenderer:

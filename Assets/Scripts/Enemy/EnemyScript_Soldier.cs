@@ -224,7 +224,9 @@ public class Enemy_Soldier : EnemyBase
     private void MoveToPlayer()
     {
         if (player == null)
+        {
             return;
+        }
         Vector2 direction = (player.position - transform.position).normalized;
 
         float moveDirectionX = 1f;
@@ -234,8 +236,12 @@ public class Enemy_Soldier : EnemyBase
             moveDirectionX = -1f;
         }
 
-        rb.linearVelocity = new Vector2(moveDirectionX * moveSpeed, rb.linearVelocity.y);
-        UpdateSpriteDirection(direction.x < 0);
+        bool isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 2.0f, LayerMask.GetMask("Terrain"));
+        if (isGrounded)
+        {
+            rb.linearVelocity = new Vector2(moveDirectionX * moveSpeed, rb.linearVelocity.y);
+            UpdateSpriteDirection(direction.x < 0);
+        }
     }
 
 
@@ -259,9 +265,12 @@ public class Enemy_Soldier : EnemyBase
             {
                 moveDirectionX = 1f;
             }
-
-            rb.linearVelocity = new Vector2(moveDirectionX * moveSpeed, rb.linearVelocity.y);
-            UpdateSpriteDirection(movingLeft);
+            bool isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 2.0f, LayerMask.GetMask("Terrain"));
+            if (isGrounded)
+            {
+                rb.linearVelocity = new Vector2(moveDirectionX * moveSpeed, rb.linearVelocity.y);
+                UpdateSpriteDirection(movingLeft);
+            }
         }
     }
 
