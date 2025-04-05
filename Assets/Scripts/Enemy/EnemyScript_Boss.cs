@@ -98,7 +98,7 @@ public class EnemyScript_Boss : EnemyBase
         polyCol = GetComponent<PolygonCollider2D>();
         if (polyCol != null)
         {
-            polyCol.enabled = true;
+            polyCol.enabled = false;
         }
 
         boxCol = GetComponent<BoxCollider2D>();
@@ -211,6 +211,10 @@ public class EnemyScript_Boss : EnemyBase
         transform.position = endPos;
         initialPosition = endPos;
         yield return new WaitForSeconds(0.5f);
+        if (polyCol != null)
+        {
+            polyCol.enabled = true;
+        }
         StartCoroutine(ManagePatterns());
     }
 
