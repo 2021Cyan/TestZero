@@ -56,6 +56,8 @@ public class EnemyScript_Boss : EnemyBase
     private AudioManager _audio;
 
     private bool isFalling = false;
+    private PolygonCollider2D polyCol;
+    private BoxCollider2D boxCol;
     [SerializeField] GameObject explosion;
 
 
@@ -91,6 +93,18 @@ public class EnemyScript_Boss : EnemyBase
                 zapEffects[i] = Instantiate(zapEffectPrefab, Vector3.zero, Quaternion.identity);
                 zapEffects[i].SetActive(false);
             }
+        }
+
+        polyCol = GetComponent<PolygonCollider2D>();
+        if (polyCol != null)
+        {
+            polyCol.enabled = true;
+        }
+
+        boxCol = GetComponent<BoxCollider2D>();
+        if(boxCol != null)
+        {
+            boxCol.enabled = false;
         }
 
         patternList = new Pattern[] {Pattern1, Pattern2, Pattern3, Pattern4, Pattern5};
@@ -450,6 +464,15 @@ public class EnemyScript_Boss : EnemyBase
         {
             isFalling = true;
             isalive = false;
+
+            if (polyCol != null)
+            {
+                polyCol.enabled = false;
+            }
+            if (boxCol != null)
+            {
+                boxCol.enabled = true;
+            }
 
             sweepEffect.SetActive(false);
             foreach (var effect in zapEffects)
