@@ -127,14 +127,15 @@ public class GunScript : MonoBehaviour
 
     private void OnMouseEnter()
     {
+        if (Time.timeScale == 0) return;
         isPlayerNearby = true;
         info.ShowGunStats(this);
         infoRender.UpdateGunSprites(this);
-
     }
 
     private void OnMouseExit()
     {
+        if (Time.timeScale == 0) return;
         isPlayerNearby = false;
         info.HideGunStats();
         infoRender.HideGunSprites();
