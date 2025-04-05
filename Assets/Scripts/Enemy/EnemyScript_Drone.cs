@@ -92,11 +92,11 @@ public class Enemy_Drone : EnemyBase
         {
             Aim();
             Shoot();
-            if (_levelNumber >= 1)
+            if (_levelNumber == 1)
             {
                 FireMissile();
             }
-            if (_levelNumber >= 2)
+            else if (_levelNumber >= 2)
             {
                 AlternatingAttack();
             }
