@@ -24,7 +24,6 @@ public class EnemyScript_Bomber : EnemyBase
     private AudioManager _audio;
     private bool explosionTriggered = false;
     [SerializeField] GameObject explosion;
-    private Collider2D enemyCollider;
 
 
     void Start()
@@ -50,7 +49,6 @@ public class EnemyScript_Bomber : EnemyBase
         rb.gravityScale = 1f; 
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         spriteRenderer = GetComponent<SpriteRenderer>();
-        enemyCollider = GetComponent<Collider2D>();
         ChangeDirection();
     }
 
@@ -138,17 +136,12 @@ public class EnemyScript_Bomber : EnemyBase
             explosionTriggered = true;
             rb.gravityScale = 0f;
             rb.linearVelocity = Vector2.zero;
-            if(enemyCollider != null)
-            {
-                enemyCollider.enabled = false;
-            }
             StartCoroutine(ExplosionCountdown());
         }
     }
 
     private IEnumerator ExplosionCountdown()
     {
-        currentHealth = 10000;
         float timer = 0f;
         Vector3 originalScale = transform.localScale;
 
