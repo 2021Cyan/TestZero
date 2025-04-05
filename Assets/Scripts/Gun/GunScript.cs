@@ -181,7 +181,7 @@ public class GunScript : MonoBehaviour
 
     void Update()
     {
-        if (isPlayerNearby && _input.InteractInput)
+        if (isPlayerNearby && Input.GetKeyDown(KeyCode.E))
         {
             _audio.PlayOneShot(_audio.Pickup);
             EquipGun();

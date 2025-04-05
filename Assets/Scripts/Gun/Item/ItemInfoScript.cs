@@ -123,7 +123,7 @@ public class ItemInfoScript : MonoBehaviour
                 break;
             case 4:
                 itemName = "Drone Support Module";  
-                itemEffect = "Enhances Drone <color=#00FF00>Support</color> capabilities";
+                itemEffect = "Enhances Drone <color=#00FF00>Healing</color> capabilities";
                 colorCode = "#8E44AD"; 
                 break;
             default:

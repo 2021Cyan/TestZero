@@ -54,7 +54,7 @@ public class ItemScript : MonoBehaviour
 
     void Update()
     {
-        if (isPlayerNearby && _input.InteractInput)
+        if (isPlayerNearby && Input.GetKeyDown(KeyCode.E))
         {
             EquipItem();
         }
@@ -94,6 +94,8 @@ public class ItemScript : MonoBehaviour
                 break;
         }
 
+        info.HideItemStats();
+        infoRender.HideGunSprites();
         Destroy(gameObject);
     }
 }
