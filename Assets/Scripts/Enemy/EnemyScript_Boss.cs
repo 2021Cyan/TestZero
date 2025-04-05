@@ -167,7 +167,30 @@ public class EnemyScript_Boss : EnemyBase
             {
                 trigger.OnBossDefeated();
             }
+            CleanUp();
             base.Die(resourceAmount);
+        }
+    }
+
+    private void CleanUp()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemyObj in enemies)
+        {
+            if (enemyObj == this.gameObject)
+            {
+                continue;
+            }
+
+            float distance = Vector3.Distance(player.position, enemyObj.transform.position);
+            if (distance <= 50f)
+            {
+                EnemyBase enemy = enemyObj.GetComponent<EnemyBase>();
+                if (enemy != null && enemy.isalive)
+                {
+                    enemy.TakeDamage(float.MaxValue);
+                }
+            }
         }
     }
 
