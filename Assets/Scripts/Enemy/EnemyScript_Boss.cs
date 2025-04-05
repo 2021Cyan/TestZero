@@ -108,7 +108,7 @@ public class EnemyScript_Boss : EnemyBase
         }
 
         patternList = new Pattern[] {Pattern1, Pattern2, Pattern3, Pattern4, Pattern5};
-        StartCoroutine(ManagePatterns());
+        StartCoroutine(BossIntroMovement());
     }
 
     void Update()
@@ -169,6 +169,26 @@ public class EnemyScript_Boss : EnemyBase
             }
             base.Die(resourceAmount);
         }
+    }
+
+    private IEnumerator BossIntroMovement()
+    {
+        Vector3 startPos = transform.position;
+        Vector3 endPos = startPos + new Vector3(0f, -5f, 0f);
+        float duration = 4f;
+        float time = 0f;
+
+        while (time < duration)
+        {
+            transform.position = Vector3.Lerp(startPos, endPos, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = endPos;
+        initialPosition = endPos;
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(ManagePatterns());
     }
 
     private IEnumerator ManagePatterns()
