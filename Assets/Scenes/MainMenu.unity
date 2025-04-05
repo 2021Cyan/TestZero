@@ -2655,6 +2655,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7306279477192934636, guid: e74de27f14fc6894abbf9e89bef43f4e, type: 3}
+      propertyPath: jumpPower
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 7799167905210987219, guid: e74de27f14fc6894abbf9e89bef43f4e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.654
@@ -72694,7 +72698,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "        \n    Acceleration"
+  m_text: "        \n    Acceleration + \n    INSTANT RELOAD"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5a4750605d104fd429bcab4f5cd40fb0, type: 2}
   m_sharedMaterial: {fileID: 207135095965902284, guid: 5a4750605d104fd429bcab4f5cd40fb0, type: 2}

@@ -384,7 +384,7 @@ public class EnemyScript_Boss : EnemyBase
                 PlayerController playerController = hitPlayer.collider.GetComponentInParent<PlayerController>();
                 if (playerController != null && playerController.IsAlive() && !playerController.GetPlayerInvincible())
                 {
-                    playerController.Hurt(0.25f);
+                    playerController.Hurt(1f);
                 }
             }
         }
@@ -521,7 +521,18 @@ public class EnemyScript_Boss : EnemyBase
                 boxCol.enabled = true;
             }
 
-            sweepEffect.SetActive(false);
+            // Disable laser line
+            if (laserLine != null)
+            {
+                laserLine.enabled = false;
+            }
+            // Disable sweep effect
+            if (sweepEffect != null)
+            {
+                sweepEffect.SetActive(false);
+            }
+
+            // Disable zap effect
             foreach (var effect in zapEffects)
             {
                 if (effect != null)
@@ -530,9 +541,22 @@ public class EnemyScript_Boss : EnemyBase
                 }
             }
 
+            // Disable rotating laser lines
+            foreach (var cross in crossLasers)
+            {
+                if (cross != null)
+                {
+                    cross.enabled = false;
+                }
+            }
+
+            // Disable aim line
             foreach (var l in lineRenderers)
             {
-                l.enabled = false;
+                if(l != null)
+                {
+                    l.enabled = false;
+                }
             }
             rb.gravityScale = 2f;
         }

@@ -16,6 +16,14 @@ public class EnemyScript_Turret : EnemyBase
     [SerializeField] GameObject missile;
     public float missileCooldown = 5f;
     private float lastMissileTime = 0f;
+    private bool shouldFireMissile = true;
+
+    // Enemy Zap
+    [SerializeField] Transform laserOrigin;
+    [SerializeField] LineRenderer laserLine;
+    [SerializeField] float laserLength = 50f;
+    [SerializeField] private GameObject zapEffectPrefabSingle;
+    private GameObject sweepEffect;
 
     private bool isPlayerNearby;
     private Transform player;
@@ -44,6 +52,11 @@ public class EnemyScript_Turret : EnemyBase
         rb.gravityScale = 0;
         spriteRenderer = GetComponent<SpriteRenderer>();
         lineRenderer = GetComponent<LineRenderer>();
+        if (zapEffectPrefabSingle != null)
+        {
+            sweepEffect = Instantiate(zapEffectPrefabSingle, Vector3.zero, Quaternion.identity);
+            sweepEffect.SetActive(false);
+        }
     }
 
     void Update()
@@ -58,7 +71,7 @@ public class EnemyScript_Turret : EnemyBase
         }
         if (_levelNumber >= 2)
         {
-            //Zap();
+            AlternatingAttack();
         }
     }
 
@@ -168,6 +181,97 @@ public class EnemyScript_Turret : EnemyBase
         }
     }
 
+    private IEnumerator Zap()
+    {
+        float startAngle, endAngle;
+
+        bool isPlayerOnLeft = player.position.x < transform.position.x;
+
+        if (isPlayerOnLeft)
+        {
+            startAngle = -180f;
+            endAngle = 0f;
+        }
+        else
+        {
+            startAngle = 180f;
+            endAngle = 0f;
+        }
+
+        float currentAngle = startAngle;
+        float totalAngle = Mathf.Abs(endAngle - startAngle);
+        float traveledAngle = 0f;
+
+        float startSpeed = 50f;
+        float endSpeed = 300f;
+
+        bool hasHitPlayer = false;
+
+        laserLine.enabled = true;
+
+        while ((endAngle > startAngle && currentAngle < endAngle) ||
+               (endAngle < startAngle && currentAngle > endAngle))
+        {
+            float t = traveledAngle / totalAngle;
+            float currentSpeed = Mathf.Lerp(startSpeed, endSpeed, t);
+            Vector3 dir = Quaternion.Euler(0, 0, currentAngle) * Vector3.down;
+            RaycastHit2D hit = Physics2D.Raycast(laserOrigin.position, dir, laserLength, LayerMask.GetMask("Terrain"));
+            Vector3 laserEnd = hit.collider != null ? hit.point : laserOrigin.position + dir * laserLength;
+
+            laserLine.SetPosition(0, laserOrigin.position);
+            laserLine.SetPosition(1, laserEnd);
+
+            if (sweepEffect != null)
+            {
+                sweepEffect.SetActive(true);
+                sweepEffect.transform.position = laserEnd;
+            }
+
+            if (!hasHitPlayer)
+            {
+                RaycastHit2D hitPlayer = Physics2D.Raycast(laserOrigin.position, dir, laserLength, LayerMask.GetMask("Hitbox_Player"));
+                if (hitPlayer.collider != null)
+                {
+                    PlayerController playerController = hitPlayer.collider.GetComponentInParent<PlayerController>();
+                    if (playerController != null && !playerController.GetPlayerInvincible() && playerController.IsAlive())
+                    {
+                        playerController.Hurt(10);
+                        hasHitPlayer = true;
+                    }
+                }
+            }
+            float step = currentSpeed * Time.deltaTime;
+            traveledAngle += step;
+            currentAngle = Mathf.MoveTowards(currentAngle, endAngle, step);
+
+            yield return null;
+        }
+        sweepEffect.SetActive(false);
+        laserLine.enabled = false;
+    }
+
+    private void AlternatingAttack()
+    {
+        if (Time.time > lastMissileTime + missileCooldown && isPlayerNearby)
+        {
+            bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, player.position, LayerMask.GetMask("Terrain"));
+            if (!isPathClear) return;
+
+            lastMissileTime = Time.time;
+
+            if (shouldFireMissile)
+            {
+                Instantiate(missile, turret_firePoint.position, turret_firePoint.rotation);
+            }
+            else
+            {
+                StartCoroutine(Zap());
+            }
+
+            shouldFireMissile = !shouldFireMissile;
+        }
+    }
+
     // Function to deal damage to the enemy
     public override void TakeDamage(float damage)
     {
@@ -191,7 +295,21 @@ public class EnemyScript_Turret : EnemyBase
     protected override void Die(int amount)
     {
         isalive = false;
-        lineRenderer.enabled = false;
+        // Disable aim line
+        if (lineRenderer != null)
+        {
+            lineRenderer.enabled = false;
+        }
+        // Disable sweep effect
+        if (sweepEffect != null)
+        {
+            sweepEffect.SetActive(false);
+        }
+        // Disable laser line
+        if (laserLine != null)
+        {
+            laserLine.enabled = false;
+        }
         Vector3 explosionPos = transform.position;
         GameObject explosionInstance = Instantiate(explosion, explosionPos, Quaternion.identity);
         _audio.PlayOneShot(_audio.Explosion, transform.position);

@@ -212,6 +212,22 @@ public class Shooting : MonoBehaviour
         }
     }
 
+    public void ForceReloadComplete()
+    {
+        StopAllCoroutines();
+        if(playerController!= null)
+        {
+            playerController.currentAmmo = playerController.maxAmmo;
+        }
+        isReloading = false;
+
+        ReticleController reticle = FindFirstObjectByType<ReticleController>();
+        if (reticle != null)
+        {
+            reticle.SetReloadUI(false);
+        }
+    }
+
     public bool getIsReloading()
     {
         return isReloading;

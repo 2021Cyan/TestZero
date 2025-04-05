@@ -575,6 +575,12 @@ public class PlayerController : MonoBehaviour
     {
         _audio.SetPitch(0.5f);
         isBulletTimeActive = true;
+        _audio.PlayOneShot(_audio.Reload);
+        Shooting shooting = GetComponent<Shooting>();
+        if (shooting != null)
+        {
+            shooting.ForceReloadComplete();
+        }
 
         // Global slow-motion (Enemy, Bullet...etc)
         Time.timeScale = enemyTimeScale;
