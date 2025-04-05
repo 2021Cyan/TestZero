@@ -27,6 +27,7 @@ public class ItemScript : MonoBehaviour
 
     private void OnMouseEnter()
     {
+        if (Time.timeScale == 0) return;
         isPlayerNearby = true;
         info.ShowItemStats(this);
         infoRender.UpdateItemSprites(this);
@@ -34,6 +35,7 @@ public class ItemScript : MonoBehaviour
 
     private void OnMouseExit()
     {
+        if (Time.timeScale == 0) return;
         isPlayerNearby = false;
         info.HideItemStats();
         infoRender.HideGunSprites();
@@ -43,6 +45,7 @@ public class ItemScript : MonoBehaviour
     {
         _audio = AudioManager.Instance;
         _input = InputManager.Instance;
+        _input.OnInteractPressed += HandleItemInteract;
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         string itemPath = $"Sprites/Objects/items_{itemType}";
@@ -52,9 +55,9 @@ public class ItemScript : MonoBehaviour
         playerController = player.GetComponent<PlayerController>();
     }
 
-    void Update()
+    private void HandleItemInteract()
     {
-        if (isPlayerNearby && Input.GetKeyDown(KeyCode.E))
+        if (isPlayerNearby)
         {
             EquipItem();
         }
@@ -97,5 +100,10 @@ public class ItemScript : MonoBehaviour
         info.HideItemStats();
         infoRender.HideGunSprites();
         Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        _input.OnInteractPressed -= HandleItemInteract;
     }
 }

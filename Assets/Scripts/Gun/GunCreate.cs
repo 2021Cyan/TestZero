@@ -37,23 +37,6 @@ public class GunCreate : MonoBehaviour
 
     void Update()
     {
-        // float distance = Vector2.Distance(transform.position, player.position);
-        // isPlayerNearby = distance <= interactionRange;
-
-        //TODO: use collider to check if player is nearby
-        // if (isPlayerNearby)
-        // {
-        //     animator.SetBool("isNearby", true);
-        // }
-        // else
-        // {
-        //     if(occupiedSpawnPoints.Count == 0)
-        //     {
-        //         animator.SetBool("isNearby", false);
-        //     }
-        // }
-
-        // if (isPlayerNearby && Input.GetKeyDown(KeyCode.F))
         if (isPlayerNearby && _input.FInput)
         {
             AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
@@ -71,12 +54,6 @@ public class GunCreate : MonoBehaviour
                 StartCoroutine(Recycle());
             }
         }
-        // //TODO: change with InputManager
-        // if (Input.GetKeyUp(KeyCode.G))
-        // {
-        //     recycleHoldTime = 0f;
-        //     isRecycling = false;
-        // }
     }
 
     IEnumerator Recycle()
@@ -166,7 +143,6 @@ public class GunCreate : MonoBehaviour
         isGeneratingGuns = false;
     }
 
-    //TODO: Change _audio.PlayOneShot("Shop") as I update Inputmanager
     void TryGenerateGun()
     {
         if (playerController != null && playerController.resource >= gunCost)
