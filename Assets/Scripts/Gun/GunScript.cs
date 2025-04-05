@@ -71,7 +71,7 @@ public class GunScript : MonoBehaviour
             barrelLevel = 5,
             frameLevel = 5,
             magazineLevel = 2,
-            
+
             damage = 50f,
             fireRate = 6.0f,
             maxAmmo = 14,
@@ -130,6 +130,7 @@ public class GunScript : MonoBehaviour
         isPlayerNearby = true;
         info.ShowGunStats(this);
         infoRender.UpdateGunSprites(this);
+
     }
 
     private void OnMouseExit()
@@ -137,6 +138,15 @@ public class GunScript : MonoBehaviour
         isPlayerNearby = false;
         info.HideGunStats();
         infoRender.HideGunSprites();
+    }
+
+    private void HandleGunInteract()
+    {
+        if (isPlayerNearby)
+        {
+            _audio.PlayOneShot(_audio.Pickup);
+            EquipGun();
+        }
     }
 
     private void SetLightColor()
@@ -167,10 +177,14 @@ public class GunScript : MonoBehaviour
 
     void Start()
     {
-        // _audio = AudioManager.Instance;
-        // _input = InputManager.Instance;
         player = GameObject.FindGameObjectWithTag("Player").transform;
         playerController = player.GetComponent<PlayerController>();
+
+        // Subscribe to the interact event
+        if (_input != null)
+        {
+            _input.OnInteractPressed += HandleGunInteract;
+        }
     }
 
     void Awake()
@@ -179,14 +193,15 @@ public class GunScript : MonoBehaviour
         _input = InputManager.Instance;
     }
 
-    void Update()
+    void OnDestroy()
     {
-        if (isPlayerNearby && Input.GetKeyDown(KeyCode.E))
+        // Unsubscribe from the event when the object is destroyed
+        if (_input != null)
         {
-            _audio.PlayOneShot(_audio.Pickup);
-            EquipGun();
+            _input.OnInteractPressed -= HandleGunInteract;
         }
     }
+
     public void EquipGun()
     {
         if (gunRarity != Rarity.Legendary)
@@ -204,7 +219,7 @@ public class GunScript : MonoBehaviour
         playerController.maxSpreadAngle = maxSpreadAngle;
         playerController.spreadIncreaseRate = spreadIncreaseRate;
         playerController.spreadResetSpeed = spreadResetSpeed;
-        playerController.reloadSpeed =reloadSpeed;
+        playerController.reloadSpeed = reloadSpeed;
         playerController.bulletType = bulletType;
         if (gunCreateStation != null)
         {
@@ -342,7 +357,7 @@ public class GunScript : MonoBehaviour
 
     public void AssignGripType()
     {
-        if(gunRarity == Rarity.Legendary)
+        if (gunRarity == Rarity.Legendary)
         {
             SetLightColor();
             return;
@@ -366,7 +381,7 @@ public class GunScript : MonoBehaviour
                 break;
 
             case "gun_grip_pistol":
-                damage = 20.0f; 
+                damage = 20.0f;
                 fireRate = 4.0f;
                 maxAmmo = 10;
                 maxSpreadAngle = 30.0f;

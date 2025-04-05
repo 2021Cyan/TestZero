@@ -21,6 +21,10 @@ public class InputManager : MonoBehaviour
     public bool GInput { get; private set; } = false;
     public bool ResetInput { get; private set; } = false;
 
+    // Event for interact input
+    // This event is triggered when the interact button is pressed
+    public event System.Action OnInteractPressed;
+
     private double _fPressTime = 0f;
     private double _gPressTime = 0f;
 
@@ -177,6 +181,10 @@ public class InputManager : MonoBehaviour
     private void SetInteractInput(InputAction.CallbackContext ctx)
     {
         InteractInput = ctx.started;
+        if (InteractInput)
+        {
+            OnInteractPressed?.Invoke();
+        }
     }
     private void SetResetInput(InputAction.CallbackContext ctx)
     {
@@ -219,6 +227,9 @@ public class InputManager : MonoBehaviour
             _gPressTime = ctx.startTime;
         }
     }
+
+
+
     private void Awake()
     {
         if (Instance == null)

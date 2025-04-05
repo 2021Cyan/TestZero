@@ -21,8 +21,8 @@ public class Barrel : Interactable
     {
         if (!_used && other.CompareTag("Player"))
         {
-            // Allow interaction
             _playerIsNear = true;
+            ShowPrompt(true);
         }
     }
 
@@ -30,8 +30,8 @@ public class Barrel : Interactable
     {
         if (!_used && other.CompareTag("Player"))
         {
-            // Allow interaction
             _playerIsNear = false;
+            ShowPrompt(false);
         }
     }
 
@@ -48,41 +48,37 @@ public class Barrel : Interactable
         _audio = AudioManager.Instance;
         _input = InputManager.Instance;
         _light = GetComponent<Light2D>();
+
+        if (_input != null)
+        {
+            _input.OnInteractPressed += HandleBarrelInteract;
+        }
     }
 
-    //TODO: not efficient... gotta update this later.
-    private void Update()
+    private void OnDestroy()
     {
-        // Allow interactions if player is close enough and barrel hasn't been used
-        if (_playerIsNear && !_used)
+        if (_input != null)
         {
-            // Show prompt
-            ShowPrompt(true);
-
-            // Handle interaction
-            if (_input.InteractInput)
-            {
-                // Reward player
-                _player.GetComponent<PlayerController>().AddResource(Reward);
-
-                // Update appearance
-                // TODO
-                gameObject.GetComponent<Renderer>().material.color = Color.grey;
-
-                // Remember interaction
-                enabled = false;
-                _used = true;
-                _audio.SetParameterByName("Shop", 3);
-                _audio.PlayOneShot(_audio.Shop);
-                GetComponent<ParticleSystem>().Stop();
-                _light.enabled = false;
-                ShowPrompt(false);
-            }
+            _input.OnInteractPressed -= HandleBarrelInteract;
         }
+    }
 
-        // Otherwise, don't show prompt
-        else
+    private void HandleBarrelInteract()
+    {
+        if (_playerIsNear && !_used)    
         {
+            _player.GetComponent<PlayerController>().AddResource(Reward);
+
+            // Update appearance
+            gameObject.GetComponent<Renderer>().material.color = Color.grey;
+
+            // Remember interaction
+            enabled = false;
+            _used = true;
+            _audio.SetParameterByName("Shop", 3);
+            _audio.PlayOneShot(_audio.Shop);
+            GetComponent<ParticleSystem>().Stop();
+            _light.enabled = false;
             ShowPrompt(false);
         }
     }
@@ -92,7 +88,6 @@ public class Barrel : Interactable
         if (show)
         {
             // Display "Press E to interact"
-            // TODO
             Prompt.SetActive(true);
         }
         else
