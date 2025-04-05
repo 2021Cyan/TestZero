@@ -148,6 +148,11 @@ public class EnemyScript_Boss : EnemyBase
             GameObject explosionInstance = Instantiate(explosion, explosionPos, Quaternion.identity);
             _audio.PlayOneShot(_audio.Explosion, transform.position);
             Destroy(explosionInstance.gameObject, 5f);
+            BossSpawnTrigger trigger = FindAnyObjectByType<BossSpawnTrigger>();
+            if (trigger != null)
+            {
+                trigger.OnBossDefeated();
+            }
             base.Die(resourceAmount);
         }
     }
