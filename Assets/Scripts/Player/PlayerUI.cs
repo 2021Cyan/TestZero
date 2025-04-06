@@ -63,11 +63,11 @@ public class PlayerUI : MonoBehaviour
         {
             return;
         }
-        UpdateHP();
-        UpdateImage();
-        UpdateAmmoText();
-        UpdateResourceText();
-        UpdateEnergy();
+        //UpdateHP();
+        //UpdateImage();
+        //UpdateAmmoText();
+        //UpdateResourceText();
+        //UpdateEnergy();
         UpdateBulletTimeFilter();
     }
 
