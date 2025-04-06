@@ -57,6 +57,8 @@ public class PlayerController : MonoBehaviour
     // Movement Control (Jump)
     private float currentJumpTime = 0f;
     public float maxJumpTime = 0.5f;
+    public float coyoteTime = 0.2f;
+    private float coyoteTimeCounter = 0f;
 
     [Header("Movement Control (Dodge)")]
     private bool isDodging = false;
@@ -167,6 +169,14 @@ public class PlayerController : MonoBehaviour
             mousePos = maincam.ScreenToWorldPoint(_input.MouseInput);
             Dodge();
             Die();
+            if (IsGrounded())
+            {
+                coyoteTimeCounter = coyoteTime;
+            }
+            else
+            {
+                coyoteTimeCounter -= Time.deltaTime;
+            }
             Jump();
             Move();
             BulletTime();
@@ -316,10 +326,10 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if (isDodging || rb.linearVelocity.y != 0)
+        if (isDodging)
             return;
 
-        if (_input.JumpInput && !anim.GetBool("isJump"))
+        if (_input.JumpInput && coyoteTimeCounter > 0 && !anim.GetBool("isJump"))
         {
             isJumping = true;
             _audio.PlayOneShot(_audio.JumpGroan);
@@ -330,21 +340,21 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // Reset current motion before jumping.
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
         Vector2 jumpVelocity = new Vector2(0, jumpPower);
         rb.AddForce(jumpVelocity, ForceMode2D.Impulse);
 
+        coyoteTimeCounter = 0f;
         isJumping = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (anim.GetBool("isJump"))
+        if (anim.GetBool("isJump") && other.CompareTag("Terrain"))
         {
             _audio.PlayOneShot(_audio.Moonwalk);
+            anim.SetBool("isJump", false);
         }
-        anim.SetBool("isJump", false);
     }
 
     void Dodge()
