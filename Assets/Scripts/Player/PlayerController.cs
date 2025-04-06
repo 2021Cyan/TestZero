@@ -57,6 +57,8 @@ public class PlayerController : MonoBehaviour
     // Movement Control (Jump)
     private float currentJumpTime = 0f;
     public float maxJumpTime = 0.5f;
+    public float coyoteTime = 0.2f;
+    private float coyoteTimeCounter = 0f;
 
     [Header("Movement Control (Dodge)")]
     private bool isDodging = false;
@@ -167,6 +169,14 @@ public class PlayerController : MonoBehaviour
             mousePos = maincam.ScreenToWorldPoint(_input.MouseInput);
             Dodge();
             Die();
+            if (IsGrounded())
+            {
+                coyoteTimeCounter = coyoteTime;
+            }
+            else
+            {
+                coyoteTimeCounter -= Time.deltaTime;
+            }
             Jump();
             Move();
             BulletTime();
@@ -200,29 +210,45 @@ public class PlayerController : MonoBehaviour
 
     bool IsGrounded()
     {
-        float rayLength = 0.1f;
+        float rayLength = 0.5f;
         float raySpacing = 0.3f;
         Vector2 position = transform.position;
 
-        RaycastHit2D centerRay = Physics2D.Raycast(position, Vector2.down, rayLength);
-        RaycastHit2D leftRay = Physics2D.Raycast(position + Vector2.left * raySpacing, Vector2.down, rayLength);
-        RaycastHit2D rightRay = Physics2D.Raycast(position + Vector2.right * raySpacing, Vector2.down, rayLength);
+        Vector2 center = position;
+        Vector2 left = position + Vector2.left * raySpacing;
+        Vector2 right = position + Vector2.right * raySpacing;
+
+        LayerMask groundMask = LayerMask.GetMask("Terrain");
+
+        RaycastHit2D centerRay = Physics2D.Raycast(center, Vector2.down, rayLength, groundMask);
+        RaycastHit2D leftRay = Physics2D.Raycast(left, Vector2.down, rayLength, groundMask);
+        RaycastHit2D rightRay = Physics2D.Raycast(right, Vector2.down, rayLength, groundMask);
 
         bool isGround = false;
 
-        if (centerRay.collider != null && centerRay.collider.CompareTag("Terrain") && centerRay.normal.y > 0.5f)
+        if (centerRay.collider != null)
         {
-            isGround = true;
-        }
-        if (leftRay.collider != null && leftRay.collider.CompareTag("Terrain") && leftRay.normal.y > 0.5f)
-        {
-            isGround = true;
-        }
-        if (rightRay.collider != null && rightRay.collider.CompareTag("Terrain") && rightRay.normal.y > 0.5f)
-        {
-            isGround = true;
+            if (centerRay.collider.CompareTag("Terrain") && centerRay.normal.y > 0.5f)
+            {
+                isGround = true;
+            }
         }
 
+        if (leftRay.collider != null)
+        {
+            if (leftRay.collider.CompareTag("Terrain") && leftRay.normal.y > 0.5f)
+            {
+                isGround = true;
+            }
+        }
+
+        if (rightRay.collider != null)
+        {
+            if (rightRay.collider.CompareTag("Terrain") && rightRay.normal.y > 0.5f)
+            {
+                isGround = true;
+            }
+        }
         return isGround;
     }
 
@@ -300,10 +326,10 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if (isDodging || rb.linearVelocity.y != 0)
+        if (isDodging)
             return;
 
-        if (_input.JumpInput && !anim.GetBool("isJump"))
+        if (_input.JumpInput && coyoteTimeCounter > 0 && !anim.GetBool("isJump"))
         {
             isJumping = true;
             _audio.PlayOneShot(_audio.JumpGroan);
@@ -314,21 +340,21 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // Reset current motion before jumping.
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
         Vector2 jumpVelocity = new Vector2(0, jumpPower);
         rb.AddForce(jumpVelocity, ForceMode2D.Impulse);
 
+        coyoteTimeCounter = 0f;
         isJumping = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (anim.GetBool("isJump"))
+        if (anim.GetBool("isJump") && other.CompareTag("Terrain"))
         {
             _audio.PlayOneShot(_audio.Moonwalk);
+            anim.SetBool("isJump", false);
         }
-        anim.SetBool("isJump", false);
     }
 
     void Dodge()
