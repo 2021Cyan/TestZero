@@ -71,13 +71,13 @@ public class PodScript : MonoBehaviour
 
         if(weaponlevel >= 1)
         {
-            fireRate = (weaponlevel) + 1;
+            fireRate = (weaponlevel * 3);
         }
 
         if (heallevel >= 1)
         {
-            healAmount = 10 + (heallevel * 3);
-            healCooldown = 10f - (0.5f * heallevel);
+            healAmount = 5 + (heallevel);
+            healCooldown = 5;
         }
 
         if (weaponlevel >= 3)
@@ -155,7 +155,16 @@ public class PodScript : MonoBehaviour
         if (weaponlevel >= 1 && trackedEnemy != null)
         {
             float distanceToEnemy = Vector3.Distance(transform.position, trackedEnemy.transform.position);
-            bool isPathClear = !Physics2D.Linecast(turret_firePoint.position, trackedEnemy.transform.position, LayerMask.GetMask("Terrain"));
+            Enemy_Soldier es = trackedEnemy.GetComponent<Enemy_Soldier>();
+            bool isPathClear = false;
+            if (es != null)
+            {
+                isPathClear = !Physics2D.Linecast(turret_firePoint.position, es.getAimPos().position, LayerMask.GetMask("Terrain"));
+            }
+            else
+            {
+                isPathClear = !Physics2D.Linecast(turret_firePoint.position, trackedEnemy.transform.position, LayerMask.GetMask("Terrain"));
+            }
             if (distanceToEnemy <= detectionrange && Time.time > lastFireTime + (1f / fireRate) && isPathClear)
             {
                 lastFireTime = Time.time;

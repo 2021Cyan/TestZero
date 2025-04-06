@@ -9,7 +9,6 @@ public class ElevatorSingle : MonoBehaviour
     public Transform BottomPoint;
     public float Velocity = 2f;
 
-    private bool playerIsOn = false;
     private bool hasMoved = false;
     private Vector3 prevPosition;
     private Vector3 movement;
@@ -36,7 +35,6 @@ public class ElevatorSingle : MonoBehaviour
 
             if (other.CompareTag("Player"))
             {
-                playerIsOn = true;
                 StartCoroutine(StartElevatorAfterDelay(0.5f));
             }
         }
