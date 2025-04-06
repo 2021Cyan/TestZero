@@ -85,6 +85,23 @@ public class Enemy_Soldier : EnemyBase
         }
     }
 
+    private bool IsGrounded(float length)
+    {
+        float rayLength = length;
+        BoxCollider2D box = GetComponent<BoxCollider2D>();
+        Bounds bounds = box.bounds;
+
+        Vector2 left = new Vector2(bounds.min.x + 0.05f, bounds.min.y);
+        Vector2 center = new Vector2(bounds.center.x, bounds.min.y);
+        Vector2 right = new Vector2(bounds.max.x - 0.05f, bounds.min.y);
+
+        LayerMask groundMask = LayerMask.GetMask("Terrain");
+        bool hitLeft = Physics2D.Raycast(left, Vector2.down, rayLength, groundMask);
+        bool hitCenter = Physics2D.Raycast(center, Vector2.down, rayLength, groundMask);
+        bool hitRight = Physics2D.Raycast(right, Vector2.down, rayLength, groundMask);
+        return hitLeft || hitCenter || hitRight;
+    }
+
     // Update states
     private void UpdateState()
     {
@@ -236,8 +253,7 @@ public class Enemy_Soldier : EnemyBase
             moveDirectionX = -1f;
         }
 
-        bool isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 2.0f, LayerMask.GetMask("Terrain"));
-        if (isGrounded)
+        if (IsGrounded(0.5f))
         {
             rb.linearVelocity = new Vector2(moveDirectionX * moveSpeed, rb.linearVelocity.y);
             UpdateSpriteDirection(direction.x < 0);
@@ -265,8 +281,7 @@ public class Enemy_Soldier : EnemyBase
             {
                 moveDirectionX = 1f;
             }
-            bool isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 2.0f, LayerMask.GetMask("Terrain"));
-            if (isGrounded)
+            if (IsGrounded(0.5f))
             {
                 rb.linearVelocity = new Vector2(moveDirectionX * moveSpeed, rb.linearVelocity.y);
                 UpdateSpriteDirection(movingLeft);
