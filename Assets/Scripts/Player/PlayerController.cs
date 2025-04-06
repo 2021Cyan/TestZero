@@ -200,29 +200,45 @@ public class PlayerController : MonoBehaviour
 
     bool IsGrounded()
     {
-        float rayLength = 0.1f;
+        float rayLength = 0.5f;
         float raySpacing = 0.3f;
         Vector2 position = transform.position;
 
-        RaycastHit2D centerRay = Physics2D.Raycast(position, Vector2.down, rayLength);
-        RaycastHit2D leftRay = Physics2D.Raycast(position + Vector2.left * raySpacing, Vector2.down, rayLength);
-        RaycastHit2D rightRay = Physics2D.Raycast(position + Vector2.right * raySpacing, Vector2.down, rayLength);
+        Vector2 center = position;
+        Vector2 left = position + Vector2.left * raySpacing;
+        Vector2 right = position + Vector2.right * raySpacing;
+
+        LayerMask groundMask = LayerMask.GetMask("Terrain");
+
+        RaycastHit2D centerRay = Physics2D.Raycast(center, Vector2.down, rayLength, groundMask);
+        RaycastHit2D leftRay = Physics2D.Raycast(left, Vector2.down, rayLength, groundMask);
+        RaycastHit2D rightRay = Physics2D.Raycast(right, Vector2.down, rayLength, groundMask);
 
         bool isGround = false;
 
-        if (centerRay.collider != null && centerRay.collider.CompareTag("Terrain") && centerRay.normal.y > 0.5f)
+        if (centerRay.collider != null)
         {
-            isGround = true;
-        }
-        if (leftRay.collider != null && leftRay.collider.CompareTag("Terrain") && leftRay.normal.y > 0.5f)
-        {
-            isGround = true;
-        }
-        if (rightRay.collider != null && rightRay.collider.CompareTag("Terrain") && rightRay.normal.y > 0.5f)
-        {
-            isGround = true;
+            if (centerRay.collider.CompareTag("Terrain") && centerRay.normal.y > 0.5f)
+            {
+                isGround = true;
+            }
         }
 
+        if (leftRay.collider != null)
+        {
+            if (leftRay.collider.CompareTag("Terrain") && leftRay.normal.y > 0.5f)
+            {
+                isGround = true;
+            }
+        }
+
+        if (rightRay.collider != null)
+        {
+            if (rightRay.collider.CompareTag("Terrain") && rightRay.normal.y > 0.5f)
+            {
+                isGround = true;
+            }
+        }
         return isGround;
     }
 
