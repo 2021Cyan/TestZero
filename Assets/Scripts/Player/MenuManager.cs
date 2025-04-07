@@ -48,6 +48,7 @@ public class MenuManager : MonoBehaviour
         {
             IsPaused = false;
             InputManager.Input.Enable();
+            // InputManager.Instance.EnableInput();
             Resume();
         }
         else
@@ -56,6 +57,7 @@ public class MenuManager : MonoBehaviour
             BeforePausePosition = _input.MouseInput;
             InputManager.Input.Disable();
             InputManager.Input.UI.Enable();
+            // InputManager.Instance.DisableInput();
             Pause();
         }
     }

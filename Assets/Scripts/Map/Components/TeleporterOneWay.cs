@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using System.Linq;
-//using UnityEditor.Rendering;
 using UnityEngine;
+using System.Collections;
 
 public class OneWayTeleporter : Interactable
 {
@@ -11,14 +10,62 @@ public class OneWayTeleporter : Interactable
     // Private attributes
     private List<Vector3> _destinations = new List<Vector3>();
 
-    // Behaviour
+    [Header("Portal")]
+    [SerializeField] private GameObject _portal;
+    [SerializeField] private ParticleSystem _innerEmbers;
+    [SerializeField] private ParticleSystem _outterEmbers;
+    [SerializeField] private float _moveRange = 0.075f;
+    [SerializeField] private float _moveTime = 1f;
+
+
     void Start()
     {
         for (int i = 0; i < DestinationPoints.Length; ++i)
         {
             _destinations.Add(DestinationPoints[i].position);
         }
+        StartCoroutine(MovePortal(_portal));
     }
+
+    private IEnumerator MovePortal(GameObject _portal)
+    {
+        Vector3 originalPosition = _portal.transform.position;
+        
+        while (true)
+        {
+            // Recalculate positions each cycle to account for potential _moveRange changes
+            Vector3 upPosition = originalPosition + Vector3.up * _moveRange;
+            Vector3 downPosition = originalPosition + Vector3.down * _moveRange;
+            
+            // Move up
+            yield return MoveToPosition(_portal, originalPosition, upPosition, _moveTime);
+            
+            // Move back to center
+            yield return MoveToPosition(_portal, upPosition, originalPosition, _moveTime);
+            
+            // Move down
+            yield return MoveToPosition(_portal, originalPosition, downPosition, _moveTime);
+            
+            // Move back to center
+            yield return MoveToPosition(_portal, downPosition, originalPosition, _moveTime);
+        }
+    }
+    
+    private IEnumerator MoveToPosition(GameObject _portal, Vector3 start, Vector3 end, float _time)
+    {
+        float elapsedTime = 0;
+        
+        while (elapsedTime < _time)
+        {
+            _portal.transform.position = Vector3.Lerp(start, end, elapsedTime / _time);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        
+        // Ensure we reach the exact position
+        _portal.transform.position = end;
+    }
+
 
     public void AddDestination(Vector3 destination, bool clear=false)
     {

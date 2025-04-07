@@ -19,9 +19,15 @@ public class LightFlicker : MonoBehaviour
         light2D = GetComponent<Light2D>();
         initialFalloffStrength = light2D.falloffIntensity;
         initialIntensity = light2D.intensity;
+        StartCoroutine(WaitFor(Random.Range(0, time)));
         StartCoroutine("Flicker");
     }
 
+    IEnumerator WaitFor(float time)
+    {
+        yield return new WaitForSeconds(time);
+    }
+    
     IEnumerator Flicker()
     {
         while (true)
