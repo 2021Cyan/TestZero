@@ -213,31 +213,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8926336807626945699, guid: e512a9a87b62aad48b3d51cc1077f312, type: 3}
       propertyPath: m_Intensity
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 8926336807626945699, guid: e512a9a87b62aad48b3d51cc1077f312, type: 3}
       propertyPath: m_FalloffIntensity
-      value: 0.6
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8926336807626945699, guid: e512a9a87b62aad48b3d51cc1077f312, type: 3}
       propertyPath: m_ShapeLightFalloffSize
-      value: 0.6
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8926336807626945699, guid: e512a9a87b62aad48b3d51cc1077f312, type: 3}
       propertyPath: m_LocalBounds.m_Center.x
-      value: 0.00019997358
+      value: 0.00020000339
       objectReference: {fileID: 0}
     - target: {fileID: 8926336807626945699, guid: e512a9a87b62aad48b3d51cc1077f312, type: 3}
       propertyPath: m_LocalBounds.m_Center.y
-      value: -0.000049948692
+      value: -0.000050008297
       objectReference: {fileID: 0}
     - target: {fileID: 8926336807626945699, guid: e512a9a87b62aad48b3d51cc1077f312, type: 3}
       propertyPath: m_LocalBounds.m_Extent.x
-      value: 1.0971999
+      value: 0.99759996
       objectReference: {fileID: 0}
     - target: {fileID: 8926336807626945699, guid: e512a9a87b62aad48b3d51cc1077f312, type: 3}
       propertyPath: m_LocalBounds.m_Extent.y
-      value: 1.09735
+      value: 0.99785
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

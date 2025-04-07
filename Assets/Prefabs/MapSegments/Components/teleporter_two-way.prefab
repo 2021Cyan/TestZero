@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActivationDistance: 0
-  LinkedTeleporter: {fileID: 0}
+  LinkedTeleporter: {fileID: 349076073062215188}
   CooldownTime: 2
   _portal: {fileID: 5127271375915232460}
   _innerEmbers: {fileID: 5595623990320306186}
