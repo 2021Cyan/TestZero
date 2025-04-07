@@ -4,6 +4,12 @@ https://assetstore.unity.com/packages/2d/gui/icons/crosshairs-216732
 War FX
 https://assetstore.unity.com/packages/vfx/particles/war-fx-5669
 
+Particle Pack
+https://assetstore.unity.com/packages/vfx/particles/particle-pack-127325
+
+FMOD
+https://assetstore.unity.com/packages/tools/audio/fmod-for-unity-2-02-161631
+
 Game Input Controller Icons
 https://assetstore.unity.com/packages/2d/gui/icons/game-input-controller-icons-free-285953
 
