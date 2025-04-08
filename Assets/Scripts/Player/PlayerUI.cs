@@ -43,7 +43,6 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private float creditLineDelay = 1f;
     [SerializeField] private float typingSpeed = 0.02f;
     private Coroutine creditCoroutine;
-    private bool isTypingCredit = false;
 
     private void Awake()
     {
@@ -235,7 +234,6 @@ public class PlayerUI : MonoBehaviour
 
     private IEnumerator TypeCreditLine(string line)
     {
-        isTypingCredit = true;
         creditText.text = "";
 
         string temp = "";
@@ -259,6 +257,5 @@ public class PlayerUI : MonoBehaviour
         }
 
         creditText.text = temp;
-        isTypingCredit = false;
     }
 }
