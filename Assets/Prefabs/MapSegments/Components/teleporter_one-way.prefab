@@ -163,6 +163,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6500983499178520747}
     m_Modifications:
+    - target: {fileID: 508718673438773441, guid: e512a9a87b62aad48b3d51cc1077f312, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 508718673438773441, guid: e512a9a87b62aad48b3d51cc1077f312, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.78039217
+      objectReference: {fileID: 0}
+    - target: {fileID: 508718673438773441, guid: e512a9a87b62aad48b3d51cc1077f312, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 508718673438773441, guid: e512a9a87b62aad48b3d51cc1077f312, type: 3}
+      propertyPath: InitialModule.startColor.minMaxState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 508718673438773441, guid: e512a9a87b62aad48b3d51cc1077f312, type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.key0.g
+      value: 0.7803922
+      objectReference: {fileID: 0}
+    - target: {fileID: 508718673438773441, guid: e512a9a87b62aad48b3d51cc1077f312, type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.m_ColorSpace
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3870248605786086339, guid: e512a9a87b62aad48b3d51cc1077f312, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -206,6 +230,18 @@ PrefabInstance:
     - target: {fileID: 7830267186653571773, guid: e512a9a87b62aad48b3d51cc1077f312, type: 3}
       propertyPath: m_Name
       value: Portal
+      objectReference: {fileID: 0}
+    - target: {fileID: 8926336807626945699, guid: e512a9a87b62aad48b3d51cc1077f312, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8926336807626945699, guid: e512a9a87b62aad48b3d51cc1077f312, type: 3}
+      propertyPath: m_Color.g
+      value: 0.78039217
+      objectReference: {fileID: 0}
+    - target: {fileID: 8926336807626945699, guid: e512a9a87b62aad48b3d51cc1077f312, type: 3}
+      propertyPath: m_Color.r
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8926336807626945699, guid: e512a9a87b62aad48b3d51cc1077f312, type: 3}
       propertyPath: m_Enabled

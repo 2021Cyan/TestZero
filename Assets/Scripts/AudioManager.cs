@@ -43,6 +43,7 @@ public class AudioManager : MonoBehaviour
     public EventReference Shop;
     public EventReference Rarity;
     public EventReference BouncePad;
+    public EventReference Teleport;
 
     [Header("UI_SFX")]
     public EventReference UIClick;

@@ -8,6 +8,7 @@ public class MenuManager : MonoBehaviour
     public static MenuManager Instance;
     public GameObject PauseMenuUI;
     public GameObject VolumeMenuUI;
+    public GameObject[] VolumeSliders;
     private InputManager _input;
     private AudioManager _audio;
     private PlayerController _playerController;
@@ -27,37 +28,42 @@ public class MenuManager : MonoBehaviour
         _playerController = PlayerController.Instance;
         _timeScale = Time.timeScale;
 
-        foreach (var slider in GameObject.FindGameObjectsWithTag("VolumeSlider"))
+        VolumeMenuUI.SetActive(true);
+        foreach (var slider in VolumeSliders)
         {
             slider.GetComponent<SliderManager>()?.UpdateVolume();
         }
         VolumeMenuUI.SetActive(false);
+        _input.OnMenuPressed += PauseCheck;
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-        if (_input.MenuInput || _input.MenuUIInput)
-        {
-            PauseCheck();
-        }
+        _input.OnMenuPressed -= PauseCheck;
     }
+
+    // private void Update()
+    // {
+    //     if (_input.MenuInput || _input.MenuUIInput)
+    //     {
+    //         PauseCheck();
+    //     }
+    // }
 
     public void PauseCheck()
     {
+        _audio.PlayOneShot(_audio.MenuOpen);
         if (IsPaused)
         {
             IsPaused = false;
-            InputManager.Input.Enable();
-            // InputManager.Instance.EnableInput();
+            _input.EnableInput();
             Resume();
         }
         else
         {
             IsPaused = true;
             BeforePausePosition = _input.MouseInput;
-            InputManager.Input.Disable();
-            InputManager.Input.UI.Enable();
-            // InputManager.Instance.DisableInput();
+            _input.EnableMenuInput();
             Pause();
         }
     }
@@ -65,7 +71,7 @@ public class MenuManager : MonoBehaviour
     public void Pause()
     {
         Cursor.visible = true;
-        _audio.PlayOneShot(_audio.MenuOpen);
+        
         PauseMenuUI.SetActive(true);
         _timeScale = Time.timeScale;
         Time.timeScale = 0f;
@@ -75,7 +81,6 @@ public class MenuManager : MonoBehaviour
     public void Resume()
     {
         Cursor.visible = false;
-        _audio.PlayOneShot(_audio.MenuOpen);
         PauseMenuUI.SetActive(false);
         VolumeMenuUI.SetActive(false);
         Time.timeScale = _timeScale;
@@ -83,7 +88,7 @@ public class MenuManager : MonoBehaviour
 
     public void LoadMenu()
     {
-        _playerController.RestartGame();
+        _playerController.Restart();
     }
 
     public void Quit()

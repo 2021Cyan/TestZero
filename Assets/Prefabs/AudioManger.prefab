@@ -254,6 +254,13 @@ MonoBehaviour:
       Data3: -349081472
       Data4: -1726698430
     Path: event:/SFX/BouncePad
+  Teleport:
+    Guid:
+      Data1: 1556771407
+      Data2: 1330239336
+      Data3: -943142485
+      Data4: 1261062845
+    Path: event:/SFX/teleport
   UIClick:
     Guid:
       Data1: 1400899860

@@ -9,6 +9,7 @@ public class OneWayTeleporter : Interactable
 
     // Private attributes
     private List<Vector3> _destinations = new List<Vector3>();
+    private AudioManager _audio;
 
     [Header("Portal")]
     [SerializeField] private GameObject _portal;
@@ -24,6 +25,7 @@ public class OneWayTeleporter : Interactable
         {
             _destinations.Add(DestinationPoints[i].position);
         }
+        _audio = AudioManager.Instance;
         StartCoroutine(MovePortal(_portal));
     }
 
@@ -66,7 +68,6 @@ public class OneWayTeleporter : Interactable
         _portal.transform.position = end;
     }
 
-
     public void AddDestination(Vector3 destination, bool clear=false)
     {
         if (clear) {_destinations.Clear();}
@@ -84,14 +85,18 @@ public class OneWayTeleporter : Interactable
         if (other.CompareTag("Player"))
         {
             // Update position of player
-            if (_destinations.Count == 1)
-            {
-                other.gameObject.transform.position = _destinations[0];
-            }
-            else
-            {
-                other.gameObject.transform.position = _destinations[Random.Range(0, _destinations.Count)];
-            }
+            int indexDestination = _destinations.Count == 1 ? 0 : Random.Range(0, _destinations.Count);
+            Vector3 tempDestination = _destinations[indexDestination];
+            other.gameObject.transform.position = tempDestination;
+            _audio.PlayOneShot(_audio.Teleport, tempDestination);
+            // if (_destinations.Count == 1)
+            // {
+            //     other.gameObject.transform.position = _destinations[0];
+            // }
+            // else
+            // {
+            //     other.gameObject.transform.position = _destinations[Random.Range(0, _destinations.Count)];
+            // }
         }
     }
     

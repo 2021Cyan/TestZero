@@ -81,7 +81,7 @@ MonoBehaviour:
   movePower: 8
   walkPower: 5
   dodgePower: 15
-  jumpPower: 13
+  jumpPower: 14
   max_hp: 100
   hp: 100
   resource: 800
@@ -102,8 +102,9 @@ MonoBehaviour:
   magazineLevel: 1
   farCinemachineCamera: {fileID: 0}
   lavaCinemachineCamera: {fileID: 0}
-  sparkFootEffectPrefab: {fileID: 1571184921683612930, guid: e01cd4dbc5a531748ab859b29cf27d01, type: 3}
+  sparkFootEffectObj: {fileID: 8234273454059349009}
   maxJumpTime: 0.5
+  coyoteTime: 0.2
   dodgeDuration: 0.6
   dodgeCooldown: 1
   bulletTimeGauge: 100
@@ -5586,6 +5587,77 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.4988437, y: 0.12}
   m_EdgeRadius: 0
+--- !u!1001 &438974223447666938
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 3231399825712610410}
+    m_Modifications:
+    - target: {fileID: 4518106031575865790, guid: e01cd4dbc5a531748ab859b29cf27d01, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.000000014901161
+      objectReference: {fileID: 0}
+    - target: {fileID: 4518106031575865790, guid: e01cd4dbc5a531748ab859b29cf27d01, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.698499
+      objectReference: {fileID: 0}
+    - target: {fileID: 4518106031575865790, guid: e01cd4dbc5a531748ab859b29cf27d01, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4518106031575865790, guid: e01cd4dbc5a531748ab859b29cf27d01, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4518106031575865790, guid: e01cd4dbc5a531748ab859b29cf27d01, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4518106031575865790, guid: e01cd4dbc5a531748ab859b29cf27d01, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4518106031575865790, guid: e01cd4dbc5a531748ab859b29cf27d01, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4518106031575865790, guid: e01cd4dbc5a531748ab859b29cf27d01, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4518106031575865790, guid: e01cd4dbc5a531748ab859b29cf27d01, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4518106031575865790, guid: e01cd4dbc5a531748ab859b29cf27d01, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8381630665279689963, guid: e01cd4dbc5a531748ab859b29cf27d01, type: 3}
+      propertyPath: m_Name
+      value: SparkFoot
+      objectReference: {fileID: 0}
+    - target: {fileID: 8381630665279689963, guid: e01cd4dbc5a531748ab859b29cf27d01, type: 3}
+      propertyPath: m_TagString
+      value: SparkSlide
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e01cd4dbc5a531748ab859b29cf27d01, type: 3}
+--- !u!4 &4081393508446349636 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4518106031575865790, guid: e01cd4dbc5a531748ab859b29cf27d01, type: 3}
+  m_PrefabInstance: {fileID: 438974223447666938}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8234273454059349009 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8381630665279689963, guid: e01cd4dbc5a531748ab859b29cf27d01, type: 3}
+  m_PrefabInstance: {fileID: 438974223447666938}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &577237813691406099
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5884,7 +5956,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 152152834223621001, guid: 3dd506eb1c6ee9b4f90d445b37671330, type: 3}
       propertyPath: m_TagString
-      value: SparkSlide
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 188765018558094507, guid: 3dd506eb1c6ee9b4f90d445b37671330, type: 3}
       propertyPath: m_SortingLayer
@@ -6057,6 +6129,9 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2655716125574441849, guid: 3dd506eb1c6ee9b4f90d445b37671330, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4081393508446349636}
     - targetCorrespondingSourceObject: {fileID: 311580695235782034, guid: 3dd506eb1c6ee9b4f90d445b37671330, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6320277392148157649}
@@ -6125,6 +6200,11 @@ CapsuleCollider2D:
   m_Offset: {x: -0.087248385, y: 4.9278537e-10}
   m_Size: {x: 1.6124179, y: 0.29999873}
   m_Direction: 1
+--- !u!4 &3231399825712610410 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2655716125574441849, guid: 3dd506eb1c6ee9b4f90d445b37671330, type: 3}
+  m_PrefabInstance: {fileID: 577237813691406099}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6703265335522516261 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -3097338595988633034, guid: 3dd506eb1c6ee9b4f90d445b37671330, type: 3}

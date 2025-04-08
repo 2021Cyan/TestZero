@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4518106031575865790}
   - component: {fileID: 1571184921683612930}
   - component: {fileID: 4556604473118936336}
-  - component: {fileID: 2324087285297307357}
   m_Layer: 0
   m_Name: SparkFoot
   m_TagString: Untagged
@@ -4892,16 +4891,3 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &2324087285297307357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8381630665279689963}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ab1eb2cbd8f57c4aad383c0e6c41fb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Prefab: {fileID: 7132323633365181299, guid: 5114156a57ce8354ca6b50db0a41ec94, type: 3}

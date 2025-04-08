@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
     public CinemachineCamera farCinemachineCamera;
     public CinemachineCamera lavaCinemachineCamera;
     private Vector3 mousePos;
-    [SerializeField] ParticleSystem sparkFootEffectPrefab;
+    [SerializeField] GameObject sparkFootEffectObj;
     private ParticleSystem sparkFootEffect;
     private ParticleSystem healingEffect;
 
@@ -90,6 +90,7 @@ public class PlayerController : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             SceneManager.sceneLoaded += OnSceneLoaded;
+            InputManager.Instance.OnResetPressed += Restart;
         }
         else
         {
@@ -101,12 +102,10 @@ public class PlayerController : MonoBehaviour
     {
         FindSceneReferences();
     }
+
     private void OnDisable()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-    private void OnDestroy()
-    {
+        InputManager.Instance.OnResetPressed -= Restart;
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
@@ -125,18 +124,19 @@ public class PlayerController : MonoBehaviour
         lavaCinemachineCamera.Follow = transform;
         farCinemachineCamera.Follow = transform;
 
-        GameObject tempSpark = GameObject.FindGameObjectWithTag("SparkSlide");
-        if (tempSpark != null)
-        {
-            if (tempSpark.transform.childCount > 0)
-            {
-                Transform tempChild = tempSpark.transform.GetChild(0);
-                Destroy(tempChild.gameObject);
-            }
-            sparkFootEffect = Instantiate(sparkFootEffectPrefab, tempSpark.transform);
-            sparkFootEffect.transform.Rotate(0, -90, 0);
-            sparkFootEffect.transform.SetParent(tempSpark.transform);
-        }
+        sparkFootEffect = sparkFootEffectObj.GetComponent<ParticleSystem>();
+        // if (tempSpark != null)
+        // {
+        //     sparkFootEffect = tempSpark.transform.GetChild(0).GetComponent<ParticleSystem>();
+        //     // if (tempSpark.transform.childCount > 0)
+        //     // {
+        //     //     Transform tempChild = tempSpark.transform.GetChild(0);
+        //     //     Destroy(tempChild.gameObject);
+        //     // }
+        //     // sparkFootEffect = Instantiate(sparkFootEffectPrefab, tempSpark.transform);
+        //     // sparkFootEffect.transform.Rotate(0, -90, 0);
+        //     // sparkFootEffect.transform.SetParent(tempSpark.transform);
+        // }
 
         GameObject healingParticle = GameObject.FindGameObjectWithTag("HealingParticle");
         if (healingParticle != null)
@@ -149,6 +149,8 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
         _audio.PlayOneShot(_audio.Lobby);
+
+        
         InputManager.Input.Enable();
 
         if (SceneManager.GetActiveScene().name != "MainMenu")
@@ -163,7 +165,6 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         AdjustGravity();
-        //Restart();
         if (alive)
         {
             mousePos = maincam.ScreenToWorldPoint(_input.MouseInput);
@@ -521,16 +522,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator RestartAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-
-        if (PodScript.Instance != null)
-        {
-            Destroy(PodScript.Instance.gameObject);
-            PodScript.Instance = null;
-        }
-        Destroy(Instance.gameObject);
-        Instance = null;
-        RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
-        TransitionManager.Instance().Transition("MainMenu", transition, startDelay);
+        Restart();
     }
 
 
@@ -544,13 +536,7 @@ public class PlayerController : MonoBehaviour
         Destroy(Instance.gameObject);
         Instance = null;
         RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
-        _input.SetResetInput(false);
-        TransitionManager.Instance().Transition("MainMenu", transition, 0.5f);
-    }
-
-    public void RestartGame()
-    {
-        _input.SetResetInput(true);
+        TransitionManager.Instance().Transition("MainMenu", transition, startDelay);
     }
 
     // Increase Resource when enenmy is killed

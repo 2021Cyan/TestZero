@@ -22,49 +22,67 @@ public class TeleporterTwoWay : Interactable
     [SerializeField] private float _moveRange = 0.075f;
     [SerializeField] private float _moveTime = 1f;
     private Light2D _light2D;
+    private AudioManager _audio;
 
     // Behaviour
-    void Update()
+    private IEnumerator TeleportCoroutine()
     {
-        // If cooling down
-        if (_isCoolingDown)
-        {   
-            // Update timer
-            _cooldownTimer -= Time.deltaTime;
-            if (_cooldownTimer <= 0f)
-            {
-                _isCoolingDown = false;
-                _cooldownTimer = 0f;
-                UpdateAppearance();
-            }
-        }
-
-        // Otherwise
-        else
+        while (true)
         {
-            if (_entitiesWithin.Count > 0)
+            // If cooling down
+            if (_isCoolingDown)
             {
-                // Teleport all entities within hitbox
-                foreach (Transform entity in _entitiesWithin)
+                // Update timer
+                _cooldownTimer -= Time.deltaTime;
+                if (_cooldownTimer <= 0f)
                 {
-                    entity.position = LinkedTeleporter.transform.position;
-                    LinkedTeleporter.AddEntity(entity);
-                }
-                _entitiesWithin.Clear();
-
-                // Cooldown both teleporters
-                Cooldown();
-                LinkedTeleporter.Cooldown();
-
-                // Set timer
-                _cooldownTimer = CooldownTime;
+                    _isCoolingDown = false;
+                    _cooldownTimer = 0f;
+                    UpdateAppearance();
+                }                
             }
+            else
+            {
+                if (_entitiesWithin.Count > 0 && _light2D.color == bluePortal)
+                {
+                    WaitFor(_moveTime);
+                    // Teleport all entities within hitbox
+                    foreach (Transform entity in _entitiesWithin)
+                    {
+                        entity.position = LinkedTeleporter.transform.position;
+                        LinkedTeleporter.AddEntity(entity);
+                    }
+                    _entitiesWithin.Clear();
+
+                    // Play teleport sound
+                    _audio.PlayOneShot(_audio.Teleport, LinkedTeleporter.transform.position);
+                    // Cooldown both teleporters
+                    Cooldown();
+                    LinkedTeleporter.Cooldown();
+
+                    // Set timer
+                    _cooldownTimer = CooldownTime;
+                }
+            }
+
+            yield return null; // Wait for the next frame
         }
+    }
+
+    private void OnEnable()
+    {
+        _objWithLight.TryGetComponent(out _light2D);
+        StartCoroutine(TeleportCoroutine());
+    }
+
+    private void OnDisable()
+    {
+        StopCoroutine(TeleportCoroutine());
     }
 
     private void Start()
     {
-       _objWithLight.TryGetComponent(out _light2D);
+       _audio = AudioManager.Instance;
        WaitFor(Random.Range(0, _moveTime));
        StartCoroutine(MovePortal(_portal));
     }
@@ -144,24 +162,24 @@ public class TeleporterTwoWay : Interactable
         if (_isCoolingDown)
         {
             // Set the material color to red to indicate inactive state
-            var innerEmbersColor = _innerEmbers.colorOverLifetime;
-            innerEmbersColor.color = new ParticleSystem.MinMaxGradient(gradientRed);
+            var innerEmbersMain = _innerEmbers.main;
+            innerEmbersMain.startColor = new ParticleSystem.MinMaxGradient(gradientRed);
 
             var _outterEmbersMain = _outterEmbers.main;
             _outterEmbersMain.startColor = new ParticleSystem.MinMaxGradient(redPortal);
 
-            StartCoroutine(ChangeLightColor(_light2D, _light2D.color, redPortal, 1f));
+            StartCoroutine(ChangeLightColor(_light2D, _light2D.color, redPortal, 0.5f));
         }
         else
         {
             // Adjust the particle system to reflect inactive state
-            var innerEmbersColor = _innerEmbers.colorOverLifetime;
-            innerEmbersColor.color = new ParticleSystem.MinMaxGradient(gradientBlue);
+            var innerEmbersMain = _innerEmbers.main;
+            innerEmbersMain.startColor = new ParticleSystem.MinMaxGradient(gradientBlue);
 
             var _outterEmbersMain = _outterEmbers.main;
             _outterEmbersMain.startColor = new ParticleSystem.MinMaxGradient(bluePortal);
 
-            StartCoroutine(ChangeLightColor(_light2D, _light2D.color, bluePortal, 1f));
+            StartCoroutine(ChangeLightColor(_light2D, _light2D.color, bluePortal, 0.5f));
         }
     }
 
