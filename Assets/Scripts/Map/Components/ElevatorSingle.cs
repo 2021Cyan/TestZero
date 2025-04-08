@@ -13,6 +13,7 @@ public class ElevatorSingle : MonoBehaviour
     private Vector3 prevPosition;
     private Vector3 movement;
     private HashSet<Transform> entitiesOnPlatform = new HashSet<Transform>();
+    private PlayerUI ui;
 
     private void Start()
     {
@@ -20,6 +21,7 @@ public class ElevatorSingle : MonoBehaviour
         {
             wall.SetActive(false);
         }
+        ui = PlayerUI.Instance;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -44,6 +46,10 @@ public class ElevatorSingle : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         StartCoroutine(MoveElevator());
+        if(ui != null)
+        {
+            ui.PlayCredits();
+        }
     }
 
     private IEnumerator MoveElevator()

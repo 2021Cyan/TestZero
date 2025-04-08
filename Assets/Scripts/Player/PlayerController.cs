@@ -163,7 +163,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         AdjustGravity();
-        Restart();
+        //Restart();
         if (alive)
         {
             mousePos = maincam.ScreenToWorldPoint(_input.MouseInput);
@@ -534,7 +534,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void Restart()
+    public void Restart()
     {
         if (_input.ResetInput)
         {

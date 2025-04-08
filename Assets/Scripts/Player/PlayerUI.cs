@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerUI : MonoBehaviour
 {
@@ -36,6 +37,13 @@ public class PlayerUI : MonoBehaviour
     private PlayerController player;
     private Coroutine hurtCoroutine;
     private Coroutine restoreCoroutine;
+
+    [SerializeField] private TextMeshProUGUI creditText;
+    [SerializeField] private List<string> creditLines;
+    [SerializeField] private float creditLineDelay = 1f;
+    [SerializeField] private float typingSpeed = 0.02f;
+    private Coroutine creditCoroutine;
+    private bool isTypingCredit = false;
 
     private void Awake()
     {
@@ -200,5 +208,57 @@ public class PlayerUI : MonoBehaviour
         }
 
         restoreFilter.gameObject.SetActive(false);
+    }
+
+    public void PlayCredits()
+    {
+        if (creditCoroutine != null)
+        {
+            StopCoroutine(creditCoroutine);
+        }
+
+        creditCoroutine = StartCoroutine(PlayCreditSequence());
+    }
+
+    private IEnumerator PlayCreditSequence()
+    {
+        creditText.gameObject.SetActive(true);
+
+        foreach (string line in creditLines)
+        {
+            yield return StartCoroutine(TypeCreditLine(line));
+            yield return new WaitForSeconds(creditLineDelay);
+        }
+
+        creditText.gameObject.SetActive(false);
+    }
+
+    private IEnumerator TypeCreditLine(string line)
+    {
+        isTypingCredit = true;
+        creditText.text = "";
+
+        string temp = "";
+        bool insideTag = false;
+
+        for (int i = 0; i < line.Length; i++)
+        {
+            char c = line[i];
+
+            if (c == '<') insideTag = true;
+
+            temp += c;
+
+            if (c == '>') insideTag = false;
+
+            if (!insideTag)
+            {
+                creditText.text = temp;
+                yield return new WaitForSeconds(typingSpeed);
+            }
+        }
+
+        creditText.text = temp;
+        isTypingCredit = false;
     }
 }

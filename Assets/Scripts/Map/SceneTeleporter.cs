@@ -17,10 +17,17 @@ namespace EasyTransition
             // podScript = PodScript.Instance;
         }
 
-        public void LoadScene(string _sceneName)
+        public void LoadScene()
         {
-            
-            TransitionManager.Instance().Transition(_sceneName, transition, startDelay);
+            string currentScene = SceneManager.GetActiveScene().name;
+            string nextScene = currentScene == "MainMenu" ? "MainGame" : "MainMenu";
+
+            if(nextScene == "MainMenu")
+            {
+                playerController.Restart();
+                return;
+            }
+            TransitionManager.Instance().Transition(nextScene, transition, startDelay);
         }
 
         private void OnDestroy()
@@ -47,7 +54,7 @@ namespace EasyTransition
         {
             if (playerController != null && other.CompareTag("Player"))
             {
-                LoadScene("MainGame");
+                LoadScene();
             }
         }
     }
