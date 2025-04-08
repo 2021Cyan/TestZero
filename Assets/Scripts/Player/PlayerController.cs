@@ -536,19 +536,16 @@ public class PlayerController : MonoBehaviour
 
     public void Restart()
     {
-        if (_input.ResetInput)
+        if (PodScript.Instance != null)
         {
-            if (PodScript.Instance != null)
-            {
-                Destroy(PodScript.Instance.gameObject);
-                PodScript.Instance = null;
-            }
-            Destroy(Instance.gameObject);
-            Instance = null;
-            RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            _input.SetResetInput(false);
-            TransitionManager.Instance().Transition("MainMenu", transition, startDelay);
+            Destroy(PodScript.Instance.gameObject);
+            PodScript.Instance = null;
         }
+        Destroy(Instance.gameObject);
+        Instance = null;
+        RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        _input.SetResetInput(false);
+        TransitionManager.Instance().Transition("MainMenu", transition, 0.5f);
     }
 
     public void RestartGame()
