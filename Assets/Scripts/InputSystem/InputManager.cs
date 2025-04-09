@@ -263,7 +263,6 @@ public class InputManager : MonoBehaviour
     private void Update()
     {
         MouseInput = Input.Player.Look.ReadValue<Vector2>();
-        // MenuInput = Input.Player.Menu.WasPressedThisFrame();
     }
 
     public void EnableInput()

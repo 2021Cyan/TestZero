@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using FMODUnity;
 
 public class EnemyScript_Boss : EnemyBase
 {
@@ -169,6 +170,9 @@ public class EnemyScript_Boss : EnemyBase
             }
             CleanUp();
             base.Die(resourceAmount);
+
+            RuntimeManager.GetBus("bus:/Music").stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            _audio.PlayOneShot(_audio.Lobby);
         }
     }
 
@@ -196,6 +200,7 @@ public class EnemyScript_Boss : EnemyBase
 
     private IEnumerator BossIntroMovement()
     {
+        _audio.PlayOneShot(_audio.Battle);
         Vector3 startPos = transform.position;
         Vector3 endPos = startPos + new Vector3(0f, -5f, 0f);
         float duration = 4f;
@@ -261,6 +266,7 @@ public class EnemyScript_Boss : EnemyBase
         for (int i = 0; i < missile_firePoints.Length; i++)
         {
             Transform firePoint = missile_firePoints[i];
+            _audio.PlayOneShot(_audio.MissileLaunch, firePoint.position);
             Instantiate(missile, firePoint.position, firePoint.rotation);
             yield return new WaitForSeconds(0.4f);
         }

@@ -188,6 +188,7 @@ public class PodScript : MonoBehaviour
                     if (isPathClear)
                     {
                         lastMissileTime = Time.time;
+                        _audio.PlayOneShot(_audio.Missile, turret_firePoint.position);
                         Instantiate(turret_missle, turret_firePoint.position, turret_firePoint.rotation);
                         
                     }

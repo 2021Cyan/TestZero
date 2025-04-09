@@ -176,6 +176,7 @@ public class EnemyScript_Turret : EnemyBase
             if (isPlayerNearby && player != null && isPathClear)
             {
                 lastMissileTime = Time.time;
+                _audio.PlayOneShot(_audio.Missile, turret_firePoint.position);
                 Instantiate(missile, turret_firePoint.position, turret_firePoint.rotation);
             }
         }

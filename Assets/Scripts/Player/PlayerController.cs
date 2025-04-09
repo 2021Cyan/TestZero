@@ -90,7 +90,6 @@ public class PlayerController : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             SceneManager.sceneLoaded += OnSceneLoaded;
-            InputManager.Instance.OnResetPressed += Restart;
         }
         else
         {
@@ -113,6 +112,7 @@ public class PlayerController : MonoBehaviour
     {
         SetCursorVisible(false);
         _input = InputManager.Instance;
+        _input.OnResetPressed += Restart;
         _audio = AudioManager.Instance;
         hp = max_hp;
         currentAmmo = maxAmmo;
