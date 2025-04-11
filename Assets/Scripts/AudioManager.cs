@@ -36,6 +36,7 @@ public class AudioManager : MonoBehaviour
     public EventReference MissileLaunch;
     public EventReference EnemyHurt;
     public EventReference Laser;
+    public EventReference LaserBeam;
     public EventReference EnemyFlying;
 
     [Header("SFX")]

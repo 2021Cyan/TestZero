@@ -1,20 +1,21 @@
 using UnityEngine;
 using System.Collections;
 using FMODUnity;
+using FMOD.Studio;
 
 public class EnemyScript_Boss : EnemyBase
 {
 
     // Floating effect
     private float floatStrength = 0.1f;
-    private float floatSpeed = 5f;    
+    private float floatSpeed = 5f;
     private Vector3 initialPosition;
 
     // Boss shooting
     [SerializeField] GameObject turret_bullet;
-    [SerializeField] Transform [] turrets;
-    [SerializeField] Transform [] turret_firePoints;
-    [SerializeField] LineRenderer [] lineRenderers;
+    [SerializeField] Transform[] turrets;
+    [SerializeField] Transform[] turret_firePoints;
+    [SerializeField] LineRenderer[] lineRenderers;
     public float fireRate;
     private float lastFireTime = 0f;
     private int currentTurretIndex = 0;
@@ -71,7 +72,7 @@ public class EnemyScript_Boss : EnemyBase
         currentHealth = maxHealth;
         fireRate = 0.05f;
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        if(playerController != null)
+        if (playerController != null)
         {
             player = playerController.GetAimPos();
         }
@@ -80,14 +81,14 @@ public class EnemyScript_Boss : EnemyBase
         spriteRenderer = GetComponent<SpriteRenderer>();
         initialPosition = transform.position;
 
-        if(zapEffectPrefabSingle != null)
+        if (zapEffectPrefabSingle != null)
         {
             sweepEffect = Instantiate(zapEffectPrefabSingle, Vector3.zero, Quaternion.identity);
             sweepEffect.SetActive(false);
         }
 
         zapEffects = new GameObject[crossLasers.Length];
-        if (zapEffectPrefab != null) 
+        if (zapEffectPrefab != null)
         {
             for (int i = 0; i < zapEffects.Length; i++)
             {
@@ -103,12 +104,12 @@ public class EnemyScript_Boss : EnemyBase
         }
 
         boxCol = GetComponent<BoxCollider2D>();
-        if(boxCol != null)
+        if (boxCol != null)
         {
             boxCol.enabled = false;
         }
 
-        patternList = new Pattern[] {Pattern1, Pattern2, Pattern3, Pattern4, Pattern5};
+        patternList = new Pattern[] { Pattern1, Pattern2, Pattern3, Pattern4, Pattern5 };
         StartCoroutine(BossIntroMovement());
     }
 
@@ -241,6 +242,7 @@ public class EnemyScript_Boss : EnemyBase
             else
             {
                 int randomIndex = Random.Range(0, patternCount);
+                // randomIndex = 2;
                 yield return StartCoroutine(patternList[randomIndex]());
             }
 
@@ -248,6 +250,7 @@ public class EnemyScript_Boss : EnemyBase
         }
     }
 
+    // Pattern 1: Aim and shoot laser at player
     private IEnumerator Pattern1()
     {
         isAiming = true;
@@ -261,6 +264,7 @@ public class EnemyScript_Boss : EnemyBase
         isShooting = false;
     }
 
+    // Pattern 2: Fire missiles from all fire points
     private IEnumerator Pattern2()
     {
         for (int i = 0; i < missile_firePoints.Length; i++)
@@ -272,6 +276,7 @@ public class EnemyScript_Boss : EnemyBase
         }
     }
 
+    // Pattern 3: Sweep laser in a pattern
     private IEnumerator Pattern3()
     {
         float startAngle, endAngle;
@@ -297,23 +302,33 @@ public class EnemyScript_Boss : EnemyBase
 
         laserLine.enabled = true;
 
+       
+        Vector3 dir = Quaternion.Euler(0, 0, currentAngle) * Vector3.down;
+        RaycastHit2D hit = Physics2D.Raycast(laserOrigin.position, dir, laserLength, LayerMask.GetMask("Terrain"));
+        Vector3 laserEnd = hit.collider != null ? hit.point : laserOrigin.position + dir * laserLength;
+        EventInstance laserBeamInstance = _audio.GetEventInstance(_audio.LaserBeam);
+        laserBeamInstance.start();
+        if (sweepEffect != null)
+        {
+            sweepEffect.SetActive(true);
+            sweepEffect.transform.position = laserEnd;
+        }
+        laserBeamInstance.set3DAttributes(RuntimeUtils.To3DAttributes(laserEnd));
         while ((endAngle > startAngle && currentAngle < endAngle) ||
                (endAngle < startAngle && currentAngle > endAngle))
         {
             float t = traveledAngle / totalAngle;
             float currentSpeed = Mathf.Lerp(startSpeed, endSpeed, t);
-            Vector3 dir = Quaternion.Euler(0, 0, currentAngle) * Vector3.down;
-            RaycastHit2D hit = Physics2D.Raycast(laserOrigin.position, dir, laserLength, LayerMask.GetMask("Terrain"));
-            Vector3 laserEnd = hit.collider != null ? hit.point : laserOrigin.position + dir * laserLength;
+            dir = Quaternion.Euler(0, 0, currentAngle) * Vector3.down;
+            hit = Physics2D.Raycast(laserOrigin.position, dir, laserLength, LayerMask.GetMask("Terrain"));
+            laserEnd = hit.collider != null ? hit.point : laserOrigin.position + dir * laserLength;
 
             laserLine.SetPosition(0, laserOrigin.position);
             laserLine.SetPosition(1, laserEnd);
 
-            if (sweepEffect != null)
-            {
-                sweepEffect.SetActive(true);
-                sweepEffect.transform.position = laserEnd;
-            }
+            // Update audio position to follow the laser end point
+            laserBeamInstance.set3DAttributes(RuntimeUtils.To3DAttributes(laserEnd));
+            sweepEffect.transform.position = laserEnd;
 
             if (!hasHitPlayer)
             {
@@ -334,10 +349,14 @@ public class EnemyScript_Boss : EnemyBase
 
             yield return null;
         }
+
+        laserBeamInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        laserBeamInstance.release();
         sweepEffect.SetActive(false);
         laserLine.enabled = false;
     }
 
+    // Pattern 4: Summon Bombers in a pattern
     private IEnumerator Pattern4()
     {
         for (int i = 0; i < SummonPoints.Length; i++)
@@ -348,6 +367,7 @@ public class EnemyScript_Boss : EnemyBase
         }
     }
 
+    // Pattern 5: Summon Wheels in a pattern
     private IEnumerator Pattern5()
     {
         for (int i = 0; i < SummonPoints.Length; i++)
@@ -417,7 +437,7 @@ public class EnemyScript_Boss : EnemyBase
         {
             return false;
         }
-        return Vector3.Distance(transform.position, player.position) <= 30f ;
+        return Vector3.Distance(transform.position, player.position) <= 30f;
     }
 
     private void Aim()
@@ -435,7 +455,7 @@ public class EnemyScript_Boss : EnemyBase
 
                 Vector3 direction = (player.position - turrets[i].position).normalized;
                 float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                turrets[i].rotation = Quaternion.Euler(0, 0, angle+90);
+                turrets[i].rotation = Quaternion.Euler(0, 0, angle + 90);
                 turret_firePoints[i].rotation = Quaternion.Euler(0, 0, angle);
             }
         }
@@ -559,7 +579,7 @@ public class EnemyScript_Boss : EnemyBase
             // Disable aim line
             foreach (var l in lineRenderers)
             {
-                if(l != null)
+                if (l != null)
                 {
                     l.enabled = false;
                 }

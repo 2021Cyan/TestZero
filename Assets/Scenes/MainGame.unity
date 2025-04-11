@@ -300,9 +300,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3779266254465316696, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
+      propertyPath: Priority.m_Value
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3779266254465316696, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
+      propertyPath: Lens.OrthographicSize
+      value: 7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3942680907849944876, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 11.238053
+      objectReference: {fileID: 0}
+    - target: {fileID: 3942680907849944876, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 17.688911
+      objectReference: {fileID: 0}
     - target: {fileID: 3955896091204143735, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
       propertyPath: orthographic size
-      value: 2.6999998
+      value: 5.3999996
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387067128550243745, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
+      propertyPath: FollowOffset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387067128550243745, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
+      propertyPath: FollowOffset.y
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 7956118938123415454, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
       propertyPath: m_Name
@@ -725,10 +749,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2e25e350e12870469892588bff8f877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NumberOfSegmentsPerLevel: 6
-  ShopFrequency: 5
-  NumberOfLevels: 3
-  NumberOfBlocksPerRaftSection: 5
+  NumberOfSegmentsPerLevel: 0
+  ShopFrequency: 0
+  NumberOfLevels: 1
+  NumberOfBlocksPerRaftSection: 1
   EnemySpawnLevelScaling: 0.5
   Player: {fileID: 1253030719}
   ShopRoomPrefab: {fileID: 7346705287260323825, guid: 77e80cbd8b41ed140b2ba9988a809b11, type: 3}
@@ -819,6 +843,18 @@ PrefabInstance:
     - target: {fileID: 18370379834554816, guid: e74de27f14fc6894abbf9e89bef43f4e, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7306279477192934636, guid: e74de27f14fc6894abbf9e89bef43f4e, type: 3}
+      propertyPath: hp
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7306279477192934636, guid: e74de27f14fc6894abbf9e89bef43f4e, type: 3}
+      propertyPath: damage
+      value: 20000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7306279477192934636, guid: e74de27f14fc6894abbf9e89bef43f4e, type: 3}
+      propertyPath: max_hp
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 7306279477192934636, guid: e74de27f14fc6894abbf9e89bef43f4e, type: 3}
       propertyPath: resource
@@ -1172,6 +1208,10 @@ PrefabInstance:
       value: event:/SFX/Weapons/Shot
       objectReference: {fileID: 0}
     - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: LaserBeam.Path
+      value: event:/SFX/Weapons/LaserBeam
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Shot.Guid.Data1
       value: 2034535271
       objectReference: {fileID: 0}
@@ -1186,6 +1226,22 @@ PrefabInstance:
     - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Shot.Guid.Data4
       value: 180634203
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: LaserBeam.Guid.Data1
+      value: -49231888
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: LaserBeam.Guid.Data2
+      value: 1309116112
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: LaserBeam.Guid.Data3
+      value: -2083964539
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: LaserBeam.Guid.Data4
+      value: -348084719
       objectReference: {fileID: 0}
     - target: {fileID: 7838885707744038890, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: PreloadSamples
