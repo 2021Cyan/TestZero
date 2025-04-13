@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable()
     {
-        InputManager.Instance.OnResetPressed -= Restart;
+        // InputManager.Instance.OnResetPressed -= Restart;
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
     {
         SetCursorVisible(false);
         _input = InputManager.Instance;
-        _input.OnResetPressed += Restart;
+        // _input.OnResetPressed += Restart;
         _audio = AudioManager.Instance;
         hp = max_hp;
         currentAmmo = maxAmmo;
