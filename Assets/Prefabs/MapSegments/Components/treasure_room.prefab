@@ -2194,7 +2194,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 2
-      m_TileSpriteIndex: 2
+      m_TileSpriteIndex: 13
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -2394,7 +2394,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 0
-      m_TileSpriteIndex: 0
+      m_TileSpriteIndex: 2
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -2651,12 +2651,12 @@ Tilemap:
   - m_RefCount: 0
     m_Data: {fileID: 0}
   m_TileSpriteArray:
-  - m_RefCount: 1
-    m_Data: {fileID: -1489653562, guid: 4fcf4f7dc27ecea4fb45959a5bb855be, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 11
     m_Data: {fileID: 834564728, guid: 4fcf4f7dc27ecea4fb45959a5bb855be, type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: -1107217764, guid: 4fcf4f7dc27ecea4fb45959a5bb855be, type: 3}
+    m_Data: {fileID: -1489653562, guid: 4fcf4f7dc27ecea4fb45959a5bb855be, type: 3}
   - m_RefCount: 9
     m_Data: {fileID: -1320362167, guid: 4fcf4f7dc27ecea4fb45959a5bb855be, type: 3}
   - m_RefCount: 7
@@ -2677,8 +2677,8 @@ Tilemap:
     m_Data: {fileID: 1069269794, guid: 4fcf4f7dc27ecea4fb45959a5bb855be, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 1038717780, guid: 4fcf4f7dc27ecea4fb45959a5bb855be, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: -1107217764, guid: 4fcf4f7dc27ecea4fb45959a5bb855be, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 82
     m_Data:
@@ -3047,6 +3047,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7015476622508563097, guid: a1beb547cf5cc8f488aeb2f2758cd153, type: 3}
+      propertyPath: Likelihood
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8559537559001779717, guid: a1beb547cf5cc8f488aeb2f2758cd153, type: 3}
       propertyPath: m_Name
       value: barrel
@@ -3112,6 +3116,10 @@ PrefabInstance:
     - target: {fileID: 5268658098894562883, guid: a1beb547cf5cc8f488aeb2f2758cd153, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7015476622508563097, guid: a1beb547cf5cc8f488aeb2f2758cd153, type: 3}
+      propertyPath: Likelihood
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8559537559001779717, guid: a1beb547cf5cc8f488aeb2f2758cd153, type: 3}
       propertyPath: m_Name
@@ -3249,6 +3257,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7015476622508563097, guid: a1beb547cf5cc8f488aeb2f2758cd153, type: 3}
+      propertyPath: Likelihood
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8559537559001779717, guid: a1beb547cf5cc8f488aeb2f2758cd153, type: 3}
       propertyPath: m_Name
       value: barrel (2)
@@ -3321,6 +3333,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6049973666257805093, guid: a1beb547cf5cc8f488aeb2f2758cd153, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7015476622508563097, guid: a1beb547cf5cc8f488aeb2f2758cd153, type: 3}
+      propertyPath: Likelihood
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8559537559001779717, guid: a1beb547cf5cc8f488aeb2f2758cd153, type: 3}
