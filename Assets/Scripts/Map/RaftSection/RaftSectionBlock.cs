@@ -27,7 +27,7 @@ public class RaftSectionBlock : MonoBehaviour
         if (_hasSpawnedEvent) {return;}
 
         // Spawn event if player has entered block
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Raft"))
         {
             if (_event != null)
             {

@@ -16,6 +16,7 @@ TagManager:
   - HealingParticle
   - Portal
   - SceneTeleporter
+  - Raft
   layers:
   - Default
   - TransparentFX
