@@ -32,7 +32,8 @@ public class EnemyScript_Turret : EnemyBase
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private AudioManager _audio;
-
+    private InputManager _input;
+    private EventInstance laserBeamInstance;
     [SerializeField] GameObject explosion;
 
     private int shotsFired = 0;
@@ -43,6 +44,8 @@ public class EnemyScript_Turret : EnemyBase
     void Start()
     {
         _audio = AudioManager.Instance;
+        _input = InputManager.Instance;
+        _input.OnMenuPressed += OnPaused;
         isalive = true;
         resourceAmount = 200;
         maxHealth = 200;
@@ -58,6 +61,29 @@ public class EnemyScript_Turret : EnemyBase
         {
             sweepEffect = Instantiate(zapEffectPrefabSingle, Vector3.zero, Quaternion.identity);
             sweepEffect.SetActive(false);
+        }
+    }
+    private void OnDestroy()
+    {
+        if (_input != null)
+        {
+            _input.OnMenuPressed -= OnPaused;
+        }
+        if (laserBeamInstance.isValid())
+        {
+            laserBeamInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            laserBeamInstance.release();
+        }
+    }
+    override public void OnPaused()
+    {
+        if (!MenuManager.IsPaused)
+        {
+            laserBeamInstance.setPaused(true);
+        }
+        else
+        {
+            laserBeamInstance.setPaused(false);
         }
     }
 
@@ -215,7 +241,7 @@ public class EnemyScript_Turret : EnemyBase
         Vector3 dir = Quaternion.Euler(0, 0, currentAngle) * Vector3.down;
         RaycastHit2D hit = Physics2D.Raycast(laserOrigin.position, dir, laserLength, LayerMask.GetMask("Terrain"));
         Vector3 laserEnd = hit.collider != null ? hit.point : laserOrigin.position + dir * laserLength;
-        EventInstance laserBeamInstance = _audio.GetEventInstance(_audio.LaserBeam);
+        laserBeamInstance = _audio.GetEventInstance(_audio.LaserBeam);
         laserBeamInstance.start();
         laserBeamInstance.set3DAttributes(RuntimeUtils.To3DAttributes(laserOrigin.position));
         if (sweepEffect != null)

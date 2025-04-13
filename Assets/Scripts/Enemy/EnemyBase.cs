@@ -155,4 +155,9 @@ public abstract class EnemyBase : MonoBehaviour
         return comboDamage;
     }
 
+    public virtual void OnPaused()
+    {
+        return;
+    }
+
 }

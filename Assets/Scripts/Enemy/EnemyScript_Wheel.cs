@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
-using System;
 using FMOD.Studio;
+using FMODUnity;
 
 public class EnemyScript_Wheel : EnemyBase
 {
@@ -27,6 +27,7 @@ public class EnemyScript_Wheel : EnemyBase
     [SerializeField] Transform sparkPos;
     private GameObject sparkInstance;
     private EventInstance wheelSoundInstance;
+    private InputManager _input;
 
     void Start()
     {
@@ -56,6 +57,22 @@ public class EnemyScript_Wheel : EnemyBase
         }
         wheelSoundInstance = _audio.GetEventInstance(_audio.Wheel, gameObject);
         wheelSoundInstance.start();
+
+
+        _input = InputManager.Instance;
+        _input.OnMenuPressed += PauseHandler;
+    }
+
+    private void PauseHandler()
+    {
+        if (MenuManager.IsPaused)
+        {
+            wheelSoundInstance.setPaused(true);
+        }
+        else
+        {
+            wheelSoundInstance.setPaused(false);
+        }
     }
 
 
@@ -90,6 +107,7 @@ public class EnemyScript_Wheel : EnemyBase
             return;
 
         rb.linearVelocity = new Vector2(moveDirection.x * moveSpeed, rb.linearVelocity.y);
+        wheelSoundInstance.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
         RotateWheel();
     }
 

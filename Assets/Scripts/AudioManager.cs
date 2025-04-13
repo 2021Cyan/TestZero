@@ -71,11 +71,6 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        // RuntimeManager.CoreSystem.createSound
-    }
-
     public void PlayOneShot(EventReference sound, Vector3? position = null)
     {
         var instance = RuntimeManager.CreateInstance(sound);
@@ -156,7 +151,6 @@ public class AudioManager : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
             float currentValue = Mathf.Lerp(startValue, endValue, elapsedTime / duration);
-            UnityEngine.Debug.Log($"Setting {parameterName} to {currentValue}");
             SetParameterByName(parameterName, currentValue);
             yield return null; // Ensure the coroutine yields control back to Unity
         }

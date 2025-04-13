@@ -43,6 +43,7 @@ public class EnemyScript_Boss : EnemyBase
     [SerializeField] private GameObject zapEffectPrefab;
     private GameObject[] zapEffects;
     private EventInstance[] crossLaserBeamInstances;
+    private EventInstance laserBeamInstance;
 
     // Enemy Summon
     [SerializeField] GameObject Bomber;
@@ -64,10 +65,14 @@ public class EnemyScript_Boss : EnemyBase
     private BoxCollider2D boxCol;
     [SerializeField] GameObject explosion;
 
+    private InputManager _input;
 
+    
     void Start()
     {
         _audio = AudioManager.Instance;
+        _input = InputManager.Instance;
+        _input.OnMenuPressed += OnPaused;
         isalive = true;
         resourceAmount = 0;
         maxHealth = 10000;
@@ -121,6 +126,48 @@ public class EnemyScript_Boss : EnemyBase
 
         patternList = new Pattern[] { Pattern1, Pattern2, Pattern3, Pattern4, Pattern5 };
         StartCoroutine(BossIntroMovement());
+    }
+    
+    public override void OnPaused()
+    {
+        if (!MenuManager.IsPaused)
+        {
+            foreach (var cross in crossLaserBeamInstances)
+            {
+                cross.setPaused(true);
+            }
+            laserBeamInstance.setPaused(true);
+        }
+        else
+        {
+            foreach (var cross in crossLaserBeamInstances)
+            {
+                cross.setPaused(false);
+            }
+            laserBeamInstance.setPaused(false);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (_input != null)
+        {
+            _input.OnMenuPressed -= OnPaused;
+        }
+        foreach (var cross in crossLaserBeamInstances)
+        {
+            if (cross.isValid())
+            {
+                cross.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                cross.release();
+            }
+        }
+
+        if (laserBeamInstance.isValid())
+        {
+            laserBeamInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            laserBeamInstance.release();
+        }
     }
 
     void Update()
@@ -333,7 +380,7 @@ public class EnemyScript_Boss : EnemyBase
         Vector3 dir = Quaternion.Euler(0, 0, currentAngle) * Vector3.down;
         RaycastHit2D hit = Physics2D.Raycast(laserOrigin.position, dir, laserLength, LayerMask.GetMask("Terrain"));
         Vector3 laserEnd = hit.collider != null ? hit.point : laserOrigin.position + dir * laserLength;
-        EventInstance laserBeamInstance = _audio.GetEventInstance(_audio.LaserBeam);
+        laserBeamInstance = _audio.GetEventInstance(_audio.LaserBeam);
         laserBeamInstance.start();
         if (sweepEffect != null)
         {

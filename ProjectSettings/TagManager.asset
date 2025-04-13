@@ -15,6 +15,7 @@ TagManager:
   - VolumeSlider
   - HealingParticle
   - Portal
+  - SceneTeleporter
   layers:
   - Default
   - TransparentFX
