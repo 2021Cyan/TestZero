@@ -1,4 +1,7 @@
 using UnityEngine;
+using Unity.Cinemachine;
+using UnityEngine.Rendering.Universal;
+using System.Collections;
 
 public class BossSpawnTrigger : MonoBehaviour
 {
@@ -16,10 +19,17 @@ public class BossSpawnTrigger : MonoBehaviour
     private Vector3 rightDoorTargetPos;
     private bool moveDoors = false;
 
+    private Camera maincam;
+    private CinemachineCamera nearCinemachineCamera;
+    private CinemachineCamera farCinemachineCamera;
+
     void Start()
     {
         leftDoorTargetPos = DoorLeft.transform.position;
         rightDoorTargetPos = DoorRight.transform.position;
+        maincam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        nearCinemachineCamera = GameObject.FindGameObjectWithTag("NearCinemachineCamera").GetComponent<CinemachineCamera>();
+        farCinemachineCamera = GameObject.FindGameObjectWithTag("FarCinemachineCamera").GetComponent<CinemachineCamera>();
     }
 
     void Update()
@@ -40,12 +50,23 @@ public class BossSpawnTrigger : MonoBehaviour
         // Spawn boss if player enters hitbox
         if (other.CompareTag("Player") && !hasSpawned)
         {
+            nearCinemachineCamera.Follow = BossSpawnPoint;
+            
+
+            nearCinemachineCamera.Priority = 0;
             Instantiate(BossEnemy, BossSpawnPoint.position, Quaternion.identity);
             hasSpawned = true;
             leftDoorTargetPos = DoorLeft.transform.position + new Vector3(0f, -3f, 0f);
             rightDoorTargetPos = DoorRight.transform.position + new Vector3(0f, -3f, 0f);
             moveDoors = true;
+            StartCoroutine(WaitForCamTransition(4f)); 
         }
+    }
+
+    private IEnumerator WaitForCamTransition(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        nearCinemachineCamera.Priority = -2;
     }
 
     public void OnBossDefeated()

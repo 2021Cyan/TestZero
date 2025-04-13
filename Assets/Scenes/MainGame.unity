@@ -300,9 +300,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3779266254465316696, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
+      propertyPath: Priority.m_Value
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3779266254465316696, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
+      propertyPath: Lens.OrthographicSize
+      value: 7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3942680907849944876, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 11.238053
+      objectReference: {fileID: 0}
+    - target: {fileID: 3942680907849944876, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 17.688911
+      objectReference: {fileID: 0}
     - target: {fileID: 3955896091204143735, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
       propertyPath: orthographic size
-      value: 2.6999998
+      value: 5.3999996
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387067128550243745, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
+      propertyPath: FollowOffset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387067128550243745, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
+      propertyPath: FollowOffset.y
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 7956118938123415454, guid: c3ed59836c6e45c4e821ad59f6ad56d5, type: 3}
       propertyPath: m_Name
@@ -821,6 +845,18 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 7306279477192934636, guid: e74de27f14fc6894abbf9e89bef43f4e, type: 3}
+      propertyPath: hp
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7306279477192934636, guid: e74de27f14fc6894abbf9e89bef43f4e, type: 3}
+      propertyPath: damage
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7306279477192934636, guid: e74de27f14fc6894abbf9e89bef43f4e, type: 3}
+      propertyPath: max_hp
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7306279477192934636, guid: e74de27f14fc6894abbf9e89bef43f4e, type: 3}
       propertyPath: resource
       value: 900000
       objectReference: {fileID: 0}
@@ -1172,6 +1208,18 @@ PrefabInstance:
       value: event:/SFX/Weapons/Shot
       objectReference: {fileID: 0}
     - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Wheel.Path
+      value: event:/SFX/Weapons/Wheel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: LaserBeam.Path
+      value: event:/SFX/Weapons/LaserBeam
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: LaserBeam2.Path
+      value: event:/SFX/Weapons/LaserBeam2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Shot.Guid.Data1
       value: 2034535271
       objectReference: {fileID: 0}
@@ -1186,6 +1234,94 @@ PrefabInstance:
     - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: Shot.Guid.Data4
       value: 180634203
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Wheel.Guid.Data1
+      value: -1569065012
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Wheel.Guid.Data2
+      value: 1181592376
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Wheel.Guid.Data3
+      value: -964857208
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: Wheel.Guid.Data4
+      value: -131046327
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: BossExplosion.Path
+      value: event:/SFX/BossExplosion
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: CrossLaserBeam.Path
+      value: event:/SFX/Weapons/CrossLaserBeam
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: LaserBeam.Guid.Data1
+      value: -49231888
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: LaserBeam.Guid.Data2
+      value: 1309116112
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: LaserBeam.Guid.Data3
+      value: -2083964539
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: LaserBeam.Guid.Data4
+      value: -348084719
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: LaserBeam2.Guid.Data1
+      value: 195039069
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: LaserBeam2.Guid.Data2
+      value: 1094105947
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: LaserBeam2.Guid.Data3
+      value: 189081473
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: LaserBeam2.Guid.Data4
+      value: 398547644
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: BossExplosion.Guid.Data1
+      value: 607467884
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: BossExplosion.Guid.Data2
+      value: 1139121940
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: BossExplosion.Guid.Data3
+      value: -1406844786
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: BossExplosion.Guid.Data4
+      value: 1188087788
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: CrossLaserBeam.Guid.Data1
+      value: -2005518951
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: CrossLaserBeam.Guid.Data2
+      value: 1122306770
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: CrossLaserBeam.Guid.Data3
+      value: -1733487433
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359788693089475494, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
+      propertyPath: CrossLaserBeam.Guid.Data4
+      value: 1504154662
       objectReference: {fileID: 0}
     - target: {fileID: 7838885707744038890, guid: 280d39828b0836e49baa79af7738cb16, type: 3}
       propertyPath: PreloadSamples

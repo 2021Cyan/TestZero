@@ -1,6 +1,5 @@
-using UnityEngine;
 using FMODUnity;
-using UnityEngine.InputSystem;
+using UnityEngine;
 public class MenuManager : MonoBehaviour
 {
     public static bool IsPaused = false;
@@ -71,7 +70,7 @@ public class MenuManager : MonoBehaviour
     public void Pause()
     {
         Cursor.visible = true;
-        
+
         PauseMenuUI.SetActive(true);
         _timeScale = Time.timeScale;
         Time.timeScale = 0f;

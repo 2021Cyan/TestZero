@@ -11,9 +11,6 @@ public class AudioManager : MonoBehaviour
     public EventReference Lobby;
     public EventReference Battle;
 
-    [Header("Ambience")]
-    public EventReference Ambience;
-
     [Header("Player_SFX")]
     public EventReference Pickup;
     public EventReference Aim;
@@ -30,12 +27,14 @@ public class AudioManager : MonoBehaviour
     public EventReference Heal;
 
     [Header("Enemy_SFX")]
-    public EventReference EnemyDeath;
     public EventReference Explosion;
+    public EventReference BossExplosion;
     public EventReference Missile;
     public EventReference MissileLaunch;
-    public EventReference EnemyHurt;
     public EventReference Laser;
+    public EventReference LaserBeam;
+    public EventReference CrossLaserBeam;
+    public EventReference Wheel;
     public EventReference EnemyFlying;
 
     [Header("SFX")]
@@ -70,11 +69,6 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    private void Update()
-    {
-        // RuntimeManager.CoreSystem.createSound
     }
 
     public void PlayOneShot(EventReference sound, Vector3? position = null)
@@ -157,7 +151,6 @@ public class AudioManager : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
             float currentValue = Mathf.Lerp(startValue, endValue, elapsedTime / duration);
-            UnityEngine.Debug.Log($"Setting {parameterName} to {currentValue}");
             SetParameterByName(parameterName, currentValue);
             yield return null; // Ensure the coroutine yields control back to Unity
         }

@@ -79,13 +79,6 @@ MonoBehaviour:
       Data3: 137282469
       Data4: -1580661986
     Path: event:/Music/Battle
-  Ambience:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
   Pickup:
     Guid:
       Data1: -599363066
@@ -177,13 +170,6 @@ MonoBehaviour:
       Data3: -1171048559
       Data4: 2066108523
     Path: event:/SFX/Character/Heal
-  EnemyDeath:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
   Explosion:
     Guid:
       Data1: -590632944
@@ -191,6 +177,13 @@ MonoBehaviour:
       Data3: -1757320830
       Data4: -122563099
     Path: event:/SFX/Explosion
+  BossExplosion:
+    Guid:
+      Data1: 607467884
+      Data2: 1139121940
+      Data3: -1406844786
+      Data4: 1188087788
+    Path: event:/SFX/BossExplosion
   Missile:
     Guid:
       Data1: 1110391133
@@ -205,13 +198,6 @@ MonoBehaviour:
       Data3: -1018815836
       Data4: 1946066782
     Path: event:/SFX/Weapons/MissileLaunch
-  EnemyHurt:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
   Laser:
     Guid:
       Data1: -1600066894
@@ -219,6 +205,27 @@ MonoBehaviour:
       Data3: 1136346788
       Data4: -313973955
     Path: event:/SFX/Weapons/Laser
+  LaserBeam:
+    Guid:
+      Data1: -49231888
+      Data2: 1309116112
+      Data3: -2083964539
+      Data4: -348084719
+    Path: event:/SFX/Weapons/LaserBeam
+  CrossLaserBeam:
+    Guid:
+      Data1: -2005518951
+      Data2: 1122306770
+      Data3: -1733487433
+      Data4: 1504154662
+    Path: event:/SFX/Weapons/CrossLaserBeam
+  Wheel:
+    Guid:
+      Data1: -1569065012
+      Data2: 1181592376
+      Data3: -964857208
+      Data4: -131046327
+    Path: event:/SFX/Weapons/Wheel
   EnemyFlying:
     Guid:
       Data1: -1754085737

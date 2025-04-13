@@ -196,6 +196,7 @@ public class InputManager : MonoBehaviour
         MenuInput = ctx.started;
         if (MenuInput)
         {
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.MenuOpen);
             OnMenuPressed?.Invoke();
         }
     }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
-using System;
+using FMOD.Studio;
+using FMODUnity;
 
 public class EnemyScript_Wheel : EnemyBase
 {
@@ -25,6 +26,8 @@ public class EnemyScript_Wheel : EnemyBase
     [SerializeField] GameObject sparkEffect;
     [SerializeField] Transform sparkPos;
     private GameObject sparkInstance;
+    private EventInstance wheelSoundInstance;
+    private InputManager _input;
 
     void Start()
     {
@@ -51,6 +54,24 @@ public class EnemyScript_Wheel : EnemyBase
         {
             sparkInstance = Instantiate(sparkEffect, sparkPos.position, Quaternion.identity, sparkPos);
             sparkInstance.SetActive(false);
+        }
+        wheelSoundInstance = _audio.GetEventInstance(_audio.Wheel, gameObject);
+        wheelSoundInstance.start();
+
+
+        _input = InputManager.Instance;
+        _input.OnMenuPressed += PauseHandler;
+    }
+
+    private void PauseHandler()
+    {
+        if (MenuManager.IsPaused)
+        {
+            wheelSoundInstance.setPaused(true);
+        }
+        else
+        {
+            wheelSoundInstance.setPaused(false);
         }
     }
 
@@ -86,6 +107,7 @@ public class EnemyScript_Wheel : EnemyBase
             return;
 
         rb.linearVelocity = new Vector2(moveDirection.x * moveSpeed, rb.linearVelocity.y);
+        wheelSoundInstance.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
         RotateWheel();
     }
 
@@ -166,6 +188,8 @@ public class EnemyScript_Wheel : EnemyBase
         Vector3 explosionPos = transform.position;
         GameObject explosionInstance = Instantiate(explosion, explosionPos, Quaternion.identity);
         _audio.PlayOneShot(_audio.Explosion, transform.position);
+        wheelSoundInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        wheelSoundInstance.release();
         Destroy(explosionInstance.gameObject, 5f);
         base.Die(amount);
     }

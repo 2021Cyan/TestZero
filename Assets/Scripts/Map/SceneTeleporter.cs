@@ -47,9 +47,10 @@ namespace EasyTransition
         {
             if (playerController != null && other.CompareTag("Player"))
             {
+                PlayerPrefs.SetInt("SkipTutorial", 1);
+                PlayerPrefs.Save();
                 LoadScene("MainGame");
             }
         }
     }
-
 }

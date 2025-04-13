@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using FMOD.Studio;
+using FMODUnity;
 
 public class Enemy_Drone : EnemyBase
 {
@@ -39,6 +41,8 @@ public class Enemy_Drone : EnemyBase
     private bool isFalling = false;
     private SpriteRenderer spriteRenderer;
     private AudioManager _audio;
+    private InputManager _input;
+    private EventInstance laserBeamInstance;
 
     [SerializeField] GameObject explosion;
 
@@ -50,6 +54,8 @@ public class Enemy_Drone : EnemyBase
     void Start()
     {
         _audio = AudioManager.Instance;
+        _input = InputManager.Instance;
+        _input.OnMenuPressed += OnPaused;
         isalive = true;
         resourceAmount = 320;
         maxHealth = 150;
@@ -77,6 +83,34 @@ public class Enemy_Drone : EnemyBase
         else
         {
             moveDirection = Vector3.left;
+        }
+    }
+    private void OnDestroy()
+    {
+        if (_input != null)
+        {
+            _input.OnMenuPressed -= OnPaused;
+        }
+        if (sweepEffect != null)
+        {
+            Destroy(sweepEffect);
+        }
+        if (laserBeamInstance.isValid())
+        {
+            laserBeamInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            laserBeamInstance.release();
+        }
+    }
+
+    override public void OnPaused()
+    {
+        if (!MenuManager.IsPaused)
+        {
+            laserBeamInstance.setPaused(true);
+        }
+        else
+        {
+            laserBeamInstance.setPaused(false);
         }
     }
 
@@ -129,21 +163,7 @@ public class Enemy_Drone : EnemyBase
     // Move Drone
     private void MoveDrone()
     {
-        // timer += Time.deltaTime;
-        // if (timer >= changeDirectionTime)
-        // {
-        //     ChangeDirection();
-        //     // _audio.PlayOneShot(_audio.EnemyFlying, transform.position);
-        //     timer = 0;
-        // }
         float floatingY = Mathf.Sin(Time.time * 2f) * floatStrength;
-
-        // RaycastHit2D wallCheck = Physics2D.Raycast(transform.position, moveDirection, 1f, LayerMask.GetMask("Terrain"));
-        // if (wallCheck.collider != null)
-        // {
-        //     ChangeDirection();
-        //     // _audio.PlayOneShot(_audio.EnemyFlying, transform.position);
-        // }
         rb.linearVelocity = new Vector3(moveDirection.x, floatingY, 0) * moveSpeed;
     }
 
@@ -216,8 +236,8 @@ public class Enemy_Drone : EnemyBase
             if (isPlayerNearby && player != null && isPathClear)
             {
                 lastMissileTime = Time.time;
-                _audio.PlayOneShot(_audio.Missile, turret_firePoint.position);
                 Instantiate(missile, turret_firePoint.position, turret_firePoint.rotation);
+                _audio.PlayOneShot(_audio.MissileLaunch, turret_firePoint.position);
             }
         }
     }
@@ -250,23 +270,33 @@ public class Enemy_Drone : EnemyBase
 
         laserLine.enabled = true;
 
+        Vector3 dir = Quaternion.Euler(0, 0, currentAngle) * Vector3.down;
+        RaycastHit2D hit = Physics2D.Raycast(laserOrigin.position, dir, laserLength, LayerMask.GetMask("Terrain"));
+        Vector3 laserEnd = hit.collider != null ? hit.point : laserOrigin.position + dir * laserLength;
+        laserBeamInstance = _audio.GetEventInstance(_audio.LaserBeam);
+        laserBeamInstance.start();
+        laserBeamInstance.set3DAttributes(RuntimeUtils.To3DAttributes(laserEnd));
+        if (sweepEffect != null)
+        {
+            sweepEffect.SetActive(true);
+            sweepEffect.transform.position = laserEnd;
+        }
+        
         while ((endAngle > startAngle && currentAngle < endAngle) ||
                (endAngle < startAngle && currentAngle > endAngle))
         {
             float t = traveledAngle / totalAngle;
             float currentSpeed = Mathf.Lerp(startSpeed, endSpeed, t);
-            Vector3 dir = Quaternion.Euler(0, 0, currentAngle) * Vector3.down;
-            RaycastHit2D hit = Physics2D.Raycast(laserOrigin.position, dir, laserLength, LayerMask.GetMask("Terrain"));
-            Vector3 laserEnd = hit.collider != null ? hit.point : laserOrigin.position + dir * laserLength;
+            dir = Quaternion.Euler(0, 0, currentAngle) * Vector3.down;
+            hit = Physics2D.Raycast(laserOrigin.position, dir, laserLength, LayerMask.GetMask("Terrain"));
+            laserEnd = hit.collider != null ? hit.point : laserOrigin.position + dir * laserLength;
 
             laserLine.SetPosition(0, laserOrigin.position);
             laserLine.SetPosition(1, laserEnd);
 
-            if (sweepEffect != null)
-            {
-                sweepEffect.SetActive(true);
-                sweepEffect.transform.position = laserEnd;
-            }
+            // Update audio position to follow the laser end point
+            laserBeamInstance.set3DAttributes(RuntimeUtils.To3DAttributes(laserEnd));
+            sweepEffect.transform.position = laserEnd;
 
             if (!hasHitPlayer)
             {
@@ -287,6 +317,8 @@ public class Enemy_Drone : EnemyBase
 
             yield return null;
         }
+        laserBeamInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        laserBeamInstance.release();
         sweepEffect.SetActive(false);
         laserLine.enabled = false;
     }
@@ -303,6 +335,7 @@ public class Enemy_Drone : EnemyBase
             if (shouldFireMissile)
             {
                 Instantiate(missile, turret_firePoint.position, turret_firePoint.rotation);
+                _audio.PlayOneShot(_audio.MissileLaunch, turret_firePoint.position);
             }
             else
             {
