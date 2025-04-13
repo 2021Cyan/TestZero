@@ -35,14 +35,17 @@ public class Barrel : Interactable
         }
     }
 
-    void Start()
+    void Awake()
     {
         // Destory self based on likelihood
         if (Random.value > Likelihood)
         {
             Destroy(gameObject);
         }
+    }
 
+    void Start()
+    {
         // Hide prompt
         ShowPrompt(false);
         _audio = AudioManager.Instance;
