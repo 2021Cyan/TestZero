@@ -7,7 +7,7 @@ public class HealthPack : Interactable
     public float Likelihood = 1f;
 
     // Behaviour
-    void Start()
+    void Awake()
     {
         // Destory self based on likelihood
         if (Random.value > Likelihood)
