@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using FMOD.Studio;
+using FMODUnity;
 
 public class EnemyScript_Turret : EnemyBase
 {
@@ -33,7 +35,7 @@ public class EnemyScript_Turret : EnemyBase
 
     [SerializeField] GameObject explosion;
 
-    private int shotsFired = 0; 
+    private int shotsFired = 0;
     private float burstCooldown = 1.5f;
     private bool canShoot = true;
 
@@ -144,14 +146,14 @@ public class EnemyScript_Turret : EnemyBase
 
                 if (turret_bullet != null && turret_firePoint != null)
                 {
-                    _audio.PlayOneShot(_audio.Laser, transform.position);
                     Instantiate(turret_bullet, turret_firePoint.position, turret_firePoint.rotation);
+                    _audio.PlayOneShot(_audio.Laser, transform.position);
                 }
             }
 
-            if (shotsFired >= 3) 
+            if (shotsFired >= 3)
             {
-                canShoot = false; 
+                canShoot = false;
                 StartCoroutine(BurstCooldown());
             }
         }
@@ -161,7 +163,7 @@ public class EnemyScript_Turret : EnemyBase
     {
         yield return new WaitForSeconds(burstCooldown);
         shotsFired = 0;
-        canShoot = true; 
+        canShoot = true;
     }
 
     private void FireMissile()
@@ -176,8 +178,8 @@ public class EnemyScript_Turret : EnemyBase
             if (isPlayerNearby && player != null && isPathClear)
             {
                 lastMissileTime = Time.time;
-                _audio.PlayOneShot(_audio.MissileLaunch, turret_firePoint.position);
                 Instantiate(missile, turret_firePoint.position, turret_firePoint.rotation);
+                _audio.PlayOneShot(_audio.MissileLaunch, turret_firePoint.position);
             }
         }
     }
@@ -210,23 +212,33 @@ public class EnemyScript_Turret : EnemyBase
 
         laserLine.enabled = true;
 
+        Vector3 dir = Quaternion.Euler(0, 0, currentAngle) * Vector3.down;
+        RaycastHit2D hit = Physics2D.Raycast(laserOrigin.position, dir, laserLength, LayerMask.GetMask("Terrain"));
+        Vector3 laserEnd = hit.collider != null ? hit.point : laserOrigin.position + dir * laserLength;
+        EventInstance laserBeamInstance = _audio.GetEventInstance(_audio.LaserBeam);
+        laserBeamInstance.start();
+        laserBeamInstance.set3DAttributes(RuntimeUtils.To3DAttributes(laserOrigin.position));
+        if (sweepEffect != null)
+        {
+            sweepEffect.SetActive(true);
+            sweepEffect.transform.position = laserEnd;
+        }
+
+
         while ((endAngle > startAngle && currentAngle < endAngle) ||
                (endAngle < startAngle && currentAngle > endAngle))
         {
             float t = traveledAngle / totalAngle;
             float currentSpeed = Mathf.Lerp(startSpeed, endSpeed, t);
-            Vector3 dir = Quaternion.Euler(0, 0, currentAngle) * Vector3.down;
-            RaycastHit2D hit = Physics2D.Raycast(laserOrigin.position, dir, laserLength, LayerMask.GetMask("Terrain"));
-            Vector3 laserEnd = hit.collider != null ? hit.point : laserOrigin.position + dir * laserLength;
+            dir = Quaternion.Euler(0, 0, currentAngle) * Vector3.down;
+            hit = Physics2D.Raycast(laserOrigin.position, dir, laserLength, LayerMask.GetMask("Terrain"));
+            laserEnd = hit.collider != null ? hit.point : laserOrigin.position + dir * laserLength;
 
             laserLine.SetPosition(0, laserOrigin.position);
             laserLine.SetPosition(1, laserEnd);
 
-            if (sweepEffect != null)
-            {
-                sweepEffect.SetActive(true);
-                sweepEffect.transform.position = laserEnd;
-            }
+            laserBeamInstance.set3DAttributes(RuntimeUtils.To3DAttributes(laserEnd));
+            sweepEffect.transform.position = laserEnd;
 
             if (!hasHitPlayer)
             {
@@ -247,6 +259,8 @@ public class EnemyScript_Turret : EnemyBase
 
             yield return null;
         }
+        laserBeamInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        laserBeamInstance.release();
         sweepEffect.SetActive(false);
         laserLine.enabled = false;
     }
@@ -263,6 +277,7 @@ public class EnemyScript_Turret : EnemyBase
             if (shouldFireMissile)
             {
                 Instantiate(missile, turret_firePoint.position, turret_firePoint.rotation);
+                _audio.PlayOneShot(_audio.MissileLaunch, turret_firePoint.position);
             }
             else
             {

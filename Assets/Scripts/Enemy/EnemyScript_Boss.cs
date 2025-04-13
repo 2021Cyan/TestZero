@@ -36,11 +36,13 @@ public class EnemyScript_Boss : EnemyBase
 
     // Enemy Zap2
     [SerializeField] LineRenderer[] crossLasers;
+    private float[] baseAngles = { 0f, 120f, 240f };
     private float spinStartTime;
     private bool isSpinning = false;
     private float spinSpeed = 90f;
     [SerializeField] private GameObject zapEffectPrefab;
     private GameObject[] zapEffects;
+    private EventInstance[] crossLaserBeamInstances;
 
     // Enemy Summon
     [SerializeField] GameObject Bomber;
@@ -96,6 +98,14 @@ public class EnemyScript_Boss : EnemyBase
                 zapEffects[i].SetActive(false);
             }
         }
+        
+        // Cross laser beam instance
+        crossLaserBeamInstances = new EventInstance[3];
+        for (int i = 0; i < 3; i++)
+        {
+            crossLaserBeamInstances[i] = _audio.GetEventInstance(_audio.CrossLaserBeam);
+            crossLaserBeamInstances[i].set3DAttributes(RuntimeUtils.To3DAttributes(laserOrigin.position));
+        }
 
         polyCol = GetComponent<PolygonCollider2D>();
         if (polyCol != null)
@@ -129,9 +139,21 @@ public class EnemyScript_Boss : EnemyBase
             {
                 spinStartTime = Time.time;
                 isSpinning = true;
-                foreach (var laser in crossLasers)
+
+                float elapsed = Time.time - spinStartTime;
+                float rotationOffset = elapsed * spinSpeed;
+
+                for (int i = 0; i < crossLasers.Length; i++)
                 {
-                    laser.enabled = true;
+                    float angle = baseAngles[i] + rotationOffset;
+                    Vector3 dir = Quaternion.Euler(0, 0, angle) * Vector3.up;
+
+                    RaycastHit2D hitTerrain = Physics2D.Raycast(laserOrigin.position, dir, laserLength, LayerMask.GetMask("Terrain"));
+                    Vector3 endPoint = hitTerrain.collider != null ? hitTerrain.point : laserOrigin.position + dir * laserLength;
+                    
+                    crossLaserBeamInstances[i].set3DAttributes(RuntimeUtils.To3DAttributes(endPoint));
+                    crossLaserBeamInstances[i].start();
+                    crossLasers[i].enabled = true;
                 }
             }
             RotateCrossLasers();
@@ -162,7 +184,7 @@ public class EnemyScript_Boss : EnemyBase
         {
             Vector3 explosionPos = transform.position + new Vector3(0, -1f, 0);
             GameObject explosionInstance = Instantiate(explosion, explosionPos, Quaternion.identity);
-            _audio.PlayOneShot(_audio.Explosion, transform.position);
+            _audio.PlayOneShot(_audio.BossExplosion, transform.position);
             Destroy(explosionInstance.gameObject, 5f);
             BossSpawnTrigger trigger = FindAnyObjectByType<BossSpawnTrigger>();
             if (trigger != null)
@@ -196,6 +218,11 @@ public class EnemyScript_Boss : EnemyBase
                     enemy.TakeDamage(float.MaxValue);
                 }
             }
+        }
+        foreach (var cross in crossLaserBeamInstances)
+        {
+            cross.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            cross.release();
         }
     }
 
@@ -385,8 +412,6 @@ public class EnemyScript_Boss : EnemyBase
         float elapsed = Time.time - spinStartTime;
         float rotationOffset = elapsed * spinSpeed;
 
-        float[] baseAngles = { 0f, 120f, 240f };
-
         for (int i = 0; i < crossLasers.Length; i++)
         {
             float angle = baseAngles[i] + rotationOffset;
@@ -394,10 +419,10 @@ public class EnemyScript_Boss : EnemyBase
 
             RaycastHit2D hitTerrain = Physics2D.Raycast(laserOrigin.position, dir, laserLength, LayerMask.GetMask("Terrain"));
             Vector3 endPoint = hitTerrain.collider != null ? hitTerrain.point : laserOrigin.position + dir * laserLength;
-
+            crossLaserBeamInstances[i].set3DAttributes(RuntimeUtils.To3DAttributes(endPoint));
             crossLasers[i].SetPosition(0, laserOrigin.position);
             crossLasers[i].SetPosition(1, endPoint);
-
+            
             if (zapEffects[i] != null)
             {
                 zapEffects[i].SetActive(true);

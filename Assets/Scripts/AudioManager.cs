@@ -11,9 +11,6 @@ public class AudioManager : MonoBehaviour
     public EventReference Lobby;
     public EventReference Battle;
 
-    [Header("Ambience")]
-    public EventReference Ambience;
-
     [Header("Player_SFX")]
     public EventReference Pickup;
     public EventReference Aim;
@@ -30,13 +27,14 @@ public class AudioManager : MonoBehaviour
     public EventReference Heal;
 
     [Header("Enemy_SFX")]
-    public EventReference EnemyDeath;
     public EventReference Explosion;
+    public EventReference BossExplosion;
     public EventReference Missile;
     public EventReference MissileLaunch;
-    public EventReference EnemyHurt;
     public EventReference Laser;
     public EventReference LaserBeam;
+    public EventReference CrossLaserBeam;
+    public EventReference Wheel;
     public EventReference EnemyFlying;
 
     [Header("SFX")]

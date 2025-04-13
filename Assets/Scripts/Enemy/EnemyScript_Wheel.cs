@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using FMOD.Studio;
 
 public class EnemyScript_Wheel : EnemyBase
 {
@@ -25,6 +26,7 @@ public class EnemyScript_Wheel : EnemyBase
     [SerializeField] GameObject sparkEffect;
     [SerializeField] Transform sparkPos;
     private GameObject sparkInstance;
+    private EventInstance wheelSoundInstance;
 
     void Start()
     {
@@ -52,6 +54,8 @@ public class EnemyScript_Wheel : EnemyBase
             sparkInstance = Instantiate(sparkEffect, sparkPos.position, Quaternion.identity, sparkPos);
             sparkInstance.SetActive(false);
         }
+        wheelSoundInstance = _audio.GetEventInstance(_audio.Wheel, gameObject);
+        wheelSoundInstance.start();
     }
 
 
@@ -166,6 +170,8 @@ public class EnemyScript_Wheel : EnemyBase
         Vector3 explosionPos = transform.position;
         GameObject explosionInstance = Instantiate(explosion, explosionPos, Quaternion.identity);
         _audio.PlayOneShot(_audio.Explosion, transform.position);
+        wheelSoundInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        wheelSoundInstance.release();
         Destroy(explosionInstance.gameObject, 5f);
         base.Die(amount);
     }

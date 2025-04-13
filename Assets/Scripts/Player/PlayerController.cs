@@ -125,18 +125,6 @@ public class PlayerController : MonoBehaviour
         farCinemachineCamera.Follow = transform;
 
         sparkFootEffect = sparkFootEffectObj.GetComponent<ParticleSystem>();
-        // if (tempSpark != null)
-        // {
-        //     sparkFootEffect = tempSpark.transform.GetChild(0).GetComponent<ParticleSystem>();
-        //     // if (tempSpark.transform.childCount > 0)
-        //     // {
-        //     //     Transform tempChild = tempSpark.transform.GetChild(0);
-        //     //     Destroy(tempChild.gameObject);
-        //     // }
-        //     // sparkFootEffect = Instantiate(sparkFootEffectPrefab, tempSpark.transform);
-        //     // sparkFootEffect.transform.Rotate(0, -90, 0);
-        //     // sparkFootEffect.transform.SetParent(tempSpark.transform);
-        // }
 
         GameObject healingParticle = GameObject.FindGameObjectWithTag("HealingParticle");
         if (healingParticle != null)

@@ -34,7 +34,7 @@ public class PodScript : MonoBehaviour
 
     // Pod heal
     public float healCooldown = 15f;
-    private float healAmount = 10f; 
+    private float healAmount = 10f;
     private float lastHealTime = 0f;
 
     private void Awake()
@@ -69,7 +69,7 @@ public class PodScript : MonoBehaviour
             return;
         }
 
-        if(weaponlevel >= 1)
+        if (weaponlevel >= 1)
         {
             fireRate = (weaponlevel * 3);
         }
@@ -82,7 +82,7 @@ public class PodScript : MonoBehaviour
 
         if (weaponlevel >= 3)
         {
-            missileCooldown =  5f - (0.25f * (weaponlevel - 3));
+            missileCooldown = 5f - (0.25f * (weaponlevel - 3));
         }
 
         FollowPlayer();
@@ -122,7 +122,7 @@ public class PodScript : MonoBehaviour
             float targetAngle = Mathf.Atan2(directionToEnemy.y, directionToEnemy.x) * Mathf.Rad2Deg;
             float smoothAngle = Mathf.LerpAngle(cursor.transform.eulerAngles.z, targetAngle, rotationSpeed * Time.deltaTime);
             cursor.transform.rotation = Quaternion.Euler(0, 0, smoothAngle);
-            float cursorDistance = 1f; 
+            float cursorDistance = 1f;
             Vector3 cursorOffset = new Vector3(Mathf.Cos(Mathf.Deg2Rad * smoothAngle), Mathf.Sin(Mathf.Deg2Rad * smoothAngle), 0f) * cursorDistance;
             cursor.transform.position = transform.position + cursorOffset;
         }
@@ -179,7 +179,7 @@ public class PodScript : MonoBehaviour
     {
         if (weaponlevel >= 3 && trackedEnemy != null)
         {
-            if(Time.time > lastMissileTime + missileCooldown)
+            if (Time.time > lastMissileTime + missileCooldown)
             {
                 float distanceToEnemy = Vector3.Distance(transform.position, trackedEnemy.transform.position);
                 if (distanceToEnemy <= detectionrange)
@@ -188,9 +188,10 @@ public class PodScript : MonoBehaviour
                     if (isPathClear)
                     {
                         lastMissileTime = Time.time;
-                        _audio.PlayOneShot(_audio.Missile, turret_firePoint.position);
+
                         Instantiate(turret_missle, turret_firePoint.position, turret_firePoint.rotation);
-                        
+                        _audio.PlayOneShot(_audio.MissileLaunch, turret_firePoint.position);
+
                     }
                 }
             }
