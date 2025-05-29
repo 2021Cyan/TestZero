@@ -26,6 +26,7 @@ public class InputManager : MonoBehaviour
     public event System.Action OnInteractPressed;
     public event System.Action OnMenuPressed;
     public event System.Action OnResetPressed;
+    public event System.Action OnBulletTimePressed;
 
     private double _fPressTime = 0f;
     private double _gPressTime = 0f;
@@ -180,6 +181,10 @@ public class InputManager : MonoBehaviour
     private void SetBulletTimeInput(InputAction.CallbackContext ctx)
     {
         BulletTimeInput = ctx.started;
+        if (BulletTimeInput)
+        {
+            OnBulletTimePressed?.Invoke();
+        }
     }
 
     private void SetInteractInput(InputAction.CallbackContext ctx)
