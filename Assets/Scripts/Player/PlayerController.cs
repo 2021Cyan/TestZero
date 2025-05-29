@@ -20,12 +20,14 @@ public class PlayerController : MonoBehaviour
 
     // Gun stats
     public float damage = 6.0f;
+    public float originalFireRate;
     public float fireRate = 4.0f;
     public int maxAmmo = 12;
     public int currentAmmo;
     public float maxSpreadAngle = 30.0f;
     public float spreadIncreaseRate = 6.0f;
     public float spreadResetSpeed = 20.0f;
+    public float originalReloadSpeed;
     public float reloadSpeed = 2f;
     // Bullet modifier -> 0 : normal, 1: Ricochet, 2: Penetration
     public int bulletType = 0;
@@ -73,6 +75,7 @@ public class PlayerController : MonoBehaviour
     public float bulletTimeFillRate = 20f;
     public float bulletTimeDuration = 5f;
     public bool isBulletTimeActive = false;
+    private Coroutine bulletTimeCoroutine;
     [SerializeField] private float enemyTimeScale = 0.5f;
 
     // Singleton Instance
@@ -104,7 +107,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable()
     {
-        // InputManager.Instance.OnResetPressed -= Restart;
+        InputManager.Instance.OnResetPressed -= Restart;
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
@@ -112,7 +115,8 @@ public class PlayerController : MonoBehaviour
     {
         SetCursorVisible(false);
         _input = InputManager.Instance;
-        // _input.OnResetPressed += Restart;
+        _input.OnResetPressed += Restart;
+        _input.OnBulletTimePressed += FlipFlopBulletTime;
         _audio = AudioManager.Instance;
         hp = max_hp;
         currentAmmo = maxAmmo;
@@ -513,7 +517,6 @@ public class PlayerController : MonoBehaviour
         Restart();
     }
 
-
     public void Restart()
     {
         if (PodScript.Instance != null)
@@ -560,11 +563,19 @@ public class PlayerController : MonoBehaviour
             bulletTimeGauge += Time.deltaTime * bulletTimeFillRate;
             bulletTimeGauge = Mathf.Min(bulletTimeGauge, bulletTimeMaxGauge);
         }
+    }
 
-        // Press Q to activate bullet time
-        if (_input.BulletTimeInput && bulletTimeGauge >= bulletTimeMaxGauge && !isBulletTimeActive)
+    private void FlipFlopBulletTime()
+    {
+        if (isBulletTimeActive && bulletTimeCoroutine != null)
         {
-            StartCoroutine(ActivateBulletTime());
+            StopCoroutine(bulletTimeCoroutine);
+            bulletTimeCoroutine = null;
+            RecoverFromBulletTime();
+        }
+        else
+        {
+            bulletTimeCoroutine = StartCoroutine(ActivateBulletTime());
         }
     }
 
@@ -572,12 +583,12 @@ public class PlayerController : MonoBehaviour
     {
         _audio.SetPitch(0.5f);
         isBulletTimeActive = true;
-        _audio.PlayOneShot(_audio.Reload);
-        Shooting shooting = GetComponent<Shooting>();
-        if (shooting != null)
-        {
-            shooting.ForceReloadComplete();
-        }
+        // _audio.PlayOneShot(_audio.Reload);
+        // Shooting shooting = GetComponent<Shooting>();
+        // if (shooting != null)
+        // {
+        //     shooting.ForceReloadComplete();
+        // }
 
         // Global slow-motion (Enemy, Bullet...etc)
         Time.timeScale = enemyTimeScale;
@@ -585,8 +596,8 @@ public class PlayerController : MonoBehaviour
 
         // Adjust player animation speed
         anim.speed = 0.9f;
-        float originalFireRate = fireRate;
-        float originalReloadSpeed = reloadSpeed;
+        originalFireRate = fireRate;
+        originalReloadSpeed = reloadSpeed;
         fireRate *= 2f;
         reloadSpeed /= 4f;
 
@@ -601,12 +612,16 @@ public class PlayerController : MonoBehaviour
             }
             yield return null;
         }
+        RecoverFromBulletTime();
+    }
 
+    private void RecoverFromBulletTime()
+    {
         _audio.SetPitch(1.0f);
         // Restore speed setting
         Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02f;
-        bulletTimeGauge = 0f;
+        // bulletTimeGauge = 0f;
         isBulletTimeActive = false;
 
         // Restore player animation speed
