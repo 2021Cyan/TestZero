@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            SceneManager.sceneLoaded += OnSceneLoaded;
+            // SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
@@ -107,16 +107,22 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable()
     {
-        InputManager.Instance.OnResetPressed -= Restart;
+        _input.OnResetPressed -= Restart;
+        _input.OnBulletTimePressed -= FlipFlopBulletTime;
         SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnEnable()
+    {
+        _input = InputManager.Instance;
+        _input.OnBulletTimePressed += FlipFlopBulletTime;
+        _input.OnResetPressed += Restart;
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void FindSceneReferences()
     {
         SetCursorVisible(false);
-        _input = InputManager.Instance;
-        _input.OnResetPressed += Restart;
-        _input.OnBulletTimePressed += FlipFlopBulletTime;
         _audio = AudioManager.Instance;
         hp = max_hp;
         currentAmmo = maxAmmo;
@@ -142,7 +148,7 @@ public class PlayerController : MonoBehaviour
         RuntimeManager.GetBus("bus:/").stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
         _audio.PlayOneShot(_audio.Lobby);
 
-        
+
         InputManager.Input.Enable();
 
         if (SceneManager.GetActiveScene().name != "MainMenu")
