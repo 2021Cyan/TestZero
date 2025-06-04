@@ -71,13 +71,13 @@ public class InputManager : MonoBehaviour
         Input.Player.Reload.canceled += SetReloadInput;
 
         Input.Player.BulletTime.started += SetBulletTimeInput;
-        Input.Player.BulletTime.canceled += SetBulletTimeInput;
+        // Input.Player.BulletTime.canceled += SetBulletTimeInput;
 
         Input.Player.Interact.started += SetInteractInput;
         Input.Player.Interact.canceled += SetInteractInput;
 
         Input.Player.Reset.started += SetResetInput;
-        Input.Player.Reset.canceled += SetResetInput;
+        // Input.Player.Reset.canceled += SetResetInput;
 
         Input.Player.F.started += SetFInput;
         Input.Player.F.canceled += SetFInput;
@@ -88,8 +88,8 @@ public class InputManager : MonoBehaviour
 
     private void OnDisable()
     {
-        Input.Disable();
         EventDisable();
+        Input.Disable();
     }
 
     private void EventDisable()
@@ -211,6 +211,7 @@ public class InputManager : MonoBehaviour
         ResetInput = ctx.started;
         if (ResetInput)
         {
+            // PlayerPrefs.SetInt("SkipTutorial", 0);
             OnResetPressed?.Invoke();
         }
     }
