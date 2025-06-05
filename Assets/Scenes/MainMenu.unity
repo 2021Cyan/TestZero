@@ -850,6 +850,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1356027192585805170, guid: 84eaad4cb3a1087489c8ddc0e36290fa, type: 3}
+      propertyPath: globalVolume
+      value: 
+      objectReference: {fileID: 417130445}
+    - target: {fileID: 1356027192585805170, guid: 84eaad4cb3a1087489c8ddc0e36290fa, type: 3}
+      propertyPath: flickerAmount
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 3667055419550138313, guid: 84eaad4cb3a1087489c8ddc0e36290fa, type: 3}
       propertyPath: m_Name
       value: UI

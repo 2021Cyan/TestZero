@@ -46,4 +46,12 @@ public class SkipTutorial : MonoBehaviour
             _playerIsNear = true;
         }
     }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            _playerIsNear = false;
+        }
+    }
 }

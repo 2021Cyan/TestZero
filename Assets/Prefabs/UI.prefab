@@ -488,6 +488,8 @@ MonoBehaviour:
   ammoText: {fileID: 7460913082199325375}
   resourceText: {fileID: 5501589904429409993}
   healthBarFill: {fileID: 3856599544453886215}
+  globalVolume: {fileID: 0}
+  flickerAmount: 0.05
   energyBarFill: {fileID: 5535222889419978797}
   bulletTimeFilter: {fileID: 5893061159893189851}
   hurtFilter: {fileID: 5582720072571378163}
