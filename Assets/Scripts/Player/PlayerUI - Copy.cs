@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-public class PlayerUI : MonoBehaviour
+public class PlayerUI1 : MonoBehaviour
 {
 
-    public static PlayerUI Instance;
+    public static PlayerUI1 Instance;
 
     [Header("Ammo UI")]
     [SerializeField] private TextMeshProUGUI ammoText;
@@ -53,7 +53,7 @@ public class PlayerUI : MonoBehaviour
     {
         if (Instance == null)
         {
-            Instance = this;
+            Instance = this; 
         }
         else
         {
@@ -67,7 +67,7 @@ public class PlayerUI : MonoBehaviour
         bulletTimeFilter.gameObject.SetActive(false);
         hurtFilter.gameObject.SetActive(false);
         restoreFilter.gameObject.SetActive(false);
-        globalVolume.profile.TryGet(out vignetteSettings);
+        // globalVolume.profile.TryGet(out vignetteSettings);
     }
 
     void Update()
@@ -131,43 +131,43 @@ public class PlayerUI : MonoBehaviour
         float healthPercent = player.hp / player.max_hp;
         healthBarFill.fillAmount = Mathf.Lerp(healthBarFill.fillAmount, healthPercent, Time.deltaTime * 10);
 
-        if (vignetteSettings != null)
-        {
-            float baseIntensity = 0.5f * (1 - healthPercent);
-            float flickerIntensity = 0;
+        // if (vignetteSettings != null)
+        // {
+        //     float baseIntensity = 0.5f * (1 - healthPercent);
+        //     float flickerIntensity = 0;
 
-            // Add flickering effect that increases as health decreases
-            if (healthPercent <= 0.6f)
-            {
+        //     // Add flickering effect that increases as health decreases
+        //     if (healthPercent <= 0.6f)
+        //     {
 
-                if (healthPercent < 0.4f)
-                    flickerAmount = 0.1f;
+        //         if (healthPercent < 0.4f)
+        //             flickerAmount = 0.1f;
 
-                if (healthPercent < 0.2f)
-                    flickerAmount = 0.15f;
+        //         if (healthPercent < 0.2f)
+        //             flickerAmount = 0.15f;
 
-                // Random flicker based on sine wave for smoother effect
-                flickerIntensity = Mathf.Sin(Time.time * (10f - healthPercent * 10f)) * flickerAmount;
-            }
+        //         // Random flicker based on sine wave for smoother effect
+        //         flickerIntensity = Mathf.Sin(Time.time * (10f - healthPercent * 10f)) * flickerAmount;
+        //     }
 
-            if (healthPercent == 0)
-            {
-                vignetteSettings.intensity.value = Mathf.Lerp(
-                vignetteSettings.intensity.value,
-                1,
-                Time.deltaTime * 0.5f
-            );
-            }
-            else
-            {
-                // Otherwise, interpolate towards the base intensity with flicker
-                vignetteSettings.intensity.value = Mathf.Lerp(
-                    vignetteSettings.intensity.value,
-                    baseIntensity + flickerIntensity,
-                    Time.deltaTime * (healthPercent < 0.2f ? 5f : 3f)
-                );
-            }
-        }
+        //     if (healthPercent == 0)
+        //     {
+        //         vignetteSettings.intensity.value = Mathf.Lerp(
+        //         vignetteSettings.intensity.value,
+        //         1,
+        //         Time.deltaTime * 0.5f
+        //     );
+        //     }
+        //     else
+        //     {
+        //         // Otherwise, interpolate towards the base intensity with flicker
+        //         vignetteSettings.intensity.value = Mathf.Lerp(
+        //             vignetteSettings.intensity.value,
+        //             baseIntensity + flickerIntensity,
+        //             Time.deltaTime * (healthPercent < 0.2f ? 5f : 3f)
+        //         );
+        //     }
+        // }
     }
 
     void UpdateEnergy()
