@@ -98,31 +98,31 @@ Coroutines...
 [Back to the Top](#table-of-contents)
 
 ## Player Control
-The PlayerController script handles most of the core gameplay mechanics for the player, including movement, health, input, and special abilities.
+The **PlayerController** script handles most of the core gameplay mechanics for the player, including movement, health, input, and special abilities.
 ### Movement & Controls 
-Basic Movement: Directional movement with running, walking backward, jumping, and air dodging.
+**Basic Movement**: Directional movement with running, walking backward, jumping, and air dodging.
 
-Dodge System: Different animations and distances depending on the state (grounded, walking back, or airborne). Includes invincibility during dodge.
+**Dodge System**: Different animations and distances depending on the state (grounded, walking back, or airborne). Includes invincibility during dodge.
 
-Coyote Time: Implements a short grace period after leaving the ground to allow more responsive jumping.
+**Coyote Time**: Implements a short grace period after leaving the ground to allow more responsive jumping.
 
 ### Combat & Stats
-Gun Mechanics: Manages fire rate, reload speed, spread, ammo, and bullet types (e.g., ricochet, penetration).
+**Gun Mechanics**: Manages fire rate, reload speed, spread, ammo, and bullet types (e.g., ricochet, penetration).
 
-Bullet Time: Slows down global time for a short duration using a separate gauge. Player speed and animation adjust accordingly.
+**Bullet Time**: Slows down global time for a short duration using a separate gauge. Player speed and animation adjust accordingly.
 
-Damage System: Player can take and recover damage, with visual/audio feedback and temporary invincibility(i-frame).
+**Damage System**: Player can take and recover damage, with visual/audio feedback and temporary invincibility(i-frame).
 
 #### This controller serves as the central hub for player-related gameplay, enabling responsive control, dynamic combat, and integration with other systems like audio and UI.
 
 ## Enemies
-To manage multiple enemy types efficiently, we created an abstract base class called EnemyBase.cs. All six enemies (including bosses) inherit from this base, allowing shared logic for health, damage handling, and death.
+To manage multiple enemy types efficiently, we created an abstract base class called **EnemyBase.cs**. All six enemies (including bosses) inherit from this base, allowing shared logic for health, damage handling, and death.
 ### Shared Behaviors 
-Health Management: Each enemy has maxHealth, currentHealth, and a resourceAmount rewarded upon death.
+**Health Management**: Each enemy has maxHealth, currentHealth, and a resourceAmount rewarded upon death.
 
-Damage Handling: Supports both instant and over-time damage.
+**Damage Handling**: Supports both instant and over-time damage.
 
-Status Effect: Status from bullet modifiers such as corrosive effect.
+**Status Effect**: Status from bullet modifiers such as corrosive effect.
 
 ### Flexibility and customization
 Enemies can override methods like Die() to customize behavior (e.g., custom death animation).
@@ -139,45 +139,45 @@ The shooting system combines bullet behavior, weapon modifiers, and aiming logic
 ### Bullet Logic
 Each bullet is an independent object with its own speed, direction, lifetime, and damage. Upon hitting an enemy, it applies damage and optionally triggers effects like healing, corrosive DoT, or combo bonuses depending on the bullet type.
 
-Hit Detection: Uses OnTriggerEnter2D to detect enemy contact.
+**Hit Detection**: Uses OnTriggerEnter2D to detect enemy contact.
 
-Visual Feedback: Displays hitmarkers and floating damage numbers.
+**Visual Feedback**: Displays hitmarkers and floating damage numbers.
 
-Bullet Types: Includes variants like ricochet, penetration, lifesteal, corrosive, tracking, and combo bullets. 
+**Bullet Types**: Includes variants like ricochet, penetration, lifesteal, corrosive, tracking, and combo bullets. 
 Each type has unique behavior (e.g., bouncing off walls or seeking enemies).
 
 ### Aiming
 The Aim script handles arm and head rotation based on mouse position. 
 It also flips the player’s sprite to face the correct direction. This ensures that the aiming visuals stay accurate and immersive.
 
-Head & Arm Tracking: Tracks mouse position in real time unless paused.
+**Head & Arm Tracking**: Tracks mouse position in real time unless paused.
 
-Sprite Flipping: Ensures player faces toward the cursor direction.
+**Sprite Flipping**: Ensures player faces toward the cursor direction.
 
-Angle Clamping: Prevents unnatural head rotation by limiting angle ranges.
+**Angle Clamping**: Prevents unnatural head rotation by limiting angle ranges.
 
 #### This system enables diverse shooting behaviors with minimal changes to the core structure.
 
 ## Procedural Gun Generation
-To encourage replayability and variety, the game features a procedural gun generation system that creates randomized weapons with different stats, appearances, and rarities.
+To encourage replayability and variety, the game features a **procedural gun generation** system that creates randomized weapons with different stats, appearances, and rarities.
 
 ### Generation Logic
 
 Guns are generated through an interactable GunCreate station. Each generated gun has:
 
-Rarity Tier: Common, Uncommon, Rare, Legendary
+**Rarity Tier**: Common, Uncommon, Rare, Legendary
 
-Part Levels: Barrel, Frame, Magazine (randomly distributed within max tier level)
+**Part Levels**: Barrel, Frame, Magazine (randomly distributed within max tier level)
 
-Grip Type: Determines base stats like damage and fire rate
+**Grip Type**: Determines base stats like damage and fire rate
 
-Bullet Type: Added based on rarity to affect combat behavior (e.g., lifesteal, tracking)
+**Bullet Type**: Added based on rarity to affect combat behavior (e.g., lifesteal, tracking)
 
-A pity system ensures higher-tier guns appear periodically (e.g., every 20 guns guarantees a Legendary).
+A **pity system** ensures higher-tier guns appear periodically (e.g., every 20 guns guarantees a Legendary).
 
 ### Legendary Guns
 
-Legendary weapons are defined separately using a data structure (LegendaryGunData) and have handcrafted stats and unique bullet types that cannot be rolled procedurally.
+Legendary weapons are defined separately using a data structure (**LegendaryGunData**) and have handcrafted stats and unique bullet types that cannot be rolled procedurally.
 
 ### Recycling & Interaction
 
@@ -190,7 +190,7 @@ Stat panels and visuals update in real time when hovering over a gun.
 #### This system delivers meaningful weapon variety while keeping generation rules controlled and expandable.
 
 ## Animation(Rigging)
-To create fluid character movement and reduce the need for frame-by-frame sprites, I used 2D skeletal animation via Unity's built-in 2D Animation Package.
+To create fluid character movement and reduce the need for frame-by-frame sprites, I used **2D skeletal animation** via Unity's built-in 2D Animation Package.
 
 ### Bone Rigging
 
@@ -207,10 +207,6 @@ Animations like idle, walk, jump, and dodge are handled through Unity’s Animat
 ## Shader
 
 ## FMOD (Audio)
-
-## Procedural Content Generation (PCG)
-
-## Rigging (Animation)
 
 ## ?
 
