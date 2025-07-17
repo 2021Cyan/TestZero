@@ -19,11 +19,13 @@
     - [Version Control]()
     - [Build]()
 2. [Key points in Test Zero](https://github.com/2021Cyan/INTD450#Key-points-in-Test-Zero)
-    - [2D Light]()
-    - [Shader]()
-    - [FMOD (Audio)]()
+    - [Player Control]()
+    - [Enemies]()
+    - [Shooting]()
     - [Procedural Content Generation (PCG)]()
     - [Rigging (Animation)]()
+    - [Shader]()
+    - [FMOD (Audio)]()
     - [?]()
 
 # Basics in Unity
@@ -94,6 +96,111 @@ Coroutines...
 # Key points in Test Zero
 
 [Back to the Top](#table-of-contents)
+
+## Player Control
+The PlayerController script handles most of the core gameplay mechanics for the player, including movement, health, input, and special abilities.
+### Movement & Controls 
+Basic Movement: Directional movement with running, walking backward, jumping, and air dodging.
+
+Dodge System: Different animations and distances depending on the state (grounded, walking back, or airborne). Includes invincibility during dodge.
+
+Coyote Time: Implements a short grace period after leaving the ground to allow more responsive jumping.
+
+### Combat & Stats
+Gun Mechanics: Manages fire rate, reload speed, spread, ammo, and bullet types (e.g., ricochet, penetration).
+
+Bullet Time: Slows down global time for a short duration using a separate gauge. Player speed and animation adjust accordingly.
+
+Damage System: Player can take and recover damage, with visual/audio feedback and temporary invincibility(i-frame).
+
+#### This controller serves as the central hub for player-related gameplay, enabling responsive control, dynamic combat, and integration with other systems like audio and UI.
+
+## Enemies
+To manage multiple enemy types efficiently, we created an abstract base class called EnemyBase.cs. All six enemies (including bosses) inherit from this base, allowing shared logic for health, damage handling, and death.
+### Shared Behaviors 
+Health Management: Each enemy has maxHealth, currentHealth, and a resourceAmount rewarded upon death.
+
+Damage Handling: Supports both instant and over-time damage.
+
+Status Effect: Status from bullet modifiers such as corrosive effect.
+
+### Flexibility and customization
+Enemies can override methods like Die() to customize behavior (e.g., custom death animation).
+
+Utility functions like Smite() or ZeroResourceAmount() help with scripted kills or disabling rewards.
+
+Additionally, each enemy can be equipped with its own unique behavior or ability logic, allowing for further AI customization 
+without affecting the shared base. For example, some enemies may summon minions, or change attack patterns based on health.
+
+#### This system makes it easy to create new enemy types while keeping the core logic centralized and maintainable.
+
+## Shooting
+The shooting system combines bullet behavior, weapon modifiers, and aiming logic to create a responsive and flexible combat mechanic.
+### Bullet Logic
+Each bullet is an independent object with its own speed, direction, lifetime, and damage. Upon hitting an enemy, it applies damage and optionally triggers effects like healing, corrosive DoT, or combo bonuses depending on the bullet type.
+
+Hit Detection: Uses OnTriggerEnter2D to detect enemy contact.
+
+Visual Feedback: Displays hitmarkers and floating damage numbers.
+
+Bullet Types: Includes variants like ricochet, penetration, lifesteal, corrosive, tracking, and combo bullets. 
+Each type has unique behavior (e.g., bouncing off walls or seeking enemies).
+
+### Aiming
+The Aim script handles arm and head rotation based on mouse position. 
+It also flips the player’s sprite to face the correct direction. This ensures that the aiming visuals stay accurate and immersive.
+
+Head & Arm Tracking: Tracks mouse position in real time unless paused.
+
+Sprite Flipping: Ensures player faces toward the cursor direction.
+
+Angle Clamping: Prevents unnatural head rotation by limiting angle ranges.
+
+#### This system enables diverse shooting behaviors with minimal changes to the core structure.
+
+## Procedural Gun Generation
+To encourage replayability and variety, the game features a procedural gun generation system that creates randomized weapons with different stats, appearances, and rarities.
+
+### Generation Logic
+
+Guns are generated through an interactable GunCreate station. Each generated gun has:
+
+Rarity Tier: Common, Uncommon, Rare, Legendary
+
+Part Levels: Barrel, Frame, Magazine (randomly distributed within max tier level)
+
+Grip Type: Determines base stats like damage and fire rate
+
+Bullet Type: Added based on rarity to affect combat behavior (e.g., lifesteal, tracking)
+
+A pity system ensures higher-tier guns appear periodically (e.g., every 20 guns guarantees a Legendary).
+
+### Legendary Guns
+
+Legendary weapons are defined separately using a data structure (LegendaryGunData) and have handcrafted stats and unique bullet types that cannot be rolled procedurally.
+
+### Recycling & Interaction
+
+Guns can be recycled for partial resource refunds based on rarity.
+
+Players can spawn multiple guns at once by holding the interact button.
+
+Stat panels and visuals update in real time when hovering over a gun.
+
+#### This system delivers meaningful weapon variety while keeping generation rules controlled and expandable.
+
+## Animation(Rigging)
+To create fluid character movement and reduce the need for frame-by-frame sprites, I used 2D skeletal animation via Unity's built-in 2D Animation Package.
+
+### Bone Rigging
+
+Characters are composed of multiple sprite parts (e.g., torso, arms, legs) connected through a bone hierarchy. Each bone controls a specific body part, allowing for smooth and reusable animations like walking, jumping, or aiming.
+
+### Animator
+
+Animations like idle, walk, jump, and dodge are handled through Unity’s Animator Controller, using state transitions to create fluid animation.
+
+#### This setup enables reusable animations with minimal sprite assets and consistent motion quality.
 
 ## 2D Light
 
