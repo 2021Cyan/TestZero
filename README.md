@@ -8,6 +8,8 @@
 
 #### The journal will explore the path and hardships we experienced throughout the development of a 2D shooter with Unity. We hope it will help whoever is interested in game development, especially with Unity, to learn from our experiences.
 
+### Note: Anything in this journal might be outdated or not best practice. It is meant to be a learning resource, not a definitive guide. Always refer to the latest Unity documentation and community resources for up-to-date information.
+
 # Table of Contents
 
 1. [Basics in Unity](https://github.com/2021Cyan/INTD450#Basics-in-Unity)
@@ -40,44 +42,125 @@ Entities are the objects in your game, such as a player or an enemy. Components 
 
 In Unity, GameObjects are the entities. Interesting thing is that GameObjects can work as folders. You can organize your GameObjects in a hierarchy, where a GameObject can have child GameObjects.
 
-<div style="display: flex; align-items: flex-start;">
-    <!-- Left section - Image -->
-    <div style="flex: 1; padding-right: 20px;">
-        <img src="./DevJournal/Basic/GameObject&Component/Scene.png" width="100%">
-    </div>
-    <div style="flex: 1;">
-        <h3>Object Hierarchy</h3>
-        <p>This is the Unity Scene view showing the GameObject hierarchy. Notice how objects are organized in parent-child relationships, allowing for grouped transformations and better scene organization.</p>
-    </div>
-</div>
+<p align="center">
+ <img src="./DevJournal/Basic/GameObject&Component/Scene.png" width="70%">
+  <br />
+  Object Hierarchy
+</p>
+
+Notice how objects are organized in parent-child relationships, allowing for grouped transformations and better scene organization.
+
+<p align="center">
+ <img src="./DevJournal/Basic/GameObject&Component/Comp.png">
+  <br />
+  Scene View
+</p>
+
+Components can include scripts, physics properties, renderers, and more.
 
 Each GameObject can contain multiple components that define its behavior and appearance. In this scene, each wall and ceiling object contains a BoxCollider2D component, which allows them to interact with other objects in the game world. These BoxColliders are represented by the green outlines visible in the scene view. 
 
 While these objects also have SpriteRenderer components (which would normally make them visible), they aren't visually apparent in the scene because this level uses a tile-based approach for visuals rather than individual sprites for background and each collision object.
 
-<div style="display: flex; align-items: flex-start;">
-    <!-- Left section - Image -->
-    <div style="flex: 1; padding-right: 20px;">
-        <img src="./DevJournal/Basic/GameObject&Component/Comp.png" width="100%">
-    </div>
-    <div style="flex: 1;">
-        <h3>Scene View</h3>
-        <p>This is the Unity Scene view.</p>
-        <p>Components can include scripts, physics properties, renderers, and more.</p>
-    </div>
-</div>
-
-
-
 ## Camera & UI
 
 The Camera is the viewpoint of the game. It determines what is visible on the screen. UI (User Interface) is the visual elements that allow players to interact with the game, such as menus, buttons, and HUD (Heads-Up Display).
 
+<p align="center">
+ <img src="./DevJournal/Basic/Cam&UI/cam.png">
+  <br />
+  Scene View (left) and Game View (right) with 2D view
+</p>
+
+White outlines represent the camera's viewport in the Scene View, showing what will be visible in the Game View. The Game View displays the actual game as players will see it.
+
+<p align="center">
+ <img src="./DevJournal/Basic/Cam&UI/cam3d.png" width="70%">
+  <br />
+  Scene View with 3D view
+</p>
+
+Although this game is 2D, you might have to consider the camera's perspective and how it affects the player's view of the game world. Sometimes, it helps to change camera perspective to see how the game looks from different angles, especially when debugging or designing levels.
+
+<p align="center">
+ <img src="./DevJournal/Basic/Cam&UI/UI.png">
+  <br />
+  Scene View (left) and Game View (right)
+</p>
+
+This is an example of a simple UI button setup. Interesting thing is that these UI elements are not visible in the Scene view, but they are visible in the Game view. This is because UI elements are rendered on top of the game world, allowing players to interact with them without interfering with the game objects.
+
+<p align="center">
+ <img src="./DevJournal/Basic/Cam&UI/UI_zoomed_out.png" width="70%">
+  <br />
+    Scene View with camera zoomed out
+</p>
+
+If you zoom out the scene view, you can see how the UI elements are positioned relative to the camera.
+
+<p align="center">
+ <img src="./DevJournal/Basic/Cam&UI/UI_overlay.png">
+  <br />
+    Overlay
+</p>
+
+This is an example of a UI overlay that displays the player's health and ammo. The overlay is positioned in the top left corner of the screen, and it updates in real time as the player takes damage or uses ammo.
+
 ## Input Handling
 
-Old Input System VS New Input System
+There are two main ways to handle user input in Unity: the **Old Input System** and the **New Input System**.
 
-Check usr input through Update() or through Events.
+### Old Input System 
+Old Input System is very simple and easy to use.
+
+```csharp
+public class OldInputSystem : MonoBehaviour
+{
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("Space key was pressed");
+        }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            Debug.Log("Space key was pressed");
+        }
+    }
+}
+```
+
+One of the ways to handle user input is through the Update() method, which is called once per frame. 
+
+Note that **Input.GetKeyDown()** checks if a key was pressed down during the current frame, while **Input.GetKey()** checks if a key is being held down. If I hold the space key, the first log will be printed once while the second log will be printed every frame until I release the key.
+
+I am not sure if there is another way to manage user input in the Old Input System. However, This method is not ideal for all cases, as it can lead to performance issues if not managed properly.
+
+### New Input System 
+
+The New Input System provides a more flexible and efficient way to handle user input. Instead of checking for input in the Update() method, you can use events to respond to user input. This allows you to handle input more efficiently and reduces the need for constant polling.
+
+Understanding these terms would be helpful when using the New Input System:
+
+- **Subscription**: A way to register a method to be called when an input action is triggered.
+
+- **Action**: Represents a specific input action, such as "Jump" or "Fire". Actions can be bound to multiple input devices (keyboard, gamepad, etc.).
+
+- **Action Map**: A collection of related actions, allowing you to group input actions together.
+
+- **Input Action Asset**: A file that defines input actions and their bindings.
+
+<p align="center">
+ <img src="./DevJournal/Basic/InputSys/inputmap.png" width="70%">
+  <br />
+    Input Action Asset
+</p>
+
+Input Action Asset is a file that defines the input actions and their bindings (key or button combinations). There can be multiple action maps within a single Input Action Asset, allowing you to organize your input actions based on different contexts (e.g., gameplay, menu navigation).
+
+In the example above, there are two action maps: "Player" and "UI". The "Player" action map contains actions for movement, jumping, and shooting, while the "UI" action map contains actions for navigating menus.
+
+The idea of having multiple action maps is to allow you to switch between different sets of input actions based on the current context of the game. However, you can manage all input actions within a single action map if you prefer simplicity.
 
 ## Optimization
 
