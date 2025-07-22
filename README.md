@@ -242,6 +242,13 @@ It also flips the player’s sprite to face the correct direction. This ensures 
 #### This system enables diverse shooting behaviors with minimal changes to the core structure.
 
 ## Procedural Gun Generation
+
+<p align="center">
+ <img src="./DevJournal/Basic/GameObject&Component/pcg.png">
+  <br />
+  Procedurally generated weapons
+</p>
+
 To encourage replayability and variety, the game features a **procedural gun generation** system that creates randomized weapons with different stats, appearances, and rarities.
 
 ### Generation Logic
@@ -273,6 +280,13 @@ Stat panels and visuals update in real time when hovering over a gun.
 #### This system delivers meaningful weapon variety while keeping generation rules controlled and expandable.
 
 ## Animation(Rigging)
+
+<p align="center">
+ <img src="./DevJournal/Basic/GameObject&Component/bone.png">
+  <br />
+  Bone
+</p>
+
 To create fluid character movement and reduce the need for frame-by-frame sprites, I used **2D skeletal animation** via Unity's built-in 2D Animation Package.
 
 ### Bone Rigging
@@ -280,6 +294,12 @@ To create fluid character movement and reduce the need for frame-by-frame sprite
 Characters are composed of multiple sprite parts (e.g., torso, arms, legs) connected through a bone hierarchy. Each bone controls a specific body part, allowing for smooth and reusable animations like walking, jumping, or aiming.
 
 ### Animator
+
+<p align="center">
+ <img src="./DevJournal/Basic/GameObject&Component/Animator.png">
+  <br />
+  Animator
+</p>
 
 Animations like idle, walk, jump, and dodge are handled through Unity’s Animator Controller, using state transitions to create fluid animation.
 
