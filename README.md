@@ -8,31 +8,43 @@
 
 #### The journal will explore the path and hardships we experienced throughout the development of a 2D shooter with Unity. We hope it will help whoever is interested in game development, especially with Unity, to learn from our experiences.
 
-### Note: Anything in this journal might be outdated or not best practice. It is meant to be a learning resource, not a definitive guide. Always refer to the latest Unity documentation and community resources for up-to-date information.
+> **Note:** Anything in this journal might be outdated or not best practice. It is meant to be a learning resource, not a definitive guide. Always refer to the latest Unity documentation and community resources for up-to-date information.
 
 # Table of Contents
 
-1. [Basics in Unity](#basics-in-unity)
-    - [GameObjects and Components](#gameobjects-and-components)
-    - [Camera & UI](#camera-ui)
-    - [Input Handling](#input-handling)
-        - [Old Input System](#old-input-system)
-        - [New Input System](#new-input-system)
-    - [Optimization](#optimization)
-        - [Reduce use of Update() method](#reduce-use-of-updatemethod)
-        - [Events](#events)
-        - [Coroutines](#coroutines)
-    - [Debugging](#debugging)
-    - [Build](#build)
-2. [Key points in Test Zero](https://github.com/2021Cyan/INTD450#Key-points-in-Test-Zero)
-    - [Player Control]()
-    - [Enemies]()
-    - [Shooting]()
-    - [Procedural Content Generation (PCG)]()
-    - [Rigging (Animation)]()
-    - [Shader]()
-    - [FMOD (Audio)]()
-    - [?]()
+- [Table of Contents](#table-of-contents)
+- [Basics in Unity](#basics-in-unity)
+  - [GameObjects and Components](#gameobjects-and-components)
+  - [Camera \& UI](#camera--ui)
+  - [Input Handling](#input-handling)
+    - [Old Input System](#old-input-system)
+    - [New Input System](#new-input-system)
+  - [Optimization](#optimization)
+    - [Events](#events)
+    - [Coroutines](#coroutines)
+  - [Debugging](#debugging)
+  - [Build](#build)
+- [Key points in Test Zero](#key-points-in-test-zero)
+  - [Player Control](#player-control)
+    - [Movement \& Controls](#movement--controls)
+    - [Combat \& Stats](#combat--stats)
+  - [Enemies](#enemies)
+    - [Shared Behaviors](#shared-behaviors)
+    - [Flexibility and customization](#flexibility-and-customization)
+  - [Shooting](#shooting)
+    - [Bullet Logic](#bullet-logic)
+    - [Aiming](#aiming)
+  - [Procedural Gun Generation](#procedural-gun-generation)
+    - [Generation Logic](#generation-logic)
+    - [Legendary Guns](#legendary-guns)
+    - [Recycling \& Interaction](#recycling--interaction)
+  - [Animation(Rigging)](#animationrigging)
+    - [Bone Rigging](#bone-rigging)
+    - [Animator](#animator)
+  - [2D Light](#2d-light)
+  - [Shader](#shader)
+  - [FMOD (Audio)](#fmod-audio)
+  - [?](#)
 
 # Basics in Unity
 
@@ -179,8 +191,6 @@ The idea of having multiple action maps is to allow you to switch between differ
 
 There are several ways to optimize your Unity game for better performance. Here are some tips I found useful:
 
-### Reduce use of Update() method
-
 The Update() method is called once per frame, which can lead to performance issues if used excessively. Instead, consider using events or coroutines to handle input and other time-sensitive actions.
 
 ### Events
@@ -228,9 +238,16 @@ You can use the OnCollisionEnter2D() method to detect collisions. This method is
 
 According to [Unity's documentation](https://learn.unity.com/tutorial/coroutines#yLp09thJhNvnon365AImrC), "Coroutines provide an excellent way of easily managing things that need to happen after a delay or over the course of time. They prevent Update methods from becoming bloated with timers and the other workings required to achieve the same outcome with a different approach."
 
+
 <p align="center">
-    <video src="./DevJournal/Basic/Opt/SpotLight.mp4" controls autoplay loop width="600"></video>
-    <video src="./DevJournal/Basic/Opt/SpotLight1.mp4" controls autoplay loop width="600"></video>
+ <video src="./DevJournal/Basic/Opt/SpotLight.mp4" controls width="500"></video>
+</p>
+
+<video src="./DevJournal/Basic/Opt/SpotLight.mp4" controls width="500"></video>
+
+<p align="center">
+    <video src="./DevJournal/Basic/Opt/SpotLight.mp4" controls autoplay loop width=60%></video>
+    <video src="./DevJournal/Basic/Opt/SpotLight1.mp4" controls autoplay loop width=60%></video>
     <br />
     Spot light (left) and Spot light with coroutine (right)
 </p>
@@ -349,7 +366,11 @@ Some errors, especially null reference errors, may be caused by issues with the 
 
 ## Player Control
 The **PlayerController** script handles most of the core gameplay mechanics for the player, including movement, health, input, and special abilities.
-### Movement & Controls 
+
+### Movement & Controls
+
+[Back to the Top](#table-of-contents)
+
 **Basic Movement**: Directional movement with running, walking backward, jumping, and air dodging.
 
 **Dodge System**: Different animations and distances depending on the state (grounded, walking back, or airborne). Includes invincibility during dodge.
@@ -357,17 +378,25 @@ The **PlayerController** script handles most of the core gameplay mechanics for 
 **Coyote Time**: Implements a short grace period after leaving the ground to allow more responsive jumping.
 
 ### Combat & Stats
+
+[Back to the Top](#table-of-contents)
+
 **Gun Mechanics**: Manages fire rate, reload speed, spread, ammo, and bullet types (e.g., ricochet, penetration).
 
 **Bullet Time**: Slows down global time for a short duration using a separate gauge. Player speed and animation adjust accordingly.
 
 **Damage System**: Player can take and recover damage, with visual/audio feedback and temporary invincibility(i-frame).
 
-#### This controller serves as the central hub for player-related gameplay, enabling responsive control, dynamic combat, and integration with other systems like audio and UI.
+> This controller serves as the central hub for player-related gameplay, enabling responsive control, dynamic combat, and integration with other systems like audio and UI.
 
 ## Enemies
+
 To manage multiple enemy types efficiently, we created an abstract base class called **EnemyBase.cs**. All six enemies (including bosses) inherit from this base, allowing shared logic for health, damage handling, and death.
+
 ### Shared Behaviors 
+
+[Back to the Top](#table-of-contents)
+
 **Health Management**: Each enemy has maxHealth, currentHealth, and a resourceAmount rewarded upon death.
 
 **Damage Handling**: Supports both instant and over-time damage.
@@ -375,6 +404,9 @@ To manage multiple enemy types efficiently, we created an abstract base class ca
 **Status Effect**: Status from bullet modifiers such as corrosive effect.
 
 ### Flexibility and customization
+
+[Back to the Top](#table-of-contents)
+
 Enemies can override methods like Die() to customize behavior (e.g., custom death animation).
 
 Utility functions like Smite() or ZeroResourceAmount() help with scripted kills or disabling rewards.
@@ -382,11 +414,15 @@ Utility functions like Smite() or ZeroResourceAmount() help with scripted kills 
 Additionally, each enemy can be equipped with its own unique behavior or ability logic, allowing for further AI customization 
 without affecting the shared base. For example, some enemies may summon minions, or change attack patterns based on health.
 
-#### This system makes it easy to create new enemy types while keeping the core logic centralized and maintainable.
+> This system makes it easy to create new enemy types while keeping the core logic centralized and maintainable.
 
 ## Shooting
 The shooting system combines bullet behavior, weapon modifiers, and aiming logic to create a responsive and flexible combat mechanic.
+
 ### Bullet Logic
+
+[Back to the Top](#table-of-contents)
+
 Each bullet is an independent object with its own speed, direction, lifetime, and damage. Upon hitting an enemy, it applies damage and optionally triggers effects like healing, corrosive DoT, or combo bonuses depending on the bullet type.
 
 **Hit Detection**: Uses OnTriggerEnter2D to detect enemy contact.
@@ -397,6 +433,9 @@ Each bullet is an independent object with its own speed, direction, lifetime, an
 Each type has unique behavior (e.g., bouncing off walls or seeking enemies).
 
 ### Aiming
+
+[Back to the Top](#table-of-contents)
+
 The Aim script handles arm and head rotation based on mouse position. 
 It also flips the player’s sprite to face the correct direction. This ensures that the aiming visuals stay accurate and immersive.
 
@@ -406,7 +445,7 @@ It also flips the player’s sprite to face the correct direction. This ensures 
 
 **Angle Clamping**: Prevents unnatural head rotation by limiting angle ranges.
 
-#### This system enables diverse shooting behaviors with minimal changes to the core structure.
+> This system enables diverse shooting behaviors with minimal changes to the core structure.
 
 ## Procedural Gun Generation
 
@@ -419,6 +458,8 @@ It also flips the player’s sprite to face the correct direction. This ensures 
 To encourage replayability and variety, the game features a **procedural gun generation** system that creates randomized weapons with different stats, appearances, and rarities.
 
 ### Generation Logic
+
+[Back to the Top](#table-of-contents)
 
 Guns are generated through an interactable GunCreate station. Each generated gun has:
 
@@ -434,9 +475,13 @@ A **pity system** ensures higher-tier guns appear periodically (e.g., every 20 g
 
 ### Legendary Guns
 
+[Back to the Top](#table-of-contents)
+
 Legendary weapons are defined separately using a data structure (**LegendaryGunData**) and have handcrafted stats and unique bullet types that cannot be rolled procedurally.
 
 ### Recycling & Interaction
+
+[Back to the Top](#table-of-contents)
 
 Guns can be recycled for partial resource refunds based on rarity.
 
@@ -444,7 +489,7 @@ Players can spawn multiple guns at once by holding the interact button.
 
 Stat panels and visuals update in real time when hovering over a gun.
 
-#### This system delivers meaningful weapon variety while keeping generation rules controlled and expandable.
+> This system delivers meaningful weapon variety while keeping generation rules controlled and expandable.
 
 ## Animation(Rigging)
 
@@ -458,9 +503,13 @@ To create fluid character movement and reduce the need for frame-by-frame sprite
 
 ### Bone Rigging
 
+[Back to the Top](#table-of-contents)
+
 Characters are composed of multiple sprite parts (e.g., torso, arms, legs) connected through a bone hierarchy. Each bone controls a specific body part, allowing for smooth and reusable animations like walking, jumping, or aiming.
 
 ### Animator
+
+[Back to the Top](#table-of-contents)
 
 <p align="center">
  <img src="./DevJournal/Basic/GameObject&Component/Animator.png">
@@ -470,13 +519,19 @@ Characters are composed of multiple sprite parts (e.g., torso, arms, legs) conne
 
 Animations like idle, walk, jump, and dodge are handled through Unity’s Animator Controller, using state transitions to create fluid animation.
 
-#### This setup enables reusable animations with minimal sprite assets and consistent motion quality.
+> This setup enables reusable animations with minimal sprite assets and consistent motion quality.
 
 ## 2D Light
 
+[Back to the Top](#table-of-contents)
+
 ## Shader
 
+[Back to the Top](#table-of-contents)
+
 ## FMOD (Audio)
+
+[Back to the Top](#table-of-contents)
 
 ## ?
 
