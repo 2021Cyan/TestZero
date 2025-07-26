@@ -238,16 +238,9 @@ You can use the OnCollisionEnter2D() method to detect collisions. This method is
 
 According to [Unity's documentation](https://learn.unity.com/tutorial/coroutines#yLp09thJhNvnon365AImrC), "Coroutines provide an excellent way of easily managing things that need to happen after a delay or over the course of time. They prevent Update methods from becoming bloated with timers and the other workings required to achieve the same outcome with a different approach."
 
-
 <p align="center">
- <video src="./DevJournal/Basic/Opt/SpotLight.mp4" controls width="500"></video>
-</p>
-
-<video src="./DevJournal/Basic/Opt/SpotLight.mp4" controls width="500"></video>
-
-<p align="center">
-    <video src="./DevJournal/Basic/Opt/SpotLight.mp4" controls autoplay loop width=60%></video>
-    <video src="./DevJournal/Basic/Opt/SpotLight1.mp4" controls autoplay loop width=60%></video>
+    <img src="./DevJournal/Basic/Opt/SpotLight.gif" width="45%" />
+    <img src="./DevJournal/Basic/Opt/SpotLight1.gif" width="45%" />
     <br />
     Spot light (left) and Spot light with coroutine (right)
 </p>
@@ -317,8 +310,8 @@ RotateByAngle is a coroutine that rotates the light head by a specified angle ov
 [Back to the Top](#table-of-contents)
 
 <p align="center">
- <img src="./DevJournal/Basic/Debug/consoletab.png" width="800">
- <img src="./DevJournal/Basic/Debug/console.png" width="600">
+ <img src="./DevJournal/Basic/Debug/consoletab.png" width="35%">
+ <img src="./DevJournal/Basic/Debug/console.png" width="35%">
  <br />
     Console Tab
 </p>
@@ -352,8 +345,8 @@ When it is built, **Development Build** option can be enabled to see the console
 Although the game works perfectly in the **Unity editor**, it may not work as expected when **built**. Sometimes, it does not even run at all because of critical errors. 
 
 <p align="center">
- <img src="./DevJournal/Basic/Build/ScriptExecutionOrder1.png" width="350">
- <img src="./DevJournal/Basic/Build/ScriptExecutionOrder.png" width="600">
+ <img src="./DevJournal/Basic/Build/ScriptExecutionOrder1.png" width="30%">
+ <img src="./DevJournal/Basic/Build/ScriptExecutionOrder.png" width="60%">
   <br />
     Script Execution Order
 </p>
