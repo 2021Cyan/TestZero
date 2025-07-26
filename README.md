@@ -12,14 +12,18 @@
 
 # Table of Contents
 
-1. [Basics in Unity](https://github.com/2021Cyan/INTD450#Basics-in-Unity)
-    - [GameObjects and Components]()
-    - [Camera & UI]()
-    - [Input Handling]()
-    - [Optimization]()
-    - [Debugging]()
-    - [Version Control]()
-    - [Build]()
+1. [Basics in Unity](#basics-in-unity)
+    - [GameObjects and Components](#gameobjects-and-components)
+    - [Camera & UI](#camera-ui)
+    - [Input Handling](#input-handling)
+        - [Old Input System](#old-input-system)
+        - [New Input System](#new-input-system)
+    - [Optimization](#optimization)
+        - [Reduce use of Update() method](#reduce-use-of-updatemethod)
+        - [Events](#events)
+        - [Coroutines](#coroutines)
+    - [Debugging](#debugging)
+    - [Build](#build)
 2. [Key points in Test Zero](https://github.com/2021Cyan/INTD450#Key-points-in-Test-Zero)
     - [Player Control]()
     - [Enemies]()
@@ -39,6 +43,8 @@ If you have little expereince in programing languages, you would have heard of O
 Entities are the objects in your game, such as a player or an enemy. Components are the data and functionality that tell the entity how to behave, such as its position, health, or what it can do. Systems are the logic that processes the components of entities. In other words, systems are to control the behaviors of entities based on their components.
 
 ## GameObjects and Components
+
+[Back to the Top](#table-of-contents)
 
 In Unity, GameObjects are the entities. Interesting thing is that GameObjects can work as folders. You can organize your GameObjects in a hierarchy, where a GameObject can have child GameObjects.
 
@@ -63,6 +69,8 @@ Each GameObject can contain multiple components that define its behavior and app
 While these objects also have SpriteRenderer components (which would normally make them visible), they aren't visually apparent in the scene because this level uses a tile-based approach for visuals rather than individual sprites for background and each collision object.
 
 ## Camera & UI
+
+[Back to the Top](#table-of-contents)
 
 The Camera is the viewpoint of the game. It determines what is visible on the screen. UI (User Interface) is the visual elements that allow players to interact with the game, such as menus, buttons, and HUD (Heads-Up Display).
 
@@ -111,6 +119,9 @@ This is an example of a UI overlay that displays the player's health and ammo. T
 There are two main ways to handle user input in Unity: the **Old Input System** and the **New Input System**.
 
 ### Old Input System 
+
+[Back to the Top](#table-of-contents)
+
 Old Input System is very simple and easy to use.
 
 ```csharp
@@ -138,6 +149,8 @@ I am not sure if there is another way to manage user input in the Old Input Syst
 
 ### New Input System 
 
+[Back to the Top](#table-of-contents)
+
 The New Input System provides a more flexible and efficient way to handle user input. Instead of checking for input in the Update() method, you can use events to respond to user input. This allows you to handle input more efficiently and reduces the need for constant polling.
 
 Understanding these terms would be helpful when using the New Input System:
@@ -164,17 +177,171 @@ The idea of having multiple action maps is to allow you to switch between differ
 
 ## Optimization
 
-Reduce the use of Update(). Use events or coroutines where possible to reduce unnecessary processing.
+There are several ways to optimize your Unity game for better performance. Here are some tips I found useful:
 
-Events...
+### Reduce use of Update() method
 
-Coroutines...
+The Update() method is called once per frame, which can lead to performance issues if used excessively. Instead, consider using events or coroutines to handle input and other time-sensitive actions.
+
+### Events
+
+[Back to the Top](#table-of-contents)
+
+Let's say you want to run some code whenever the player is close to an object. 
+
+```csharp
+void Update()
+    {
+        if (Player != null)
+        {
+            float distance = Vector3.Distance(Player.transform.position, transform.position);
+            if (distance < 5f)
+            {
+                Debug.Log("Player is close to the object.");
+            }
+        }
+    }
+```
+
+If you use the Update() method, it will calculate the distance every frame. If there are many objects in the scene and each object has this script, it can lead to performance issues.
+
+The more complicated the logic in the Update() method, the more performance issues you will encounter.
+
+Collider is one of the most popular components you would use. It allows you to detect collisions between objects.
+
+```csharp
+void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // Perform the desired action when the player collides with this object
+            Debug.Log("Player collided with the Opt object.");
+        }
+    }
+```
+
+You can use the OnCollisionEnter2D() method to detect collisions. This method is called only when a collision occurs, which reduces the number of calculations and improves performance.
+
+### Coroutines
+
+[Back to the Top](#table-of-contents)
+
+According to [Unity's documentation](https://learn.unity.com/tutorial/coroutines#yLp09thJhNvnon365AImrC), "Coroutines provide an excellent way of easily managing things that need to happen after a delay or over the course of time. They prevent Update methods from becoming bloated with timers and the other workings required to achieve the same outcome with a different approach."
+
+<p align="center">
+    <video src="./DevJournal/Basic/Opt/SpotLight.mp4" controls autoplay loop width="600"></video>
+    <video src="./DevJournal/Basic/Opt/SpotLight1.mp4" controls autoplay loop width="600"></video>
+    <br />
+    Spot light (left) and Spot light with coroutine (right)
+</p>
+
+It is possible to achieve the same effect with the Update() method, but it would be easier to manage the code with a coroutine.
+
+```csharp
+public class SpotLightController : MonoBehaviour
+{
+    [SerializeField] private float _time = 3f;
+    [SerializeField] private float _rotationAngle = 30f;
+    [SerializeField] private bool _rotateLeft = true;
+    private Transform _lightHead;
+
+    private void Awake()
+    {
+        _lightHead = transform.GetChild(0);
+        StartCoroutine("RotateLightHead");
+    }
+}
+```
+
+As soong as the script is initialized, it starts the coroutine "RotateLightHead". The coroutine will run in the background and rotate the light head continuously.
+
+```csharp
+IEnumerator RotateLightHead()
+    {
+        while (true)
+        {
+            int direction = _rotateLeft ? 1 : -1;
+            
+            // First rotation
+            yield return RotateByAngle(direction * _rotationAngle);
+            // Return to origin
+            yield return RotateByAngle(-direction * _rotationAngle);
+
+            // Second rotation (opposite direction)
+            yield return RotateByAngle(-direction * _rotationAngle);
+            // Return to origin
+            yield return RotateByAngle(direction * _rotationAngle);
+        }
+    }
+
+IEnumerator RotateByAngle(float angle)
+    {
+        float startAngle = _lightHead.localRotation.eulerAngles.z;
+        if (startAngle > 180f) startAngle -= 360f; // Normalize angle
+        float targetAngle = startAngle + angle;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < _time)
+        {
+            float currentAngle = Mathf.Lerp(startAngle, targetAngle, elapsedTime / _time);
+            _lightHead.localRotation = Quaternion.Euler(0f, 0f, currentAngle);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        _lightHead.localRotation = Quaternion.Euler(0f, 0f, targetAngle);
+    }
+```
+
+RotateByAngle is a coroutine that rotates the light head by a specified angle over a given time period. My understanding of coroutine is a way to run the logic in the background (multithreading).
 
 ## Debugging
 
-## Version Control
+[Back to the Top](#table-of-contents)
+
+<p align="center">
+ <img src="./DevJournal/Basic/Debug/consoletab.png" width="800">
+ <img src="./DevJournal/Basic/Debug/console.png" width="600">
+ <br />
+    Console Tab
+</p>
+
+The Console tab is a powerful tool for debugging your Unity game. It allows you to see log messages, warnings, and errors generated by your scripts. If Console tab is not visible, it can be opened by going to **Window > Pannels > Console**.
+
+```csharp
+Debug.Log("This is a log message."); // White text in the console
+Debug.LogWarning("This is a warning message."); // Yellow text in the console
+Debug.LogError("This is an error message."); // Red text in the console
+```
+
+Log messages can be printed like above. Warnings are not critical, but they can indicate potential issues that may affect your game in the future. Errors, on the other hand, will prevent your game from running until they are resolved.
+
+If there are any errors in your code, they will be displayed in the console. Checking the debug messages is the first step in debugging your game.
+
+The Unity's console is not available in the build mode, so I used [an in-game debug console](https://assetstore.unity.com/packages/p/in-game-debug-console-68068) to check messages.
+
+<p align="center">
+ <img src="./DevJournal/Basic/Debug/devbuild.png" width="800">
+ <br />
+    Development Build
+</p>
+
+When it is built, **Development Build** option can be enabled to see the console in the build version. (Personally, I prefer the in-game debug console because you can filter messages)
 
 ## Build
+
+[Back to the Top](#table-of-contents)
+
+Although the game works perfectly in the **Unity editor**, it may not work as expected when **built**. Sometimes, it does not even run at all because of critical errors. 
+
+<p align="center">
+ <img src="./DevJournal/Basic/Build/ScriptExecutionOrder1.png" width="350">
+ <img src="./DevJournal/Basic/Build/ScriptExecutionOrder.png" width="600">
+  <br />
+    Script Execution Order
+</p>
+
+Some errors, especially null reference errors, may be caused by issues with the **Script Execution Order**. You can adjust this order in **Edit > Project Settings > Script Execution Order**. Ensuring that scripts initialize in the correct sequence helps prevent errors, particularly when scripts depend on each other (for example, when using the **Singleton pattern**).
 
 # Key points in Test Zero
 
