@@ -332,8 +332,8 @@ RotateByAngle is a coroutine that rotates the light head by a specified angle ov
 [Back to the Top](#table-of-contents)
 
 <p align="center">
- <img src="./DevJournal/Basic/Debug/consoletab.png" width="35%">
- <img src="./DevJournal/Basic/Debug/console.png" width="35%">
+ <img src="./DevJournal/Basic/Debug/consoletab.png" width="45%">
+ <img src="./DevJournal/Basic/Debug/console.png" width="45%">
  <br />
     Console Tab
 </p>
@@ -367,8 +367,8 @@ When it is built, **Development Build** option can be enabled to see the console
 Although the game works perfectly in the **Unity editor**, it may not work as expected when **built**. Sometimes, it does not even run at all because of critical errors. 
 
 <p align="center">
- <img src="./DevJournal/Basic/Build/ScriptExecutionOrder1.png" width="30%">
- <img src="./DevJournal/Basic/Build/ScriptExecutionOrder.png" width="60%">
+ <img src="./DevJournal/Basic/Build/ScriptExecutionOrder1.png" width="35%">
+ <img src="./DevJournal/Basic/Build/ScriptExecutionOrder.png" width="65%">
   <br />
     Script Execution Order
 </p>
@@ -464,11 +464,13 @@ It also flips the player’s sprite to face the correct direction. This ensures 
 
 ## Procedural Map Generation
 
+[Back to the Top](#table-of-contents)
+
 [Procedural content generation (PCG)](https://en.wikipedia.org/wiki/Procedural_generation) is a technique used to create game content algorithmically rather than manually. In Test Zero, we implemented a **procedural map generation** system to create unique levels each time the game is played.
 
 <p align="center">
- <img src="./DevJournal/Basic/Map/MapSeg.png" width="40%">
- <img src="./DevJournal/Basic/Map/MapSeg (1).png" width="40%">
+ <img src="./DevJournal/Basic/Map/MapSeg.png" width="50%">
+ <img src="./DevJournal/Basic/Map/MapSeg (1).png" width="50%">
   <br />
   Map Segments for Procedural Map Generation
 </p>
@@ -476,7 +478,7 @@ It also flips the player’s sprite to face the correct direction. This ensures 
 PCG is a technique that allows for the creation of game content algorithmically rather than manually. However, you have to make rules for the algorithm to follow. Hand-authored map segments are used as building blocks for the procedural generation. Each segment is designed to fit together seamlessly, allowing for a variety of combinations. Once all the map segments are prepared and the rules are defined, the procedural generation algorithm can create a unique map layout each time the game is played.
 
 <p align="center">
- <img src="./DevJournal/Basic/Map/MapSegConvex.png">
+ <img src="./DevJournal/Basic/Map/MapSegConvex.png" width="80%">
   <br />
   Checking boundary of map segments
 </p>
@@ -484,7 +486,7 @@ PCG is a technique that allows for the creation of game content algorithmically 
 To ensure that the segments fit together correctly, we check the boundaries of each segment. This is done by checking if the segments are convex polygons and if they overlap with each other. If they do not overlap, the segments can be placed next to each other without any gaps.
 
 <p align="center">
- <img src="./DevJournal/Basic/Map/Completelv.png">
+ <img src="./DevJournal/Basic/Map/Completelv.png" width="80%">
   <br />
   A completed level with procedural map generation
 </p>
@@ -496,7 +498,7 @@ Although PCG is a powerful technique, it can be challenging to implement. It req
 ## Procedural Gun Generation
 
 <p align="center">
- <img src="./DevJournal/Basic/GameObject&Component/pcg.png">
+ <img src="./DevJournal/Basic/GameObject&Component/pcg.png" width="80%">
   <br />
   Procedurally generated weapons
 </p>
@@ -587,7 +589,7 @@ Understanding how textures interact with lighting is important: sprites designed
 Particles are used for visual effects like bullet impacts, explosions, and environmental details. Unity's Particle System allows for complex effects with minimal performance impact.
 
 <p align="center">
- <img src="./DevJournal/Basic/2DLight&Particles/Healing.gif" width="40%">
+ <img src="./DevJournal/Basic/2DLight&Particles/Healing.gif" width="70%">
   <br />
     Healing Particle
 </p>
@@ -595,7 +597,7 @@ Particles are used for visual effects like bullet impacts, explosions, and envir
 You could imagine a healing effect that spawns particles around the player when they pick up a health item.
 
 <p align="center">
- <img src="./DevJournal/Basic/2DLight&Particles/Spark.gif" width="40%">
+ <img src="./DevJournal/Basic/2DLight&Particles/Spark.gif" width="70%">
   <br />
     Spark Particle with 2D Light
 </p>
@@ -634,7 +636,7 @@ void LateUpdate()
 This code was suggested by Unity's community as a workaround for the lack of native Light2D support in the Particle System. It works by instantiating a Light2D prefab for each particle, positioning it to match the particle's location. While this approach can create the illusion of 2D lighting on particles, it may impact performance if used with large numbers of particles.
 
 <p align="center">
- <img src="./DevJournal/Basic/2DLight&Particles/Laggy.gif" width="40%">
+ <img src="./DevJournal/Basic/2DLight&Particles/Laggy.gif" width="90%">
   <br />
     Performance Issue - Particle System with Light2D
 </p>
@@ -693,8 +695,8 @@ While 2D lighting and particles offer unique visual possibilities, you may find 
 Shaders are scripts that tell the GPU how to render graphics. They control how objects are drawn, including their colors, textures, and effects. 
 
 <p align="center">
- <img src="./DevJournal/Basic/Shader/lava (2).gif" width="40%">
- <img src="./DevJournal/Basic/Shader/lava.gif" width="40%">
+ <img src="./DevJournal/Basic/Shader/lava (2).gif" width="50%">
+ <img src="./DevJournal/Basic/Shader/lava.gif" width="50%">
   <br />
     Lava Shader
 </p>
@@ -716,7 +718,7 @@ While we didn’t leverage every FMOD feature, it proved valuable for organizing
 [Back to the Top](#table-of-contents)
 
 <p align="center">
- <img src="./DevJournal/Basic/FMOD/DiscreteParameterFMOD.png" width="40%">
+ <img src="./DevJournal/Basic/FMOD/DiscreteParameterFMOD.png" width="90%">
   <br />
     Discrete Parameter in FMOD
 </p>
@@ -724,8 +726,8 @@ While we didn’t leverage every FMOD feature, it proved valuable for organizing
 Whenever gun type changes, `RuntimeManager.StudioSystem.setParameterByName("GunType", gunType);` is called to update the FMOD parameter. However, there is a bug in FMOD that causes the sound to not change immediately when the parameter is set to a discrete value.
 
 <p align="center">
- <img src="./DevJournal/Basic/FMOD/NestedEventFMOD.png" width="40%">
- <img src="./DevJournal/Basic/FMOD/NestedEventFMOD3.png" width="40%">
+ <img src="./DevJournal/Basic/FMOD/NestedEventFMOD.png" width="50%">
+ <img src="./DevJournal/Basic/FMOD/NestedEventFMOD3.png" width="50%">
   <br />
     Nested Event (Discrete Parameter)
 </p>
