@@ -1,5 +1,5 @@
 <h1 align="center">
- <img src="./DevJournal/SteamPage/library_header.jpg" alt="Test Zero logo">
+ <img src="./DevJournal/SteamPage/library_header.jpg" alt="Test Zero logo" width="100%">
     <br />
     Test Zero
     <br />
@@ -67,7 +67,7 @@ Entities are the objects in your game, such as a player or an enemy. Components 
 In Unity, GameObjects are the entities. Interesting thing is that GameObjects can work as folders. You can organize your GameObjects in a hierarchy, where a GameObject can have child GameObjects.
 
 <p align="center">
- <img src="./DevJournal/Basic/GameObject&Component/Scene.png" width="45%">
+ <img src="./DevJournal/Basic/GameObject&Component/Scene.png" width="65%">
   <br />
   Object Hierarchy
 </p>
@@ -103,7 +103,7 @@ The Camera is the viewpoint of the game. It determines what is visible on the sc
 White outlines represent the camera's viewport in the Scene View, showing what will be visible in the Game View. The Game View displays the actual game as players will see it.
 
 <p align="center">
- <img src="./DevJournal/Basic/Cam&UI/cam3d.png" width="70%">
+ <img src="./DevJournal/Basic/Cam&UI/cam3d.png" width="90%">
   <br />
   Scene View with 3D view
 </p>
@@ -115,7 +115,7 @@ Although this game is 2D, you might have to consider the camera's perspective an
 [Cinemachine](https://unity.com/features/cinemachine) is a powerful package in Unity that provides advanced camera controls and features. It is very simple to create complex camera behaviors without writing a lot of code.
 
 <p align="center">
-    <img src="./DevJournal/Basic/Cam&UI/CCTransition.gif" width="70%" />
+    <img src="./DevJournal/Basic/Cam&UI/CCTransition.gif" width="90%" />
     <br />
     Cinemachine Camera Transition
 </p>
@@ -133,7 +133,7 @@ Adding several Cinemachine Camereas with different priority values allows you to
 This is an example of a simple UI button setup. Interesting thing is that these UI elements are not visible in the Scene view, but they are visible in the Game view. This is because UI elements are rendered on top of the game world, allowing players to interact with them without interfering with the game objects.
 
 <p align="center">
- <img src="./DevJournal/Basic/Cam&UI/UI_zoomed_out.png" width="70%">
+ <img src="./DevJournal/Basic/Cam&UI/UI_zoomed_out.png" width="90%">
   <br />
     Scene View with camera zoomed out
 </p>
@@ -198,7 +198,7 @@ Understanding these terms would be helpful when using the New Input System:
 - **Input Action Asset**: A file that defines input actions and their bindings.
 
 <p align="center">
- <img src="./DevJournal/Basic/InputSys/inputmap.png" width="70%">
+ <img src="./DevJournal/Basic/InputSys/inputmap.png" width="90%">
   <br />
     Input Action Asset
 </p>
@@ -367,8 +367,8 @@ When it is built, **Development Build** option can be enabled to see the console
 Although the game works perfectly in the **Unity editor**, it may not work as expected when **built**. Sometimes, it does not even run at all because of critical errors. 
 
 <p align="center">
- <img src="./DevJournal/Basic/Build/ScriptExecutionOrder1.png" width="35%">
- <img src="./DevJournal/Basic/Build/ScriptExecutionOrder.png" width="65%">
+ <img src="./DevJournal/Basic/Build/ScriptExecutionOrder1.png" width="30%">
+ <img src="./DevJournal/Basic/Build/ScriptExecutionOrder.png" width="60%">
   <br />
     Script Execution Order
 </p>
@@ -478,7 +478,7 @@ It also flips the player’s sprite to face the correct direction. This ensures 
 PCG is a technique that allows for the creation of game content algorithmically rather than manually. However, you have to make rules for the algorithm to follow. Hand-authored map segments are used as building blocks for the procedural generation. Each segment is designed to fit together seamlessly, allowing for a variety of combinations. Once all the map segments are prepared and the rules are defined, the procedural generation algorithm can create a unique map layout each time the game is played.
 
 <p align="center">
- <img src="./DevJournal/Basic/Map/MapSegConvex.png" width="80%">
+ <img src="./DevJournal/Basic/Map/MapSegConvex.png" width="90%">
   <br />
   Checking boundary of map segments
 </p>
@@ -486,7 +486,7 @@ PCG is a technique that allows for the creation of game content algorithmically 
 To ensure that the segments fit together correctly, we check the boundaries of each segment. This is done by checking if the segments are convex polygons and if they overlap with each other. If they do not overlap, the segments can be placed next to each other without any gaps.
 
 <p align="center">
- <img src="./DevJournal/Basic/Map/Completelv.png" width="80%">
+ <img src="./DevJournal/Basic/Map/Completelv.png" width="90%">
   <br />
   A completed level with procedural map generation
 </p>
@@ -695,8 +695,8 @@ While 2D lighting and particles offer unique visual possibilities, you may find 
 Shaders are scripts that tell the GPU how to render graphics. They control how objects are drawn, including their colors, textures, and effects. 
 
 <p align="center">
- <img src="./DevJournal/Basic/Shader/lava (2).gif" width="80%">
- <img src="./DevJournal/Basic/Shader/lava.gif" width="80%">
+ <img src="./DevJournal/Basic/Shader/lava (2).gif" width="90%">
+ <img src="./DevJournal/Basic/Shader/lava.gif" width="90%">
   <br />
     Lava Shader
 </p>
@@ -715,8 +715,6 @@ While we didn’t leverage every FMOD feature, it proved valuable for organizing
 
 ### Discrete parameter bug
 
-[Back to the Top](#table-of-contents)
-
 <p align="center">
  <img src="./DevJournal/Basic/FMOD/DiscreteParameterFMOD.png" width="90%">
   <br />
@@ -726,8 +724,8 @@ While we didn’t leverage every FMOD feature, it proved valuable for organizing
 Whenever gun type changes, `RuntimeManager.StudioSystem.setParameterByName("GunType", gunType);` is called to update the FMOD parameter. However, there is a bug in FMOD that causes the sound to not change immediately when the parameter is set to a discrete value.
 
 <p align="center">
- <img src="./DevJournal/Basic/FMOD/NestedEventFMOD.png" width="80%">
- <img src="./DevJournal/Basic/FMOD/NestedEventFMOD3.png" width="80%">
+ <img src="./DevJournal/Basic/FMOD/NestedEventFMOD.png" width="90%">
+ <img src="./DevJournal/Basic/FMOD/NestedEventFMOD3.png" width="90%">
   <br />
     Nested Event (Discrete Parameter)
 </p>
