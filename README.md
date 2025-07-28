@@ -88,11 +88,11 @@ While these objects also have SpriteRenderer components (which would normally ma
 
 ## Camera & UI
 
-[Back to the Top](#table-of-contents)
-
 The Camera is the viewpoint of the game. It determines what is visible on the screen. UI (User Interface) is the visual elements that allow players to interact with the game, such as menus, buttons, and HUD (Heads-Up Display).
 
 ### Camera
+
+[Back to the Top](#table-of-contents)
 
 <p align="center">
  <img src="./DevJournal/Basic/Cam&UI/cam.png">
@@ -112,6 +112,8 @@ Although this game is 2D, you might have to consider the camera's perspective an
 
 #### Cinemachine
 
+[Back to the Top](#table-of-contents)
+
 [Cinemachine](https://unity.com/features/cinemachine) is a powerful package in Unity that provides advanced camera controls and features. It is very simple to create complex camera behaviors without writing a lot of code.
 
 <p align="center">
@@ -123,6 +125,8 @@ Although this game is 2D, you might have to consider the camera's perspective an
 Adding several Cinemachine Camereas with different priority values allows you to switch between cameras based on the player's actions or game events. For example, you can have a camera that follows the player, another that focuses on a specific area, and a third that provides a cinematic view during cutscenes.
 
 ### UI
+
+[Back to the Top](#table-of-contents)
 
 <p align="center">
  <img src="./DevJournal/Basic/Cam&UI/UI.png">
@@ -377,8 +381,6 @@ Some errors, especially null reference errors, may be caused by issues with the 
 
 # Key points in Test Zero
 
-[Back to the Top](#table-of-contents)
-
 ## Player Control
 The **PlayerController** script handles most of the core gameplay mechanics for the player, including movement, health, input, and special abilities.
 
@@ -497,6 +499,8 @@ Although PCG is a powerful technique, it can be challenging to implement. It req
 
 ## Procedural Gun Generation
 
+[Back to the Top](#table-of-contents)
+
 <p align="center">
  <img src="./DevJournal/Basic/GameObject&Component/pcg.png" width="80%">
   <br />
@@ -506,8 +510,6 @@ Although PCG is a powerful technique, it can be challenging to implement. It req
 To encourage replayability and variety, the game features a **procedural gun generation** system that creates randomized weapons with different stats, appearances, and rarities.
 
 ### Generation Logic
-
-[Back to the Top](#table-of-contents)
 
 Guns are generated through an interactable GunCreate station. Each generated gun has:
 
@@ -523,13 +525,9 @@ A **pity system** ensures higher-tier guns appear periodically (e.g., every 20 g
 
 ### Legendary Guns
 
-[Back to the Top](#table-of-contents)
-
 Legendary weapons are defined separately using a data structure (**LegendaryGunData**) and have handcrafted stats and unique bullet types that cannot be rolled procedurally.
 
 ### Recycling & Interaction
-
-[Back to the Top](#table-of-contents)
 
 Guns can be recycled for partial resource refunds based on rarity.
 
@@ -541,6 +539,8 @@ Stat panels and visuals update in real time when hovering over a gun.
 
 ## Animation(Rigging)
 
+[Back to the Top](#table-of-contents)
+
 <p align="center">
  <img src="./DevJournal/Basic/GameObject&Component/bone.png">
   <br />
@@ -551,13 +551,9 @@ To create fluid character movement and reduce the need for frame-by-frame sprite
 
 ### Bone Rigging
 
-[Back to the Top](#table-of-contents)
-
 Characters are composed of multiple sprite parts (e.g., torso, arms, legs) connected through a bone hierarchy. Each bone controls a specific body part, allowing for smooth and reusable animations like walking, jumping, or aiming.
 
 ### Animator
-
-[Back to the Top](#table-of-contents)
 
 <p align="center">
  <img src="./DevJournal/Basic/GameObject&Component/Animator.png">
