@@ -16,6 +16,9 @@
 - [Basics in Unity](#basics-in-unity)
   - [GameObjects and Components](#gameobjects-and-components)
   - [Camera \& UI](#camera--ui)
+    - [Camera](#camera)
+      - [Cinemachine](#cinemachine)
+    - [UI](#ui)
   - [Input Handling](#input-handling)
     - [Old Input System](#old-input-system)
     - [New Input System](#new-input-system)
@@ -34,6 +37,7 @@
   - [Shooting](#shooting)
     - [Bullet Logic](#bullet-logic)
     - [Aiming](#aiming)
+  - [Procedural Map Generation](#procedural-map-generation)
   - [Procedural Gun Generation](#procedural-gun-generation)
     - [Generation Logic](#generation-logic)
     - [Legendary Guns](#legendary-guns)
@@ -41,10 +45,12 @@
   - [Animation(Rigging)](#animationrigging)
     - [Bone Rigging](#bone-rigging)
     - [Animator](#animator)
-  - [2D Light](#2d-light)
+  - [2D Light \& Particles](#2d-light--particles)
+    - [2D Light](#2d-light)
+    - [Particles](#particles)
   - [Shader](#shader)
   - [FMOD (Audio)](#fmod-audio)
-  - [?](#)
+    - [Discrete parameter bug](#discrete-parameter-bug)
 
 # Basics in Unity
 
@@ -61,7 +67,7 @@ Entities are the objects in your game, such as a player or an enemy. Components 
 In Unity, GameObjects are the entities. Interesting thing is that GameObjects can work as folders. You can organize your GameObjects in a hierarchy, where a GameObject can have child GameObjects.
 
 <p align="center">
- <img src="./DevJournal/Basic/GameObject&Component/Scene.png" width="70%">
+ <img src="./DevJournal/Basic/GameObject&Component/Scene.png" width="45%">
   <br />
   Object Hierarchy
 </p>
@@ -86,6 +92,8 @@ While these objects also have SpriteRenderer components (which would normally ma
 
 The Camera is the viewpoint of the game. It determines what is visible on the screen. UI (User Interface) is the visual elements that allow players to interact with the game, such as menus, buttons, and HUD (Heads-Up Display).
 
+### Camera
+
 <p align="center">
  <img src="./DevJournal/Basic/Cam&UI/cam.png">
   <br />
@@ -101,6 +109,20 @@ White outlines represent the camera's viewport in the Scene View, showing what w
 </p>
 
 Although this game is 2D, you might have to consider the camera's perspective and how it affects the player's view of the game world. Sometimes, it helps to change camera perspective to see how the game looks from different angles, especially when debugging or designing levels.
+
+#### Cinemachine
+
+[Cinemachine](https://unity.com/features/cinemachine) is a powerful package in Unity that provides advanced camera controls and features. It is very simple to create complex camera behaviors without writing a lot of code.
+
+<p align="center">
+    <img src="./DevJournal/Basic/Cam&UI/CCTransition.gif" width="70%" />
+    <br />
+    Cinemachine Camera Transition
+</p>
+
+Adding several Cinemachine Camereas with different priority values allows you to switch between cameras based on the player's actions or game events. For example, you can have a camera that follows the player, another that focuses on a specific area, and a third that provides a cinematic view during cutscenes.
+
+### UI
 
 <p align="center">
  <img src="./DevJournal/Basic/Cam&UI/UI.png">
@@ -157,7 +179,7 @@ One of the ways to handle user input is through the Update() method, which is ca
 
 Note that **Input.GetKeyDown()** checks if a key was pressed down during the current frame, while **Input.GetKey()** checks if a key is being held down. If I hold the space key, the first log will be printed once while the second log will be printed every frame until I release the key.
 
-I am not sure if there is another way to manage user input in the Old Input System. However, This method is not ideal for all cases, as it can lead to performance issues if not managed properly.
+We are not sure if there is another way to manage user input in the Old Input System. However, This method is not ideal for all cases, as it can lead to performance issues if not managed properly.
 
 ### New Input System 
 
@@ -328,7 +350,7 @@ Log messages can be printed like above. Warnings are not critical, but they can 
 
 If there are any errors in your code, they will be displayed in the console. Checking the debug messages is the first step in debugging your game.
 
-The Unity's console is not available in the build mode, so I used [an in-game debug console](https://assetstore.unity.com/packages/p/in-game-debug-console-68068) to check messages.
+The Unity's console is not available in the build mode, so we used [an in-game debug console](https://assetstore.unity.com/packages/p/in-game-debug-console-68068) to check messages.
 
 <p align="center">
  <img src="./DevJournal/Basic/Debug/devbuild.png" width="800">
@@ -440,6 +462,37 @@ It also flips the player’s sprite to face the correct direction. This ensures 
 
 > This system enables diverse shooting behaviors with minimal changes to the core structure.
 
+## Procedural Map Generation
+
+[Procedural content generation (PCG)](https://en.wikipedia.org/wiki/Procedural_generation) is a technique used to create game content algorithmically rather than manually. In Test Zero, we implemented a **procedural map generation** system to create unique levels each time the game is played.
+
+<p align="center">
+ <img src="./DevJournal/Basic/Map/MapSeg.png" width="40%">
+ <img src="./DevJournal/Basic/Map/MapSeg (1).png" width="40%">
+  <br />
+  Map Segments for Procedural Map Generation
+</p>
+
+PCG is a technique that allows for the creation of game content algorithmically rather than manually. However, you have to make rules for the algorithm to follow. Hand-authored map segments are used as building blocks for the procedural generation. Each segment is designed to fit together seamlessly, allowing for a variety of combinations. Once all the map segments are prepared and the rules are defined, the procedural generation algorithm can create a unique map layout each time the game is played.
+
+<p align="center">
+ <img src="./DevJournal/Basic/Map/MapSegConvex.png">
+  <br />
+  Checking boundary of map segments
+</p>
+
+To ensure that the segments fit together correctly, we check the boundaries of each segment. This is done by checking if the segments are convex polygons and if they overlap with each other. If they do not overlap, the segments can be placed next to each other without any gaps.
+
+<p align="center">
+ <img src="./DevJournal/Basic/Map/Completelv.png">
+  <br />
+  A completed level with procedural map generation
+</p>
+
+Although PCG is a powerful technique, it can be challenging to implement. It requires careful planning and design to ensure that the generated content is fun and engaging for players.
+
+> A notable example of procedural content generation in games is [The Classrooms](https://store.steampowered.com/app/2099110/The_Classrooms/), which uses a blend of hand-authored segments and algorithmic generation to create fresh map layouts on each playthrough. This approach demonstrates how PCG can enhance replayability and variety while maintaining carefully designed gameplay experiences.
+
 ## Procedural Gun Generation
 
 <p align="center">
@@ -514,18 +567,167 @@ Animations like idle, walk, jump, and dodge are handled through Unity’s Animat
 
 > This setup enables reusable animations with minimal sprite assets and consistent motion quality.
 
-## 2D Light
+## 2D Light & Particles  
+When exploring Lights and Particles, you delve into visual effects that enhance the game's atmosphere and player experience. Proper use of 2D lighting can create mood, highlight important gameplay elements, and add depth to scenes. Particle systems bring dynamic feedback for actions like shooting, explosions, or environmental effects, making the game world feel more alive and responsive.
+
+When discussing VFX, it's also important to consider [Post-Processing](https://docs.unity3d.com/6000.1/Documentation/Manual/PostProcessingOverview.html). Post-processing lets you apply effects such as bloom, color grading, and motion blur to enhance your game's visuals. While these techniques can significantly improve the game's atmosphere and polish, they are not covered in this journal.
+
+### 2D Light
 
 [Back to the Top](#table-of-contents)
+
+2D lighting in Unity offers a streamlined alternative to 3D lighting, focusing on ease of use for 2D projects. By default, 2D lights affect sprites based on their color and alpha, but do not simulate light direction or cast shadows. Achieving more advanced effects—like realistic shading or shadow casting—requires additional techniques, such as custom shaders or sprite adjustments (see [this YouTube example](https://www.youtube.com/watch?v=1h-hSlffawM&t=225s)). 
+
+Understanding how textures interact with lighting is important: sprites designed with gradients or baked-in shading can better reflect the influence of 2D lights, resulting in more visually appealing scenes.
+
+### Particles
+
+[Back to the Top](#table-of-contents)
+
+Particles are used for visual effects like bullet impacts, explosions, and environmental details. Unity's Particle System allows for complex effects with minimal performance impact.
+
+<p align="center">
+ <img src="./DevJournal/Basic/2DLight&Particles/Healing.gif" width="40%">
+  <br />
+    Healing Particle
+</p>
+
+You could imagine a healing effect that spawns particles around the player when they pick up a health item.
+
+<p align="center">
+ <img src="./DevJournal/Basic/2DLight&Particles/Spark.gif" width="40%">
+  <br />
+    Spark Particle with 2D Light
+</p>
+
+Unity's built-in Particle System does not natively support 2D lights (Light2D). As of Unity 6 (2025), this limitation remains, and [Unity has stated they are not planning to add Light2D support to the Particle System](https://discussions.unity.com/t/lwrp-using-2d-lights-in-a-particle-system-emitter/752498/45) (last update in 2023).
+
+```c#
+// This script is a workaround to add Light2D to each particle in the Particle System
+
+void LateUpdate()
+    {
+        int count = m_ParticleSystem.GetParticles(m_Particles);
+
+        while (m_Instances.Count < count)
+            m_Instances.Add(Instantiate(m_Prefab, m_ParticleSystem.transform));
+
+        bool worldSpace = (m_ParticleSystem.main.simulationSpace == ParticleSystemSimulationSpace.World);
+        for (int i = 0; i < m_Instances.Count; i++)
+        {
+            if (i < count)
+            {
+                if (worldSpace)
+                    m_Instances[i].transform.position = m_Particles[i].position;
+                else
+                    m_Instances[i].transform.localPosition = m_Particles[i].position;
+                m_Instances[i].SetActive(true);
+            }
+            else
+            {
+                m_Instances[i].SetActive(false);
+            }
+        }
+    }
+```
+
+This code was suggested by Unity's community as a workaround for the lack of native Light2D support in the Particle System. It works by instantiating a Light2D prefab for each particle, positioning it to match the particle's location. While this approach can create the illusion of 2D lighting on particles, it may impact performance if used with large numbers of particles.
+
+<p align="center">
+ <img src="./DevJournal/Basic/2DLight&Particles/Laggy.gif" width="40%">
+  <br />
+    Performance Issue - Particle System with Light2D
+</p>
+
+Each particle system emits a large number of particles, and each particle has a Light2D component attached. After testing this approach, I found that it led to significant performance issues, especially when multiple particle systems were active simultaneously. The overhead of instantiating and managing numerous Light2D components for each particle can cause frame rate drops and stuttering in the game.
+
+```c#
+// This script is a compromised solution to add Light2D to a Particle System without overwhelming the system with too many Light2D instances
+
+void LateUpdate()
+    {
+        int particleCount = m_ParticleSystem.GetParticles(m_Particles);
+        if (particleCount == 0)
+        {
+            return;
+        }
+
+        // Calculate the average position of all particles
+        Vector3 averagePosition = Vector3.zero;
+        float totalLifetime = 0f;
+        float totalRemainingLifetime = 0f;
+
+
+        for (int i = 0; i < particleCount; i++)
+        {
+            averagePosition += m_Particles[i].position;
+            totalLifetime += m_Particles[i].startLifetime;
+            totalRemainingLifetime += m_Particles[i].remainingLifetime;
+        }
+        averagePosition /= particleCount;
+        m_LightInstance.transform.SetParent(m_ParticleSystem.transform);
+
+        bool worldSpace = (m_ParticleSystem.main.simulationSpace == ParticleSystemSimulationSpace.World);
+        if (worldSpace)
+            m_LightInstance.transform.position = averagePosition;
+        else
+            m_LightInstance.transform.localPosition = averagePosition;
+
+        // Adjust intensity based on remaining lifetime percentage
+        float lifetimeRatio = totalRemainingLifetime / totalLifetime;
+        light2D.intensity = Mathf.Lerp(0f, 1f, lifetimeRatio); // Adjust the max intensity as needed
+
+        // Activate light
+        m_LightInstance.SetActive(true);
+    }
+```
+
+My solution was to use a single Light2D component per particle system and dynamically adjust its intensity and range based on the overall behavior of the particles. This approach provided a visually pleasing effect while avoiding the performance issues caused by attaching a Light2D to every particle.
+
+While 2D lighting and particles offer unique visual possibilities, you may find that 3D projects provide more flexibility and fewer limitations in Unity. If you prefer to avoid the constraints of 2D workflows—such as limited lighting options or particle system integration—consider focusing on 3D projects, where Unity's lighting and VFX systems are more robust and widely supported.
 
 ## Shader
 
 [Back to the Top](#table-of-contents)
 
+Shaders are scripts that tell the GPU how to render graphics. They control how objects are drawn, including their colors, textures, and effects. 
+
+<p align="center">
+ <img src="./DevJournal/Basic/Shader/lava (2).gif" width="40%">
+ <img src="./DevJournal/Basic/Shader/lava.gif" width="40%">
+  <br />
+    Lava Shader
+</p>
+
+I also experimented with creating a lava shader. To allow the player to cross the lava, we plan to add a raft mechanic. For the visual effect, I used a `Noise` texture to simulate the look of flowing lava ([tutorial](https://www.youtube.com/watch?v=6Yloso8vTQ0)). Additionally, I applied `UV` [distortion](https://www.youtube.com/watch?v=2KSLO9JnxHA) to animate the surface, making the lava appear as if it's moving.
+
 ## FMOD (Audio)
 
 [Back to the Top](#table-of-contents)
 
-## ?
+FMOD is a robust audio middleware that integrates seamlessly with Unity, enabling advanced audio features such as real-time mixing, spatialization, and dynamic event control.
+
+We selected FMOD for its flexibility in handling complex audio scenarios—like adaptive music that responds to gameplay and context-sensitive sound effects. FMOD’s event-driven workflow makes it straightforward to trigger and manage sounds based on player actions, such as switching gun types.
+
+While we didn’t leverage every FMOD feature, it proved valuable for organizing and customizing audio, improving both workflow and the overall sound experience in our game.
+
+### Discrete parameter bug
 
 [Back to the Top](#table-of-contents)
+
+<p align="center">
+ <img src="./DevJournal/Basic/FMOD/DiscreteParameterFMOD.png" width="40%">
+  <br />
+    Discrete Parameter in FMOD
+</p>
+
+Whenever gun type changes, `RuntimeManager.StudioSystem.setParameterByName("GunType", gunType);` is called to update the FMOD parameter. However, there is a bug in FMOD that causes the sound to not change immediately when the parameter is set to a discrete value.
+
+<p align="center">
+ <img src="./DevJournal/Basic/FMOD/NestedEventFMOD.png" width="40%">
+ <img src="./DevJournal/Basic/FMOD/NestedEventFMOD3.png" width="40%">
+  <br />
+    Nested Event (Discrete Parameter)
+</p>
+
+I am not sure what causes this bug. However, [Nesting events](https://qa.fmod.com/t/prevent-retriggering-of-sound-during-parameter-change/15778) was the solution from FMOD community.
