@@ -469,8 +469,8 @@ It also flips the player’s sprite to face the correct direction. This ensures 
 [Procedural content generation (PCG)](https://en.wikipedia.org/wiki/Procedural_generation) is a technique used to create game content algorithmically rather than manually. In Test Zero, we implemented a **procedural map generation** system to create unique levels each time the game is played.
 
 <p align="center">
- <img src="./DevJournal/Basic/Map/MapSeg.png" width="50%">
- <img src="./DevJournal/Basic/Map/MapSeg (1).png" width="50%">
+ <img src="./DevJournal/Basic/Map/MapSeg.png" width="90%">
+ <img src="./DevJournal/Basic/Map/MapSeg (1).png" width="90%">
   <br />
   Map Segments for Procedural Map Generation
 </p>
@@ -695,8 +695,8 @@ While 2D lighting and particles offer unique visual possibilities, you may find 
 Shaders are scripts that tell the GPU how to render graphics. They control how objects are drawn, including their colors, textures, and effects. 
 
 <p align="center">
- <img src="./DevJournal/Basic/Shader/lava (2).gif" width="50%">
- <img src="./DevJournal/Basic/Shader/lava.gif" width="50%">
+ <img src="./DevJournal/Basic/Shader/lava (2).gif" width="80%">
+ <img src="./DevJournal/Basic/Shader/lava.gif" width="80%">
   <br />
     Lava Shader
 </p>
@@ -726,8 +726,8 @@ While we didn’t leverage every FMOD feature, it proved valuable for organizing
 Whenever gun type changes, `RuntimeManager.StudioSystem.setParameterByName("GunType", gunType);` is called to update the FMOD parameter. However, there is a bug in FMOD that causes the sound to not change immediately when the parameter is set to a discrete value.
 
 <p align="center">
- <img src="./DevJournal/Basic/FMOD/NestedEventFMOD.png" width="50%">
- <img src="./DevJournal/Basic/FMOD/NestedEventFMOD3.png" width="50%">
+ <img src="./DevJournal/Basic/FMOD/NestedEventFMOD.png" width="80%">
+ <img src="./DevJournal/Basic/FMOD/NestedEventFMOD3.png" width="80%">
   <br />
     Nested Event (Discrete Parameter)
 </p>
