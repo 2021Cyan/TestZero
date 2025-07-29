@@ -6,6 +6,8 @@
     2D Unity Game Development Journal
 </h1>
 
+> 🌐 다른 언어로 보기: [한국어 🇰🇷](./README.ko.md)
+
 #### The journal will explore the path and hardships we experienced throughout the development of a 2D shooter with Unity. We hope it will help whoever is interested in game development, especially with Unity, to learn from our experiences.
 
 > **Note:** Anything in this journal might be outdated or not best practice. It is meant to be a learning resource, not a definitive guide. Always refer to the latest Unity documentation and community resources for up-to-date information.
