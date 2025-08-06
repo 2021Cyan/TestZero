@@ -6,6 +6,8 @@
     2D Unity Game Development Journal
 </h1>
 
+Find Test Zero on [Steam](https://store.steampowered.com/app/3788010/Test_Zero/)
+
 ## 🌐 다른 언어로 보기: [한국어 🇰🇷](./README.ko.md)
 
 #### This journal explores the journey and challenges we faced while developing a 2D shooter in Unity as part of the INTD450 course at the University of Alberta. We hope it will help whoever is interested in game development, especially with Unity, to learn from our experiences.
@@ -729,3 +731,4 @@ Whenever gun type changes, `RuntimeManager.StudioSystem.setParameterByName("GunT
 </p>
 
 I am not sure what causes this bug. However, [Nesting events](https://qa.fmod.com/t/prevent-retriggering-of-sound-during-parameter-change/15778) was the solution from FMOD community.
+
